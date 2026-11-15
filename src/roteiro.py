@@ -26,8 +26,15 @@ def _chamar_gemini(prompt: str, temperatura: float = 1.0) -> str:
     ultimo_erro = ""
     for modelo in modelos:
         for tentativa in range(4):
-            r = requests.post(URL.format(modelo=modelo), json=corpo, timeout=120,
-                              headers={"x-goog-api-key": chave})
+            try:
+                r = requests.post(URL.format(modelo=modelo), json=corpo, timeout=240,
+                                  headers={"x-goog-api-key": chave})
+            except requests.RequestException as e:  # demora ou queda de conexão: tenta de novo
+                espera = 15 * (tentativa + 1)
+                log(f"Gemini não respondeu a tempo ({type(e).__name__}), tentando de novo em {espera}s...")
+                ultimo_erro = f"sem resposta ({type(e).__name__})"
+                time.sleep(espera)
+                continue
             if r.status_code == 200:
                 dados = r.json()
                 try:
