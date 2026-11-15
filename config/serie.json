@@ -5,11 +5,11 @@
   "duracao_alvo_segundos": 130,
   "numero_de_cenas": 14,
   "formato": "segunda_pessoa_com_escolha",
-  "estilo_visual": "2D flat vector cartoon illustration, simple webcomic animation style, thick clean dark outlines, flat cel-shaded colors, minimal details, simplified cartoon characters with round heads and small dot eyes, NOT realistic, dark navy blue and indigo night palette, soft warm yellow lamp light accents, vertical composition",
-  "evitar_na_imagem": "photorealistic, realistic face, semi-realistic portrait, photo, 3D render, anime, child, teenager, text, letters, captions, watermark, logo, blood, gore, extra fingers",
+  "estilo_visual": "simple flat 2D vector illustration, minimalist cartoon webcomic art, solid flat colors without gradients, thick clean dark outlines, simple geometric shapes, dark navy blue and indigo night palette with warm yellow lamp light",
+  "evitar_na_imagem": "(não usado no pedido: o gerador gratuito não entende proibições e acaba desenhando o que é citado)",
   "protagonista": {
     "nome": "Você",
-    "visual": "adult cartoon man in his late 20s drawn in a very simple flat cartoon style, perfectly round light-tan head, two small black dot eyes, tiny simple mouth, no nose, short spiky black hair, mustard yellow raincoat, dark grey jeans, black sneakers"
+    "visual": "a simple flat cartoon adult man about 28 years old, drawn with basic shapes: perfectly round beige head, two tiny black dot eyes, small line mouth, flat black hair shape, mustard yellow raincoat, dark grey trousers"
   },
   "voz": {
     "nome": "pt-BR-AntonioNeural",

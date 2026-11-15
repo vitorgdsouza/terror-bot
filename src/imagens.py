@@ -25,7 +25,7 @@ def montar_prompt(cena: dict, roteiro: dict, cfg: dict) -> str:
     partes = [cfg["estilo_visual"], "Scene: " + cena["imagem"]]
     if descricoes:
         partes.append("Characters: " + "; ".join(descricoes))
-    partes.append("Avoid: " + cfg["evitar_na_imagem"])
+    partes.append("flat vector cartoon, adult characters only")
     return ". ".join(partes)
 
 
