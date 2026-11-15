@@ -1,0 +1,78 @@
+name: Gerar vídeo
+
+on:
+  workflow_dispatch:          # botão "Run workflow" na aba Actions (funciona no celular também)
+    inputs:
+      tema:
+        description: "Tema da história (deixe vazio para usar o tema padrão da série)"
+        required: false
+        default: ""
+  schedule:
+    - cron: "17 21 * * *"     # todo dia às 18:17 (horário de Brasília). Apague estas 2 linhas para desligar.
+
+permissions:
+  contents: write             # para salvar o histórico de histórias no repositório
+
+concurrency:
+  group: video
+  cancel-in-progress: false
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Instalar FFmpeg e fontes
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Gerar e enviar o vídeo
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          POLLINATIONS_TOKEN: ${{ secrets.POLLINATIONS_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          USAR_CLAUDE: ${{ vars.USAR_CLAUDE }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+          TEMA: ${{ inputs.tema }}
+        run: bash scripts/gerar.sh "$TEMA"
+
+      - name: Salvar histórico de histórias
+        if: success()
+        run: |
+          git config user.name "bot-terror"
+          git config user.email "bot-terror@users.noreply.github.com"
+          git add data/historico.json
+          git diff --cached --quiet || (git commit -m "Histórico: novo vídeo" && git pull --rebase && git push)
+
+      - name: Guardar o vídeo por 7 dias (aba Actions > esta execução > Artifacts)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: video
+          path: |
+            saida/**/video/video_final.mp4
+            saida/**/roteiro.json
+            saida/**/legenda_do_post.txt
+            trabalho/video/video_final.mp4
+            trabalho/roteiro.json
+            trabalho/folha.jpg
+            trabalho/agente.log
+          retention-days: 7
+          if-no-files-found: ignore

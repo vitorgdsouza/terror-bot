@@ -1,0 +1,8 @@
+Coloque aqui arquivos .mp3 de trilhas sombrias LIVRES DE DIREITOS AUTORAIS
+(por exemplo, da Biblioteca de Áudio do YouTube ou do Pixabay Music).
+
+A cada vídeo, uma delas é escolhida ao acaso.
+Se esta pasta não tiver nenhuma música, o sistema gera sozinho um som ambiente
+sombrio (zumbido grave + vento), que já é livre de direitos.
+
+Nunca use músicas famosas: o vídeo pode ser silenciado ou removido.

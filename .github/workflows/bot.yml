@@ -1,0 +1,64 @@
+name: Bot do Telegram
+
+on:
+  schedule:
+    - cron: "*/20 * * * *"    # confere os comandos do Telegram a cada 20 minutos
+  workflow_dispatch:          # ou rode na mão para conferir agora
+
+permissions:
+  contents: write
+
+concurrency:
+  group: video
+  cancel-in-progress: false
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+      POLLINATIONS_TOKEN: ${{ secrets.POLLINATIONS_TOKEN }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      USAR_CLAUDE: ${{ vars.USAR_CLAUDE }}
+      CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Ler comandos do Telegram
+        id: comandos
+        run: python -m src.bot
+
+      - name: Instalar FFmpeg e fontes
+        if: steps.comandos.outputs.gerar == 'sim'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+
+      - name: Gerar e enviar o vídeo
+        if: steps.comandos.outputs.gerar == 'sim'
+        env:
+          TEMA: ${{ steps.comandos.outputs.tema }}
+        run: bash scripts/gerar.sh "$TEMA"
+
+      - name: Salvar histórico de histórias
+        if: steps.comandos.outputs.gerar == 'sim' && success()
+        run: |
+          git config user.name "bot-terror"
+          git config user.email "bot-terror@users.noreply.github.com"
+          git add data/historico.json
+          git diff --cached --quiet || (git commit -m "Histórico: novo vídeo" && git pull --rebase && git push)

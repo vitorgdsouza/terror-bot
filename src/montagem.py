@@ -1,0 +1,175 @@
+"""Monta o vídeo final com FFmpeg: movimento de câmera, efeitos de terror, legendas e trilha."""
+import math
+import random
+from pathlib import Path
+
+from .util import MUSICA, duracao, log, rodar
+
+W, H, FPS = 1080, 1920, 30
+PAUSA = 0.5          # silêncio no fim de cada cena (segundos)
+LIMITE_MB = 48       # o Telegram aceita vídeos de bots até 50 MB
+
+
+def _filtro_movimento(mov: str, frames: int, forca: float = 1.0) -> str:
+    a = 0.2 * forca  # quanto a câmera aproxima/anda
+    base = f"scale={int(W * 1.5)}:{int(H * 1.5)},"
+    centro = "x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
+    zp = f":d={frames}:s={W}x{H}:fps={FPS}"
+    if mov == "zoom_out":
+        return base + f"zoompan=z='1+{a:.3f}-{a:.3f}*on/{frames}':{centro}{zp}"
+    if mov == "pan_cima":
+        return base + f"zoompan=z={1+a:.3f}:x='iw/2-(iw/zoom/2)':y='(ih-ih/zoom)*(1-on/{frames})'{zp}"
+    if mov == "pan_baixo":
+        return base + f"zoompan=z={1+a:.3f}:x='iw/2-(iw/zoom/2)':y='(ih-ih/zoom)*on/{frames}'{zp}"
+    if mov == "tremor":
+        return (base + f"zoompan=z='1.06+{a/2:.3f}*on/{frames}':{centro}{zp},"
+                f"crop=w=iw-40:h=ih-40:x='20+{7*forca:.1f}*sin(n*2.3)+{4*forca:.1f}*sin(n*5.7)':y='20+{7*forca:.1f}*cos(n*1.9)+{4*forca:.1f}*sin(n*4.3)',"
+                f"scale={W}:{H}")
+    return base + f"zoompan=z='1+{a:.3f}*on/{frames}':{centro}{zp}"  # zoom_in (padrão)
+
+
+EFEITOS = {
+    # "terror": imagem lavada, cintilação de lâmpada, vinheta forte e granulado
+    "terror": ("eq=contrast=1.12:saturation=0.7:brightness='-0.04+0.02*sin(t*11)*sin(t*2.7)':eval=frame,"
+               "vignette=angle=PI/4,noise=alls=7:allf=u,format=yuv420p"),
+    # "limpo": estilo desenho animado, cores preservadas, só uma vinheta suave nas bordas
+    "limpo": "vignette=angle=PI/6,format=yuv420p",
+}
+FORCA_MOVIMENTO = {"terror": 1.0, "limpo": 0.45}
+
+
+def _renderizar_cena(img: Path, voz: dict, mov: str, destino: Path, estilo: str = "terror") -> float:
+    dur = voz["duracao"] + PAUSA
+    frames = math.ceil(dur * FPS)
+    fade_out = max(dur - 0.35, 0)
+    vf = (f"{_filtro_movimento(mov, frames, FORCA_MOVIMENTO.get(estilo, 1.0))},{EFEITOS.get(estilo, EFEITOS['terror'])},"
+          f"fade=t=in:st=0:d=0.25,fade=t=out:st={fade_out:.2f}:d=0.35")
+    rodar(["ffmpeg", "-y", "-i", str(img), "-i", str(voz["arquivo"]),
+           "-filter_complex", f"[0:v]{vf}[v];[1:a]aresample=44100,apad[a]",
+           "-map", "[v]", "-map", "[a]", "-t", f"{dur:.3f}", "-r", str(FPS),
+           "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
+           "-c:a", "aac", "-b:a", "160k", "-ac", "2", str(destino)])
+    return dur
+
+
+def _tempo_ass(s: float) -> str:
+    h, r = divmod(max(s, 0), 3600)
+    m, s = divmod(r, 60)
+    return f"{int(h)}:{int(m):02d}:{s:05.2f}"
+
+
+def _cor_ass(hexcor: str) -> str:
+    h = hexcor.lstrip("#")
+    return f"&H00{h[4:6]}{h[2:4]}{h[0:2]}".upper()
+
+
+def _limpar(texto: str) -> str:
+    return texto.replace("{", "(").replace("}", ")").replace("\\", "").upper()
+
+
+def _escrever_legendas(roteiro: dict, vozes: list, duracoes: list, cfg: dict, destino: Path) -> None:
+    leg = cfg["legenda"]
+    tam = leg["tamanho"]
+    roxo = _cor_ass(leg.get("cor_destaque", "#7B2FE0"))
+    karaoke = leg.get("estilo", "karaoke") == "karaoke"
+    margem = 620 if karaoke else 560
+    cab = f"""[Script Info]
+ScriptType: v4.00+
+PlayResX: {W}
+PlayResY: {H}
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Fala,{leg['fonte']},{tam},&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,{4 if karaoke else 6},{2 if karaoke else 3},2,90,90,{margem},1
+Style: Caixa,{leg['fonte']},{tam},&H00FFFFFF,&H00FFFFFF,{roxo},&H00000000,-1,0,0,0,100,100,0,0,3,9,0,2,90,90,{margem},1
+Style: Titulo,{leg['fonte']},70,&H003C3CE6,&H00FFFFFF,&H00000000,&H96000000,-1,0,0,0,100,100,2,0,1,6,3,8,80,80,260,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+"""
+    linhas = []
+    if leg.get("mostrar_titulo", True):
+        linhas.append(f"Dialogue: 2,{_tempo_ass(0)},{_tempo_ass(3.0)},Titulo,,0,0,0,,"
+                      f"{{\\fad(300,400)}}{_limpar(roteiro['titulo'])}")
+    deslocamento, n = 0.0, max(1, int(leg["palavras_por_bloco"]))
+    for voz, dur in zip(vozes, duracoes):
+        palavras = voz["palavras"]
+        for j in range(0, len(palavras), n):
+            bloco = palavras[j:j + n]
+            prox = palavras[j + n]["inicio"] if j + n < len(palavras) else bloco[-1]["fim"] + 0.3
+            fim_bloco = deslocamento + max(prox, bloco[-1]["fim"])
+            textos = [_limpar(p["texto"]) for p in bloco]
+            if not karaoke:
+                linhas.append(f"Dialogue: 0,{_tempo_ass(deslocamento + bloco[0]['inicio'])},{_tempo_ass(fim_bloco)},"
+                              f"Fala,,0,0,0,,{' '.join(textos)}")
+                continue
+            # karaokê: o bloco inteiro em branco e a palavra falada em cima de uma caixa colorida
+            for k, p in enumerate(bloco):
+                ini = deslocamento + p["inicio"]
+                fim = deslocamento + bloco[k + 1]["inicio"] if k + 1 < len(bloco) else fim_bloco
+                antes = " ".join(textos[:k]) + " " if k else ""
+                depois = " " + " ".join(textos[k + 1:]) if k + 1 < len(textos) else ""
+                # só a palavra falada fica visível nesta camada (os espaços também ficam ocultos)
+                caixa = f"{{\\alpha&HFF&}}{antes}{{\\alpha&H00&}}{textos[k]}{{\\alpha&HFF&}}{depois}"
+                linhas.append(f"Dialogue: 0,{_tempo_ass(ini)},{_tempo_ass(fim)},Caixa,,0,0,0,,{caixa}")
+                linhas.append(f"Dialogue: 1,{_tempo_ass(ini)},{_tempo_ass(fim)},Fala,,0,0,0,,{' '.join(textos)}")
+        deslocamento += dur
+    destino.write_text(cab + "\n".join(linhas) + "\n", encoding="utf-8")
+
+
+def _trilha(total: float, cfg: dict) -> list:
+    """Devolve (entradas extras do ffmpeg, filtro da trilha). Usa uma música de assets/musica
+    se existir; senão gera um ambiente sombrio (zumbido grave + vento), livre de direitos."""
+    musicas = sorted(list(MUSICA.glob("*.mp3")) + list(MUSICA.glob("*.m4a")) + list(MUSICA.glob("*.wav")))
+    if musicas:
+        escolhida = random.choice(musicas)
+        log(f"Trilha: {escolhida.name}")
+        vol = cfg["musica"]["volume_musica"]
+        return (["-stream_loop", "-1", "-i", str(escolhida)],
+                f"[1:a]volume={vol},afade=t=out:st={max(total - 2, 0):.2f}:d=2[bg]")
+    log("Trilha: ambiente gerado automaticamente")
+    vol = cfg["musica"]["volume_ambiente_gerado"]
+    drone = (f"aevalsrc='0.25*sin(2*PI*55*t)*(0.6+0.4*sin(2*PI*0.07*t))"
+             f"+0.12*sin(2*PI*82.4*t)*(0.5+0.5*sin(2*PI*0.05*t))':s=44100:d={total:.2f}")
+    vento = f"anoisesrc=color=brown:amplitude=0.35:d={total:.2f}:r=44100,lowpass=f=350"
+    filtro = (f"{drone}[d];{vento}[n];[d][n]amix=inputs=2:normalize=0,"
+              f"volume={vol},afade=t=in:d=1.5,afade=t=out:st={max(total - 2, 0):.2f}:d=2,aformat=channel_layouts=stereo[bg]")
+    return [], filtro
+
+
+def montar_video(roteiro: dict, imagens: list, vozes: list, cfg: dict, pasta: Path) -> Path:
+    pasta.mkdir(parents=True, exist_ok=True)
+    cenas, duracoes = [], []
+    for i, (img, voz, cena) in enumerate(zip(imagens, vozes, roteiro["cenas"])):
+        log(f"Renderizando cena {i + 1}/{len(imagens)} ({cena['movimento']})")
+        destino = pasta / f"clip_{i:02d}.mp4"
+        duracoes.append(_renderizar_cena(img, voz, cena["movimento"], destino, cfg.get("efeitos", "terror")))
+        cenas.append(destino)
+
+    lista = pasta / "lista.txt"
+    lista.write_text("".join(f"file '{c.name}'\n" for c in cenas), encoding="utf-8")
+    juntos = pasta / "juntos.mp4"
+    rodar(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(lista), "-c", "copy", str(juntos)])
+
+    total = duracao(juntos)
+    _escrever_legendas(roteiro, vozes, duracoes, cfg, pasta / "legendas.ass")
+    extras, filtro_bg = _trilha(total, cfg)
+    final = pasta / "video_final.mp4"
+
+    def codificar(crf: int) -> None:
+        rodar(["ffmpeg", "-y", "-i", "juntos.mp4", *extras,
+               "-filter_complex",
+               f"[0:v]ass=legendas.ass[v];{filtro_bg};[0:a][bg]amix=inputs=2:duration=first:normalize=0[a]",
+               "-map", "[v]", "-map", "[a]", "-t", f"{total:.3f}",
+               "-c:v", "libx264", "-preset", "veryfast", "-crf", str(crf), "-pix_fmt", "yuv420p",
+               "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", final.name],
+              cwd=pasta)
+
+    log("Juntando cenas, legendas e trilha")
+    codificar(23)
+    if final.stat().st_size > LIMITE_MB * 1024 * 1024:
+        log("Vídeo grande demais para o Telegram, comprimindo mais")
+        codificar(29)
+    log(f"Vídeo pronto: {total:.0f}s, {final.stat().st_size / 1e6:.1f} MB")
+    return final

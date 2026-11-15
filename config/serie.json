@@ -1,0 +1,41 @@
+{
+  "nome_serie": "Você Escaparia?",
+  "idioma": "pt-BR",
+  "tema_padrao": "situações de terror do dia a dia em que VOCÊ é o protagonista: sozinho em casa à noite, um intruso, um barulho estranho, uma mensagem de número desconhecido, uma ligação no meio da madrugada, uma câmera de segurança que mostra algo, lendas urbanas brasileiras acontecendo com você",
+  "duracao_alvo_segundos": 130,
+  "numero_de_cenas": 14,
+
+  "formato": "segunda_pessoa_com_escolha",
+
+  "estilo_visual": "flat 2D cartoon illustration, clean bold dark outlines, simple rounded shapes, minimalist vector style, nighttime scene with dark navy blue and indigo palette, soft warm yellow lamp light accents, cozy suburban interior, subtle shading, cinematic vertical composition, no gore",
+  "evitar_na_imagem": "text, letters, captions, watermark, logo, realistic photo, 3D render, blood, gore, anime, extra fingers",
+
+  "protagonista": {
+    "nome": "Você",
+    "visual": "simple cartoon young man with a big round light-tan head, short messy black hair, two small black dot eyes, small simple mouth, mustard yellow raincoat jacket, dark grey jeans, black sneakers, minimalist design"
+  },
+
+  "voz": {
+    "nome": "pt-BR-AntonioNeural",
+    "velocidade": "+0%",
+    "tom": "-4Hz"
+  },
+
+  "legenda": {
+    "estilo": "karaoke",
+    "fonte": "DejaVu Sans",
+    "tamanho": 60,
+    "palavras_por_bloco": 4,
+    "cor_destaque": "#7B2FE0",
+    "mostrar_titulo": false
+  },
+
+  "efeitos": "limpo",
+
+  "musica": {
+    "volume_musica": 0.12,
+    "volume_ambiente_gerado": 0.22
+  },
+
+  "hashtags_fixas": ["#vocesobreviveria", "#terror", "#historiasdeterror", "#animacao", "#medo"]
+}
