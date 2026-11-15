@@ -21,11 +21,11 @@ def semente_do_video(titulo: str) -> int:
 def montar_prompt(cena: dict, roteiro: dict, cfg: dict) -> str:
     visuais = {p["nome"]: p["visual"] for p in roteiro.get("personagens", [])}
     descricoes = [f"{nome}: {visuais[nome]}" for nome in cena.get("personagens_na_cena", []) if nome in visuais]
-    partes = [cena["imagem"]]
+    # o estilo vai PRIMEIRO: os geradores dão mais peso ao começo do pedido
+    partes = [cfg["estilo_visual"], "Scene: " + cena["imagem"]]
     if descricoes:
         partes.append("Characters: " + "; ".join(descricoes))
-    partes.append(cfg["estilo_visual"])
-    partes.append("no " + cfg["evitar_na_imagem"])
+    partes.append("Avoid: " + cfg["evitar_na_imagem"])
     return ". ".join(partes)
 
 

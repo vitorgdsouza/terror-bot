@@ -51,7 +51,9 @@ o gancho prende? Cada cena aumenta a tensão? O dilema final é difícil de verd
 1. `python -m src.ferramentas imagens` (demora uns 15 s por cena; aguarde terminar).
 2. `python -m src.ferramentas folha` e abra `trabalho/folha.jpg` com a ferramenta Read. Avalie cada cena numerada:
    - o protagonista está parecido com a descrição (cabelo, roupa e cores principais)?
-   - o estilo é desenho 2D noturno em azul-escuro, coerente com as outras cenas?
+   - o estilo é DESENHO 2D chapado (contorno grosso, cores lisas), e não foto ou pintura realista? Imagem realista é defeito grave: refaça.
+   - o protagonista parece um adulto em desenho simples (cabeça redonda, olhos de ponto), e não um adolescente realista?
+   - a ameaça tem olhos BRANCOS (não vermelhos)?
    - a cena mostra o que a narração diz? Tem texto, letras, dedos extras, rostos deformados ou algo assustador demais/gore?
 3. Para cada cena ruim: se o problema for o prompt, edite o campo `imagem` dela no roteiro; depois rode
    `python -m src.ferramentas imagem N --tentativa 1` (aumente o número a cada nova tentativa) e confira `trabalho/imagens/previa_NN.jpg`.

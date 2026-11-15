@@ -4,23 +4,18 @@
   "tema_padrao": "situações de terror do dia a dia em que VOCÊ é o protagonista: sozinho em casa à noite, um intruso, um barulho estranho, uma mensagem de número desconhecido, uma ligação no meio da madrugada, uma câmera de segurança que mostra algo, lendas urbanas brasileiras acontecendo com você",
   "duracao_alvo_segundos": 130,
   "numero_de_cenas": 14,
-
   "formato": "segunda_pessoa_com_escolha",
-
-  "estilo_visual": "flat 2D cartoon illustration, clean bold dark outlines, simple rounded shapes, minimalist vector style, nighttime scene with dark navy blue and indigo palette, soft warm yellow lamp light accents, cozy suburban interior, subtle shading, cinematic vertical composition, no gore",
-  "evitar_na_imagem": "text, letters, captions, watermark, logo, realistic photo, 3D render, blood, gore, anime, extra fingers",
-
+  "estilo_visual": "2D flat vector cartoon illustration, simple webcomic animation style, thick clean dark outlines, flat cel-shaded colors, minimal details, simplified cartoon characters with round heads and small dot eyes, NOT realistic, dark navy blue and indigo night palette, soft warm yellow lamp light accents, vertical composition",
+  "evitar_na_imagem": "photorealistic, realistic face, semi-realistic portrait, photo, 3D render, anime, child, teenager, text, letters, captions, watermark, logo, blood, gore, extra fingers",
   "protagonista": {
     "nome": "Você",
-    "visual": "simple cartoon young man with a big round light-tan head, short messy black hair, two small black dot eyes, small simple mouth, mustard yellow raincoat jacket, dark grey jeans, black sneakers, minimalist design"
+    "visual": "adult cartoon man in his late 20s drawn in a very simple flat cartoon style, perfectly round light-tan head, two small black dot eyes, tiny simple mouth, no nose, short spiky black hair, mustard yellow raincoat, dark grey jeans, black sneakers"
   },
-
   "voz": {
     "nome": "pt-BR-AntonioNeural",
     "velocidade": "+0%",
     "tom": "-4Hz"
   },
-
   "legenda": {
     "estilo": "karaoke",
     "fonte": "DejaVu Sans",
@@ -29,13 +24,16 @@
     "cor_destaque": "#7B2FE0",
     "mostrar_titulo": false
   },
-
   "efeitos": "limpo",
-
   "musica": {
     "volume_musica": 0.12,
     "volume_ambiente_gerado": 0.22
   },
-
-  "hashtags_fixas": ["#vocesobreviveria", "#terror", "#historiasdeterror", "#animacao", "#medo"]
+  "hashtags_fixas": [
+    "#vocesobreviveria",
+    "#terror",
+    "#historiasdeterror",
+    "#animacao",
+    "#medo"
+  ]
 }
