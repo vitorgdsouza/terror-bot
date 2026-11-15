@@ -6,6 +6,7 @@ import time
 
 import requests
 
+from .personagem import escolher_protagonista, normalizar
 from .util import carregar_historico, env, log
 
 URL = "https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent"
@@ -65,7 +66,7 @@ def _extrair_json(texto: str) -> dict:
 
 
 def _protagonista(cfg: dict) -> dict:
-    return cfg.get("protagonista") or cfg.get("narrador") or {"nome": "Você", "visual": "simple cartoon person"}
+    return {"nome": "Você", "visual": ""}
 
 
 def gerar_roteiro(cfg: dict, tema: str | None = None) -> dict:
@@ -74,12 +75,16 @@ def gerar_roteiro(cfg: dict, tema: str | None = None) -> dict:
     n = cfg["numero_de_cenas"]
     prot = _protagonista(cfg)
     palavras = int(cfg["duracao_alvo_segundos"] * 2.3)
+    quem = escolher_protagonista(cfg, carregar_historico())
+    info = cfg.get("protagonistas", {}).get(quem, {"genero": "masculino", "descricao": ""})
 
     prompt = f"""Você é roteirista do canal brasileiro de animações de terror "{cfg['nome_serie']}".
 O formato do canal: o espectador É o protagonista. A narração fala com ele em SEGUNDA PESSOA ("você"),
 descrevendo uma situação de terror que acontece com ele, e termina com um DILEMA em que ele precisa escolher.
 
 Tema deste vídeo: {tema}
+Protagonista deste vídeo: {info['descricao']}. Gênero {info['genero'].upper()}: escreva adjetivos e particípios
+referentes a "você" no {info['genero']} (ex.: "{'sozinha, assustada' if info['genero'] == 'feminino' else 'sozinho, assustado'}").
 
 Regras da história:
 - História ORIGINAL, em português do Brasil, linguagem simples e natural, frases curtas.
@@ -91,24 +96,25 @@ Regras da história:
 - Suspense e atmosfera: nada de violência explícita, sangue ou gore.
 - Não repita estas histórias: {json.dumps(ja_feitos, ensure_ascii=False)}
 
-Regras das imagens:
-- O protagonista se chama "{prot['nome']}" e aparece na maioria das cenas: coloque "{prot['nome']}" em "personagens_na_cena" sempre que ele estiver visível.
-- Varie os enquadramentos como num desenho animado: plano aberto da casa por fora, plano médio do personagem,
-  close nas mãos segurando o celular, tela do celular mostrando a câmera de segurança, close na porta, a ameaça na sombra.
-- A ameaça (intruso, criatura, vulto) deve ser uma silhueta escura com olhos brancos brilhando, sem rosto detalhado.
-- Para cada cena, escreva o prompt da imagem em INGLÊS: lugar, luz, ação e enquadramento. Não descreva textos ou letras.
+Regras das imagens (o protagonista e a ameaça são figurinhas fixas coladas sobre o cenário):
+- Campo "imagem": descreva em INGLÊS só o CENÁRIO VAZIO (lugar, luz, objetos, enquadramento), sem pessoas.
+  Varie como num desenho: fachada da casa à noite, quarto, corredor, cozinha, escada, porta, janela, tela de câmera de segurança.
+- Campo "personagem": como o protagonista aparece, ou null se ele não aparece.
+  pose: frente | medo | costas | celular | lanterna | maos_celular (close das mãos segurando o celular)
+  posicao: esquerda | centro | direita    tamanho: longe | medio | perto
+- Campo "ameaca": a silhueta escura, ou null. tipo: sombra (vulto encapuzado de olhos brancos) | olhos (só dois olhos brancos no escuro).
+  posicao e tamanho iguais aos do personagem. Use a ameaça com moderação, crescendo perto do fim.
+- Outras pessoas da história nunca aparecem na imagem (só são citadas na narração).
 
 Responda SOMENTE com JSON válido neste formato:
 {{
   "titulo": "título curto e chamativo",
-  "personagens": [
-    {{"nome": "Nome de outro personagem (se houver)", "visual": "aparência em inglês, sempre igual"}}
-  ],
   "cenas": [
     {{
       "narracao": "texto narrado desta cena",
-      "imagem": "English image prompt for this scene",
-      "personagens_na_cena": ["{prot['nome']}"],
+      "imagem": "English description of the EMPTY setting",
+      "personagem": {{"pose": "frente", "posicao": "centro", "tamanho": "medio"}},
+      "ameaca": null,
       "movimento": "um de: {', '.join(MOVIMENTOS)}"
     }}
   ],
@@ -123,6 +129,7 @@ Responda SOMENTE com JSON válido neste formato:
             _validar(roteiro, cfg)
             log(f"Roteiro pronto: {roteiro['titulo']} ({len(roteiro['cenas'])} cenas)")
             roteiro["tema"] = tema
+            roteiro["protagonista"] = quem
             return roteiro
         except (ValueError, KeyError) as e:
             log(f"Roteiro veio inválido ({e}), pedindo de novo...")
@@ -132,17 +139,14 @@ Responda SOMENTE com JSON válido neste formato:
 def _validar(roteiro: dict, cfg: dict) -> None:
     if not roteiro.get("titulo") or not roteiro.get("cenas"):
         raise ValueError("faltou título ou cenas")
-    # o visual do protagonista vem sempre da configuração, para ficar igual em todos os vídeos
-    prot = _protagonista(cfg)
-    roteiro["personagens"] = [p for p in roteiro.get("personagens", [])
-                              if p.get("nome") and p.get("nome") != prot["nome"]]
-    roteiro["personagens"].append({"nome": prot["nome"], "visual": prot["visual"]})
+    roteiro.setdefault("personagens", [])
     for c in roteiro["cenas"]:
         if not c.get("narracao") or not c.get("imagem"):
             raise ValueError("cena sem narração ou imagem")
         if c.get("movimento") not in MOVIMENTOS:
             c["movimento"] = "zoom_in"
         c.setdefault("personagens_na_cena", [])
+        normalizar(c)
 
 
 def gerar_ideias(cfg: dict, quantidade: int = 5) -> list:

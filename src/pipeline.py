@@ -49,7 +49,7 @@ def executar(tema: str | None = None, usar_telegram: bool = True):
         telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
         telegram.enviar_mensagem(f"Roteiro completo:\n\n{texto}")
 
-    salvar_no_historico(roteiro["titulo"], roteiro["tema"])
+    salvar_no_historico(roteiro["titulo"], roteiro["tema"], roteiro.get("protagonista", ""))
     log(f"Concluído: {video}")
     return video
 

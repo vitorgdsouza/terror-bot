@@ -10,6 +10,7 @@ import requests
 from .util import log, rodar
 
 URL = "https://image.pollinations.ai/prompt/{prompt}"
+URL_COM_CHAVE = "https://gen.pollinations.ai/image/{prompt}"
 LARGURA, ALTURA = 768, 1344  # vertical 9:16; o FFmpeg amplia para 1080x1920
 ESPERA_ENTRE_IMAGENS = 16  # o plano anônimo aceita cerca de 1 pedido a cada 15 s
 
@@ -19,13 +20,10 @@ def semente_do_video(titulo: str) -> int:
 
 
 def montar_prompt(cena: dict, roteiro: dict, cfg: dict) -> str:
-    visuais = {p["nome"]: p["visual"] for p in roteiro.get("personagens", [])}
-    descricoes = [f"{nome}: {visuais[nome]}" for nome in cena.get("personagens_na_cena", []) if nome in visuais]
-    # o estilo vai PRIMEIRO: os geradores dão mais peso ao começo do pedido
+    """Pede só o CENÁRIO: o protagonista e a ameaça são colados depois (src/personagem.py)."""
     partes = [cfg["estilo_visual"], "Scene: " + cena["imagem"]]
-    if descricoes:
-        partes.append("Characters: " + "; ".join(descricoes))
-    partes.append("flat vector cartoon, adult characters only")
+    partes.append("an empty unoccupied location with nobody in it, wide open space in the foreground, "
+                  "background art for an animated cartoon")
     return ". ".join(partes)
 
 
@@ -40,17 +38,22 @@ def gerar_imagem(prompt: str, destino: Path, semente: int, tentativas: int = 4) 
     """Pede UMA imagem ao Pollinations. Devolve True se conseguiu."""
     token = os.environ.get("POLLINATIONS_TOKEN", "").strip()
     headers = {"Authorization": f"Bearer {token}"} if token else {}
+    # com chave (conta grátis em enter.pollinations.ai) usa a API nova, sem marca d'água
+    url = URL_COM_CHAVE if token else URL
     params = {"width": LARGURA, "height": ALTURA, "seed": semente,
               "model": os.environ.get("POLLINATIONS_MODEL", "flux"), "nologo": "true"}
     destino.parent.mkdir(parents=True, exist_ok=True)
     for tentativa in range(tentativas):
         try:
-            r = requests.get(URL.format(prompt=quote(prompt[:1500])), params=params,
+            r = requests.get(url.format(prompt=quote(prompt[:1500])), params=params,
                              headers=headers, timeout=240)
             if r.status_code == 200 and r.headers.get("content-type", "").startswith("image"):
                 destino.write_bytes(r.content)
                 return True
             log(f"  resposta {r.status_code}: {r.text[:150]}")
+            if token and r.status_code in (401, 403, 404) and url == URL_COM_CHAVE:
+                log("  a chave do Pollinations não funcionou na API nova; tentando o endereço antigo")
+                url = URL
         except requests.RequestException as e:
             log(f"  erro de rede: {e}")
         time.sleep(ESPERA_ENTRE_IMAGENS * (tentativa + 1))
@@ -61,13 +64,16 @@ def gerar_imagens(roteiro: dict, cfg: dict, pasta: Path) -> list[Path]:
     pasta.mkdir(parents=True, exist_ok=True)
     caminhos, falhas = [], 0
     base = semente_do_video(roteiro["titulo"])
+    from .personagem import compor
     for i, cena in enumerate(roteiro["cenas"]):
+        fundo = pasta / f"fundo_{i:02d}.jpg"
         destino = pasta / f"cena_{i:02d}.jpg"
         log(f"Imagem {i + 1}/{len(roteiro['cenas'])}")
-        if not gerar_imagem(montar_prompt(cena, roteiro, cfg), destino, base + i):
+        if not gerar_imagem(montar_prompt(cena, roteiro, cfg), fundo, base + i):
             falhas += 1
             log("  usando fundo escuro no lugar desta imagem")
-            placeholder(destino)
+            placeholder(fundo)
+        compor(fundo, cena, destino, roteiro.get("protagonista", "homem"))
         caminhos.append(destino)
         if i < len(roteiro["cenas"]) - 1:
             time.sleep(ESPERA_ENTRE_IMAGENS)

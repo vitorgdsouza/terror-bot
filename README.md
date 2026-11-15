@@ -5,7 +5,7 @@ Este projeto cria sozinho animações de terror em segunda pessoa ("você está 
 **Como funciona:**
 
 1. **Roteiro**: o Gemini (IA do Google, plano gratuito) escreve uma história original em 14 cenas, falando com o espectador e terminando com duas opções (A ou B).
-2. **Imagens**: o Pollinations (gratuito, sem cadastro) desenha cada cena em estilo desenho animado 2D, à noite, em tons de azul-escuro, sempre com o mesmo protagonista.
+2. **Imagens**: o Pollinations (gratuito) desenha os cenários vazios em estilo desenho 2D noturno. O protagonista e a ameaça são figurinhas fixas coladas por cima, então ficam sempre iguais.
 3. **Narração**: as vozes neurais do Microsoft Edge (gratuitas) narram em português.
 4. **Montagem**: o FFmpeg anima as imagens com movimentos suaves de câmera e coloca legendas palavra por palavra, com a palavra falada destacada numa caixa roxa, além de um som ambiente sombrio.
 5. **Entrega**: o vídeo chega no seu Telegram junto com a legenda pronta para colar no post.
@@ -110,13 +110,23 @@ Pronto: os próximos vídeos já saem pelo agente. No Telegram chega uma "Nota d
 
 ---
 
+## O personagem fixo
+
+Há duas protagonistas, que se alternam a cada vídeo: um homem de capa amarela e uma mulher loira de jaqueta vermelha. A narração se ajusta ao gênero ("sozinho" ou "sozinha"). Para fixar uma delas, mude `protagonista_modo` em `config/serie.json` para `homem` ou `mulher`; para voltar a alternar, use `alternar`.
+
+O protagonista e a ameaça (o vulto de olhos brancos) **não são desenhados pela IA**. Eles são figurinhas fixas, guardadas em `assets/personagem/`. A IA gera só os cenários vazios, e o sistema cola o personagem por cima, com sombra no chão e tom noturno. Assim ele fica igual em todas as cenas e em todos os vídeos.
+
+- **Poses disponíveis:** `frente`, `medo`, `costas`, `celular`, `lanterna` e `maos_celular` (close das mãos segurando o celular).
+- **Ameaças:** `sombra` (o vulto inteiro) e `olhos` (só os olhos no escuro).
+- **Mudar o visual:** os desenhos originais ficam em `assets/personagem/fonte/` (as figurinhas da mulher ficam em `assets/personagem/mulher/`). Peça ao Claude para criar novas poses ou mudar as cores; ele gera os PNGs de novo.
+
 ## Personalizar a série
 
 Tudo fica em `config/serie.json`, que você pode editar direto no site do GitHub (abra o arquivo e clique no lápis):
 
 - **`tema_padrao`**: o assunto das histórias.
 - **`estilo_visual`**: o estilo das imagens, em inglês.
-- **`protagonista`**: a aparência do personagem fixo que representa "você" em todos os vídeos. É a identidade visual do canal: mude à vontade, mas mantenha sempre igual depois que começar a postar.
+- **`protagonista_modo`**: `alternar` (um vídeo com cada protagonista), `homem` ou `mulher`.
 - **`efeitos`**: `limpo` (desenho animado, cores preservadas) ou `terror` (imagem lavada, cintilação, granulado, tremor mais forte).
 - **`legenda`**: `estilo` `karaoke` (palavra destacada) ou `simples`, a cor do destaque e se mostra o título no começo.
 - **`voz`**: `pt-BR-AntonioNeural` (masculina) ou `pt-BR-FranciscaNeural` (feminina). Para uma voz mais lenta e grave, use velocidade `-15%` e tom `-10Hz`.
@@ -128,9 +138,8 @@ Tudo fica em `config/serie.json`, que você pode editar direto no site do GitHub
 
 ## Limites dos serviços gratuitos (leia antes de publicar)
 
-- **Protagonista consistente:** a IA de imagem gratuita desenha o personagem a partir da descrição, então ele pode variar um pouco entre as cenas (cor do cabelo, proporções). Quanto mais detalhada e marcante a descrição em `protagonista`, mais estável ele fica.
 - **A animação é feita de "câmera" e efeitos, não de IA de vídeo.** É o formato de *motion comic*, comum em canais de terror. Animação de verdade por IA (Kling, Runway, Hailuo etc.) é paga. Dá para trocar depois, só no passo de montagem.
-- **Pollinations sem cadastro:** aceita cerca de 1 imagem a cada 15 segundos e pode colocar marca d'água. Um cadastro grátis em https://auth.pollinations.ai gera um token que tira os dois limites. Salve esse token no secret `POLLINATIONS_TOKEN`. **Antes de monetizar o canal, confira os termos de uso** do Pollinations e dos modelos de imagem.
+- **Pollinations sem cadastro:** aceita cerca de 1 imagem a cada 15 segundos e coloca marca d'água. Uma conta grátis em https://enter.pollinations.ai gera uma chave (começa com `sk_`) que tira a marca e aumenta o limite. Salve essa chave no secret `POLLINATIONS_TOKEN`. **Antes de monetizar o canal, confira os termos de uso** do Pollinations e dos modelos de imagem.
 - **Gemini grátis:** tem limite de pedidos por dia. Para 1 a 5 vídeos por dia, sobra. No plano gratuito, o Google pode usar o conteúdo enviado para melhorar os produtos dele.
 - **Se um modelo do Gemini sair do ar:** o código tenta outros sozinho. Para escolher um específico, crie uma *variable* (não secret) chamada `GEMINI_MODEL` em **Settings > Secrets and variables > Actions > Variables**.
 - **Repositório parado:** em repositórios públicos, o GitHub desliga os agendamentos depois de 60 dias sem atividade. Como cada vídeo salva o histórico no repositório, isso não deve acontecer enquanto o sistema estiver rodando.
@@ -153,11 +162,13 @@ Tudo fica em `config/serie.json`, que você pode editar direto no site do GitHub
 
 ## Estrutura do projeto
 ```
-config/serie.json          configurações da série (estilo, voz, protagonista)
+config/serie.json          configurações da série (estilo, voz, protagonistas)
 src/roteiro.py             agente roteirista (Gemini)
 src/imagens.py             imagens das cenas (Pollinations)
 src/voz.py                 narração (edge-tts)
 src/montagem.py            vídeo final (FFmpeg)
+src/personagem.py          cola o personagem fixo e a ameaça sobre os cenários
+assets/personagem/         figurinhas do protagonista e da ameaça
 src/telegram.py            envio e leitura de mensagens
 src/bot.py                 comandos /novo e /ideias
 src/pipeline.py            junta tudo (modo reserva)

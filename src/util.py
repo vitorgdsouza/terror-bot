@@ -29,9 +29,9 @@ def carregar_historico() -> list:
     return []
 
 
-def salvar_no_historico(titulo: str, tema: str) -> None:
+def salvar_no_historico(titulo: str, tema: str, protagonista: str = "") -> None:
     hist = carregar_historico()
-    hist.append({"data": time.strftime("%Y-%m-%d"), "titulo": titulo, "tema": tema})
+    hist.append({"data": time.strftime("%Y-%m-%d"), "titulo": titulo, "tema": tema, "protagonista": protagonista})
     HISTORICO.parent.mkdir(parents=True, exist_ok=True)
     with open(HISTORICO, "w", encoding="utf-8") as f:
         json.dump(hist[-200:], f, ensure_ascii=False, indent=2)
