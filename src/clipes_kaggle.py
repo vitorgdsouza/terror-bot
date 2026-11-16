@@ -6,6 +6,7 @@ Saída (/kaggle/working): clipes/<id>.mp4 e relatorio.json (modelo usado, tempo 
 
 Tenta primeiro o Wan 2.2 TI2V-5B (melhor movimento) e, se falhar, o LTX-Video (mais leve).
 """
+import gc
 import json
 import os
 import subprocess
@@ -14,6 +15,7 @@ import time
 import traceback
 from pathlib import Path
 
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 INICIO = time.time()
 SAIDA = Path("/kaggle/working")
 (SAIDA / "clipes").mkdir(parents=True, exist_ok=True)
@@ -75,28 +77,55 @@ def preparar(img_path):
     return im.crop((x0, y0, x0 + W, y0 + H))
 
 
+def _tipo():
+    # T4/P100 não têm bfloat16 de verdade: em fp16 a atenção usa a versão econômica de memória
+    return torch.float16 if torch.cuda.get_device_capability(0)[0] < 8 else torch.bfloat16
+
+
+def _liberar():
+    gc.collect()
+    torch.cuda.empty_cache()
+
+
 def com_wan():
     from diffusers import AutoencoderKLWan, WanImageToVideoPipeline
     mid = "Wan-AI/Wan2.2-TI2V-5B-Diffusers"
-    dtype = torch.bfloat16
+    dtype = _tipo()
     vae = AutoencoderKLWan.from_pretrained(mid, subfolder="vae", torch_dtype=torch.float32)
     pipe = WanImageToVideoPipeline.from_pretrained(mid, vae=vae, torch_dtype=dtype)
     pipe.enable_model_cpu_offload()
-    try:
-        pipe.vae.enable_tiling()
-    except Exception:
-        pass
+    for f in ("enable_tiling", "enable_slicing"):
+        try:
+            getattr(pipe.vae, f)()
+        except Exception:
+            pass
+    estado = {"economico": False}
 
     def gerar(img, prompt, segundos):
-        frames = min(121, int(segundos * 24) // 4 * 4 + 1)
-        return pipe(image=img, prompt=prompt + ESTILO, negative_prompt=NEGATIVO, height=H, width=W,
-                    num_frames=frames, guidance_scale=5.0, num_inference_steps=30).frames[0], 24
+        fps = 16
+        quadros = min(81, int(segundos * fps) // 4 * 4 + 1)
+        for tentativa in range(2):
+            try:
+                with torch.inference_mode():
+                    out = pipe(image=img, prompt=prompt + ESTILO, negative_prompt=NEGATIVO, height=H, width=W,
+                               num_frames=quadros, guidance_scale=5.0, num_inference_steps=25).frames[0]
+                return out, fps
+            except torch.OutOfMemoryError:
+                _liberar()
+                if estado["economico"]:
+                    quadros = max(33, (quadros // 2) // 4 * 4 + 1)
+                else:                                   # modo mais econômico: carrega o modelo parte por parte
+                    log("Sem memória: mudando para o modo econômico (mais lento)")
+                    pipe.remove_all_hooks()
+                    pipe.enable_sequential_cpu_offload()
+                    estado["economico"] = True
+        raise RuntimeError("faltou memória mesmo no modo econômico")
     return "Wan2.2-TI2V-5B", gerar
 
 
 def com_ltx():
     from diffusers import LTXImageToVideoPipeline
-    pipe = LTXImageToVideoPipeline.from_pretrained("Lightricks/LTX-Video", torch_dtype=torch.bfloat16)
+    pipe = LTXImageToVideoPipeline.from_pretrained("Lightricks/LTX-Video", torch_dtype=_tipo())
     pipe.enable_model_cpu_offload()
 
     def gerar(img, prompt, segundos):
@@ -133,13 +162,18 @@ if gerador:
             frames, fps = gerar(img, p["prompt"], float(p.get("segundos", 5)))
             destino = SAIDA / "clipes" / f"{p['id']}.mp4"
             export_to_video(frames, str(destino), fps=fps)
+            import numpy as np
+            brilho = float(np.asarray(frames[len(frames) // 2]).mean()) if len(frames) else 0
             relatorio["clipes"].append({"id": p["id"], "minutos": round((time.time() - t0) / 60, 1),
-                                        "quadros": len(frames)})
+                                        "quadros": len(frames), "brilho_medio": round(brilho, 1)})
+            if brilho < 3:
+                relatorio["erros"].append(f"{p['id']}: o clipe saiu todo preto (problema de precisão fp16)")
             log(f"Clipe {p['id']} pronto em {(time.time() - t0) / 60:.1f} min")
         except Exception as e:
             relatorio["erros"].append(f"{p['id']}: {type(e).__name__}: {e}"[:600])
             log(traceback.format_exc()[-1500:])
-            torch.cuda.empty_cache()
+            _liberar()
+        _liberar()
         salvar()
 salvar()
 log("Fim")
