@@ -5,7 +5,7 @@ Cada cena do roteiro usa estes campos:
     "cenario":    um de CENARIOS  ("celular_cftv" = mãos segurando o celular com a câmera de segurança na tela)
     "tela":       (só no celular_cftv) qual cenário aparece na tela da câmera
     "personagem": {"pose": ..., "acao": ..., "posicao": ..., "tamanho": ...} ou null
-    "ameaca":     {"tipo": "sombra"|"olhos", "acao": ..., "posicao": ..., "tamanho": ...} ou null
+    "ameaca":     {"tipo": "abismo"|"olhos"|"invasor", "acao": ..., "posicao": ..., "tamanho": ...} ou null
     "efeito":     um de EFEITOS
     "camera":     um de CAMERAS
 """
@@ -31,7 +31,7 @@ CENARIOS = list(META) + ["celular_cftv"]
 POSES = ["frente", "medo", "gritando", "encolhida", "costas", "celular", "lanterna"]
 ACOES_P = ["parado", "andando", "entrando", "saindo", "tremendo", "virando"]
 ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo"]
-AMEACAS = ["sombra", "olhos", "invasor"]
+AMEACAS = ["abismo", "olhos", "invasor"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
 TAMANHOS = {"longe": 0.36, "medio": 0.62, "perto": 1.15}
 EFEITOS = ["nenhum", "luz_piscando", "tv_chiando", "relampago", "chuva", "tremor"]
@@ -44,7 +44,7 @@ _cache: dict = {}
 GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fixas:
 - "cenario": o lugar. sala (sofá, TV, abajur, janela) | corredor (comprido, porta escura no fundo) |
   quarto (cama, escrivaninha com monitor aceso, janela) | cozinha (armários, geladeira, janela com lua) |
-  pia_detalhe (close da pia com prato e copo, janela ao lado: só personagem "perto"; a sombra "longe" aparece lá fora na janela) |
+  pia_detalhe (close da pia com prato e copo, janela ao lado: só personagem "perto"; o abismo "longe" aparece lá fora, pela janela) |
   porta_entrada (porta da rua por dentro com corrente e olho mágico, cabideiro com casaco) | janela (close numa janela grande, noite lá fora) |
   escada (vista de baixo, subindo para um andar escuro) | escada_cima (vista do andar de cima, descendo para um hall escuro) | banheiro (espelho, pia, box com cortina) |
   debaixo_cama (close no chão do quarto, chinelos e o escuro embaixo da cama: só personagem "perto"; "olhos" longe aparecem embaixo da cama) |
@@ -56,7 +56,8 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   Na mulher, medo começa com o rosto normal e muda quando a ameaça surge ou na primeira palavra forte da narração.
   acao: parado | andando | entrando (entra pelo lado) | saindo (vira e sai) | tremendo | virando (estava de costas e vira).
   posicao: esquerda | centro | direita. tamanho: longe | medio | perto (perto = close do rosto e do tronco).
-- "ameaca": null ou o perigo. tipo: sombra (criatura escura que flutua, com tentáculos e um olho que brilha) |
+- "ameaca": null ou o perigo. tipo: abismo (O ABISMO: silhueta humana toda preta, rosto pálido de olhos arregalados e sorriso enorme;
+  parado = em pé; medio parado = agachado observando; aproximando = vem em posição de ataque; perto = close do rosto) |
   olhos (só dois olhos brilhando no escuro) | invasor (pessoa real de capa de chuva amarela, capuz com o rosto no escuro e um machado;
   use em histórias sem sobrenatural: invasão, perseguição, alguém dentro de casa).
   acao: parada | aparecendo (surge aos poucos) | aproximando (vem para perto) | sumindo.
@@ -156,6 +157,8 @@ def normalizar(cena: dict) -> None:
     if META.get(cena["cenario"], {}).get("detalhe") and cena["personagem"]:
         cena["personagem"]["tamanho"] = "perto"   # cenário em close: só cabe o personagem de perto
     a = cena.get("ameaca")
+    if isinstance(a, dict) and a.get("tipo") in ("sombra", "criatura", "fantasma"):
+        a["tipo"] = "abismo"                          # nomes antigos viram O Abismo
     if isinstance(a, dict) and a.get("tipo") in AMEACAS:
         a["acao"] = a.get("acao") if a.get("acao") in ACOES_A else "parada"
         a["posicao"] = a.get("posicao") if a.get("posicao") in POSICOES else "centro"
@@ -282,42 +285,6 @@ def _desenhar_personagem(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno
 
 
 # ---------------------------------------------------------------- ameaça
-def _olho_criatura(img: Image.Image):
-    """Posição (fração) do ponto mais claro da criatura: o olho que brilha."""
-    chave = ("olho", id(img))
-    if chave not in _cache:
-        p = img.convert("L").resize((img.width // 8, img.height // 8))
-        px = list(p.getdata())
-        i = max(range(len(px)), key=px.__getitem__)
-        _cache[chave] = ((i % p.width + 0.5) / p.width, (i // p.width + 0.5) / p.height)
-    return _cache[chave]
-
-
-def _criatura_escura() -> Image.Image:
-    """A criatura em tom bem escuro (quase preto azulado), mantendo o olho claro."""
-    if "criatura_escura" not in _cache:
-        import numpy as np
-        im = _img(PASTA_V2 / "sobrenatural.png")
-        a = np.asarray(im).astype(float)
-        lum = a[:, :, :3].mean(axis=2, keepdims=True)
-        escuro = a[:, :, :3] * np.array([0.32, 0.30, 0.42])
-        olho = (lum > 175)                            # o olho que brilha continua claro
-        rgb = np.where(olho, a[:, :, :3], escuro)
-        _cache["criatura_escura"] = Image.fromarray(np.dstack([rgb, a[:, :, 3:]]).clip(0, 255).astype("uint8"))
-    return _cache["criatura_escura"]
-
-
-def _ondular(img: Image.Image, t: float, forca: float) -> Image.Image:
-    """Faz a parte de baixo da criatura (a cauda e os tentáculos) balançar devagar, como fumaça."""
-    import numpy as np
-    a = np.asarray(img)
-    h = a.shape[0]
-    ys = np.arange(h)
-    desloc = (np.sin(ys / h * 7.0 - t * 1.9) * forca * (ys / h) ** 1.6).astype(int)
-    cols = (np.arange(a.shape[1])[None, :] - desloc[:, None]).clip(0, a.shape[1] - 1)
-    return Image.fromarray(a[ys[:, None], cols])
-
-
 def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
     cw, ch = quadro.size
     prog = t / dur if dur else 0
@@ -382,29 +349,43 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
         quadro.alpha_composite(img, (cx - img.width // 2, pes - int(img.height * PES_NO_DESENHO)))
         return
 
-    # criatura sobrenatural: flutua, ondula, fica meio transparente e o olho pulsa
-    if tam != "longe":                               # a criatura é grande: limita para caber no quadro
-        frac = {"medio": 0.46, "perto": 0.72}[tam] * (1 + (0.45 * _suave(prog) if a["acao"] == "aproximando" else 0))
-        piso = min(piso, 0.97)
-    altura = int(ch * frac * escala_tela)
-    base = _criatura_escura()
-    img = _escalado(base, altura, x < 0.5 and tam != "longe", 0)
-    img = _ondular(img, t, altura * 0.02)
-    flutua = math.sin(t * 2 * math.pi / 3.7) * altura * 0.012
-    deriva = math.sin(t * 0.9) * altura * 0.006
-    tremula = 0.82 + 0.1 * math.sin(t * 5.1) * math.sin(t * 1.3) + 0.08 * math.sin(t * 0.7)
-    img = _com_alfa(img, alfa * tremula)
-    px0 = int(cw * x - img.width / 2 + deriva + paralaxe * cw * 0.4)
-    py0 = int(ch * piso - img.height * 0.94 + flutua)
-    margem = int(cw * 0.06)                          # mantém a criatura inteira dentro da área visível
-    px0 = max(margem - img.width // 6, min(px0, cw - margem - img.width * 5 // 6))
-    py0 = max(int(ch * 0.07), py0)
-    quadro.alpha_composite(img, (px0, py0))
-    ox, oy = _olho_criatura(img)
-    pulso = 0.6 + 0.4 * (0.5 + 0.5 * math.sin(t * 2.4))
-    r = max(20, int(altura * 0.09))
-    brilho = _luz(r, r, (190, 170, 255), int(130 * pulso * alfa), max(6, r // 3))
-    quadro.alpha_composite(brilho, (px0 + int(ox * img.width) - brilho.width // 2, py0 + int(oy * img.height) - brilho.height // 2))
+    # O ABISMO: silhueta preta com rosto pálido e sorriso enorme. Fica no chão, quase parado; é o silêncio que assusta.
+    if tam == "perto":
+        # close do rosto: aproxima devagar e dá pequenos "saltos" de imagem, como se a câmera falhasse
+        base = _img(PASTA_V2 / "abismo" / "rosto.png")
+        cresce = 1 + (0.18 * _suave(prog) if a["acao"] == "aproximando" else 0.06 * prog)
+        altura = int(ch * 0.62 * cresce * escala_tela)
+        img = _escalado(base, altura, False, 0.35)
+        salto = (int(t * 24) % 31) in (0, 1)
+        dx = (9 if salto else 0) + math.sin(t * 1.3) * altura * 0.004
+        img = _com_alfa(img, alfa * (0.75 if salto else 1.0))
+        quadro.alpha_composite(img, (int(cw * x - img.width / 2 + dx), int(ch * 0.46 - img.height / 2)))
+        return
+    if a["acao"] == "aproximando":
+        pose = "ataque"
+    elif tam == "medio" and a["acao"] == "parada":
+        pose = "observando"
+    else:
+        pose = "frente"
+    if tam == "longe":
+        altura = int(ch * frac * 1.05 * escala_tela)
+    else:
+        altura = int(ch * 0.62 * escala_tela * (1 + 0.45 * _suave(prog) if a["acao"] == "aproximando" else 1))
+        piso = min(meta.get("piso", 0.9), 0.97)
+    espelhar = pose != "frente" and x > 0.5             # agachado/atacando: virado para o meio da cena
+    img = _escalado(_img(PASTA_V2 / "abismo" / f"{pose}.png"), altura, espelhar, 0.1)
+    andando = a["acao"] == "aproximando"
+    bob = (-abs(math.sin(t * math.pi / 0.5)) * 0.007 if andando else math.sin(t * 2 * math.pi / 5.0) * 0.002) * altura
+    # ao surgir: pisca entre aparecer e sumir algumas vezes antes de ficar
+    if a["acao"] == "aparecendo" and alfa < 0.95 and int(t * 24) % 5 == 0:
+        alfa = min(1.0, alfa * 2.2)
+    img = _com_alfa(img, alfa)
+    cx = int(cw * x + paralaxe * cw * 0.4)
+    pes = int(ch * piso + bob)
+    if tam != "perto":
+        sb = _sombra_chao(int(img.width * 0.4))
+        quadro.alpha_composite(_com_alfa(sb, alfa), (cx - sb.width // 2, int(ch * piso) - sb.height // 2))
+    quadro.alpha_composite(img, (cx - img.width // 2, pes - int(img.height * PES_NO_DESENHO)))
 
 
 # ---------------------------------------------------------------- efeitos

@@ -43,7 +43,7 @@ Direção das cenas (como num desenho animado):
 - Varie o cenário e o enquadramento: abra com um plano geral (casa_fora ou o cômodo com o personagem "longe" ou "medio"),
   alterne com closes ("perto") nos momentos de medo, e use celular_cftv quando a história envolver câmera ou celular.
 - Combine a ação com a narração: "você caminha até a porta" → acao "andando"/"entrando"; "você congela" → "tremendo" e pose "medo".
-- A ameaça cresce: primeiro só "olhos" ao "longe", depois "sombra" "aparecendo", e no clímax "aproximando" com "tremor".
+- A ameaça cresce: primeiro só "olhos" ao "longe", depois "abismo" "aparecendo" ao longe, depois "abismo" "medio" parado (agachado observando), e no clímax "aproximando" ou o close do rosto ("perto"). Use o close do rosto uma vez só, no maior susto. Em histórias sem sobrenatural, use "invasor" no lugar de "abismo".
 - Efeitos com moderação: luz_piscando e relampago marcam sustos; tv_chiando só na sala e no quarto (monitor). pia_detalhe e debaixo_cama são closes: use com personagem "perto" ou sem personagem. A câmera reage às palavras fortes e às reticências da narração, então escreva os momentos de susto com "..." e palavras concretas (porta, passos, olhos, atrás).
 
 ```json
@@ -57,7 +57,7 @@ Direção das cenas (como num desenho animado):
      "ameaca": null, "efeito": "nenhum", "camera": "zoom_in"},
     {"narracao": "...", "cenario": "celular_cftv", "tela": "corredor",
      "personagem": null,
-     "ameaca": {"tipo": "sombra", "acao": "aparecendo", "posicao": "centro", "tamanho": "longe"},
+     "ameaca": {"tipo": "abismo", "acao": "aparecendo", "posicao": "centro", "tamanho": "longe"},
      "efeito": "nenhum", "camera": "zoom_in"}
   ],
   "resumo": "a história inteira até aqui em até 4 frases",
