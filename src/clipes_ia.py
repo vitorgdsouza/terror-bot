@@ -86,8 +86,13 @@ def finalizar() -> None:
     usados, motivo = 0, ""
     try:
         passou = (time.time() - estado["inicio"]) / 60
-        K.rodar_kernel(so_esperar=True, espera_max_min=max(5, int(config(cfg)["espera_max_min"] - passou)),
-                       KERNEL=KERNEL, DATASET=DATASET)
+        try:
+            K.rodar_kernel(so_esperar=True, espera_max_min=max(5, int(config(cfg)["espera_max_min"] - passou)),
+                           KERNEL=KERNEL, DATASET=DATASET)
+        except RuntimeError as e:   # caiu no meio: aproveita os clipes que ficaram prontos
+            if "passou de" in str(e):
+                raise
+            log(f"Notebook caiu no meio ({str(e)[:120]}); usando os clipes prontos")
         rel = K.baixar(PASTA / "saida", KERNEL=KERNEL)
         ruins = {e.split(":")[0] for e in rel.get("erros", [])}
         for i in estado["cenas"]:

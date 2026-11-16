@@ -133,8 +133,7 @@ def baixar(destino: Path, KERNEL: str = KERNEL) -> dict:
 def gerar_clipes(pedidos: list, imagens: dict, pasta: Path, so_esperar: bool = False) -> dict:
     """pedidos: [{"id", "prompt", "segundos"}], imagens: {id: caminho}. Devolve o relatório com os .mp4."""
     if so_esperar:                                   # o notebook já está rodando: só espera e baixa
-        rodar_kernel(so_esperar=True)
-        return baixar(pasta / "saida")
+        return _rodar_e_baixar(pasta, so_esperar=True)
     entrada = pasta / "entrada"
     shutil.rmtree(entrada, ignore_errors=True)
     entrada.mkdir(parents=True)
@@ -147,7 +146,19 @@ def gerar_clipes(pedidos: list, imagens: dict, pasta: Path, so_esperar: bool = F
     log("Enviando imagens para o Kaggle...")
     enviar_dataset(entrada)
     log("Disparando a GPU do Kaggle...")
-    rodar_kernel()
+    return _rodar_e_baixar(pasta)
+
+
+def _rodar_e_baixar(pasta: Path, so_esperar: bool = False) -> dict:
+    """Se o notebook cair no meio, ainda aproveita os clipes que ficaram prontos."""
+    try:
+        rodar_kernel(so_esperar=so_esperar)
+    except RuntimeError as e:
+        if "passou de" in str(e):
+            raise
+        rel = baixar(pasta / "saida")
+        rel.setdefault("erros", []).append(f"notebook caiu no meio: {str(e)[:200]}")
+        return rel
     return baixar(pasta / "saida")
 
 
