@@ -58,7 +58,8 @@ Direção das cenas (como num desenho animado):
 
 - Cenas animadas por IA (só se `contexto` mostrar "clipes_ia": ligado): escolha no máximo 3 cenas de destaque e
   coloque nelas `"clipe_ia": "<o que se mexe, em inglês>"`. A GPU anima o quadro da cena a partir desse texto.
-  Bons momentos: a reação de medo do protagonista, o Abismo aparecendo/inclinando a cabeça, a TV ou a luz piscando.
+  Bons momentos: a reação de medo do protagonista, o Abismo aparecendo/inclinando a cabeça. Só cenas com personagem
+  ou com o Abismo (fachadas e cenários vazios quase não se mexem: não gaste clipe com eles).
   Regras: narração dessa cena com até 12 palavras (o clipe tem ~4 s); personagem parado (sem andar/correr);
   descreva movimento pequeno e contínuo, câmera parada e luz constante. Ex.: "the boy breathes nervously and his eyes
   widen, his hands stay still, the tv glows softly, static camera, lighting stays the same".
