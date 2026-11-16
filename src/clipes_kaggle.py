@@ -94,12 +94,7 @@ def com_wan():
     mid = "Wan-AI/Wan2.2-TI2V-5B-Diffusers"
     dtype = _tipo()
     vae = AutoencoderKLWan.from_pretrained(mid, subfolder="vae", torch_dtype=torch.float32)
-    # O codificador de texto (UMT5) estoura em fp16 e gera NaN -> vídeo todo preto. Ele roda uma vez só por clipe,
-    # então pode ficar em bfloat16 (mais lento na T4, mas correto); o resto continua em fp16.
-    from transformers import UMT5EncoderModel
-    texto = UMT5EncoderModel.from_pretrained(mid, subfolder="text_encoder", torch_dtype=torch.bfloat16)
-    pipe = WanImageToVideoPipeline.from_pretrained(mid, vae=vae, text_encoder=texto, torch_dtype=dtype)
-    relatorio["precisao"] = {"transformer": str(dtype), "texto": "bfloat16", "vae": "float32"}
+    pipe = WanImageToVideoPipeline.from_pretrained(mid, vae=vae, torch_dtype=dtype)
     pipe.enable_model_cpu_offload()
     for f in ("enable_tiling", "enable_slicing"):
         try:
@@ -179,7 +174,10 @@ if gerador:
                                         "brilho_final": round(brilho_fim, 1)})
             if brilho < 3:
                 relatorio["erros"].append(f"{p['id']}: o clipe saiu todo preto (problema de precisão fp16)")
+            if brilho >= 3 and brilho_fim < 0.5 * brilho:
+                relatorio["erros"].append(f"{p['id']}: a cena escurece até sumir no fim do clipe")
             log(f"Clipe {p['id']} pronto em {(time.time() - t0) / 60:.1f} min")
+            del frames
         except Exception as e:
             relatorio["erros"].append(f"{p['id']}: {type(e).__name__}: {e}"[:600])
             log(traceback.format_exc()[-1500:])
