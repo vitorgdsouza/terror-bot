@@ -31,8 +31,16 @@ def executar(tema: str | None = None, usar_telegram: bool = True):
     pasta.mkdir(parents=True, exist_ok=True)
     (pasta / "roteiro.json").write_text(json.dumps(roteiro, ensure_ascii=False, indent=2), encoding="utf-8")
 
+    from .planos import modo_ilustrado
     if usar_telegram:
-        telegram.enviar_mensagem(f"Roteiro pronto: \"{roteiro['titulo']}\". Gerando voz e animação (leva uns 5 minutos)...")
+        telegram.enviar_mensagem(f"Roteiro pronto: \"{roteiro['titulo']}\" ({len(roteiro['cenas'])} planos). "
+                                 "Gerando ilustrações, voz e animação (leva uns 10 a 15 minutos)...")
+    if modo_ilustrado(cfg):
+        from .ilustrador import gerar_ilustracoes
+        gerar_ilustracoes(roteiro, cfg, pasta / "imagens")
+        aviso = roteiro.get("_ilustracoes", {}).get("aviso")
+        if aviso and usar_telegram:
+            telegram.enviar_mensagem(f"Atenção: {aviso}\nO vídeo vai sair com cenários prontos no lugar das ilustrações.")
 
     vozes = gerar_narracao(roteiro, cfg, pasta / "audio")
     video = montar_video(roteiro, vozes, cfg, pasta / "video")
@@ -45,7 +53,10 @@ def executar(tema: str | None = None, usar_telegram: bool = True):
         telegram.enviar_video(video, legenda)
         texto = "\n\n".join(c["narracao"] for c in roteiro["cenas"])
         telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
-        telegram.enviar_mensagem(f"Roteiro completo:\n\n{texto}")
+        telegram.enviar_mensagem(f"Roteiro completo:\n\n{texto}"[:4000])
+        info = roteiro.get("_ilustracoes")
+        if info:
+            telegram.enviar_mensagem(f"Ilustrações geradas: {info['geradas']} (~US$ {info['custo_usd']}), falhas: {info['falhas']}")
 
     if usar_telegram:
         telegram.enviar_mensagem(serie.mensagem_proximo_passo(roteiro))

@@ -3,7 +3,9 @@ import math
 import random
 from pathlib import Path
 
-from .util import MUSICA, duracao, log, rodar
+from .util import MUSICA, RAIZ, duracao, log, rodar
+
+FONTES = RAIZ / "assets" / "fontes"
 
 W, H, FPS = 1080, 1920, 30
 PAUSA = 0.5          # silêncio no fim de cada cena (segundos)
@@ -67,7 +69,73 @@ def _limpar(texto: str) -> str:
     return texto.replace("{", "(").replace("}", ")").replace("\\", "").upper()
 
 
+def _fichas_alinhadas(narracao: str, palavras: list) -> list:
+    """Texto original de cada palavra (com pontuação), quando dá para alinhar com as palavras da voz."""
+    fichas = narracao.split()
+    return fichas if len(fichas) == len(palavras) else [p["texto"] for p in palavras]
+
+
+def _legendas_frase(roteiro: dict, vozes: list, duracoes: list, cfg: dict, destino: Path) -> None:
+    """Estilo do vídeo de referência: a frase vai se formando no terço de baixo da tela (até 2 linhas),
+    a palavra falada fica numa caixa roxa e as palavras de impacto aparecem um pouco maiores."""
+    from .animacao import PALAVRAS_FORTES
+    leg = cfg["legenda"]
+    tam = leg.get("tamanho", 64)
+    roxo = _cor_ass(leg.get("cor_destaque", "#7B2FE0"))
+    margem = int(H * (1 - leg.get("posicao_y", 0.72)))
+    n_max = max(2, int(leg.get("palavras_por_bloco", 6)))
+    fonte = leg.get("fonte", "Poppins")
+    cab = f"""[Script Info]
+ScriptType: v4.00+
+PlayResX: {W}
+PlayResY: {H}
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Fala,{fonte},{tam},&H00FFFFFF,&H00FFFFFF,&H00000000,&H90000000,-1,0,0,0,100,100,0,0,1,3,3,2,110,110,{margem},1
+Style: Caixa,{fonte},{tam},&H00FFFFFF,&H00FFFFFF,{roxo},&H00000000,-1,0,0,0,100,100,0,0,3,10,0,2,110,110,{margem},1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+"""
+    linhas, deslocamento = [], 0.0
+    for voz, dur, cena in zip(vozes, duracoes, roteiro["cenas"]):
+        palavras = voz["palavras"]
+        fichas = _fichas_alinhadas(cena.get("narracao", ""), palavras)
+        # blocos de até n_max palavras, quebrando depois de pontuação
+        blocos, atual = [], []
+        for j, p in enumerate(palavras):
+            atual.append(j)
+            if len(atual) >= n_max or fichas[j].rstrip("\"'”").endswith((".", "!", "?", "…", ",", ":")):
+                blocos.append(atual)
+                atual = []
+        if atual:
+            blocos.append(atual)
+        for b, bloco in enumerate(blocos):
+            prox = palavras[blocos[b + 1][0]]["inicio"] if b + 1 < len(blocos) else min(dur, palavras[bloco[-1]]["fim"] + 0.5)
+            textos = []
+            for j in bloco:
+                txt = _limpar(fichas[j]).rstrip(".,;:…").lstrip("\"'“") or _limpar(fichas[j])
+                forte = (fichas[j].lower().strip(".,;:!?…\"'") in PALAVRAS_FORTES) or fichas[j].endswith(("!", "...", "…"))
+                textos.append(f"{{\\fscx122\\fscy122}}{txt}{{\\fscx100\\fscy100}}" if forte else txt)
+            for k, j in enumerate(bloco):
+                ini = deslocamento + palavras[j]["inicio"]
+                fim = deslocamento + (palavras[bloco[k + 1]]["inicio"] if k + 1 < len(bloco) else prox)
+                if fim <= ini:
+                    continue
+                visiveis = textos[:k + 1]               # a frase vai se formando palavra por palavra
+                caixa = " ".join(("{\\alpha&HFF&}" + x + "{\\alpha&HFF&}") if q != k else ("{\\alpha&H00&}" + x + "{\\alpha&HFF&}")
+                                 for q, x in enumerate(visiveis))
+                linhas.append(f"Dialogue: 0,{_tempo_ass(ini)},{_tempo_ass(fim)},Caixa,,0,0,0,,{caixa}")
+                linhas.append(f"Dialogue: 1,{_tempo_ass(ini)},{_tempo_ass(fim)},Fala,,0,0,0,,{' '.join(visiveis)}")
+        deslocamento += dur
+    destino.write_text(cab + "\n".join(linhas) + "\n", encoding="utf-8")
+
+
 def _escrever_legendas(roteiro: dict, vozes: list, duracoes: list, cfg: dict, destino: Path) -> None:
+    if cfg["legenda"].get("estilo") == "frase":
+        return _legendas_frase(roteiro, vozes, duracoes, cfg, destino)
     leg = cfg["legenda"]
     tam = leg["tamanho"]
     roxo = _cor_ass(leg.get("cor_destaque", "#7B2FE0"))
@@ -144,12 +212,21 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
     pasta.mkdir(parents=True, exist_ok=True)
     prot = roteiro.get("protagonista", "homem")
     cenas, duracoes = [], []
-    for i, (voz, cena) in enumerate(zip(vozes, roteiro["cenas"])):
-        log(f"Animando cena {i + 1}/{len(vozes)} ({cena.get('cenario')})")
+    lista_cenas = roteiro["cenas"]
+    for i, (voz, cena) in enumerate(zip(vozes, lista_cenas)):
+        log(f"Animando cena {i + 1}/{len(vozes)} ({cena.get('lugar') or cena.get('cenario')})")
         destino = pasta / f"clip_{i:02d}.mp4"
         cena["_progresso"] = i / max(1, len(vozes) - 1)   # usado para aumentar a tensão ao longo do vídeo
         cena["_palavras"] = voz.get("palavras") or []
-        duracoes.append(renderizar_cena(cena, voz, destino, prot, PAUSA))
+        pausa = PAUSA
+        if cena.get("_img"):
+            # planos ilustrados: ritmo de vídeo curto (pausa mínima no mesmo lugar, um respiro ao trocar de lugar)
+            ultimo = i == len(vozes) - 1
+            muda = ultimo or lista_cenas[i + 1].get("lugar") != cena.get("lugar")
+            pausa = 1.6 if ultimo else (0.38 if muda else 0.1)
+            cena["_fade_in"] = i == 0 or lista_cenas[i - 1].get("lugar") != cena.get("lugar")
+            cena["_fade_out"] = muda
+        duracoes.append(renderizar_cena(cena, voz, destino, prot, pausa))
         cenas.append(destino)
 
     lista = pasta / "lista.txt"
@@ -165,7 +242,7 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
     def codificar(crf: int) -> None:
         rodar(["ffmpeg", "-y", "-i", "juntos.mp4", *extras,
                "-filter_complex",
-               f"[0:v]ass=legendas.ass[v];{filtro_bg};[0:a][bg]amix=inputs=2:duration=first:normalize=0[a]",
+               f"[0:v]ass=legendas.ass:fontsdir={FONTES}[v];{filtro_bg};[0:a][bg]amix=inputs=2:duration=first:normalize=0[a]",
                "-map", "[v]", "-map", "[a]", "-t", f"{total:.3f}",
                "-c:v", "libx264", "-preset", "veryfast", "-crf", str(crf), "-pix_fmt", "yuv420p",
                "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", final.name],

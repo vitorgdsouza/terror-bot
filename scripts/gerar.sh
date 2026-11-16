@@ -12,6 +12,15 @@ avisar() {
   python -c "import sys; from src import telegram; telegram.enviar_mensagem(sys.argv[1])" "$1" || true
 }
 
+# o vídeo diário automático fica desligado por padrão (as ilustrações são pagas); ligue em config/serie.json
+if [ "${GITHUB_EVENT_NAME:-}" = "schedule" ]; then
+  LIGADO=$(python -c "import json; print(json.load(open('config/serie.json')).get('video_diario_automatico', False))")
+  if [ "$LIGADO" != "True" ]; then
+    echo "Vídeo diário automático desligado (video_diario_automatico=false). Nada a fazer."
+    exit 0
+  fi
+fi
+
 if [ "${USAR_CLAUDE:-sim}" != "nao" ] && { [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ] || [ -n "${ANTHROPIC_API_KEY:-}" ]; }; then
   echo "=== Modo agente: Claude como diretor ==="
   npm install -g @anthropic-ai/claude-code >/dev/null 2>&1
@@ -28,6 +37,11 @@ TEMA: ${TEMA}"
   if [ -f trabalho/ENVIADO ]; then
     echo "=== Agente concluiu ==="
     exit 0
+  fi
+  GERADAS=$(python -c "import json,pathlib; p=pathlib.Path('trabalho/imagens/contagem.json'); print(json.loads(p.read_text())['geradas'] if p.exists() else 0)")
+  if [ "${GERADAS:-0}" -ge 10 ]; then
+    avisar "O agente Claude parou depois de gerar ${GERADAS} ilustrações. Para não pagar as imagens duas vezes, não vou refazer tudo no modo reserva. Veja o log na aba Actions e peça de novo."
+    exit 1
   fi
   echo "=== Agente não concluiu; usando o modo reserva (Gemini) ==="
   avisar "O agente Claude não conseguiu terminar (talvez o limite de uso do Pro tenha acabado). Gerando no modo reserva com o Gemini..."

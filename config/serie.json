@@ -1,21 +1,23 @@
 {
   "nome_serie": "Você Escaparia?",
   "idioma": "pt-BR",
-  "tema_padrao": "situações de terror do dia a dia em que VOCÊ é o protagonista: sozinho em casa à noite, um intruso, um barulho estranho, uma mensagem de número desconhecido, uma ligação no meio da madrugada, uma câmera de segurança que mostra algo, lendas urbanas brasileiras acontecendo com você",
-  "duracao_alvo_segundos": 130,
+  "tema_padrao": "situações de terror realistas do dia a dia em que VOCÊ é o protagonista: sozinho em casa enquanto a família viaja, um estranho escondido dentro de casa, sinais de que alguém entrou, uma câmera de segurança que mostra algo, mensagens de número desconhecido, um vizinho estranho, o primeiro dia num emprego noturno, uma casa alugada, uma viagem de carro à noite",
+  "duracao_alvo_segundos": 150,
   "numero_de_cenas": 14,
   "formato": "segunda_pessoa_com_escolha",
-  "estilo_visual": "simple flat 2D vector illustration, minimalist cartoon webcomic art, solid flat colors without gradients, thick clean dark outlines, simple geometric shapes, dark navy blue and indigo night palette with warm yellow lamp light",
-  "evitar_na_imagem": "(não usado no pedido: o gerador gratuito não entende proibições e acaba desenhando o que é citado)",
+  "modo_visual": "ilustrado",
+  "numero_de_planos": 40,
   "protagonista_modo": "alternar",
   "protagonistas": {
     "homem": {
       "genero": "masculino",
-      "descricao": "homem adulto de cabelo escuro bem curto, jaqueta escura e calça cargo"
+      "descricao": "rapaz de desenho simples, cabelo castanho bagunçado, moletom verde-oliva",
+      "visual": "a simple cartoon young man with a slightly oval head, small black dot eyes and thin eyebrows, short messy dark-brown hair, wearing an olive-green hoodie, dark grey pants and white sneakers"
     },
     "mulher": {
       "genero": "feminino",
-      "descricao": "mulher adulta de cabelo escuro preso num coque, suéter escuro e calça jeans"
+      "descricao": "moça de desenho simples, cabelo preto curto com franja, moletom mostarda",
+      "visual": "a simple cartoon young woman with a slightly oval head, small black dot eyes and thin eyebrows, black shoulder-length hair with straight bangs, wearing a mustard-yellow hoodie, dark blue jeans and white sneakers"
     }
   },
   "voz": {
@@ -23,15 +25,16 @@
     "reservas": [
       "pt-BR-AntonioNeural"
     ],
-    "velocidade": "+0%",
-    "tom": "-2Hz",
-    "efeito": "narrador_limpo"
+    "velocidade": "-7%",
+    "tom": "-4Hz",
+    "efeito": "narrador_serio"
   },
   "legenda": {
-    "estilo": "karaoke",
-    "fonte": "DejaVu Sans",
-    "tamanho": 60,
-    "palavras_por_bloco": 2,
+    "estilo": "frase",
+    "fonte": "Poppins",
+    "tamanho": 70,
+    "palavras_por_bloco": 5,
+    "posicao_y": 0.72,
     "cor_destaque": "#7B2FE0",
     "mostrar_titulo": false
   },
@@ -46,5 +49,17 @@
     "#historiasdeterror",
     "#animacao",
     "#medo"
-  ]
+  ],
+  "imagens": {
+    "modelos": [
+      "gemini-3.1-flash-image",
+      "gemini-3.1-flash-image-preview",
+      "gemini-2.5-flash-image"
+    ],
+    "tamanho": "1K",
+    "max_por_video": 48,
+    "custo_por_imagem_usd": 0.045,
+    "estilo": "2D digital cartoon illustration for a horror animation channel, flat colors with soft cel shading, clean thin dark outlines, simple and readable shapes, cozy detailed everyday Brazilian home, dark night atmosphere with deep navy blue shadows and small warm light sources, cinematic framing"
+  },
+  "video_diario_automatico": false
 }

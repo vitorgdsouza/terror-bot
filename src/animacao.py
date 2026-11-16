@@ -584,8 +584,81 @@ def _poeira(img: Image.Image, t: float, semente: int, quantidade: int = 22):
 
 
 # ---------------------------------------------------------------- quadro completo
+ESCURIDAO_ILUSTRADO = 0.12     # as ilustrações já vêm noturnas: só um toque a mais de sombra
+
+
+def _ilustracao(caminho: str) -> Image.Image:
+    """Ilustração do plano ajustada à tela 1188x2112 (corta as sobras) e levemente escurecida."""
+    chave = ("ilustr", caminho)
+    if chave not in _cache:
+        import numpy as np
+        im = Image.open(caminho).convert("RGB")
+        e = max(CW / im.width, CH / im.height)
+        im = im.resize((math.ceil(im.width * e), math.ceil(im.height * e)), Image.LANCZOS)
+        x0, y0 = (im.width - CW) // 2, (im.height - CH) // 2
+        im = im.crop((x0, y0, x0 + CW, y0 + CH))
+        a = np.asarray(im).astype(float)
+        lum = a.mean(axis=2, keepdims=True) / 255
+        a = a * (1 - ESCURIDAO_ILUSTRADO * (1 - lum ** 2))
+        for velho in [c for c in _cache if isinstance(c, tuple) and c[0] == "ilustr"]:
+            del _cache[velho]                       # guarda só a ilustração atual (os planos vêm em sequência)
+        _cache[chave] = Image.fromarray(a.clip(0, 255).astype("uint8")).convert("RGBA")
+    return _cache[chave]
+
+
+def _quadro_ilustrado(cena: dict, t: float, dur: float, n: int) -> Image.Image:
+    """Plano ilustrado: a imagem com câmera lenta, poeira, efeitos de luz, reação às palavras fortes e vinheta."""
+    prog = t / dur if dur else 0
+    k = _suave(prog)
+    cam, ef = cena.get("camera", "zoom_in"), cena.get("efeito", "nenhum")
+    tensao = float(cena.get("_progresso", 0.5))
+    acento = _envelope(t, _acentos(cena))
+    img = _ilustracao(cena["_img"]).copy()
+    if ef == "chuva":
+        _chuva(img, {}, t, n)
+    _poeira(img, t, hash(cena.get("lugar", "")) % 1000, 14)
+    if ef == "luz_piscando" and random.Random(n // 2).random() < 0.18:
+        img = _brilho(img, 0.55)
+    elif ef == "relampago":
+        for pico in (0.3, 0.38, 0.75):
+            d = abs(prog - pico) * dur if dur else 9
+            if d < 0.08:
+                img = _brilho(img, 0.55 * (1 - d / 0.08), (235, 240, 255))
+    z, px, py = 1.0, 0.5, 0.5
+    if cam == "zoom_in":
+        z = 1 + 0.09 * k
+    elif cam == "zoom_out":
+        z = 1.09 - 0.09 * k
+    elif cam == "pan_esquerda":
+        z, px = 1.04, 0.8 - 0.6 * k
+    elif cam == "pan_direita":
+        z, px = 1.04, 0.2 + 0.6 * k
+    z *= 1 + 0.012 * acento
+    if cena.get("ameaca") and tensao > 0.5:
+        z *= 1 + 0.0015 * _batimento(t, 62 + 24 * tensao)
+    cw, chh = W / z, H / z
+    x0, y0 = (CW - cw) * px, (CH - chh) * py
+    if ef == "tremor":
+        k_tr = math.exp(-t * 1.5)
+        x0 += math.sin(t * 23) * 3.5 * k_tr
+        y0 += math.cos(t * 19) * 3.5 * k_tr
+    x0, y0 = min(max(0, x0), CW - cw), min(max(0, y0), CH - chh)
+    img = img.crop((int(x0), int(y0), int(x0 + cw), int(y0 + chh))).resize((W, H), Image.BILINEAR).convert("RGB")
+    vin = 0.34 + 0.22 * tensao + 0.12 * acento + 0.03 * math.sin(t * 0.9) + (0.06 if cena.get("ameaca") else 0)
+    img = Image.composite(Image.new("RGB", (W, H), (2, 3, 10)), img, _vinheta(vin))
+    # cortes secos dentro do mesmo lugar; um piscar curto de escuro quando muda de lugar
+    fd = 0.14
+    if cena.get("_fade_in", False) and t < fd:
+        img = Image.blend(img, Image.new("RGB", (W, H)), 1 - t / fd)
+    if cena.get("_fade_out", False) and dur - t < fd:
+        img = Image.blend(img, Image.new("RGB", (W, H)), 1 - max(0.0, dur - t) / fd)
+    return img
+
+
 def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) -> Image.Image:
     """Desenha o quadro da cena no instante t (segundos). Devolve imagem RGB 1080x1920."""
+    if cena.get("_img"):
+        return _quadro_ilustrado(cena, t, dur, n)
     normalizar(cena)
     prog = t / dur if dur else 0
     k = _suave(prog)

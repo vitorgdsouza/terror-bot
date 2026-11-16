@@ -7,6 +7,7 @@ import time
 import requests
 
 from .animacao import GUIA_CENAS, normalizar
+from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado, normalizar_plano
 from .personagem import escolher_protagonista
 from . import serie
 from .util import carregar_historico, env, log
@@ -81,7 +82,49 @@ def gerar_roteiro(cfg: dict, tema: str | None = None) -> dict:
     quem = info_serie.get("protagonista") or escolher_protagonista(cfg, carregar_historico())
     info = cfg.get("protagonistas", {}).get(quem, {"genero": "masculino", "descricao": ""})
 
-    prompt = f"""Você é roteirista do canal brasileiro de animações de terror "{cfg['nome_serie']}".
+    if modo_ilustrado(cfg):
+        n = cfg.get("numero_de_planos", 40)
+        final = info_serie["modo"] == "final"
+        prompt = f"""Você é o roteirista principal do canal brasileiro de animações de terror "{cfg['nome_serie']}".
+O formato do canal: o espectador É o protagonista. A narração fala com ele em SEGUNDA PESSOA ("você")
+e conta uma situação de terror que acontece com ele, terminando com um DILEMA em que ele precisa escolher.
+
+Tema deste vídeo: {tema}
+Gênero do protagonista: {info['genero'].upper()} (escreva "{'sozinha, assustada' if info['genero'] == 'feminino' else 'sozinho, assustado'}").
+Tamanho: cerca de {palavras} palavras narradas no total (uns {cfg['duracao_alvo_segundos']} segundos), divididas em {n} planos (entre {n - 6} e {n + 4}).
+{"Esta é a PARTE FINAL: encerre a história no último plano, sem dilema." if final else ""}
+
+{REGRAS_HISTORIA}
+
+{GUIA_PLANOS}
+
+Não repita estas histórias: {json.dumps(ja_feitos, ensure_ascii=False)}
+{serie.bloco_para_roteiro(info_serie)}
+Antes de responder, revise como um crítico exigente: o gancho prende nos 3 primeiros segundos? Cada pista é mais
+estranha que a anterior? Cada imagem mostra exatamente a sua frase? O dilema final é difícil de verdade?
+
+Responda SOMENTE com JSON válido neste formato (o campo "cenas" é a lista de planos; "casa" descreve em inglês a casa da história):
+{EXEMPLO_JSON}"""
+    else:
+        prompt = _prompt_biblioteca(cfg, tema, info, info_serie, ja_feitos, palavras, n)
+    log(f"Gerando roteiro sobre: {tema}")
+    for tentativa in range(3):
+        try:
+            roteiro = _extrair_json(_chamar_gemini(prompt))
+            _validar(roteiro, cfg)
+            log(f"Roteiro pronto: {roteiro['titulo']} ({len(roteiro['cenas'])} cenas)")
+            roteiro["tema"] = tema
+            roteiro["protagonista"] = quem
+            serie.ajustar_roteiro(roteiro, info_serie)
+            return roteiro
+        except (ValueError, KeyError) as e:
+            log(f"Roteiro veio inválido ({e}), pedindo de novo...")
+    raise RuntimeError("O Gemini não devolveu um roteiro válido após 3 tentativas.")
+
+
+def _prompt_biblioteca(cfg, tema, info, info_serie, ja_feitos, palavras, n) -> str:
+    """Formato antigo: cenas montadas com a biblioteca de cenários e personagens recortados."""
+    return f"""Você é roteirista do canal brasileiro de animações de terror "{cfg['nome_serie']}".
 O formato do canal: o espectador É o protagonista. A narração fala com ele em SEGUNDA PESSOA ("você"),
 descrevendo uma situação de terror que acontece com ele, e termina com um DILEMA em que ele precisa escolher.
 
@@ -127,20 +170,6 @@ Responda SOMENTE com JSON válido neste formato:
   "hashtags": ["#exemplo"]
 }}"""
 
-    log(f"Gerando roteiro sobre: {tema}")
-    for tentativa in range(3):
-        try:
-            roteiro = _extrair_json(_chamar_gemini(prompt))
-            _validar(roteiro, cfg)
-            log(f"Roteiro pronto: {roteiro['titulo']} ({len(roteiro['cenas'])} cenas)")
-            roteiro["tema"] = tema
-            roteiro["protagonista"] = quem
-            serie.ajustar_roteiro(roteiro, info_serie)
-            return roteiro
-        except (ValueError, KeyError) as e:
-            log(f"Roteiro veio inválido ({e}), pedindo de novo...")
-    raise RuntimeError("O Gemini não devolveu um roteiro válido após 3 tentativas.")
-
 
 def _validar(roteiro: dict, cfg: dict) -> None:
     if not roteiro.get("titulo") or not roteiro.get("cenas"):
@@ -149,7 +178,12 @@ def _validar(roteiro: dict, cfg: dict) -> None:
     for c in roteiro["cenas"]:
         if not c.get("narracao"):
             raise ValueError("cena sem narração")
-        normalizar(c)
+        if modo_ilustrado(cfg):
+            if not c.get("imagem"):
+                raise ValueError("plano sem descrição da imagem")
+            normalizar_plano(c)
+        else:
+            normalizar(c)
 
 
 def gerar_ideias(cfg: dict, quantidade: int = 5) -> list:

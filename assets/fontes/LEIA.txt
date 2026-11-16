@@ -1,0 +1,2 @@
+Poppins (Indian Type Foundry) é distribuída sob a SIL Open Font License 1.1 (https://openfontlicense.org),
+que permite usar, incluir e redistribuir a fonte, inclusive em projetos comerciais.

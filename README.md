@@ -2,20 +2,32 @@
 
 Este projeto cria sozinho animações de terror em segunda pessoa ("você está sozinho em casa..."), no formato vertical 9:16, com cerca de 2 minutos. Cada vídeo termina com um dilema: "Comente A ou B" e manda o vídeo pronto para o seu Telegram. Tudo roda de graça no GitHub.
 
-**Como funciona:**
+**Como funciona (modo ilustrado, o padrão):**
 
-1. **Roteiro**: o Gemini (IA do Google, plano gratuito) escreve uma história original em 14 cenas, falando com o espectador e terminando com duas opções (A ou B).
-2. **Animação**: cada cena é montada com uma biblioteca fixa de cenários (sala, corredor, quarto, cozinha, pia, porta, janela, escada vista de baixo e de cima, banheiro, casa por fora, rua e a tela de câmera de segurança no celular). Os cenários em `assets/cenarios` foram gerados uma única vez com IA de imagem ou desenhados por código; os vídeos sempre reutilizam os mesmos arquivos. O protagonista e o vulto se mexem: respiram, piscam, andam, tremem, aparecem e se aproximam. Nada é gerado na hora, então não há marca d'água nem desenho deformado.
+1. **Roteiro**: uma história realista em uns 40 planos curtos, falando com o espectador e terminando com duas opções (A ou B). Cada plano tem uma frase narrada e a descrição da imagem que mostra exatamente aquela frase.
+2. **Ilustrações**: a API de imagens do Gemini desenha um quadro para cada plano, usando como referência o estilo do canal (`assets/estilo`), a folha do protagonista (`assets/personagem/v3`) e o primeiro quadro de cada cômodo, para a casa e o personagem não mudarem. **Essa parte é paga** (veja "Custos" abaixo).
 3. **Narração**: as vozes neurais do Microsoft Edge (gratuitas) narram em português.
-4. **Montagem**: a câmera se move (zoom e panorâmica), entram efeitos como luz piscando, relâmpago, chuva e TV chiando, e o FFmpeg coloca legendas palavra por palavra, com a palavra falada destacada numa caixa roxa, além de um som ambiente sombrio.
+4. **Montagem**: cada ilustração ganha movimento de câmera, poeira no ar, efeitos de luz e uma leve aproximação nas palavras fortes. Os cortes são secos, como nos canais de terror, e a legenda vai se formando no terço de baixo da tela com a palavra falada numa caixa roxa (fonte Poppins).
 5. **Entrega**: o vídeo chega no seu Telegram junto com a legenda pronta para colar no post.
+
+O modo antigo, com cenários e personagens recortados e animados por código (100% grátis), continua disponível: em `config/serie.json`, troque `"modo_visual": "ilustrado"` por `"biblioteca"`.
+
+### Custos do modo ilustrado
+- A API de imagens do Gemini não tem plano gratuito: cada ilustração custa cerca de US$ 0,045, então um vídeo de 40 planos custa uns **US$ 2**. O limite por vídeo é `imagens.max_por_video` (48) em `config/serie.json`.
+- Para ativar: no Google AI Studio (aistudio.google.com), abra **Settings > Billing** (ou "Set up billing") no projeto da sua chave `GEMINI_API_KEY` e cadastre um cartão. Defina um alerta de orçamento no Google Cloud para não ter surpresa.
+- Com a cobrança ativa, o roteiro (texto) também passa a ser cobrado, mas custa centavos por vídeo.
+- **O vídeo diário automático fica desligado** (`"video_diario_automatico": false`), para você só pagar pelos vídeos que pedir no Telegram. Se quiser ligar, mude para `true` (uns US$ 60 por mês).
+- Se a cobrança não estiver ativa ou a geração falhar, o vídeo sai com os cenários prontos de `assets/cenarios` e você recebe um aviso no Telegram.
+
+### Protagonista
+A folha do personagem fica em `assets/personagem/v3/homem.png` e `assets/personagem/v3/mulher.png` (uma imagem com o personagem de frente, de lado, de costas e em algumas expressões). Ela é enviada como referência em cada ilustração. Sem a folha, o sistema usa a descrição de `protagonistas.visual` e o primeiro quadro em que o personagem aparece vira a referência dos seguintes.
 
 **Dois modos de produção:**
 - **Agente diretor (Claude), o de melhor qualidade.** Ele usa a sua assinatura do Claude Pro. O Claude escreve e revisa o roteiro, faz a direção de cada cena (lugar, ação do personagem, ameaça, efeito, câmera), confere uma prévia de todas as cenas, ajusta o que não ficou bom e confere o vídeo final antes de enviar. Veja como ativar na seção "Ativar o agente Claude".
 - **Modo reserva (Gemini), 100% grátis.** Funciona sem o Claude e entra sozinho quando o agente não está configurado, dá erro ou o limite do Pro acaba. Nesse modo, ninguém revisa a direção das cenas.
 
 O sistema roda de três formas:
-- **Todo dia às 18:17**, de forma automática.
+- **Todo dia às 18:17**, de forma automática, só se `video_diario_automatico` estiver `true`.
 - **Quando você manda `/novo`** no Telegram.
 - **Pelo botão "Run workflow"** no GitHub.
 
@@ -137,7 +149,7 @@ Tudo fica em `config/serie.json`, que você pode editar direto no site do GitHub
 - **`tema_padrao`**: o assunto das histórias.
 - **`protagonista_modo`**: `alternar` (um vídeo com cada protagonista), `homem` ou `mulher`.
 - **`legenda`**: `estilo` `karaoke` (palavra destacada) ou `simples`, a cor do destaque e se mostra o título no começo.
-- **`voz`**: `pt-BR-AntonioNeural` (masculina) ou `pt-BR-FranciscaNeural` (feminina); `velocidade` e `tom` deixam a voz mais lenta e grave; `efeito` `narrador_sombrio` aplica o tratamento de cinema (voz mais grave e encorpada, eco curto de sala) ou `nenhum` para a voz pura.
+- **`voz`**: padrão `pt-BR-MacerioMultilingualNeural` (reserva `pt-BR-AntonioNeural`), a -7% de velocidade e -4Hz de tom. `efeito`: `narrador_serio` (padrão: grave, quente e calmo, sem chiado nos "s" e com um toque leve de ambiente), `narrador_limpo` (mais claro e próximo), `narrador_sombrio` (mais grave, com eco de sala) ou `nenhum` (voz pura).
 - **`numero_de_cenas`** e **`duracao_alvo_segundos`**: o tamanho do vídeo.
 - **Horário diário**: no arquivo `.github/workflows/gerar-video.yml`, linha `cron: "17 21 * * *"`. O horário está em UTC, que é Brasília + 3 horas. Apague as duas linhas do `schedule` para desligar.
 - **Música**: coloque `.mp3` livres de direitos em `assets/musica/`. Sem nenhuma música lá, o sistema gera um som ambiente sozinho.

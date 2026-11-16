@@ -3,6 +3,8 @@
 Todas trabalham na pasta trabalho/. Exemplos:
     python -m src.ferramentas contexto        # configuração da série, protagonista da vez e histórico
     python -m src.ferramentas validar         # confere e corrige trabalho/roteiro.json
+    python -m src.ferramentas imagens         # gera a ilustração de cada plano (pago; reaproveita as já feitas)
+    python -m src.ferramentas imagens --refazer 3 7   # gera de novo só os planos 3 e 7
     python -m src.ferramentas previa          # um quadro de cada cena em trabalho/previa.jpg (instantâneo)
     python -m src.ferramentas previa 4        # 3 momentos da cena 4 em trabalho/previa_cena.jpg
     python -m src.ferramentas narracao        # gera a narração de todas as cenas
@@ -65,7 +67,14 @@ def contexto(_):
         print("\n=== TIPO DE VÍDEO: história nova (termina com dilema A/B) ===")
     else:
         print(bloco_para_roteiro(info))
-    print("\n=== VALORES ACEITOS NAS CENAS ===\n" + _catalogo())
+    from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado
+    if modo_ilustrado(cfg):
+        print(f"\nVisual do protagonista (para as descrições das imagens): {prot.get('visual', '')}")
+        print(f"\n=== {REGRAS_HISTORIA}\n\n=== {GUIA_PLANOS}\n\n=== EXEMPLO DE roteiro.json ===\n{EXEMPLO_JSON}")
+        print(f"\nPlanos: cerca de {cfg.get('numero_de_planos', 40)} | duração alvo: {cfg['duracao_alvo_segundos']}s "
+              f"(~{int(cfg['duracao_alvo_segundos'] * PALAVRAS_POR_SEGUNDO)} palavras)")
+    else:
+        print("\n=== VALORES ACEITOS NAS CENAS ===\n" + _catalogo())
     hist = carregar_historico()[-40:]
     print("\n=== HISTÓRIAS JÁ PUBLICADAS (não repetir) ===")
     print("\n".join(f"- {h['titulo']} ({h['tema'][:60]})" for h in hist) or "(nenhuma ainda)")
@@ -80,10 +89,17 @@ def validar(_):
     info = _info_serie()
     if not r.get("titulo") or not r.get("cenas"):
         sys.exit("ROTEIRO INVÁLIDO: faltou título ou cenas")
+    from .planos import modo_ilustrado, normalizar_plano
+    ilustrado = modo_ilustrado(cfg)
     for i, c in enumerate(r["cenas"]):
         if not c.get("narracao"):
             sys.exit(f"ROTEIRO INVÁLIDO: a cena {i} não tem narração")
-        normalizar(c)
+        if ilustrado:
+            if not c.get("imagem"):
+                sys.exit(f"ROTEIRO INVÁLIDO: o plano {i} não tem o campo \"imagem\" (descrição em inglês)")
+            normalizar_plano(c)
+        else:
+            normalizar(c)
     if r.get("protagonista") not in ("homem", "mulher"):
         r["protagonista"] = escolher_protagonista(cfg, carregar_historico())
     ajustar_roteiro(r, info)
@@ -91,7 +107,19 @@ def validar(_):
     palavras = sum(len(c["narracao"].split()) for c in r["cenas"])
     seg = palavras / PALAVRAS_POR_SEGUNDO
     avisos = []
-    if len(r["cenas"]) != cfg["numero_de_cenas"]:
+    if ilustrado:
+        alvo_n = cfg.get("numero_de_planos", 40)
+        if not alvo_n - 8 <= len(r["cenas"]) <= alvo_n + 6:
+            avisos.append(f"tem {len(r['cenas'])} planos; o ideal é perto de {alvo_n}")
+        longos = [i for i, c in enumerate(r["cenas"]) if len(c["narracao"].split()) > 16]
+        if longos:
+            avisos.append(f"planos com frase longa demais (mais de 16 palavras), divida em dois: {longos}")
+        if not r.get("casa"):
+            avisos.append('preencha "casa": descrição em inglês da casa da história (usada em todas as imagens)')
+        com_ameaca = [i for i, c in enumerate(r["cenas"]) if c.get("ameaca")]
+        if com_ameaca and com_ameaca[0] < len(r["cenas"]) * 0.5:
+            avisos.append(f"a ameaça aparece cedo (plano {com_ameaca[0]}); guarde para o último terço")
+    elif len(r["cenas"]) != cfg["numero_de_cenas"]:
         avisos.append(f"tem {len(r['cenas'])} cenas; a série pede {cfg['numero_de_cenas']}")
     alvo = cfg["duracao_alvo_segundos"]
     if not 0.75 * alvo <= seg <= 1.25 * alvo:
@@ -105,10 +133,10 @@ def validar(_):
         avisos.append("esta é a parte FINAL: a última cena deve encerrar a história, sem dilema")
     if not r.get("resumo"):
         avisos.append('preencha "resumo" (a história inteira até aqui em até 4 frases)')
-    usados = [c["cenario"] for c in r["cenas"]]
+    usados = [c.get("lugar") or c.get("cenario") for c in r["cenas"]]
     print(f"Tipo: {'parte FINAL' if r.get('final') else 'parte ' + str(r.get('parte', 1))} da série \"{r.get('serie')}\"")
     print(f"OK: \"{r['titulo']}\" | protagonista: {r['protagonista']} | {len(r['cenas'])} cenas | {palavras} palavras | ~{seg:.0f}s")
-    print(f"Cenários usados: {', '.join(usados)}")
+    print(f"Lugares/cenários usados: {', '.join(dict.fromkeys(usados))}")
     print(f"Cenas com ameaça: {sum(1 for c in r['cenas'] if c.get('ameaca'))}")
     print("(valores inválidos foram trocados por padrões; confira no roteiro.json)")
     print("\n".join(f"AVISO: {a}" for a in avisos) or "Sem avisos.")
@@ -121,10 +149,30 @@ def _rotulo(img: Image.Image, texto: str) -> Image.Image:
     return img
 
 
+def _previa_ilustrada(r):
+    if not all(c.get("_img") for c in r["cenas"]):
+        sys.exit("As ilustrações ainda não existem. Rode: python -m src.ferramentas imagens")
+    imgs = []
+    for i, c in enumerate(r["cenas"]):
+        im = Image.open(c["_img"]).convert("RGB")
+        im = im.resize((216, int(im.height * 216 / im.width)))
+        im = im.crop((0, 0, 216, 384))
+        imgs.append(_rotulo(im, str(i)))
+    cols = 8
+    linhas = -(-len(imgs) // cols)
+    folha = Image.new("RGB", (216 * cols, 384 * linhas))
+    for i, im in enumerate(imgs):
+        folha.paste(im, ((i % cols) * 216, (i // cols) * 384))
+    folha.save(TRAB / "previa.jpg", quality=82)
+    print("Prévia salva em trabalho/previa.jpg (o número de cada imagem é o índice do plano)")
+
+
 def previa(a):
     """Quadros de prévia, sem narração (o agente avalia a composição antes de montar)."""
     from .animacao import quadro
     r = _roteiro()
+    if r["cenas"] and (r["cenas"][0].get("imagem") or r["cenas"][0].get("_img")) and a.cena is None:
+        return _previa_ilustrada(r)
     prot = r.get("protagonista", "homem")
     if a.cena is not None:
         cena = r["cenas"][a.cena]
@@ -143,6 +191,19 @@ def previa(a):
         folha.paste(im, ((i % cols) * w, (i // cols) * h))
     folha.save(destino, quality=85)
     print(f"Prévia salva em trabalho/{destino.name}")
+
+
+def imagens(a):
+    from .ilustrador import gerar_ilustracoes
+    r, cfg = _roteiro(), carregar_config()
+    gerar_ilustracoes(r, cfg, TRAB / "imagens", refazer=a.refazer)
+    ROTEIRO.write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
+    info = r.get("_ilustracoes", {})
+    reservas = [i for i, c in enumerate(r["cenas"]) if c.get("_reserva")]
+    print(f"Ilustrações prontas: {info.get('geradas', 0)} geradas neste vídeo (~US$ {info.get('custo_usd', 0)})")
+    if reservas:
+        print(f"AVISO: os planos {reservas} usaram imagem reserva (a geração falhou). {info.get('aviso', '')}")
+    print("Veja com: python -m src.ferramentas previa")
 
 
 def narracao(_):
@@ -184,8 +245,10 @@ def enviar(a):
     (TRAB / "legenda_do_post.txt").write_text(legenda, encoding="utf-8")
     telegram.enviar_video(FINAL, legenda)
     telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
-    if a.nota:
-        telegram.enviar_mensagem(f"Nota do diretor (Claude):\n{a.nota}")
+    custo = r.get("_ilustracoes", {})
+    if a.nota or custo:
+        extra = f"\nIlustrações geradas: {custo.get('geradas', 0)} (~US$ {custo.get('custo_usd', 0)})" if custo else ""
+        telegram.enviar_mensagem(f"Nota do diretor (Claude):\n{a.nota}{extra}")
     from .serie import campos_historico, mensagem_proximo_passo
     telegram.enviar_mensagem(mensagem_proximo_passo(r))
     salvar_no_historico(r["titulo"], r.get("tema", ""), r.get("protagonista", ""), campos_historico(r))
@@ -201,6 +264,9 @@ def main():
     s = sub.add_parser("previa")
     s.add_argument("cena", type=int, nargs="?", default=None)
     s.set_defaults(f=previa)
+    s = sub.add_parser("imagens")
+    s.add_argument("--refazer", type=int, nargs="*", default=[])
+    s.set_defaults(f=imagens)
     sub.add_parser("narracao").set_defaults(f=narracao)
     sub.add_parser("montar").set_defaults(f=montar)
     sub.add_parser("quadros").set_defaults(f=quadros)

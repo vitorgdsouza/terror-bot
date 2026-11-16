@@ -1,0 +1,4 @@
+Coloque aqui a folha de cada protagonista, gerada no app do Gemini:
+  homem.png  e  mulher.png
+Elas são enviadas como referência em cada ilustração para o personagem não mudar de cara.
+Folhas de ameaças (opcional): ameacas/vulto.png, ameacas/abismo.png, ameacas/invasor.png
