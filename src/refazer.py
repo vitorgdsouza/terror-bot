@@ -39,7 +39,8 @@ def main():
     vozes = gerar_narracao(r, cfg, TRAB / "audio")
     final = montar_video(r, vozes, cfg, TRAB / "video")
     legenda = next((p.read_text(encoding="utf-8") for p in (RAIZ / "baixado").rglob("legenda_do_post.txt")), r["titulo"])
-    telegram.enviar_video(final, f"{r['titulo']} (versão ajustada)")
+    import time
+    telegram.enviar_video(final, f"{r['titulo']} (versão ajustada {time.strftime('%H:%M', time.localtime(time.time() - 3 * 3600))})")
     telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
 
 

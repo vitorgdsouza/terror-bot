@@ -204,6 +204,15 @@ def desenhar(quadro: Image.Image, obj: dict, meta: dict, t: float, dur: float, n
     img, brilho = DESENHOS[tipo](u, t, obj.get("texto", "")) if tipo in COM_TEXTO else DESENHOS[tipo](u, t)
     img = noite(img, 0.35 if tam != "perto" else 0.28)
     ox, oy = int(cx - img.width * 0.45), int(cy - img.height * 0.55)
+    # sombra de contato: o objeto fica apoiado na superfície (não "voando")
+    bb = img.getbbox()
+    if bb:
+        sl, sa = int((bb[2] - bb[0]) * 1.05), max(6, int((bb[3] - bb[1]) * 0.35))
+        sombra = Image.new("RGBA", (sl + 40, sa + 40), (0, 0, 0, 0))
+        ImageDraw.Draw(sombra).ellipse((20, 20, 20 + sl, 20 + sa), fill=(0, 0, 8, 150))
+        sombra = sombra.filter(ImageFilter.GaussianBlur(max(3, sa // 4)))
+        quadro.alpha_composite(sombra, (int(ox + (bb[0] + bb[2]) / 2 - sombra.width / 2),
+                                        int(oy + bb[3] - sa * 0.55 - 20)))
     quadro.alpha_composite(img, (ox, oy))
     # brilho que chama a atenção para a pista (pisca devagar)
     pulso = 0.5 + 0.5 * math.sin(t * 2.4)
