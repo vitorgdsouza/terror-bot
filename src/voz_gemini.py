@@ -71,6 +71,109 @@ def sintetizar(texto: str, destino: Path, voz: str = "Enceladus", estilo: str = 
     raise RuntimeError("Gemini TTS falhou:\n" + "\n".join(erros[-6:]))
 
 
+# ---------------------------------------------------------------- narração do episódio inteiro
+def _norm(p: str) -> str:
+    import unicodedata
+    p = unicodedata.normalize("NFD", p.lower())
+    return "".join(c for c in p if c.isalnum())
+
+
+def _tempos_whisper(wav: Path) -> list[dict]:
+    """Palavras reconhecidas com início/fim (faster-whisper, CPU). Vazio se não estiver instalado."""
+    try:
+        from faster_whisper import WhisperModel
+    except ImportError:
+        log("faster-whisper não instalado: tempos das palavras serão estimados")
+        return []
+    modelo = WhisperModel("small", device="cpu", compute_type="int8")
+    segs, _ = modelo.transcribe(str(wav), language="pt", word_timestamps=True, beam_size=1, vad_filter=False)
+    return [{"t": w.word.strip(), "i": w.start, "f": w.end} for s in segs for w in (s.words or []) if w.word.strip()]
+
+
+def alinhar(palavras: list[str], reconhecidas: list[dict], total: float) -> list[tuple[float, float]]:
+    """Dá início/fim a cada palavra do roteiro, casando com o que o Whisper ouviu; o resto é interpolado."""
+    import difflib
+    n = len(palavras)
+    tempos: list[tuple[float, float] | None] = [None] * n
+    if reconhecidas:
+        a = [_norm(p) for p in palavras]
+        b = [_norm(r["t"]) for r in reconhecidas]
+        for bloco in difflib.SequenceMatcher(None, a, b, autojunk=False).get_matching_blocks():
+            for k in range(bloco.size):
+                r = reconhecidas[bloco.b + k]
+                tempos[bloco.a + k] = (r["i"], max(r["f"], r["i"] + 0.05))
+    # interpola os buracos proporcionalmente ao tamanho das palavras
+    i = 0
+    while i < n:
+        if tempos[i] is not None:
+            i += 1
+            continue
+        j = i
+        while j < n and tempos[j] is None:
+            j += 1
+        ini = tempos[i - 1][1] if i > 0 else 0.0
+        fim = tempos[j][0] if j < n else total
+        pesos = [len(palavras[k]) + 2 for k in range(i, j)]
+        t, soma = ini, sum(pesos)
+        for k, w in zip(range(i, j), pesos):
+            d = max(fim - ini, 0.0) * w / soma
+            tempos[k] = (t, t + min(d, 0.09 * w + 0.1))  # não estica a palavra por cima de uma pausa
+            t += d
+        i = j
+    return tempos  # type: ignore[return-value]
+
+
+def escolher_estilo(roteiro: dict, cfg_voz: dict) -> str:
+    estilos = cfg_voz.get("estilos") or ["calma", "suspense"]
+    clima = str(roteiro.get("clima", "")).strip().lower()
+    return clima if clima in estilos else cfg_voz.get("estilo_padrao", estilos[-1])
+
+
+def narrar_roteiro(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
+    """Narra o episódio num pedido só (economiza a cota grátis), alinha as palavras e corta por cena."""
+    from .voz import _tratar
+    from .util import duracao
+    cfg_voz = cfg["voz"]
+    voz = cfg_voz.get("gemini_voz", "Enceladus")
+    estilo = escolher_estilo(roteiro, cfg_voz)
+    roteiro["_voz"] = f"{voz} ({estilo})"
+    pasta.mkdir(parents=True, exist_ok=True)
+    cenas = [c["narracao"].strip() for c in roteiro["cenas"]]
+    completo = pasta / "narracao_completa.wav"
+    log(f"Narração com a voz {voz}, estilo {estilo} (clima do episódio)")
+    sintetizar("\n\n".join(cenas), completo, voz, estilo)
+    total = duracao(completo)
+
+    palavras, dono = [], []
+    for i, texto in enumerate(cenas):
+        for p in texto.split():
+            palavras.append(p)
+            dono.append(i)
+    tempos = alinhar(palavras, _tempos_whisper(completo), total)
+    achadas = sum(1 for _ in tempos)
+    log(f"Alinhamento: {achadas} palavras, áudio de {total:.1f}s")
+
+    # corte entre cenas: no meio do silêncio entre a última palavra de uma e a primeira da próxima
+    primeiras = [dono.index(i) for i in range(len(cenas))]
+    cortes = [0.0]
+    for i in range(1, len(cenas)):
+        fim_ant, ini_prox = tempos[primeiras[i] - 1][1], tempos[primeiras[i]][0]
+        cortes.append(max(cortes[-1] + 0.2, (fim_ant + ini_prox) / 2))
+    cortes.append(total)
+
+    resultado = []
+    for i in range(len(cenas)):
+        destino = pasta / f"voz_{i:02d}.mp3"
+        ini, fim = cortes[i], cortes[i + 1]
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(completo), "-ss", f"{ini:.3f}", "-to", f"{fim:.3f}",
+                        "-ac", "1", "-b:a", "160k", str(destino)], check=True)
+        _tratar(destino, cfg_voz.get("gemini_efeito", "normalizar"))
+        pals = [{"texto": palavras[k], "inicio": max(tempos[k][0] - ini, 0.0), "fim": max(tempos[k][1] - ini, 0.01)}
+                for k in range(len(palavras)) if dono[k] == i]
+        resultado.append({"arquivo": destino, "duracao": duracao(destino), "palavras": pals})
+    return resultado
+
+
 def _teste(voz: str) -> None:
     from . import telegram
     from .voz_clone import AMOSTRA
@@ -97,7 +200,25 @@ def _teste(voz: str) -> None:
         telegram.enviar_mensagem("Pronto! Ouça e diga qual estilo prefere: 1 calma, 2 suspense, 3 dramática.")
 
 
+def _teste_narracao(voz: str) -> None:
+    """Narra um mini-roteiro de 3 cenas e mostra os tempos (confere o alinhamento das legendas)."""
+    from . import telegram
+    from .voz_clone import AMOSTRA
+    import json as _json
+    frases = AMOSTRA.split(". ")
+    roteiro = {"clima": "suspense", "cenas": [{"narracao": ". ".join(frases[:3]) + "."},
+                                              {"narracao": ". ".join(frases[3:5]) + "."},
+                                              {"narracao": ". ".join(frases[5:])}]}
+    cfg = {"voz": {"gemini_voz": voz, "estilos": ["calma", "suspense"]}}
+    res = narrar_roteiro(roteiro, cfg, Path("trabalho/teste_narracao"))
+    for i, r in enumerate(res):
+        print(f"cena {i}: {r['duracao']:.2f}s", _json.dumps(r["palavras"][:4] + r["palavras"][-2:], ensure_ascii=False))
+        telegram.enviar_audio(r["arquivo"], f"Teste de corte: cena {i + 1} ({r['duracao']:.1f}s)")
+
+
 if __name__ == "__main__":
-    if "--teste" in sys.argv:
+    if "--narracao" in sys.argv:
+        _teste_narracao(sys.argv[sys.argv.index("--voz") + 1] if "--voz" in sys.argv else "Enceladus")
+    elif "--teste" in sys.argv:
         voz = sys.argv[sys.argv.index("--voz") + 1] if "--voz" in sys.argv else "Enceladus"
         _teste(voz)

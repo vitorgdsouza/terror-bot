@@ -22,6 +22,8 @@ EFEITOS_VOZ = {
                        "equalizer=f=2700:t=q:w=1.5:g=1.5,deesser=i=0.4:m=0.5:f=0.5,lowpass=f=11500,"
                        "acompressor=threshold=-20dB:ratio=2.5:attack=8:release=220:makeup=1.5,"
                        "aecho=0.85:0.4:28:0.06,loudnorm=I=-16:TP=-1.5:LRA=8,aresample=44100"),
+    # "normalizar": só limpa e iguala o volume (para vozes que já vêm boas, como as do Gemini)
+    "normalizar": "aresample=44100,highpass=f=60,loudnorm=I=-16:TP=-1.5:LRA=9,aresample=44100",
     "nenhum": "",
 }
 
@@ -70,6 +72,13 @@ def _tempos_aproximados(texto: str, total: float) -> list[dict]:
 def gerar_narracao(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
     """Gera um áudio por cena. Devolve [{arquivo, duracao, palavras}] para cada cena."""
     pasta.mkdir(parents=True, exist_ok=True)
+    if cfg["voz"].get("motor") == "gemini":
+        try:
+            from .voz_gemini import narrar_roteiro
+            return narrar_roteiro(roteiro, cfg, pasta)
+        except Exception as e:  # cota acabou ou Gemini fora do ar: o vídeo sai com a voz reserva do Edge
+            log(f"AVISO: voz do Gemini falhou ({e}). Usando a voz reserva {cfg['voz']['nome']}.")
+            roteiro["_voz"] = f"reserva {cfg['voz']['nome']} (Gemini falhou)"
     resultado = []
     for i, cena in enumerate(roteiro["cenas"]):
         destino = pasta / f"voz_{i:02d}.mp3"

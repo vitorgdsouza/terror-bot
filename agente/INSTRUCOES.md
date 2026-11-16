@@ -56,9 +56,12 @@ Direção das cenas (como num desenho animado):
 - Efeitos com moderação: luz_piscando e relampago marcam sustos; tv_chiando só na sala e no quarto (monitor).
   pia_detalhe e debaixo_cama são closes: use com personagem "perto" ou sem personagem.
 
+- Voz do narrador: preencha "clima": "calma" ou "suspense" (escolhe o tom do narrador: "calma" para mistério lento, solidão, algo estranho e melancólico; "suspense" para perseguição, invasão, algo te observando, ameaça crescendo).
+
 ```json
 {
   "titulo": "título curto e chamativo",
+  "clima": "suspense",
   "tema": "o tema usado",
   "protagonista": "mulher",
   "cenas": [

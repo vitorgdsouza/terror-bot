@@ -21,6 +21,14 @@
     }
   },
   "voz": {
+    "motor": "gemini",
+    "gemini_voz": "Enceladus",
+    "estilos": [
+      "calma",
+      "suspense"
+    ],
+    "estilo_padrao": "suspense",
+    "gemini_efeito": "normalizar",
     "nome": "pt-BR-MacerioMultilingualNeural",
     "reservas": [
       "pt-BR-AntonioNeural"

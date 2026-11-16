@@ -155,6 +155,7 @@ Como cada cena vira animação:
 Responda SOMENTE com JSON válido neste formato:
 {{
   "titulo": "título curto e chamativo",
+  "clima": "suspense",
   "cenas": [
     {{
       "narracao": "texto narrado desta cena",

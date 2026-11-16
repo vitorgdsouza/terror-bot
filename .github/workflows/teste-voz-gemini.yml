@@ -6,6 +6,9 @@ on:
       voz:
         description: "Nome da voz do Gemini"
         default: "Enceladus"
+      modo:
+        description: "teste = 3 estilos; narracao = corte por cena + legendas"
+        default: "teste"
 
 jobs:
   teste:
@@ -30,4 +33,4 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python -m src.voz_gemini --teste --voz "${{ inputs.voz }}"
+        run: python -m src.voz_gemini --${{ inputs.modo }} --voz "${{ inputs.voz }}"

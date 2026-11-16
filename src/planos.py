@@ -21,7 +21,8 @@ REGRAS_HISTORIA = """COMO É UMA BOA HISTÓRIA DO CANAL (siga à risca):
   "o silêncio era ensurdecedor", "seu coração dispara"); mostre fatos concretos que assustam sozinhos.
 - Final: uma situação-limite e duas escolhas arriscadas e plausíveis: "Opção A: ...", "Opção B: ...",
   terminando com "Comente A ou B." (pode acrescentar "A decisão mais votada decide a próxima parte.").
-- Sem gore, sangue ou violência explícita. Números por extenso, sem siglas nem parênteses."""
+- Sem gore, sangue ou violência explícita. Números por extenso, sem siglas nem parênteses.
+- "clima": "calma" para mistério lento, solidão, algo estranho e melancólico; "suspense" para perseguição, invasão, algo te observando, ameaça crescendo. Define o tom do narrador."""
 
 GUIA_PLANOS = """COMO A HISTÓRIA VIRA VÍDEO (formato de planos ilustrados):
 - Cada plano = UMA frase narrada curta (de 4 a 14 palavras) + UMA ilustração que mostra exatamente o que essa frase diz.
@@ -43,6 +44,7 @@ GUIA_PLANOS = """COMO A HISTÓRIA VIRA VÍDEO (formato de planos ilustrados):
 
 EXEMPLO_JSON = """{
   "titulo": "título curto e chamativo",
+  "clima": "suspense",
   "protagonista": "homem",
   "casa": "small two-story Brazilian suburban house: beige walls, wooden stairs in the living room, grey sofa, dark wood kitchen cabinets",
   "cenas": [
