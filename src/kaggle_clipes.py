@@ -93,10 +93,30 @@ def rodar_kernel(espera_max_min: int = 300, so_esperar: bool = False, SCRIPT: Pa
             log("Kaggle terminou.")
             return
         if st in ("error", "cancelacknowledged", "cancelrequested"):
-            raise RuntimeError(f"O notebook do Kaggle falhou (estado: {st}). Veja o log em kaggle.com/code.")
+            raise RuntimeError(f"O notebook do Kaggle falhou (estado: {st}).\n{_fim_do_log(usuario, KERNEL)}")
         log(f"Kaggle: {st} ({(time.time() - inicio) / 60:.0f} min)")
         time.sleep(60)
     raise RuntimeError(f"O Kaggle passou de {espera_max_min} minutos.")
+
+
+def _fim_do_log(usuario: str, KERNEL: str) -> str:
+    """Baixa o log do notebook e devolve as últimas linhas (para saber por que falhou)."""
+    pasta = RAIZ / "trabalho" / f"log_{KERNEL}"
+    shutil.rmtree(pasta, ignore_errors=True)
+    pasta.mkdir(parents=True)
+    _kaggle("kernels", "output", f"{usuario}/{KERNEL}", "-p", str(pasta), checar=False)
+    textos = []
+    for arq in pasta.rglob("*.log"):
+        try:
+            linhas = json.loads(arq.read_text(errors="ignore"))
+            textos.append("".join(l.get("data", "") for l in linhas))
+        except ValueError:
+            textos.append(arq.read_text(errors="ignore"))
+    for arq in pasta.rglob("relatorio.json"):
+        textos.append(arq.read_text(errors="ignore"))
+    texto = "\n".join(textos).strip()
+    print(texto[-6000:])
+    return texto[-1500:] or "(o Kaggle não devolveu log)"
 
 
 def baixar(destino: Path, KERNEL: str = KERNEL) -> dict:
