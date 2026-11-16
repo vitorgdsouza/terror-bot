@@ -77,7 +77,11 @@
    0.56,
    0.7
   ],
-  "horizonte": 0.45
+  "horizonte": 0.45,
+  "objeto_perto": [
+   0.3,
+   0.655
+  ]
  },
  "debaixo_cama": {
   "piso": 0.9736,
@@ -314,7 +318,11 @@
    0.56,
    0.71
   ],
-  "horizonte": 0.45
+  "horizonte": 0.45,
+  "objeto_perto": [
+   0.36,
+   0.655
+  ]
  },
  "planta_andar": {
   "piso": 0.95,

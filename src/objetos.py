@@ -193,6 +193,11 @@ def desenhar(quadro: Image.Image, obj: dict, meta: dict, t: float, dur: float, n
     if tam == "perto":
         u = cw * 0.55 * ESCALA.get(tipo, 1.0)
         cx, cy = cw * 0.5, ch * 0.74
+        if meta.get("objeto_perto"):                   # lugar certo do cenário (ex.: na cama, perto do travesseiro)
+            px, py = meta["objeto_perto"]
+            hz = meta.get("horizonte", 0.45)
+            u *= max(0.5, (py - hz) / (0.74 - hz))      # mais ao fundo = menor
+            cx, cy = cw * px, ch * py
         # luz da lanterna em cima do objeto
         luz = Image.new("L", quadro.size, 0)
         ImageDraw.Draw(luz).ellipse((cx - cw * 0.42, cy - ch * 0.16, cx + cw * 0.42, cy + ch * 0.16), fill=110)
