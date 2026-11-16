@@ -29,8 +29,11 @@ def recortar(caixa):
         azul = nd.mean(sub[:, :, 2] - sub[:, :, 0], lb, range(1, kb + 1))
         m |= np.isin(lb, [i + 1 for i, (t, z) in enumerate(zip(tam, azul)) if t < 150 or z < 11])
     m = nd.binary_opening(m, iterations=1)
-    img = F.crop(caixa).convert("RGBA")
-    img.putalpha(Image.fromarray((m * 255).astype("uint8")).filter(ImageFilter.GaussianBlur(0.7)))
+    borda = m & ~nd.binary_erosion(m, iterations=3)   # contorno: pinta de preto para não sobrar o cinza do fundo
+    arr = np.asarray(F.crop(caixa)).copy()
+    arr[borda] = (arr[borda] * 0.15).astype("uint8")
+    img = Image.fromarray(arr).convert("RGBA")
+    img.putalpha(Image.fromarray((nd.binary_erosion(m, iterations=1) * 255).astype("uint8")).filter(ImageFilter.GaussianBlur(0.7)))
     return img.crop(img.getbbox())
 
 

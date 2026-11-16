@@ -35,8 +35,11 @@ def recortar(folha, caixa):
     lab, n = nd.label(m)
     m = lab == (1 + int(np.argmax(nd.sum(m, lab, range(1, n + 1)))))   # só a figura maior (tira textos)
     m = nd.binary_opening(nd.binary_fill_holes(m), iterations=1)
-    alfa = Image.fromarray((m * 255).astype("uint8")).filter(ImageFilter.GaussianBlur(0.8))
-    img = FOLHA.crop(caixa).convert("RGBA")
+    borda = m & ~nd.binary_erosion(m, iterations=2)   # contorno escuro: não sobra o azul do fundo da folha
+    arr = np.asarray(FOLHA.crop(caixa)).copy()
+    arr[borda] = (arr[borda] * 0.3).astype("uint8")
+    alfa = Image.fromarray((nd.binary_erosion(m, iterations=1) * 255).astype("uint8")).filter(ImageFilter.GaussianBlur(0.8))
+    img = Image.fromarray(arr).convert("RGBA")
     img.putalpha(alfa)
     return img.crop(img.getbbox())
 

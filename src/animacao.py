@@ -214,7 +214,7 @@ def _luz(larg: int, alt: int, cor, alfa: int, blur: int) -> Image.Image:
     return _cache[chave]
 
 
-def _desenhar_personagem(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.25, paralaxe=0.0, tenso=False):
+def _desenhar_personagem(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4, paralaxe=0.0, tenso=False):
     cw, ch = quadro.size
     acao, pose = p["acao"], p["pose"]
     prog = t / dur if dur else 0
@@ -359,6 +359,7 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
         salto = (int(t * 24) % 31) in (0, 1)
         dx = (9 if salto else 0) + math.sin(t * 1.3) * altura * 0.004
         img = _com_alfa(img, alfa * (0.75 if salto else 1.0))
+        _aura(quadro, cw * x + dx, ch * 0.46, img.width * 1.9, img.height * 1.5, alfa)
         quadro.alpha_composite(img, (int(cw * x - img.width / 2 + dx), int(ch * 0.46 - img.height / 2)))
         return
     if a["acao"] == "aproximando":
@@ -382,10 +383,14 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
     img = _com_alfa(img, alfa)
     cx = int(cw * x + paralaxe * cw * 0.4)
     pes = int(ch * piso + bob)
-    if tam != "perto":
-        sb = _sombra_chao(int(img.width * 0.4))
-        quadro.alpha_composite(_com_alfa(sb, alfa), (cx - sb.width // 2, int(ch * piso) - sb.height // 2))
-    quadro.alpha_composite(img, (cx - img.width // 2, pes - int(img.height * PES_NO_DESENHO)))
+    topo = pes - int(img.height * PES_NO_DESENHO)
+    bb = img.getbbox() or (0, 0, img.width, img.height)
+    corpo_h = bb[3] - bb[1]
+    pulso_aura = 0.85 + 0.15 * math.sin(t * 1.1)
+    _aura(quadro, cx, topo + (bb[1] + bb[3]) / 2, (bb[2] - bb[0]) * 2.4, corpo_h * 1.5, alfa * pulso_aura)
+    sb = _sombra_chao(int(img.width * 0.4))
+    quadro.alpha_composite(_com_alfa(sb, alfa), (cx - sb.width // 2, int(ch * piso) - sb.height // 2))
+    quadro.alpha_composite(img, (cx - img.width // 2, topo))
 
 
 # ---------------------------------------------------------------- efeitos
@@ -467,6 +472,41 @@ def _quadro_cftv(cena, t, dur, prot, n):
     ImageDraw.Draw(luz).ellipse((0, 0, sw * 2, sh), fill=(170, 220, 255, 45))
     fundo.alpha_composite(luz.filter(ImageFilter.GaussianBlur(40)), (sx - sw // 2, sy - sh // 3))
     return fundo
+
+
+ESCURIDAO = 0.30      # quanto os cenários escurecem (0 = original, 0.5 = bem escuro)
+
+
+def _cenario_escuro(nome: str) -> Image.Image:
+    """Cenário escurecido e puxado para o azul-noite; luzes fortes (abajur, poste, TV) quase não perdem brilho."""
+    chave = ("cen_escuro", nome)
+    if chave not in _cache:
+        import numpy as np
+        a = np.asarray(_img(PASTA_CEN / f"{nome}.png")).astype(float)
+        rgb = a[:, :, :3]
+        lum = rgb.mean(axis=2, keepdims=True) / 255
+        k = 1 - ESCURIDAO * (1 - lum ** 2)            # partes escuras escurecem mais que as luzes
+        rgb = rgb * k * np.array([0.92, 0.95, 1.04])
+        _cache[chave] = Image.fromarray(np.dstack([rgb.clip(0, 255), a[:, :, 3:]]).astype("uint8"))
+    return _cache[chave]
+
+
+def _aura(quadro, cx, cy, larg, alt, forca):
+    """Mancha de escuridão em volta de uma ameaça, como se ela engolisse a luz."""
+    if forca <= 0.01:
+        return
+    lq, aq = max(40, int(larg) // 40 * 40), max(40, int(alt) // 40 * 40)      # tamanhos arredondados: reaproveita
+    chave = ("aura", lq, aq)
+    if chave not in _cache:
+        pw, ph = lq // 4 + 40, aq // 4 + 40                                  # desenha pequeno e amplia (rápido)
+        m = Image.new("L", (pw, ph), 0)
+        ImageDraw.Draw(m).ellipse((20, 20, pw - 20, ph - 20), fill=215)
+        m = m.filter(ImageFilter.GaussianBlur(max(4, lq // 4 // 6))).resize((pw * 4, ph * 4), Image.BILINEAR)
+        im = Image.new("RGBA", m.size, (0, 0, 4, 0))
+        im.putalpha(m)
+        _cache[chave] = im
+    m = _com_alfa(_cache[chave], min(1.0, forca))
+    quadro.alpha_composite(m, (int(cx - m.width / 2), int(cy - m.height / 2)))
 
 
 # ---------------------------------------------------------------- ritmo da narração
@@ -559,7 +599,7 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
         meta = {}
     else:
         meta = META[cena["cenario"]]
-        img = _img(PASTA_CEN / f"{cena['cenario']}.png").copy()
+        img = _cenario_escuro(cena["cenario"]).copy()
         ef = cena["efeito"]
         if ef == "tv_chiando":      # TV e chuva ficam no cenário, atrás de quem estiver na frente
             _tv(img, meta, t, n)
@@ -619,7 +659,9 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
 
     # bordas escurecem conforme a história fica mais tensa e em cada palavra forte
     img = img.convert("RGB")
-    vin = 0.30 + 0.30 * tensao + 0.18 * acento + 0.04 * math.sin(t * 0.9)
+    vin = 0.42 + 0.30 * tensao + 0.15 * acento + 0.04 * math.sin(t * 0.9)
+    if cena.get("ameaca"):
+        vin += 0.08                                 # com perigo em cena, o quadro fecha mais
     img = Image.composite(Image.new("RGB", (W, H), (2, 3, 10)), img, _vinheta(vin))
 
     # transição: escurece no começo e no fim da cena
