@@ -41,11 +41,19 @@ if not (internet and gpu):
     salvar()
     sys.exit(0)
 
-# o Chatterbox exige versões específicas (o Kaggle vem com versões mais novas que quebram o modelo)
-r = subprocess.run([sys.executable, "-m", "pip", "install", "-q", "chatterbox-tts",
-                    "torch==2.6.0", "torchaudio==2.6.0", "transformers==4.46.3", "diffusers==0.29.0"],
-                   capture_output=True, text=True)
-log((r.stdout + r.stderr)[-1500:])
+# O pacote chatterbox-tts trava versões antigas (numpy<1.26 etc.) que não existem para o Python do Kaggle.
+# Então: instala o chatterbox sem dependências e, uma a uma, só o que ele usa (mantendo o PyTorch do Kaggle).
+def pip(*pacotes):
+    r = subprocess.run([sys.executable, "-m", "pip", "install", "-q", *pacotes], capture_output=True, text=True)
+    if r.returncode != 0:
+        relatorio.setdefault("pip_falhas", []).append(f"{' '.join(pacotes)}: {(r.stdout + r.stderr)[-300:]}")
+    return r.returncode == 0
+
+
+pip("--no-deps", "chatterbox-tts")
+for pacote in ("transformers==4.46.3", "diffusers==0.29.0", "resemble-perth", "conformer==0.3.2", "s3tokenizer",
+               "librosa", "safetensors", "pyloudnorm", "omegaconf", "pykakasi", "spacy-pkuseg"):
+    pip(pacote)
 v = subprocess.run([sys.executable, "-c", "import torch, transformers; print(torch.__version__, transformers.__version__)"],
                    capture_output=True, text=True)
 relatorio["versoes"] = (v.stdout + v.stderr).strip()[-300:]
