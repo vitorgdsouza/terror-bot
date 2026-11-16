@@ -62,6 +62,9 @@ Direção das cenas (como num desenho animado):
   Regras: narração dessa cena com até 12 palavras (o clipe tem ~4 s); personagem parado (sem andar/correr);
   descreva movimento pequeno e contínuo, câmera parada e luz constante. Ex.: "the boy breathes nervously and his eyes
   widen, his hands stay still, the tv glows softly, static camera, lighting stays the same".
+- Sons: o ambiente de cada cenário, chuva, trovão, TV, passos, porta e o Abismo já entram sozinhos.
+  Para um som específico da história, coloque na cena `"som": {"busca": "<som em inglês>", "palavra": "<palavra da narração>"}`
+  e ele toca quando o narrador falar a palavra. Ex.: {"busca": "drawer slam", "palavra": "gaveta"}. No máximo 4 por vídeo.
 - Voz do narrador: preencha "clima": "calma" ou "suspense" (escolhe o tom do narrador: "calma" para mistério lento, solidão, algo estranho e melancólico; "suspense" para perseguição, invasão, algo te observando, ameaça crescendo).
 
 ```json

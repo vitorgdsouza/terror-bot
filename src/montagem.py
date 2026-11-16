@@ -245,11 +245,26 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
     _escrever_legendas(roteiro, vozes, duracoes, cfg, pasta / "legendas.ass")
     extras, filtro_bg = _trilha(total, cfg)
     final = pasta / "video_final.mp4"
+    # sons ambientes e efeitos de cada cena (Freesound); abaixam sozinhos quando o narrador fala
+    sons = None
+    try:
+        from .sons import montar_trilha_sons
+        sons = montar_trilha_sons(roteiro, duracoes, pasta / "sons.wav")
+    except Exception as e:
+        log(f"Sons das cenas falharam ({e}); seguindo sem eles")
+    if sons:
+        idx = 1 + (1 if extras else 0)
+        extras = [*extras, "-i", sons.name]
+        mistura = (f"[0:a]asplit=2[voz][chave];[{idx}:a]aformat=channel_layouts=stereo[sfx];"
+                   "[sfx][chave]sidechaincompress=threshold=0.04:ratio=3:attack=30:release=400[sfxd];"
+                   "[voz][bg][sfxd]amix=inputs=3:duration=first:normalize=0[a]")
+    else:
+        mistura = "[0:a][bg]amix=inputs=2:duration=first:normalize=0[a]"
 
     def codificar(crf: int) -> None:
         rodar(["ffmpeg", "-y", "-i", "juntos.mp4", *extras,
                "-filter_complex",
-               f"[0:v]ass=legendas.ass:fontsdir={FONTES}[v];{filtro_bg};[0:a][bg]amix=inputs=2:duration=first:normalize=0[a]",
+               f"[0:v]ass=legendas.ass:fontsdir={FONTES}[v];{filtro_bg};{mistura}",
                "-map", "[v]", "-map", "[a]", "-t", f"{total:.3f}",
                "-c:v", "libx264", "-preset", "veryfast", "-crf", str(crf), "-pix_fmt", "yuv420p",
                "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", final.name],
