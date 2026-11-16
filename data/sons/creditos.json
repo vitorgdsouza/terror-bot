@@ -150,5 +150,37 @@
     "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
     "url": "https://freesound.org/people/Joao_Janz/sounds/504020/",
     "id": 504020
+  },
+  "small_bell_jingle.mp3": {
+    "busca": "small bell jingle",
+    "nome": "bell12.wav",
+    "autor": "creeeeak",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/creeeeak/sounds/531017/",
+    "id": 531017
+  },
+  "night_window_wind_outside.mp3": {
+    "busca": "night window wind outside",
+    "nome": "Heavy rain outside window",
+    "autor": "FrostCP",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/FrostCP/sounds/587000/",
+    "id": 587000
+  },
+  "scratching_wood_door.mp3": {
+    "busca": "scratching wood door",
+    "nome": "Wood Surface Scratching 1_1",
+    "autor": "Joao_Janz",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/Joao_Janz/sounds/485318/",
+    "id": 485318
+  },
+  "old_house_creaking_ambience.mp3": {
+    "busca": "old house creaking ambience",
+    "nome": "SFX Squeaky Door Opening and Closing",
+    "autor": "Moulaythami",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/Moulaythami/sounds/858958/",
+    "id": 858958
   }
 }

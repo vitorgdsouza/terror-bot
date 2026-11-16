@@ -1,0 +1,12 @@
+{
+  "data": "2026-11-16",
+  "titulo": "O Guizo na Escada",
+  "tema": "Mistério do sumiço do Stu",
+  "protagonista": "homem",
+  "serie": "O Guizo na Escada",
+  "parte": 1,
+  "resumo": "Sozinho em casa, você nota Stu sumido e segue pistas até a escada, onde o Abismo o encara e imita o miado do gato.",
+  "opcao_a": "subir para buscar o Stu",
+  "opcao_b": "fugir sem ele",
+  "final": false
+}
