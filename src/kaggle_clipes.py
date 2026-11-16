@@ -56,7 +56,15 @@ def enviar_dataset(pasta: Path) -> None:
     raise RuntimeError("O Kaggle não terminou de processar o dataset de entrada em 10 minutos.")
 
 
-def rodar_kernel(espera_max_min: int = 300) -> None:
+def _status_kernel(usuario: str) -> str:
+    """Só o estado do notebook (ex.: "running", "complete", "error"), sem o resto da frase."""
+    st = _kaggle("kernels", "status", f"{usuario}/{KERNEL}", checar=False)
+    if 'has status "' in st:
+        st = st.split('has status "', 1)[1].split('"', 1)[0]
+    return st.lower().replace("kernelworkerstatus.", "")
+
+
+def rodar_kernel(espera_max_min: int = 300, so_esperar: bool = False) -> None:
     usuario = _usuario()
     pasta = RAIZ / "trabalho" / "kaggle_kernel"
     shutil.rmtree(pasta, ignore_errors=True)
@@ -67,17 +75,18 @@ def rodar_kernel(espera_max_min: int = 300) -> None:
         "language": "python", "kernel_type": "script", "is_private": True,
         "enable_gpu": True, "enable_internet": True,
         "dataset_sources": [f"{usuario}/{DATASET}"], "competition_sources": [], "kernel_sources": []}))
-    log(_kaggle("kernels", "push", "-p", str(pasta)))
+    if not so_esperar:
+        log(_kaggle("kernels", "push", "-p", str(pasta)))
+        time.sleep(60)
     inicio = time.time()
-    time.sleep(60)
     while time.time() - inicio < espera_max_min * 60:
-        st = _kaggle("kernels", "status", f"{usuario}/{KERNEL}", checar=False).lower()
-        if "complete" in st:
+        st = _status_kernel(usuario)
+        if st == "complete":
             log("Kaggle terminou.")
             return
-        if "error" in st or "cancel" in st:
-            raise RuntimeError(f"O notebook do Kaggle falhou: {st[-300:]}")
-        log(f"Kaggle rodando... ({(time.time() - inicio) / 60:.0f} min)")
+        if st in ("error", "cancelacknowledged", "cancelrequested"):
+            raise RuntimeError(f"O notebook do Kaggle falhou (estado: {st}). Veja o log em kaggle.com/code.")
+        log(f"Kaggle: {st} ({(time.time() - inicio) / 60:.0f} min)")
         time.sleep(60)
     raise RuntimeError(f"O Kaggle passou de {espera_max_min} minutos.")
 
@@ -93,8 +102,11 @@ def baixar(destino: Path) -> dict:
     return relatorio
 
 
-def gerar_clipes(pedidos: list, imagens: dict, pasta: Path) -> dict:
+def gerar_clipes(pedidos: list, imagens: dict, pasta: Path, so_esperar: bool = False) -> dict:
     """pedidos: [{"id", "prompt", "segundos"}], imagens: {id: caminho}. Devolve o relatório com os .mp4."""
+    if so_esperar:                                   # o notebook já está rodando: só espera e baixa
+        rodar_kernel(so_esperar=True)
+        return baixar(pasta / "saida")
     entrada = pasta / "entrada"
     shutil.rmtree(entrada, ignore_errors=True)
     entrada.mkdir(parents=True)
@@ -111,7 +123,7 @@ def gerar_clipes(pedidos: list, imagens: dict, pasta: Path) -> dict:
     return baixar(pasta / "saida")
 
 
-def _teste():
+def _teste(so_esperar: bool = False):
     """Renderiza 3 quadros do próprio vídeo, anima no Kaggle e manda tudo no Telegram."""
     from . import telegram
     from .animacao import quadro
@@ -139,10 +151,13 @@ def _teste():
         img.save(caminho)
         imagens[cid] = caminho
         pedidos.append({"id": cid, "prompt": prompt, "segundos": 4})
-    telegram.enviar_mensagem("Teste do Kaggle começou: 3 clipes de 4 s com IA aberta (Wan 2.2) na GPU grátis. "
-                             "Pode levar de 30 a 90 minutos.")
+    if not so_esperar:
+        telegram.enviar_mensagem("Teste do Kaggle começou: 3 clipes de 4 s com IA aberta (Wan 2.2) na GPU grátis. "
+                                 "Pode levar de 30 a 90 minutos.")
+    else:
+        telegram.enviar_mensagem("Teste do Kaggle: esperando o notebook que já está rodando terminar...")
     try:
-        rel = gerar_clipes(pedidos, imagens, pasta)
+        rel = gerar_clipes(pedidos, imagens, pasta, so_esperar)
     except Exception as e:
         telegram.enviar_mensagem(f"O teste do Kaggle falhou: {e}"[:3500])
         raise
@@ -162,6 +177,7 @@ def _teste():
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--teste", action="store_true")
+    ap.add_argument("--so-esperar", action="store_true", help="não reenvia; espera o notebook que já está rodando")
     a = ap.parse_args()
     if a.teste:
-        _teste()
+        _teste(a.so_esperar)

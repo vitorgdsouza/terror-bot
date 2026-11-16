@@ -2,6 +2,11 @@ name: Teste Kaggle (IA grátis)
 
 on:
   workflow_dispatch:          # botão "Run workflow" na aba Actions (funciona no celular)
+    inputs:
+      so_esperar:
+        description: "Só esperar o notebook que já está rodando no Kaggle (não reenviar)"
+        type: boolean
+        default: false
 
 jobs:
   teste:
@@ -27,7 +32,8 @@ jobs:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python -m src.kaggle_clipes --teste
+          SO_ESPERAR: ${{ inputs.so_esperar }}
+        run: python -m src.kaggle_clipes --teste $([ "$SO_ESPERAR" = "true" ] && echo --so-esperar)
 
       - name: Guardar clipes e relatório
         if: always()
