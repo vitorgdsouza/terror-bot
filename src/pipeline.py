@@ -12,7 +12,7 @@ import sys
 import time
 import traceback
 
-from . import telegram
+from . import serie, telegram
 from .montagem import montar_video
 from .roteiro import gerar_roteiro
 from .util import SAIDA, carregar_config, log, salvar_no_historico
@@ -47,7 +47,9 @@ def executar(tema: str | None = None, usar_telegram: bool = True):
         telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
         telegram.enviar_mensagem(f"Roteiro completo:\n\n{texto}")
 
-    salvar_no_historico(roteiro["titulo"], roteiro["tema"], roteiro.get("protagonista", ""))
+    if usar_telegram:
+        telegram.enviar_mensagem(serie.mensagem_proximo_passo(roteiro))
+    salvar_no_historico(roteiro["titulo"], roteiro["tema"], roteiro.get("protagonista", ""), serie.campos_historico(roteiro))
     log(f"Concluído: {video}")
     return video
 

@@ -3,6 +3,7 @@
 # se ele não estiver configurado, falhar ou o limite de uso acabar, usa o modo reserva (Gemini).
 set -uo pipefail
 TEMA="${1:-}"
+export TEMA   # as ferramentas do agente leem o pedido (ex.: "/continuar A")
 # secrets vazios atrapalham a autenticação do Claude Code
 [ -z "${ANTHROPIC_API_KEY:-}" ] && unset ANTHROPIC_API_KEY
 [ -z "${CLAUDE_CODE_OAUTH_TOKEN:-}" ] && unset CLAUDE_CODE_OAUTH_TOKEN

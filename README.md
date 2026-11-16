@@ -104,7 +104,12 @@ Pronto: os próximos vídeos já saem pelo agente. No Telegram chega uma "Nota d
 | `/novo` | gera um vídeo com o tema padrão da série |
 | `/novo você ouve passos no sótão e mora sozinho` | gera um vídeo sobre esse tema |
 | `/ideias` | sugere 5 ideias inéditas de histórias |
+| `/continuar A` | nova parte da última história, começando pela opção A (ou `/continuar B`) |
+| `/final B` | última parte da história, começando pela opção B (ou `/final A`), com desfecho e sem novo dilema |
+| `/historia` | mostra o resumo da última história e as opções dela |
 | `/ajuda` | mostra os comandos |
+
+**Histórias em série:** cada vídeo termina com as opções A e B. Veja nos comentários qual opção ganhou e mande `/continuar A` (ou B). O próximo vídeo começa exatamente dali, com a mesma protagonista, o título "Nome da história - Parte 2" e um novo dilema no fim. Quando quiser encerrar, mande `/final A` (ou B). A continuação sempre usa o vídeo mais recente, então peça a continuação antes que o vídeo diário automático gere uma história nova. No GitHub, dá para pedir o mesmo escrevendo `/continuar A` no campo de tema do "Run workflow".
 
 > O GitHub confere os comandos **a cada 20 minutos** (às vezes atrasa um pouco). Por isso a resposta não é instantânea. Para respostas imediatas seria preciso um servidor ligado 24 horas, o que fica para uma próxima fase.
 

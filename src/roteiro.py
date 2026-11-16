@@ -8,6 +8,7 @@ import requests
 
 from .animacao import GUIA_CENAS, normalizar
 from .personagem import escolher_protagonista
+from . import serie
 from .util import carregar_historico, env, log
 
 URL = "https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent"
@@ -71,12 +72,13 @@ def _protagonista(cfg: dict) -> dict:
 
 
 def gerar_roteiro(cfg: dict, tema: str | None = None) -> dict:
-    tema = tema or cfg["tema_padrao"]
+    info_serie = serie.preparar(tema)
+    tema = info_serie["tema"] or cfg["tema_padrao"]
     ja_feitos = [h["titulo"] for h in carregar_historico()][-40:]
     n = cfg["numero_de_cenas"]
     prot = _protagonista(cfg)
     palavras = int(cfg["duracao_alvo_segundos"] * 2.3)
-    quem = escolher_protagonista(cfg, carregar_historico())
+    quem = info_serie.get("protagonista") or escolher_protagonista(cfg, carregar_historico())
     info = cfg.get("protagonistas", {}).get(quem, {"genero": "masculino", "descricao": ""})
 
     prompt = f"""Você é roteirista do canal brasileiro de animações de terror "{cfg['nome_serie']}".
@@ -93,10 +95,11 @@ Regras da história:
 - Cena 1: GANCHO imediato que coloca o espectador na situação ("Sua família viajou e você ficou sozinho em casa...").
 - Use detalhes concretos e horários ("às duas e seis da manhã"), pequenas pistas estranhas e tensão crescente.
 - Perto do fim, o perigo fica cara a cara com você.
-- Última cena: apresente DUAS escolhas, "opção A: ..." e "opção B: ...", e termine EXATAMENTE com "Comente A ou B."
+- Última cena: {"encerre a história (veja CONTINUAÇÃO abaixo)" if info_serie["modo"] == "final" else 'apresente DUAS escolhas, "opção A: ..." e "opção B: ...", e termine EXATAMENTE com "Comente A ou B."'}
 - Suspense e atmosfera: nada de violência explícita, sangue ou gore.
 - Não repita estas histórias: {json.dumps(ja_feitos, ensure_ascii=False)}
 
+{serie.bloco_para_roteiro(info_serie)}
 Como cada cena vira animação:
 {GUIA_CENAS}
 
@@ -113,7 +116,10 @@ Responda SOMENTE com JSON válido neste formato:
       "camera": "zoom_in"
     }}
   ],
-  "legenda_post": "legenda curta para o post, terminando com: E você, A ou B?",
+  "resumo": "a história inteira até aqui em até 4 frases (usado para continuar em outro vídeo)",
+  "opcao_a": "a opção A da última cena, em uma frase (vazio se a história terminou)",
+  "opcao_b": "a opção B da última cena, em uma frase (vazio se a história terminou)",
+  "legenda_post": "legenda curta para o post, terminando com: E você, A ou B? (ou convidando para a próxima história, se terminou)",
   "hashtags": ["#exemplo"]
 }}"""
 
@@ -125,6 +131,7 @@ Responda SOMENTE com JSON válido neste formato:
             log(f"Roteiro pronto: {roteiro['titulo']} ({len(roteiro['cenas'])} cenas)")
             roteiro["tema"] = tema
             roteiro["protagonista"] = quem
+            serie.ajustar_roteiro(roteiro, info_serie)
             return roteiro
         except (ValueError, KeyError) as e:
             log(f"Roteiro veio inválido ({e}), pedindo de novo...")

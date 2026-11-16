@@ -12,6 +12,7 @@ Todas trabalham na pasta trabalho/. Exemplos:
 """
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -41,15 +42,29 @@ def _catalogo() -> str:
             f"efeito: {', '.join(A.EFEITOS)} | camera: {', '.join(A.CAMERAS)}")
 
 
+def _info_serie() -> dict:
+    from .serie import preparar
+    try:
+        return preparar(os.environ.get("TEMA", ""))
+    except ValueError as e:
+        sys.exit(f"ERRO NO PEDIDO: {e}")
+
+
 def contexto(_):
     from .personagem import escolher_protagonista
+    from .serie import bloco_para_roteiro
     cfg = carregar_config()
+    info = _info_serie()
     print("=== CONFIGURAÇÃO DA SÉRIE (config/serie.json) ===")
     print(json.dumps(cfg, ensure_ascii=False, indent=2))
-    quem = escolher_protagonista(cfg, carregar_historico())
-    info = cfg.get("protagonistas", {}).get(quem, {})
-    print(f"\n=== PROTAGONISTA DESTE VÍDEO: {quem} ({info.get('descricao', '')}) ===")
-    print(f'Coloque "protagonista": "{quem}" no roteiro.json e escreva os adjetivos de "você" no {info.get("genero", "masculino")}.')
+    quem = info.get("protagonista") or escolher_protagonista(cfg, carregar_historico())
+    prot = cfg.get("protagonistas", {}).get(quem, {})
+    print(f"\n=== PROTAGONISTA DESTE VÍDEO: {quem} ({prot.get('descricao', '')}) ===")
+    print(f'Coloque "protagonista": "{quem}" no roteiro.json e escreva os adjetivos de "você" no {prot.get("genero", "masculino")}.')
+    if info["modo"] == "nova":
+        print("\n=== TIPO DE VÍDEO: história nova (termina com dilema A/B) ===")
+    else:
+        print(bloco_para_roteiro(info))
     print("\n=== VALORES ACEITOS NAS CENAS ===\n" + _catalogo())
     hist = carregar_historico()[-40:]
     print("\n=== HISTÓRIAS JÁ PUBLICADAS (não repetir) ===")
@@ -59,8 +74,10 @@ def contexto(_):
 def validar(_):
     from .animacao import normalizar
     from .personagem import escolher_protagonista
+    from .serie import ajustar_roteiro
     cfg = carregar_config()
     r = _roteiro()
+    info = _info_serie()
     if not r.get("titulo") or not r.get("cenas"):
         sys.exit("ROTEIRO INVÁLIDO: faltou título ou cenas")
     for i, c in enumerate(r["cenas"]):
@@ -69,6 +86,7 @@ def validar(_):
         normalizar(c)
     if r.get("protagonista") not in ("homem", "mulher"):
         r["protagonista"] = escolher_protagonista(cfg, carregar_historico())
+    ajustar_roteiro(r, info)
     ROTEIRO.write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
     palavras = sum(len(c["narracao"].split()) for c in r["cenas"])
     seg = palavras / PALAVRAS_POR_SEGUNDO
@@ -78,9 +96,17 @@ def validar(_):
     alvo = cfg["duracao_alvo_segundos"]
     if not 0.75 * alvo <= seg <= 1.25 * alvo:
         avisos.append(f"duração estimada {seg:.0f}s está longe do alvo de {alvo}s")
-    if cfg.get("formato") == "segunda_pessoa_com_escolha" and "comente a ou b" not in r["cenas"][-1]["narracao"].lower():
-        avisos.append('a última cena deve terminar com "Comente A ou B."')
+    if not r.get("final"):
+        if "comente a ou b" not in r["cenas"][-1]["narracao"].lower():
+            avisos.append('a última cena deve terminar com "Comente A ou B."')
+        if not r.get("opcao_a") or not r.get("opcao_b"):
+            avisos.append('preencha "opcao_a" e "opcao_b" (uma frase cada) para permitir a continuação')
+    elif "comente a ou b" in r["cenas"][-1]["narracao"].lower():
+        avisos.append("esta é a parte FINAL: a última cena deve encerrar a história, sem dilema")
+    if not r.get("resumo"):
+        avisos.append('preencha "resumo" (a história inteira até aqui em até 4 frases)')
     usados = [c["cenario"] for c in r["cenas"]]
+    print(f"Tipo: {'parte FINAL' if r.get('final') else 'parte ' + str(r.get('parte', 1))} da série \"{r.get('serie')}\"")
     print(f"OK: \"{r['titulo']}\" | protagonista: {r['protagonista']} | {len(r['cenas'])} cenas | {palavras} palavras | ~{seg:.0f}s")
     print(f"Cenários usados: {', '.join(usados)}")
     print(f"Cenas com ameaça: {sum(1 for c in r['cenas'] if c.get('ameaca'))}")
@@ -160,7 +186,9 @@ def enviar(a):
     telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
     if a.nota:
         telegram.enviar_mensagem(f"Nota do diretor (Claude):\n{a.nota}")
-    salvar_no_historico(r["titulo"], r.get("tema", ""), r.get("protagonista", ""))
+    from .serie import campos_historico, mensagem_proximo_passo
+    telegram.enviar_mensagem(mensagem_proximo_passo(r))
+    salvar_no_historico(r["titulo"], r.get("tema", ""), r.get("protagonista", ""), campos_historico(r))
     (TRAB / "ENVIADO").write_text("ok")
     print("Enviado para o Telegram e salvo no histórico.")
 

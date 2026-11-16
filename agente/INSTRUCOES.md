@@ -22,6 +22,10 @@ ACEITOS em cada campo da cena, a duração, o número de cenas e as histórias j
 Escreva `trabalho/roteiro.json` sobre o TEMA informado no final destas instruções (se vier vazio, crie uma ideia original
 dentro de `tema_padrao`).
 
+Se o TEMA for "/continuar A|B" ou "/final A|B", é a continuação do vídeo anterior: o `contexto` mostra o resumo do que já
+aconteceu, a opção que o público escolheu, o número da parte e se é a parte final. Siga essas instruções à risca
+(mesma protagonista, começar pela escolha do público, título "Série - Parte N"). Na parte FINAL não há dilema: encerre a história.
+
 Formato "segunda_pessoa_com_escolha":
 - O espectador é o protagonista. Narre em segunda pessoa ("você"), em português do Brasil natural, frases curtas.
   Use adjetivos no gênero da protagonista da vez ("sozinha" ou "sozinho").
@@ -53,6 +57,9 @@ Direção das cenas (como num desenho animado):
      "ameaca": {"tipo": "sombra", "acao": "aparecendo", "posicao": "centro", "tamanho": "longe"},
      "efeito": "nenhum", "camera": "zoom_in"}
   ],
+  "resumo": "a história inteira até aqui em até 4 frases",
+  "opcao_a": "a opção A do final, em uma frase",
+  "opcao_b": "a opção B do final, em uma frase",
   "legenda_post": "legenda curta terminando com: E você, A ou B?",
   "hashtags": ["#..."]
 }
