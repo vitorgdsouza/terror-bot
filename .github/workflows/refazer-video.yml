@@ -1,11 +1,16 @@
-name: Refazer vídeo (mesma história, animação atual)
+name: Refazer vídeo / montar roteiro pronto
 
 on:
   workflow_dispatch:
     inputs:
       run_id:
-        description: "Número da execução do 'Gerar vídeo' que fez o episódio"
-        required: true
+        description: "Para refazer: número da execução do 'Gerar vídeo' que fez o episódio"
+        required: false
+        default: ""
+      roteiro:
+        description: "Ou: roteiro pronto do repositório (ex.: roteiros/fatos_01_antes_de_dormir.json)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -26,6 +31,7 @@ jobs:
       - name: Instalar dependências
         run: pip install -r requirements.txt
       - name: Baixar o roteiro do episódio
+        if: inputs.run_id != ''
         uses: actions/download-artifact@v4
         with:
           run-id: ${{ inputs.run_id }}
@@ -37,8 +43,9 @@ jobs:
           FREESOUND_API_KEY: ${{ secrets.FREESOUND_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ROTEIRO_ARQ: ${{ inputs.roteiro }}
         run: |
-          find baixado -type f | head -20
+          find baixado -type f 2>/dev/null | head -20
           python -m src.refazer
 
       - name: Guardar o vídeo (para o /postar)

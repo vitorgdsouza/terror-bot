@@ -255,8 +255,11 @@ def montar_trilha_sons(roteiro: dict, duracoes: list, destino: Path) -> Path | N
         # som pedido pelo roteiro, no momento da palavra
         som = cena.get("som")
         if isinstance(som, dict) and som.get("busca") and (arq := baixar(str(som["busca"]), False)):
-            t = _tempo_da_palavra(cena, str(som.get("palavra", "")))
-            mesa.uma_vez(arq, ini + (t if t is not None else 0.3), VOLUMES["roteiro"])
+            if som.get("momento") == "fim":           # no silêncio depois da fala (susto em volume cheio)
+                mesa.uma_vez(arq, fim - float(cena.get("pausa_extra") or 0) + 0.05, 1.0)
+            else:
+                t = _tempo_da_palavra(cena, str(som.get("palavra", "")))
+                mesa.uma_vez(arq, ini + (t if t is not None else 0.3), VOLUMES["roteiro"])
             usados += 1
     if not usados:
         return None

@@ -68,7 +68,7 @@ def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
     W, H = cena.size
     l1, l2 = _linhas(r.get("titulo", "Você escaparia?"))
     pergunta = _pergunta(r)
-    selo = "FINAL" if r.get("final") else f"EP. {r.get('parte') or 1}"
+    selo = r.get("selo") or ("FINAL" if r.get("final") else f"EP. {r.get('parte') or 1}")
 
     # ---------------- vertical
     v = cena.convert("RGBA")

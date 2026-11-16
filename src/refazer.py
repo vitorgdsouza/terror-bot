@@ -18,7 +18,9 @@ def main():
     from . import telegram
     from .montagem import montar_video
     from .voz import gerar_narracao
-    achados = sorted((RAIZ / "baixado").rglob("roteiro.json"))
+    import os
+    arq = os.environ.get("ROTEIRO_ARQ", "").strip()          # roteiro pronto do repositório (ex.: roteiros/x.json)
+    achados = [RAIZ / arq] if arq else sorted((RAIZ / "baixado").rglob("roteiro.json"))
     if not achados:
         telegram.enviar_mensagem("Não achei o roteiro desse episódio no GitHub para refazer.")
         sys.exit(1)
@@ -35,12 +37,15 @@ def main():
     (TRAB / "roteiro.json").write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
     cfg = carregar_config()
     log(f"Refazendo: {r['titulo']} ({len(r['cenas'])} cenas)")
-    telegram.enviar_mensagem(f"Refazendo \"{r['titulo']}\" com os ajustes (Abismo em silhueta até a escada, coleira menor)...")
+    telegram.enviar_mensagem(f"Montando \"{r['titulo']}\"...")
     vozes = gerar_narracao(r, cfg, TRAB / "audio")
     final = montar_video(r, vozes, cfg, TRAB / "video")
-    legenda = next((p.read_text(encoding="utf-8") for p in (RAIZ / "baixado").rglob("legenda_do_post.txt")), r["titulo"])
+    legenda = next((p.read_text(encoding="utf-8") for p in (RAIZ / "baixado").rglob("legenda_do_post.txt")), None)
+    if not legenda:
+        tags = " ".join(dict.fromkeys(r.get("hashtags", []) + cfg.get("hashtags_fixas", [])))
+        legenda = f"{r['titulo']}\n\n{r.get('legenda_post', '')}\n\n{tags}"
     import time
-    telegram.enviar_video(final, f"{r['titulo']} (versão ajustada {time.strftime('%H:%M', time.localtime(time.time() - 3 * 3600))})")
+    telegram.enviar_video(final, f"{r['titulo']} ({'versão ajustada ' if not arq else ''}{time.strftime('%H:%M', time.localtime(time.time() - 3 * 3600))})")
     telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
     from .thumb import enviar_thumbs
     enviar_thumbs(r, TRAB / "thumbs")

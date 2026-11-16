@@ -35,7 +35,7 @@ try:
     ESTILO_PERSONAGEM = json.loads((RAIZ / "config" / "serie.json").read_text(encoding="utf-8")).get("personagem_estilo", "boneco")
 except Exception:
     ESTILO_PERSONAGEM = "boneco"
-ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando", "na_janela", "encarando"]
+ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando", "na_janela", "encarando", "relance"]
 AMEACAS = ["abismo", "invasor"]
 GATO_ACOES = ["parado", "andando", "correndo", "sentado", "miando", "deitado", "escondido", "assustado"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
@@ -45,6 +45,7 @@ CAMERAS = ["zoom_in", "zoom_out", "pan_esquerda", "pan_direita", "parada"]
 PES_NO_DESENHO = 1115 / 1200      # onde ficam os pés dentro da figurinha
 
 _cache: dict = {}
+FONTE_TELA = RAIZ / "assets" / "fontes" / "Poppins-Bold.ttf"
 
 # explicação dos valores, usada no pedido ao Gemini e nas instruções do agente
 GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fixas:
@@ -79,7 +80,7 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   espiando (só a cabeça e o ombro surgem devagar pela borda da tela, a cabeça estala; use com tamanho medio e posicao
   esquerda ou direita) | passando (atravessa o fundo de relance e some; use com tamanho longe) |
   na_janela (do lado de fora, sobe devagar e aparece no vidro olhando para dentro, cabeça tombando e sorriso abrindo;
-  só em sala, quarto, cozinha, janela e casa_fora). tamanho "perto" = clímax: ele de corpo inteiro, grande, encarando
+  só em sala, quarto, cozinha, janela e casa_fora) | relance (aparece por um piscar de olhos e some). tamanho "perto" = clímax: ele de corpo inteiro, grande, encarando
   com a cara bizarra (cabeça tombando, sorriso rasgando). encarando = parado, imóvel, encarando com a cara bizarra
   (ótimo "longe" no alto da escada, com o personagem embaixo paralisado de medo).
 - "objeto": null, uma pista ou uma lista com até 2: {"tipo": coleira | tigela | pelo | novelo | ratinho | pegadas |
@@ -648,6 +649,8 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
         a["_sentido"] = sentido
         x = (0.05 + 0.9 * k) if sentido > 0 else (0.95 - 0.9 * k)
         alfa = 0.0 if k < 0 or k > 1 else min(1.0, k / 0.15, (1 - k) / 0.15) * 0.9
+    elif a["acao"] == "relance":                         # aparece num piscar (uns 2 quadros) e some
+        alfa = 0.95 if 0.44 <= prog <= 0.47 else 0.0
     elif a["acao"] == "espiando":
         # surge devagar pela borda da tela (ou do batente), espia e recua um pouco no fim
         lado = -1 if a["posicao"] == "esquerda" else 1
@@ -1011,6 +1014,44 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
     """Desenha o quadro da cena no instante t (segundos). Devolve imagem RGB 1080x1920."""
     if cena.get("_img"):
         return _quadro_ilustrado(cena, t, dur, n)
+    if cena.get("corte_preto") and t >= cena.get("_fim_voz", dur):   # corte seco para o preto (susto no silêncio)
+        return Image.new("RGB", (W, H), (0, 0, 0))
+    img = _quadro_base(cena, t, dur, prot, n)
+    if cena.get("texto_tela"):
+        _texto_tela(img, str(cena["texto_tela"]), t)
+    return img
+
+
+def _texto_tela(img: Image.Image, texto: str, t: float) -> None:
+    """Texto grande no topo da tela (fora da área das legendas). Uma linha nova com "|"; "v" no fim desenha uma seta."""
+    from PIL import ImageFont
+    seta = texto.rstrip().endswith(" v")
+    linhas = [l.strip() for l in (texto[:-2] if seta else texto).upper().split("|") if l.strip()]
+    alfa = min(1.0, t / 0.35)
+    camada = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(camada)
+    y = H * 0.11
+    for i, ln in enumerate(linhas):
+        px = 92
+        while px > 40 and ImageFont.truetype(str(FONTE_TELA), px).getlength(ln) > W * 0.86:
+            px -= 4
+        f = ImageFont.truetype(str(FONTE_TELA), px)
+        w = f.getlength(ln)
+        x = (W - w) / 2
+        roxo = i == len(linhas) - 1 and len(linhas) > 1
+        d.rounded_rectangle((x - 26, y + px * 0.08, x + w + 26, y + px * 1.22), radius=18,
+                            fill=(124, 58, 237, int(235 * alfa)) if roxo else (6, 8, 18, int(170 * alfa)))
+        d.text((x + 4, y + 5), ln, font=f, fill=(0, 0, 0, int(255 * alfa)))
+        d.text((x, y), ln, font=f, fill=(255, 255, 255, int(255 * alfa)))
+        y += px * 1.3
+    if seta:
+        b = 0.5 + 0.5 * math.sin(t * 6)
+        cx, ty = W / 2, y + 10 + 12 * b
+        d.polygon([(cx - 34, ty), (cx + 34, ty), (cx, ty + 44)], fill=(255, 255, 255, int(255 * alfa)))
+    img.paste(camada, (0, 0), camada)
+
+
+def _quadro_base(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) -> Image.Image:
     normalizar(cena)
     if cena.get("ameaca"):
         cena["ameaca"]["_silhueta"] = cena.get("_silhueta", False)
@@ -1131,6 +1172,7 @@ def renderizar_cena(cena: dict, voz: dict, destino: Path, prot: str, pausa: floa
     """Gera o clipe .mp4 da cena com a narração. Devolve a duração."""
     dur = voz["duracao"] + pausa
     cena.setdefault("_palavras", voz.get("palavras") or [])
+    cena["_fim_voz"] = voz["duracao"]
     frames = math.ceil(dur * FPS)
     ff = subprocess.Popen(
         ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",

@@ -219,7 +219,7 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
         destino = pasta / f"clip_{i:02d}.mp4"
         cena["_progresso"] = i / max(1, len(vozes) - 1)   # usado para aumentar a tensão ao longo do vídeo
         cena["_palavras"] = voz.get("palavras") or []
-        pausa = PAUSA
+        pausa = PAUSA + float(cena.get("pausa_extra") or 0)
         if cena.get("_img"):
             # planos ilustrados: ritmo de vídeo curto (pausa mínima no mesmo lugar, um respiro ao trocar de lugar)
             ultimo = i == len(vozes) - 1

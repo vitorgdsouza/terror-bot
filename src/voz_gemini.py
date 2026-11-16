@@ -151,12 +151,14 @@ def narrar_roteiro(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
     cenas = [c["narracao"].strip() for c in roteiro["cenas"]]
     completo = pasta / "narracao_completa.wav"
     log(f"Narração com a voz {voz}, estilo {estilo} (clima do episódio)")
+    ritmo = float(roteiro.get("ritmo") or cfg_voz.get("gemini_ritmo") or 1.0)   # 1.2 = 20% mais rápido
     bruto = pasta / "narracao_bruta.wav"
     sintetizar(" ".join(cenas), bruto, voz, estilo)
     # o Gemini às vezes deixa silêncios enormes entre frases: encurta qualquer pausa para no máximo ~0,6 s
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(bruto), "-af",
                     "silenceremove=start_periods=1:start_threshold=-50dB:stop_periods=-1:stop_duration=0.55:"
-                    "stop_threshold=-50dB", str(completo)], check=True)
+                    "stop_threshold=-50dB" + (f",atempo={ritmo:.3f}" if abs(ritmo - 1) > 0.01 else ""),
+                    str(completo)], check=True)
     log(f"Áudio do Gemini: {duracao(bruto):.1f}s, sem pausas longas: {duracao(completo):.1f}s")
     total = duracao(completo)
 
