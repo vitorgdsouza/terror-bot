@@ -40,6 +40,7 @@ def _catalogo() -> str:
     return (f"cenario: {', '.join(A.CENARIOS)}\n"
             f"personagem.pose: {', '.join(A.POSES)} | acao: {', '.join(A.ACOES_P)}\n"
             f"ameaca.tipo: {', '.join(A.AMEACAS)} | acao: {', '.join(A.ACOES_A)}\n"
+            f"gato.acao: {', '.join(A.GATO_ACOES)}\n"
             f"posicao: {', '.join(A.POSICOES)} | tamanho: {', '.join(A.TAMANHOS)}\n"
             f"efeito: {', '.join(A.EFEITOS)} | camera: {', '.join(A.CAMERAS)}")
 

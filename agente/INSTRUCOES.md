@@ -38,7 +38,7 @@ Como deve ser a história (o mais importante do vídeo):
 - Narre em segunda pessoa ("você"), com adjetivos no gênero da protagonista da vez ("sozinha" ou "sozinho").
 - Última cena: "Opção A: ...", "Opção B: ...", ambas arriscadas e plausíveis, terminando EXATAMENTE com "Comente A ou B."
 - Sem gore, sangue ou violência explícita. Números por extenso, sem siglas nem parênteses.
-- Escreva ~2,3 palavras por segundo do alvo, distribuídas no número de cenas da série.
+- Escreva ~1,75 palavra por segundo do alvo (o narrador é pausado), distribuídas no número de cenas da série.
 - A história deve caber nos cenários disponíveis (casa, rua e câmera de segurança no celular).
 
 Direção das cenas (como num desenho animado):
@@ -50,8 +50,11 @@ Direção das cenas (como num desenho animado):
   da porta; "você se esconde" → pose "encolhida"; "você olha para trás" → pose "olhando_tras"; "você corre" → acao "correndo";
   "você congela" → pose "medo" ou "gritando". Use "depois" para o personagem mudar de ação no meio da cena.
 - Cenas curtas: 1 ou 2 frases por cena (uns 5 a 8 segundos), trocando de enquadramento a cada cena.
-- A ameaça cresce: primeiro só "olhos" ao "longe", depois "abismo" "aparecendo" ao longe, depois "abismo" "medio" parado
-  (agachado observando), e no clímax "aproximando" ou o close do rosto ("perto"), uma vez só. Em histórias sem
+- O Abismo é sorrateiro e sádico: ele se esgueira e brinca com o medo antes de se mostrar. A ameaça cresce assim:
+  primeiro só relances ("passando" ao "longe", atravessando o fundo e sumindo; "longe" "parada" no fim do corredor),
+  depois "espiando" ("medio", posicao esquerda ou direita: só a cabeça surge pela borda, estala e recua),
+  depois "medio" parado (agachado observando), e no clímax "aproximando" ou o close do rosto ("perto"), uma vez só.
+  Nunca o mostre inteiro e parado logo no começo. Em histórias sem
   sobrenatural, use "invasor" no lugar de "abismo".
 - Efeitos com moderação: luz_piscando e relampago marcam sustos; tv_chiando só na sala e no quarto (monitor).
   pia_detalhe e debaixo_cama são closes: use com personagem "perto" ou sem personagem.

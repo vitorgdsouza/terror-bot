@@ -35,7 +35,7 @@ try:
     ESTILO_PERSONAGEM = json.loads((RAIZ / "config" / "serie.json").read_text(encoding="utf-8")).get("personagem_estilo", "boneco")
 except Exception:
     ESTILO_PERSONAGEM = "boneco"
-ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo"]
+ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando"]
 AMEACAS = ["abismo", "invasor"]
 GATO_ACOES = ["parado", "andando", "correndo", "sentado", "miando", "deitado", "escondido", "assustado"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
@@ -71,11 +71,16 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   parado = em pé; medio parado = agachado observando; aproximando = vem em posição de ataque; perto = close do rosto) |
   invasor (pessoa real de capa de chuva amarela, capuz com o rosto no escuro e um machado;
   use em histórias sem sobrenatural: invasão, perseguição, alguém dentro de casa).
-  acao: parada | aparecendo (surge aos poucos) | aproximando (vem para perto) | sumindo.
+  acao: parada | aparecendo (surge aos poucos) | aproximando (vem para perto) | sumindo |
+  espiando (só a cabeça e o ombro surgem devagar pela borda da tela, a cabeça estala; use com tamanho medio e posicao
+  esquerda ou direita) | passando (atravessa o fundo de relance e some; use com tamanho longe).
+  Para um Abismo sorrateiro, prefira espiando, passando e longe parado; deixe "medio parado" e o close para o clímax.
   posicao e tamanho como no personagem; "longe" coloca a ameaça no fundo do cenário (fim do corredor, topo da escada, porta, janela).
 - "gato": null ou o gato do protagonista (gato laranja de peito branco). acao: parado | andando (anda e senta) | correndo |
   sentado | miando | deitado | escondido (encolhido, olhos arregalados) | assustado (costas arqueadas, pelo eriçado).
-  posicao: esquerda | centro | direita. tamanho: longe | medio | perto (close do gato). Fica ao lado do personagem, nunca atrás.
+  posicao: esquerda | centro | direita. tamanho: longe | medio | perto (close do gato, só em cena sem o personagem).
+  Fica ao lado do personagem, nunca atrás. A ação do gato acompanha o clima da frase: cenas de carinho = sentado,
+  deitado ou miando; "assustado" e "escondido" só quando o perigo está perto.
 - "efeito": nenhum | luz_piscando | tv_chiando (só na sala e no quarto, no monitor) | relampago | chuva | tremor (susto).
 - "camera": zoom_in (aproxima devagar, padrão) | zoom_out | pan_esquerda | pan_direita | parada.
 A animação reage sozinha à narração: palavras de medo e frases com "...", "!" ou "?" dão uma leve aproximação da câmera,
@@ -188,6 +193,8 @@ def normalizar(cena: dict) -> None:
         g["tamanho"] = g.get("tamanho") if g.get("tamanho") in TAMANHOS else "medio"
         if META.get(cena["cenario"], {}).get("detalhe"):
             g["tamanho"] = "perto"
+        elif g["tamanho"] == "perto" and isinstance(cena.get("personagem"), dict) and cena["personagem"].get("tamanho") != "perto":
+            g["tamanho"] = "medio"                    # close do gato só sozinho (senão cobre o personagem)
     else:
         cena["gato"] = None
     a, p = cena["ameaca"], cena["personagem"]
@@ -510,7 +517,11 @@ def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, fra
         quadro.alpha_composite(img, (int(cx - img.width / 2), int(cy - img.height / 2)))
         return
     espelhar = x > 0.5                                  # agachado ou atacando: virado para o meio da cena
-    if acao == "aproximando":
+    if acao == "passando":                              # atravessa o fundo de relance
+        movimento = "andando"
+    elif acao == "espiando":                            # só a cabeça e o ombro aparecem pela borda, a cabeça estala
+        movimento = "parado"
+    elif acao == "aproximando":
         movimento = "ataque" if tam == "medio" else "andando"
     elif tam == "medio" and acao == "parada":
         movimento = "observando"
@@ -526,7 +537,10 @@ def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, fra
         x = x + (0.5 - x) * 0.35 * _suave(prog)
     if acao == "aparecendo" and alfa < 0.95 and int(t * 24) % 5 == 0:
         alfa = min(1.0, alfa * 2.2)                     # pisca entre aparecer e sumir antes de ficar
-    pose = AB.animar(movimento, t, dur, espelhar=espelhar and movimento != "parado" and movimento != "andando")
+    if acao == "passando":
+        espelhar = a.get("_sentido", 1) < 0
+    pose = AB.animar(movimento, t, dur, espelhar=(espelhar and movimento != "parado" and movimento != "andando")
+                     or (acao == "passando" and espelhar))
     img, info = AB.desenhar(pose, int(altura * escala_tela))
     img = _com_alfa(_noite(img, 0.25), alfa)
     cx = cw * x + paralaxe * cw * 0.4
@@ -561,6 +575,20 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
         frac = frac * (1 + 0.9 * k)
         piso = piso + (min(1.25, piso + 0.25) - piso) * k
         x = x + (0.5 - x) * 0.5 * k
+    elif a["acao"] == "passando":
+        # cruza o fundo de um lado ao outro no meio da cena e some: só um relance
+        k = _suave((prog - 0.25) / 0.4)
+        sentido = -1 if a["posicao"] == "direita" else 1
+        a["_sentido"] = sentido
+        x = (-0.15 + 1.3 * k) if sentido > 0 else (1.15 - 1.3 * k)
+        alfa = 0.0 if prog < 0.25 or prog > 0.65 else 0.9
+    elif a["acao"] == "espiando":
+        # surge devagar pela borda da tela (ou do batente), espia e recua um pouco no fim
+        lado = -1 if a["posicao"] == "esquerda" else 1
+        k = _suave(prog / 0.45) - 0.35 * _suave((prog - 0.8) / 0.2)
+        borda = 0.0 if lado < 0 else 1.0
+        x = borda + lado * (0.12 - 0.22 * k) if tam != "longe" else x
+        alfa = 0.95
 
     if a["tipo"] == "olhos":
         regiao = meta.get("porta") or meta.get("janela") or meta.get("espelho")
