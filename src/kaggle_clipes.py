@@ -33,6 +33,8 @@ def _usuario() -> str:
 def _kaggle(*args, checar=True) -> str:
     r = subprocess.run(["kaggle", *args], capture_output=True, text=True)
     saida = (r.stdout + r.stderr).strip()
+    if "Traceback" in saida and "ModuleNotFoundError" in saida:     # a própria ferramenta do Kaggle quebrou
+        raise RuntimeError(f"A ferramenta do Kaggle não abriu: {saida[-400:]}")
     if checar and r.returncode != 0:
         raise RuntimeError(f"kaggle {' '.join(args[:2])} falhou: {saida[-800:]}")
     return saida

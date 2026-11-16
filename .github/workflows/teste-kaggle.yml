@@ -19,7 +19,7 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
 
       - name: Instalar dependências
-        run: pip install -r requirements.txt "kaggle>=1.8"
+        run: pip install -r requirements.txt "kaggle>=1.8" six
 
       - name: Gerar clipes no Kaggle e mandar no Telegram
         env:
