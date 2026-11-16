@@ -116,7 +116,15 @@ def _fim_do_log(usuario: str, KERNEL: str) -> str:
         textos.append(arq.read_text(errors="ignore"))
     texto = "\n".join(textos).strip()
     print(texto[-6000:])
-    return texto[-1500:] or "(o Kaggle não devolveu log)"
+    # para o Telegram: só as linhas que explicam a falha (sem barras de progresso e avisos)
+    import re
+    texto = re.sub(r"\r", "\n", texto)
+    uteis = [l.strip() for l in texto.splitlines()
+             if re.search(r"Killed|Error|Traceback|erro|memory|Clipe|min\]", l) and "|" not in l and "Warning" not in l]
+    resumo = "\n".join(uteis[-12:])
+    if "Killed" in texto:
+        resumo += "\n(o Kaggle derrubou o notebook por falta de memória RAM)"
+    return resumo[-1200:] or "(o Kaggle não devolveu log)"
 
 
 def baixar(destino: Path, KERNEL: str = KERNEL) -> dict:
