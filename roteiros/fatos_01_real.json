@@ -39,7 +39,9 @@
       "narracao": "Bem na hora em que você pega no sono, ouve um estrondo, como uma explosão, dentro da sua cabeça.",
       "buscas": [
         "eyes closed sleeping",
-        "sleeping face"
+        "sleeping face",
+        "woman sleeping",
+        "eyes closed"
       ],
       "ambiente": "nenhum",
       "corte_preto": true,
@@ -53,7 +55,9 @@
       "narracao": "Não dói. E não existe som nenhum. Foi o seu cérebro que criou.",
       "buscas": [
         "brain x-ray",
-        "waking up scared"
+        "waking up scared",
+        "x-ray head",
+        "scared woman"
       ],
       "ambiente": "clock ticking quiet room"
     },
@@ -61,7 +65,9 @@
       "narracao": "Na paralisia do sono, você acorda e não consegue se mexer.",
       "buscas": [
         "sleep paralysis",
-        "woman lying bed night"
+        "woman lying bed night",
+        "woman bed",
+        "insomnia"
       ],
       "ambiente": "low drone dark ambience",
       "movimentos": [
@@ -85,7 +91,9 @@
       "narracao": "Pessoas que nunca se falaram descrevem a mesma presença.",
       "buscas": [
         "dark hallway",
-        "door ajar dark"
+        "door ajar dark",
+        "corridor",
+        "door"
       ],
       "ambiente": "low drone dark ambience",
       "texto_tela": "VOCÊ JÁ|SENTIU ISSO? v"
@@ -95,7 +103,10 @@
       "buscas": [
         "night driving road",
         "car headlights night",
-        "driving car night"
+        "driving car night",
+        "car driving night",
+        "highway night",
+        "windshield"
       ],
       "ambiente": "car interior driving night",
       "movimentos": [
@@ -106,7 +117,9 @@
       "narracao": "Lá, ele ataca os dois. A sogra morre.",
       "buscas": [
         "house night",
-        "front door night"
+        "front door night",
+        "house",
+        "porch"
       ],
       "ambiente": "low drone dark ambience",
       "movimentos": [
@@ -117,7 +130,9 @@
       "narracao": "Ele vai até a polícia, confuso, com as mãos feridas, e diz que não lembra de nada.",
       "buscas": [
         "police car night",
-        "police lights"
+        "police lights",
+        "police",
+        "siren"
       ],
       "ambiente": "low drone dark ambience"
     },
@@ -126,7 +141,9 @@
       "buscas": [
         "courtroom",
         "newspaper",
-        "sleep laboratory"
+        "sleep laboratory",
+        "court",
+        "doctor"
       ],
       "ambiente": "low drone dark ambience"
     },
@@ -134,7 +151,8 @@
       "narracao": "Então... tem certeza de que você sabe o que faz enquanto dorme?",
       "buscas": [
         "bedroom night bed",
-        "dark bedroom door"
+        "dark bedroom door",
+        "bedroom"
       ],
       "ambiente": "clock ticking quiet room",
       "texto_tela": "PARTE 2?|COMENTA “SIM”",

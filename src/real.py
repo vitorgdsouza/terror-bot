@@ -41,10 +41,11 @@ def _chave() -> str:
 PROIBIDO = {"animation", "animated", "cartoon", "illustration", "render", "3d", "fantasy", "dragon", "anime",
             "green screen", "greenscreen", "chroma", "chroma key", "ai generated", "generated", "drawing", "vector",
             "cow", "cows", "cattle", "dog", "cat", "pet", "funny", "happy", "smile", "summer", "beach", "sunset",
-            "wedding", "christmas", "snow", "desert", "aerial", "drone", "city", "skyline", "abstract",
+            "wedding", "christmas", "snow", "desert", "aerial", "drone", "skyline", "abstract",
             "lingerie", "sexy", "bikini", "erotic", "sensual", "underwear", "fashion", "beauty", "model", "nude",
             "body", "wolf", "animal", "wildlife", "bird", "fire", "campfire", "flame", "toy", "ferris", "moon",
             "planet", "space", "sea", "ocean", "boat", "castle", "forest", "leaves", "tron", "neon", "futuristic"}
+MIN_REL = 2                  # no catálogo de curadoria baixa para 1 (eu escolho à mão)
 VAZIAS = {"a", "of", "in", "on", "at", "the", "and", "with", "dark", "night", "close", "up", "pov", "empty", "old"}
 
 
@@ -56,7 +57,7 @@ def _relevancia(busca: str, tags: str) -> int:
         return -1
     chave = [w for w in busca.lower().split() if w not in VAZIAS]
     n = sum(1 for w in chave if w in palavras or w.rstrip("s") in palavras)
-    return n if n >= min(2, len(chave)) else 0          # busca de 2+ palavras: precisa bater pelo menos 2
+    return n if n >= min(MIN_REL, len(chave)) else 0     # busca de 2+ palavras: precisa bater pelo menos 2
 
 
 def _procurar_pixabay(busca: str, chave: str) -> list[dict]:
@@ -330,7 +331,7 @@ def catalogo(roteiro: dict, pasta: Path) -> list[Path]:
         for b in cena.get("buscas") or []:
             itens += [it for it in _procurar(b) if it["id"] not in {x["id"] for x in itens}]
         miniaturas = []
-        for it in itens[:16]:
+        for it in itens[:20]:
             try:
                 arq = _baixar(it)
                 png = arq.with_suffix(".mini.png")
@@ -358,5 +359,6 @@ def catalogo(roteiro: dict, pasta: Path) -> list[Path]:
 
 if __name__ == "__main__":
     import sys
+    MIN_REL = 1
     r = json.loads((RAIZ / sys.argv[1]).read_text(encoding="utf-8"))
     print(catalogo(r, RAIZ / "data" / "previas" / "catalogo"))
