@@ -1,0 +1,12 @@
+{
+  "data": "2026-11-16",
+  "titulo": "A Porta do Porão",
+  "tema": "barulho estranho vindo do porão de casa",
+  "protagonista": "homem",
+  "serie": "A Porta do Porão",
+  "parte": 1,
+  "resumo": "Sozinho em casa, você ouve batidas vindas do porão trancado. Lá embaixo vê olhos brancos e foge. Na câmera de segurança, uma figura alta sorri para você. Então a porta se abre e ela está atrás de você.",
+  "opcao_a": "Fugir pela porta da frente, na chuva",
+  "opcao_b": "Se trancar no quarto até amanhecer",
+  "final": false
+}
