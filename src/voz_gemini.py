@@ -85,8 +85,18 @@ def _tempos_whisper(wav: Path) -> list[dict]:
     except ImportError:
         log("faster-whisper não instalado: tempos das palavras serão estimados")
         return []
-    modelo = WhisperModel("small", device="cpu", compute_type="int8")
-    segs, _ = modelo.transcribe(str(wav), language="pt", word_timestamps=True, beam_size=1, vad_filter=False)
+    import numpy as np
+    try:
+        # decodifica com o FFmpeg (o leitor interno do faster-whisper quebra com algumas versões do PyAV)
+        bruto = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(wav), "-f", "s16le", "-ac", "1", "-ar", "16000", "-"],
+                               capture_output=True, check=True).stdout
+        audio = np.frombuffer(bruto, np.int16).astype(np.float32) / 32768.0
+        modelo = WhisperModel("small", device="cpu", compute_type="int8")
+        segs, _ = modelo.transcribe(audio, language="pt", word_timestamps=True, beam_size=1, vad_filter=False)
+        segs = list(segs)
+    except Exception as e:
+        log(f"Whisper falhou ({e}): tempos das palavras serão estimados")
+        return []
     return [{"t": w.word.strip(), "i": w.start, "f": w.end} for s in segs for w in (s.words or []) if w.word.strip()]
 
 
