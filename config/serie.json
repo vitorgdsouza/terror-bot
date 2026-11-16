@@ -7,7 +7,7 @@
   "formato": "segunda_pessoa_com_escolha",
   "modo_visual": "biblioteca",
   "numero_de_planos": 40,
-  "protagonista_modo": "alternar",
+  "protagonista_modo": "homem",
   "protagonistas": {
     "homem": {
       "genero": "masculino",

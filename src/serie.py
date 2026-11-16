@@ -19,7 +19,7 @@ def interpretar(tema: str | None) -> dict:
 
 def ultimo_episodio() -> dict | None:
     """O vídeo mais recente que tem resumo e opções (os vídeos antigos, de antes desta função, não têm)."""
-    return next((h for h in reversed(carregar_historico()) if h.get("resumo")), None)
+    return next((h for h in reversed(carregar_historico()) if h.get("resumo") and not h.get("fora_da_serie")), None)
 
 
 def preparar(tema: str | None) -> dict:

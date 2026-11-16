@@ -109,7 +109,7 @@ def regras_lore(cfg: dict, historico: list | None = None) -> str:
     if not L.get("ligado"):
         return ""
     usadas = []
-    for h in (historico or [])[-6:]:
+    for h in [h for h in (historico or []) if not h.get("fora_da_serie")][-6:]:
         usadas += [int(x) for x in (h.get("lore") or []) if str(x).isdigit()]
     verdades = "\n".join(f"  {i}. {v}{'  (já insinuada recentemente)' if i in usadas else ''}" for i, v in enumerate(L["verdades"]))
     return f"""O MISTÉRIO DA SÉRIE (cânone secreto, NUNCA conte tudo de uma vez):
