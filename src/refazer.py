@@ -44,7 +44,7 @@ def main():
     telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
     from .postar import marcar_pendente
     marcar_pendente(r["titulo"])
-    telegram.enviar_mensagem("Gostou? Mande /postar para publicar esta versão no TikTok e no YouTube Shorts.")
+    telegram.enviar_mensagem("Gostou? Mande /postar para publicar esta versão no YouTube Shorts.")
 
 
 if __name__ == "__main__":

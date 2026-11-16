@@ -321,7 +321,7 @@ def enviar_agora(r: dict, cfg: dict, nota: str = "") -> None:
     from .postar import marcar_pendente
     marcar_pendente(r["titulo"])
     if os.environ.get("GITHUB_RUN_ID"):
-        telegram.enviar_mensagem("Gostou? Mande /postar para publicar este vídeo no TikTok e no YouTube Shorts.")
+        telegram.enviar_mensagem("Gostou? Mande /postar para publicar este vídeo no YouTube Shorts.")
     (TRAB / "ENVIADO").write_text("ok")
 
 

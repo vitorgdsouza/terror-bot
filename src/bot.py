@@ -6,7 +6,7 @@ Comandos:
     /ideias            sugere 5 ideias de histórias (numeradas, com botões)
     /ideias <assunto>  sugere 5 ideias sobre um assunto (ex.: /ideias hospital abandonado)
     /usar <n>          gera o vídeo da ideia n da última lista
-    /postar            publica o último vídeo pronto no TikTok e no YouTube Shorts
+    /postar            publica o último vídeo pronto no YouTube Shorts
     /continuar A|B     nova parte da última história, a partir da opção vencedora
     /final A|B         última parte da história, a partir da opção vencedora
     /historia          mostra a última história e as opções dela
@@ -28,7 +28,7 @@ AJUDA = ("Comandos:\n"
          "/ideias - sugere 5 ideias de histórias\n"
          "/ideias hospital abandonado - 5 ideias sobre esse assunto\n"
          "/usar 3 - gera o vídeo da ideia 3 da última lista\n"
-         "/postar - publica o último vídeo no TikTok e no YouTube Shorts\n"
+         "/postar - publica o último vídeo no YouTube Shorts\n"
          "/continuar A - nova parte da última história, seguindo a opção A (ou B)\n"
          "/final B - última parte da história, seguindo a opção B (ou A)\n"
          "/historia - mostra a última história e as opções dela\n\n"
@@ -98,7 +98,7 @@ def main():
                 telegram.enviar_mensagem(f"\"{p['titulo']}\" já foi postado. Gere um vídeo novo para postar de novo.")
             else:
                 postar = p["run_id"]
-                telegram.enviar_mensagem(f"Publicando \"{p['titulo']}\" no TikTok e no YouTube Shorts...")
+                telegram.enviar_mensagem(f"Publicando \"{p['titulo']}\" no YouTube Shorts...")
         elif comando == "/usar":
             try:
                 lista = json.loads(IDEIAS.read_text(encoding="utf-8"))["ideias"]

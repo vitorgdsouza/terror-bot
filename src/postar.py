@@ -1,4 +1,4 @@
-"""Publica o vídeo aprovado no TikTok e no YouTube Shorts pelo Upload-Post (upload-post.com).
+"""Publica o vídeo aprovado nas redes da config (hoje: YouTube Shorts) pelo Upload-Post (upload-post.com).
 
 Fluxo: quando um vídeo fica pronto, ele vai para o Telegram e fica "pendente" (data/pendente.json guarda em qual
 execução do GitHub ele está). Você manda /postar no Telegram; o bot baixa esse vídeo e chama este script.

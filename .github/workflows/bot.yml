@@ -69,7 +69,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: baixado
 
-      - name: Postar no TikTok e YouTube
+      - name: Postar no YouTube Shorts
         if: steps.comandos.outputs.postar != ''
         run: python -m src.postar
 

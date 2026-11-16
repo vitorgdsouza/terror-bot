@@ -52,7 +52,7 @@
     "volume_ambiente_gerado": 0.3
   },
   "hashtags_fixas": [
-    "#vocesobreviveria",
+    "#voceescaparia",
     "#terror",
     "#historiasdeterror",
     "#animacao",
@@ -97,7 +97,6 @@
   },
   "postagem": {
     "plataformas": [
-      "tiktok",
       "youtube"
     ],
     "marcar_ia": true
