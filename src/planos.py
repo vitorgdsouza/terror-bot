@@ -101,3 +101,30 @@ além de sobreviver: encontrar {nome} e deixá-lo em segurança.
   {nome} vem lá de cima.
 - O dilema final envolve {nome} (ex.: Opção A: subir para buscar {nome}; Opção B: fugir sem ele).
 - Nunca mostre {nome} ferido ou morto: no máximo em perigo. Ele aparece nas cenas com o campo "gato" (em 3 a 6 cenas)."""
+
+
+def regras_lore(cfg: dict, historico: list | None = None) -> str:
+    """Cânone secreto do Abismo e do paradeiro do gato: revelado aos poucos, episódio a episódio."""
+    L = cfg.get("abismo_lore") or {}
+    if not L.get("ligado"):
+        return ""
+    usadas = []
+    for h in (historico or [])[-6:]:
+        usadas += [int(x) for x in (h.get("lore") or []) if str(x).isdigit()]
+    verdades = "\n".join(f"  {i}. {v}{'  (já insinuada recentemente)' if i in usadas else ''}" for i, v in enumerate(L["verdades"]))
+    return f"""O MISTÉRIO DA SÉRIE (cânone secreto, NUNCA conte tudo de uma vez):
+Verdades sobre a origem do Abismo:
+{verdades}
+Paradeiro do gato (o público não sabe): {L.get("paradeiro_do_gato", "")}
+Como usar:
+- Em cada episódio, insinue 1 ou 2 verdades (de preferência ainda não insinuadas), sem explicar: mostre por uma pista
+  ("objeto" foto, bilhete, jornal ou desenho, com "texto" curto de até 4 palavras, ex.: {{"tipo": "jornal",
+  "tamanho": "perto", "texto": "Família some em 1987"}}) ou por um detalhe na narração. O público deve sair com
+  perguntas e teorias, não com respostas.
+- O paradeiro do gato é um enigma: deixe sinais contraditórios e inquietantes (o miado vem de dentro da parede; a
+  câmera mostra o gato num cômodo onde você acabou de olhar; a coleira está quente). Nunca resolva antes do final.
+- Esconda um detalhe para quem presta atenção: numa cena, o gato aparece pequeno ao fundo ("gato" com tamanho
+  "longe") sem a narração mencionar.
+- Preencha "lore": [números das verdades que este episódio insinua] no roteiro.json.
+- A "legenda_post" termina com uma pergunta que puxa teorias nos comentários (ex.: "Onde você acha que o Stu está?"),
+  além de "E você, A ou B?"."""

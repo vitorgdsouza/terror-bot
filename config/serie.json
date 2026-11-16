@@ -80,5 +80,19 @@
     "ligado": true,
     "nome": "Stu",
     "descricao": "gato laranja de peito e patas brancas, medroso e curioso"
+  },
+  "abismo_lore": {
+    "ligado": true,
+    "verdades": [
+      "A casa foi construída em cima de um poço antigo que foi aterrado. Os vizinhos chamavam o lugar de 'o abismo'. De madrugada, dá para ouvir algo respirando pelo ralo do porão.",
+      "Em 1987, a família Duarte, que morava na casa, sumiu numa noite. Só o carro ficou na garagem. A porta do porão estava trancada por dentro.",
+      "A filha dos Duarte, Lívia, desenhava 'o moço do sorriso' e dizia que ele morava dentro das paredes.",
+      "Ele imita a voz e os sons de quem você ama para te atrair. Por isso imita o miado do Stu.",
+      "Ele não suporta luz direta: a lanterna o faz recuar e a cabeça estalar, mas só por alguns segundos.",
+      "Gatos o enxergam antes das pessoas. Ele pega os bichos primeiro, para que os donos venham atrás.",
+      "Ele guarda coisas de cada um que levou (coleiras, brinquedos, fotos) num lugar escuro debaixo da casa.",
+      "Ele não consegue sair pela porta da frente: só existe dentro da casa e no que está ligado a ela."
+    ],
+    "paradeiro_do_gato": "O Stu está vivo, escondido nos espaços entre as paredes e no fundo do porão. O Abismo o usa como isca. Às vezes ele aparece na câmera de segurança ou o miado vem de dentro da parede."
   }
 }

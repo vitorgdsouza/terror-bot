@@ -83,7 +83,7 @@ def ajustar_roteiro(roteiro: dict, info: dict) -> None:
 
 
 def campos_historico(roteiro: dict) -> dict:
-    return {k: roteiro.get(k, "") for k in ("serie", "parte", "resumo", "opcao_a", "opcao_b", "final")}
+    return {k: roteiro.get(k, "") for k in ("serie", "parte", "resumo", "opcao_a", "opcao_b", "final", "lore")}
 
 
 def mensagem_proximo_passo(roteiro: dict) -> str:

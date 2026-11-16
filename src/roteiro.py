@@ -7,7 +7,7 @@ import time
 import requests
 
 from .animacao import GUIA_CENAS, normalizar
-from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado, normalizar_plano, regras_gato
+from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado, normalizar_plano, regras_gato, regras_lore
 from .personagem import escolher_protagonista
 from . import serie
 from .util import carregar_historico, env, log
@@ -96,6 +96,7 @@ Tamanho: cerca de {palavras} palavras narradas no total (uns {cfg['duracao_alvo_
 
 {REGRAS_HISTORIA}
 {regras_gato(cfg)}
+{regras_lore(cfg, carregar_historico())}
 
 {GUIA_PLANOS}
 
@@ -135,6 +136,7 @@ referentes a "você" no {info['genero']} (ex.: "{'sozinha, assustada' if info['g
 
 {REGRAS_HISTORIA}
 {regras_gato(cfg)}
+{regras_lore(cfg, carregar_historico())}
 
 Regras de formato:
 - História ORIGINAL, em português do Brasil, linguagem simples e natural, frases curtas.

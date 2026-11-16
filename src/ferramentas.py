@@ -41,7 +41,8 @@ def _catalogo() -> str:
             f"personagem.pose: {', '.join(A.POSES)} | acao: {', '.join(A.ACOES_P)}\n"
             f"ameaca.tipo: {', '.join(A.AMEACAS)} | acao: {', '.join(A.ACOES_A)}\n"
             f"gato.acao: {', '.join(A.GATO_ACOES)}\n"
-            f"objeto.tipo: coleira, tigela, pelo, novelo, ratinho, pegadas, arranhoes, marcas_mao | tamanho: medio, perto\n"
+            f"objeto.tipo: coleira, tigela, pelo, novelo, ratinho, pegadas, arranhoes, marcas_mao, foto, bilhete, jornal, desenho"
+            f" | tamanho: medio, perto | texto (só foto, bilhete, jornal, desenho; até 4 palavras; no bilhete '|' quebra a linha)\n"
             f"posicao: {', '.join(A.POSICOES)} | tamanho: {', '.join(A.TAMANHOS)}\n"
             f"efeito: {', '.join(A.EFEITOS)} | camera: {', '.join(A.CAMERAS)}")
 
@@ -69,9 +70,11 @@ def contexto(_):
         print("\n=== TIPO DE VÍDEO: história nova (termina com dilema A/B) ===")
     else:
         print(bloco_para_roteiro(info))
-    from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado, regras_gato
+    from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado, regras_gato, regras_lore
     if regras_gato(cfg):
         print("\n=== " + regras_gato(cfg))
+    if regras_lore(cfg, carregar_historico()):
+        print("\n=== " + regras_lore(cfg, carregar_historico()))
     if modo_ilustrado(cfg):
         print(f"\nVisual do protagonista (para as descrições das imagens): {prot.get('visual', '')}")
         print(f"\n=== {REGRAS_HISTORIA}\n\n=== {GUIA_PLANOS}\n\n=== EXEMPLO DE roteiro.json ===\n{EXEMPLO_JSON}")
@@ -148,6 +151,8 @@ def validar(_):
     if maior > 3:
         avisos.append(f"{maior} cenas seguidas no mesmo cenário a partir da cena {onde}: intercale com closes "
                       "(personagem \"perto\" com cara de medo, o gato, uma pista em close) para não ficar repetitivo")
+    if (cfg.get("abismo_lore") or {}).get("ligado") and not r.get("lore"):
+        avisos.append('preencha "lore": [números das verdades do mistério que este episódio insinua] (veja o contexto)')
     if (cfg.get("gato") or {}).get("ligado") and not r.get("final"):
         pistas = sum(1 for c in r["cenas"] if c.get("objeto"))
         if pistas < 3:

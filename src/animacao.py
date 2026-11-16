@@ -82,6 +82,9 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   arranhoes | marcas_mao, "posicao": esquerda|centro|direita, "tamanho": medio | perto}. perto = close da pista no chão
   com a luz da lanterna (use sem personagem ou com o personagem "perto"). pegadas = trilha de patinhas de poeira indo
   para o fundo; arranhoes e marcas_mao (mãos compridas e escuras: o Abismo esteve ali) ficam na porta/janela/parede.
+  Pistas da origem do Abismo: foto (foto antiga de 1987, família na frente da casa, um rosto riscado, um vulto na
+  janela) | bilhete | jornal (recorte com manchete) | desenho (desenho de criança: o moço alto do sorriso). Essas
+  aceitam "texto" curto (até 4 palavras), ex.: {"tipo": "bilhete", "tamanho": "perto", "texto": "NÃO DESÇA|ELE IMITA"}.
   Para um Abismo sorrateiro, prefira espiando, passando e longe parado; deixe "medio parado" e o close para o clímax.
   posicao e tamanho como no personagem; "longe" coloca a ameaça no fundo do cenário (fim do corredor, topo da escada, porta, janela).
 - "gato": null ou o gato do protagonista (gato laranja de peito branco). acao: parado | andando (anda e senta) | correndo |

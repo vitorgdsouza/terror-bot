@@ -18,7 +18,9 @@ import math
 from PIL import Image, ImageDraw, ImageFilter
 
 TRACO = (24, 22, 30, 255)
-TIPOS = ["coleira", "tigela", "pelo", "novelo", "ratinho", "pegadas", "arranhoes", "marcas_mao"]
+TIPOS = ["coleira", "tigela", "pelo", "novelo", "ratinho", "pegadas", "arranhoes", "marcas_mao",
+         "foto", "bilhete", "jornal", "desenho"]
+ESCALA = {"coleira": 0.55, "ratinho": 0.8, "pelo": 0.8, "foto": 0.9, "bilhete": 0.8, "jornal": 1.0, "desenho": 1.0}
 NO_CHAO = {"coleira", "tigela", "pelo", "novelo", "ratinho"}
 S = 2
 
@@ -185,7 +187,7 @@ def desenhar(quadro: Image.Image, obj: dict, meta: dict, t: float, dur: float, n
         return
     # objetos no chão
     if tam == "perto":
-        u = cw * 0.55
+        u = cw * 0.55 * ESCALA.get(tipo, 1.0)
         cx, cy = cw * 0.5, ch * 0.74
         # luz da lanterna em cima do objeto
         luz = Image.new("L", quadro.size, 0)
@@ -193,9 +195,9 @@ def desenhar(quadro: Image.Image, obj: dict, meta: dict, t: float, dur: float, n
         luz = luz.filter(ImageFilter.GaussianBlur(cw * 0.06))
         quadro.paste(Image.new("RGBA", quadro.size, (255, 236, 190, 255)), (0, 0), luz.point(lambda v: int(v * 0.38)))
     else:
-        u = cw * 0.2 * meta.get("escala", 1.0)
+        u = cw * 0.2 * meta.get("escala", 1.0) * ESCALA.get(tipo, 1.0)
         cx, cy = x * cw, ch * (piso - 0.075)          # um pouco acima da borda (a câmera corta o rodapé)
-    img, brilho = DESENHOS[tipo](u, t)
+    img, brilho = DESENHOS[tipo](u, t, obj.get("texto", "")) if tipo in COM_TEXTO else DESENHOS[tipo](u, t)
     img = noite(img, 0.35 if tam != "perto" else 0.28)
     ox, oy = int(cx - img.width * 0.45), int(cy - img.height * 0.55)
     quadro.alpha_composite(img, (ox, oy))
@@ -209,3 +211,134 @@ def desenhar(quadro: Image.Image, obj: dict, meta: dict, t: float, dur: float, n
         dg.line((r * 2, r * 0.4, r * 2, r * 3.6), fill=(255, 245, 210, int(160 * pulso)), width=max(1, r // 6))
         dg.line((r * 0.4, r * 2, r * 3.6, r * 2), fill=(255, 245, 210, int(160 * pulso)), width=max(1, r // 6))
         quadro.alpha_composite(g.filter(ImageFilter.GaussianBlur(1)), (int(bx - r * 2), int(by - r * 2)))
+
+
+# ---------------------------------------------------------------- pistas sobre a origem do Abismo
+COM_TEXTO = {"bilhete", "jornal", "foto", "desenho"}
+
+
+def _fonte(px):
+    from PIL import ImageFont
+    from pathlib import Path
+    arq = Path(__file__).resolve().parent.parent / "assets" / "fontes" / "Poppins-Bold.ttf"
+    try:
+        return ImageFont.truetype(str(arq), max(8, int(px)))
+    except OSError:
+        return ImageFont.load_default()
+
+
+def _texto_centro(d, cx, y, texto, px, cor, larg_max):
+    f = _fonte(px)
+    while f.getlength(texto) > larg_max and px > 8:
+        px *= 0.9
+        f = _fonte(px)
+    d.text((cx - f.getlength(texto) / 2, y), texto, font=f, fill=cor)
+
+
+def _papel(u, prop, inclina):
+    """Folha de papel no chão (gira um pouco). Devolve img, draw, área útil."""
+    img, d = _tela(u * 1.3, u * 1.3)
+    U = u * S
+    w, h = U * prop[0], U * prop[1]
+    return img, d, ((img.width - w) / 2, (img.height - h) / 2, (img.width + w) / 2, (img.height + h) / 2)
+
+
+def _girar(img, ang):
+    return img.rotate(ang, resample=Image.BICUBIC, expand=False)
+
+
+def _foto(u, t, texto=""):
+    """Foto antiga: uma família na frente desta casa, o rosto de um deles riscado; atrás, um vulto alto."""
+    img, d, (x0, y0, x1, y1) = _papel(u, (0.8, 0.95), 0)
+    o = max(2, int(u * S * 0.015))
+    d.rectangle((x0, y0, x1, y1), fill=(232, 222, 196), outline=TRACO, width=o)
+    m = (x1 - x0) * 0.08
+    fx0, fy0, fx1, fy1 = x0 + m, y0 + m, x1 - m, y1 - (y1 - y0) * 0.22
+    d.rectangle((fx0, fy0, fx1, fy1), fill=(96, 84, 70))
+    # casa ao fundo e a família (silhuetas sépia)
+    cw_ = fx1 - fx0
+    d.polygon([(fx0 + cw_ * 0.15, fy0 + cw_ * 0.45), (fx0 + cw_ * 0.5, fy0 + cw_ * 0.18), (fx0 + cw_ * 0.85, fy0 + cw_ * 0.45)], fill=(70, 60, 50))
+    d.rectangle((fx0 + cw_ * 0.2, fy0 + cw_ * 0.45, fx0 + cw_ * 0.8, fy1), fill=(80, 68, 56))
+    for k, (px, alt) in enumerate(((0.25, 0.42), (0.45, 0.46), (0.65, 0.3))):
+        x = fx0 + cw_ * px
+        cab = cw_ * 0.06
+        topo = fy1 - cw_ * alt
+        d.ellipse((x - cab, topo - cab * 2, x + cab, topo), fill=(196, 176, 146))
+        d.rounded_rectangle((x - cab * 1.3, topo, x + cab * 1.3, fy1), radius=int(cab), fill=(150, 130, 104))
+        if k == 1:                                            # rosto riscado com caneta
+            for j in range(5):
+                d.line((x - cab * 1.2, topo - cab * (2 - j * 0.4), x + cab * 1.2, topo - cab * (1.6 - j * 0.4)), fill=(20, 16, 18), width=o)
+    # o vulto alto na janela de cima, sorrindo (quase não dá para ver)
+    vx, vy = fx0 + cw_ * 0.62, fy0 + cw_ * 0.5
+    d.rectangle((vx - cw_ * 0.06, vy - cw_ * 0.08, vx + cw_ * 0.06, vy + cw_ * 0.06), fill=(30, 26, 24))
+    d.ellipse((vx - cw_ * 0.025, vy - cw_ * 0.06, vx + cw_ * 0.025, vy - cw_ * 0.01), fill=(210, 205, 196))
+    d.arc((vx - cw_ * 0.02, vy - cw_ * 0.045, vx + cw_ * 0.02, vy - cw_ * 0.02), 10, 170, fill=(10, 10, 10), width=max(1, o // 2))
+    _texto_centro(d, (x0 + x1) / 2, fy1 + (y1 - fy1) * 0.25, texto or "1987", (y1 - fy1) * 0.42, (60, 50, 44), (x1 - x0) * 0.85)
+    return _final(_girar(img, -8)), ((x0 + x1) / 2 / S, y0 / S)
+
+
+def _bilhete(u, t, texto=""):
+    """Bilhete escrito à mão, dobrado ao meio."""
+    img, d, (x0, y0, x1, y1) = _papel(u, (0.75, 0.55), 0)
+    o = max(2, int(u * S * 0.015))
+    d.rectangle((x0, y0, x1, y1), fill=(238, 234, 220), outline=TRACO, width=o)
+    d.line(((x0 + x1) / 2, y0, (x0 + x1) / 2, y1), fill=(200, 194, 178), width=o)
+    linhas = (texto or "NÃO DESÇA").upper().split("|")[:3]
+    alt = (y1 - y0) / (len(linhas) + 1.3)
+    for i, ln in enumerate(linhas):
+        _texto_centro(d, (x0 + x1) / 2, y0 + alt * (0.55 + i), ln.strip(), alt * 0.55, (30, 34, 70), (x1 - x0) * 0.86)
+    return _final(_girar(img, 6)), ((x0 + x1) / 2 / S, y0 / S)
+
+
+def _jornal(u, t, texto=""):
+    """Recorte de jornal velho com a manchete e uma foto da casa."""
+    img, d, (x0, y0, x1, y1) = _papel(u, (0.85, 0.9), 0)
+    o = max(2, int(u * S * 0.015))
+    d.rectangle((x0, y0, x1, y1), fill=(214, 206, 178), outline=TRACO, width=o)
+    w = x1 - x0
+    _texto_centro(d, (x0 + x1) / 2, y0 + w * 0.06, (texto or "FAMÍLIA DESAPARECE").upper(), w * 0.1, (24, 22, 26), w * 0.9)
+    fy0 = y0 + w * 0.26
+    d.rectangle((x0 + w * 0.08, fy0, x0 + w * 0.55, fy0 + w * 0.42), fill=(90, 86, 80), outline=TRACO, width=max(1, o // 2))
+    d.polygon([(x0 + w * 0.14, fy0 + w * 0.22), (x0 + w * 0.31, fy0 + w * 0.07), (x0 + w * 0.49, fy0 + w * 0.22)], fill=(50, 48, 46))
+    d.rectangle((x0 + w * 0.17, fy0 + w * 0.22, x0 + w * 0.46, fy0 + w * 0.42), fill=(60, 58, 54))
+    for i in range(9):                                        # colunas de texto (rabiscos)
+        yy = fy0 + w * 0.02 + i * w * 0.05
+        d.line((x0 + w * 0.6, yy, x1 - w * 0.06, yy), fill=(120, 112, 96), width=max(1, o))
+    for i in range(4):
+        yy = fy0 + w * 0.47 + i * w * 0.05
+        d.line((x0 + w * 0.08, yy, x1 - w * 0.06, yy), fill=(120, 112, 96), width=max(1, o))
+    return _final(_girar(img, -4)), ((x0 + x1) / 2 / S, y0 / S)
+
+
+def _desenho(u, t, texto=""):
+    """Desenho de criança feito com giz de cera: uma menina, um gato e um homem alto e preto sorrindo."""
+    img, d, (x0, y0, x1, y1) = _papel(u, (0.9, 0.7), 0)
+    o = max(2, int(u * S * 0.015))
+    d.rectangle((x0, y0, x1, y1), fill=(240, 238, 230), outline=TRACO, width=o)
+    w, h = x1 - x0, y1 - y0
+    g = max(2, int(w * 0.018))
+    chao = y0 + h * 0.85
+    d.line((x0 + w * 0.05, chao, x1 - w * 0.05, chao), fill=(70, 150, 70), width=g)
+    # menina
+    mx = x0 + w * 0.22
+    d.ellipse((mx - w * 0.045, chao - h * 0.5, mx + w * 0.045, chao - h * 0.38), outline=(200, 80, 60), width=g)
+    d.line((mx, chao - h * 0.38, mx, chao - h * 0.15), fill=(200, 80, 60), width=g)
+    d.line((mx - w * 0.05, chao, mx, chao - h * 0.15, mx + w * 0.05, chao), fill=(200, 80, 60), width=g)
+    # gatinho laranja
+    gx = x0 + w * 0.38
+    d.ellipse((gx - w * 0.04, chao - h * 0.12, gx + w * 0.04, chao), outline=(226, 136, 56), width=g)
+    d.polygon([(gx - w * 0.035, chao - h * 0.1), (gx - w * 0.02, chao - h * 0.17), (gx - w * 0.005, chao - h * 0.11)], outline=(226, 136, 56))
+    # o homem alto e preto, sorriso enorme
+    hx = x0 + w * 0.72
+    d.rectangle((hx - w * 0.04, chao - h * 0.78 * 0.62, hx + w * 0.04, chao), fill=(18, 18, 22))
+    d.line((hx - w * 0.04, chao - h * 0.78 * 0.55, hx - w * 0.16, chao - h * 0.78 * 0.3), fill=(18, 18, 22), width=g * 2)
+    d.line((hx + w * 0.04, chao - h * 0.78 * 0.55, hx + w * 0.16, chao - h * 0.78 * 0.3), fill=(18, 18, 22), width=g * 2)
+    d.ellipse((hx - w * 0.07, chao - h * 0.78 * 0.82, hx + w * 0.07, chao - h * 0.78 * 0.6), fill=(18, 18, 22))
+    d.arc((hx - w * 0.05, chao - h * 0.78 * 0.76, hx + w * 0.05, chao - h * 0.78 * 0.64), 10, 170, fill=(240, 238, 230), width=g)
+    for ex in (-0.025, 0.025):
+        d.ellipse((hx + w * ex - w * 0.012, chao - h * 0.78 * 0.76, hx + w * ex + w * 0.012, chao - h * 0.78 * 0.72), fill=(240, 238, 230))
+    _texto_centro(d, (x0 + x1) / 2, y0 + h * 0.04, (texto or "O MOÇO DO SORRISO").upper(), h * 0.09, (40, 60, 160), w * 0.9)
+    return _final(_girar(img, 5)), ((x0 + x1) / 2 / S, y0 / S)
+
+
+DESENHOS.update({"foto": _foto, "bilhete": _bilhete, "jornal": _jornal, "desenho": _desenho})
