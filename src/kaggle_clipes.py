@@ -40,7 +40,7 @@ def _kaggle(*args, checar=True) -> str:
     return saida
 
 
-def enviar_dataset(pasta: Path) -> None:
+def enviar_dataset(pasta: Path, DATASET: str = DATASET) -> None:
     usuario = _usuario()
     (pasta / "dataset-metadata.json").write_text(json.dumps({
         "title": DATASET, "id": f"{usuario}/{DATASET}", "licenses": [{"name": "CC0-1.0"}]}))
@@ -56,7 +56,7 @@ def enviar_dataset(pasta: Path) -> None:
     raise RuntimeError("O Kaggle não terminou de processar o dataset de entrada em 10 minutos.")
 
 
-def _status_kernel(usuario: str) -> str:
+def _status_kernel(usuario: str, KERNEL: str = KERNEL) -> str:
     """Só o estado do notebook (ex.: "running", "complete", "error"), sem o resto da frase."""
     st = _kaggle("kernels", "status", f"{usuario}/{KERNEL}", checar=False)
     if 'has status "' in st:
@@ -64,14 +64,15 @@ def _status_kernel(usuario: str) -> str:
     return st.lower().replace("kernelworkerstatus.", "")
 
 
-def rodar_kernel(espera_max_min: int = 300, so_esperar: bool = False) -> None:
+def rodar_kernel(espera_max_min: int = 300, so_esperar: bool = False, SCRIPT: Path = SCRIPT_KAGGLE,
+                 KERNEL: str = KERNEL, DATASET: str = DATASET) -> None:
     usuario = _usuario()
-    pasta = RAIZ / "trabalho" / "kaggle_kernel"
+    pasta = RAIZ / "trabalho" / f"kernel_{KERNEL}"
     shutil.rmtree(pasta, ignore_errors=True)
     pasta.mkdir(parents=True)
-    shutil.copy(SCRIPT_KAGGLE, pasta / "clipes_kaggle.py")
+    shutil.copy(SCRIPT, pasta / SCRIPT.name)
     (pasta / "kernel-metadata.json").write_text(json.dumps({
-        "id": f"{usuario}/{KERNEL}", "title": KERNEL, "code_file": "clipes_kaggle.py",
+        "id": f"{usuario}/{KERNEL}", "title": KERNEL, "code_file": SCRIPT.name,
         "language": "python", "kernel_type": "script", "is_private": True,
         "enable_gpu": True, "enable_internet": True,
         "dataset_sources": [f"{usuario}/{DATASET}"], "competition_sources": [], "kernel_sources": []}))
@@ -85,7 +86,7 @@ def rodar_kernel(espera_max_min: int = 300, so_esperar: bool = False) -> None:
         time.sleep(60)
     inicio = time.time()
     while time.time() - inicio < espera_max_min * 60:
-        st = _status_kernel(usuario)
+        st = _status_kernel(usuario, KERNEL)
         if st == "complete":
             log("Kaggle terminou.")
             return
@@ -96,14 +97,14 @@ def rodar_kernel(espera_max_min: int = 300, so_esperar: bool = False) -> None:
     raise RuntimeError(f"O Kaggle passou de {espera_max_min} minutos.")
 
 
-def baixar(destino: Path) -> dict:
+def baixar(destino: Path, KERNEL: str = KERNEL) -> dict:
     usuario = _usuario()
     shutil.rmtree(destino, ignore_errors=True)
     destino.mkdir(parents=True)
     _kaggle("kernels", "output", f"{usuario}/{KERNEL}", "-p", str(destino))
     rel = next(destino.rglob("relatorio.json"), None)
     relatorio = json.loads(rel.read_text()) if rel else {"erros": ["relatorio.json não veio"]}
-    relatorio["arquivos"] = {p.stem: str(p) for p in destino.rglob("*.mp4")}
+    relatorio["arquivos"] = {p.stem: str(p) for p in list(destino.rglob("*.mp4")) + list(destino.rglob("*.wav"))}
     return relatorio
 
 

@@ -1,0 +1,31 @@
+name: Teste voz do canal (Kaggle)
+
+on:
+  workflow_dispatch:          # botão "Run workflow" na aba Actions
+
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar FFmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt "kaggle>=1.8" six
+
+      - name: Gerar amostras da voz e mandar no Telegram
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          VOZ_CHAVE: ${{ secrets.VOZ_CHAVE }}
+        run: python -m src.voz_clone --teste

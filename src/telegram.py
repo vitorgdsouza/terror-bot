@@ -1,4 +1,6 @@
 """Comunicação com o Telegram: mensagens, vídeo e leitura de comandos."""
+from pathlib import Path
+
 import requests
 
 from .util import env
@@ -41,6 +43,14 @@ def enviar_video(caminho, legenda: str) -> None:
                                 "supports_streaming": "true", "width": 1080, "height": 1920},
                           files={"video": ("video.mp4", f, "video/mp4")})
     _checar(r, "o vídeo")
+
+
+def enviar_audio(caminho, legenda: str) -> None:
+    with open(caminho, "rb") as f:
+        r = requests.post(_url("sendAudio"), timeout=300,
+                          data={"chat_id": env("TELEGRAM_CHAT_ID"), "caption": legenda[:1024], "title": legenda[:60]},
+                          files={"audio": (Path(str(caminho)).name, f, "audio/mpeg")})
+    _checar(r, "o áudio")
 
 
 def ler_mensagens_novas() -> list[dict]:
