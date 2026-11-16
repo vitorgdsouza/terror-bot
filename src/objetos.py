@@ -20,7 +20,7 @@ from PIL import Image, ImageDraw, ImageFilter
 TRACO = (24, 22, 30, 255)
 TIPOS = ["coleira", "tigela", "pelo", "novelo", "ratinho", "pegadas", "arranhoes", "marcas_mao",
          "foto", "bilhete", "jornal", "desenho"]
-ESCALA = {"coleira": 0.42, "ratinho": 0.8, "pelo": 0.8, "foto": 0.9, "bilhete": 0.8, "jornal": 1.0, "desenho": 1.0}
+ESCALA = {"coleira": 0.26, "ratinho": 0.8, "pelo": 0.8, "foto": 0.9, "bilhete": 0.8, "jornal": 1.0, "desenho": 1.0}
 NO_CHAO = {"coleira", "tigela", "pelo", "novelo", "ratinho"}
 S = 2
 
@@ -164,11 +164,15 @@ def desenhar(quadro: Image.Image, obj: dict, meta: dict, t: float, dur: float, n
         camada = Image.new("RGBA", quadro.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(camada)
         if tipo == "arranhoes":
+            # quatro riscos na parte de baixo da porta (altura de um gato), proporcionais ao tamanho da porta
+            larg_p, alt_p = rw * cw, rh * ch
+            comp, esp = alt_p * 0.16, max(2, int(larg_p * 0.025))
             for i in range(4):
-                x0 = (rx + rw * (0.25 + i * 0.12)) * cw
-                y0 = (ry + rh * 0.45) * ch
-                d.line((x0, y0, x0 + cw * 0.03, y0 + ch * 0.09), fill=(210, 200, 186, 210), width=max(3, int(cw * 0.006)))
-                d.line((x0 + 3, y0 + 2, x0 + cw * 0.03 + 3, y0 + ch * 0.09 + 2), fill=(30, 26, 32, 200), width=max(2, int(cw * 0.003)))
+                x0 = rx * cw + larg_p * (0.3 + i * 0.09)
+                y0 = ry * ch + alt_p * 0.66 + i * alt_p * 0.008
+                d.line((x0, y0, x0 + larg_p * 0.05, y0 + comp), fill=(168, 146, 120, 185), width=esp)
+                d.line((x0 + esp, y0 + esp * 0.6, x0 + larg_p * 0.05 + esp, y0 + comp + esp * 0.6), fill=(26, 22, 28, 190),
+                       width=max(1, esp // 2))
         else:
             for j, (hx, hy, ang) in enumerate(((0.3, 0.35, -12), (0.62, 0.52, 9))):
                 cx, cy = (rx + rw * hx) * cw, (ry + rh * hy) * ch

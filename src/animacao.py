@@ -229,7 +229,9 @@ def normalizar(cena: dict) -> None:
         if cena.get("ameaca"):
             cena["ameaca"].update(acao="passando", tamanho="longe")
     a, p = cena["ameaca"], cena["personagem"]
-    if a and p and a["tamanho"] == "longe" and a["posicao"] == "centro" and p["posicao"] == "centro" and p["tamanho"] != "longe":
+    alto = META.get(cena["cenario"], {}).get("fundo", [0.5, 0.6])[1] < 0.42   # fundo bem acima da cabeça (escada)
+    if a and p and a["tamanho"] == "longe" and a["posicao"] == "centro" and p["posicao"] == "centro" \
+            and p["tamanho"] != "longe" and not alto:
         a["_desvio"] = 0.12          # não deixa o vulto do fundo escondido atrás da cabeça do personagem
 
 
@@ -630,6 +632,8 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
     if tam == "longe":
         x, piso, frac = (fundo[0] if a["posicao"] == "centro" else POSICOES[a["posicao"]]), fundo[1], fundo[2]
         x += a.get("_desvio", 0)
+        if fundo[1] < 0.42 and a["acao"] != "passando":
+            x = fundo[0]                               # no alto da escada: sempre no meio do patamar
     else:
         x, piso = POSICOES[a["posicao"]], (meta.get("piso", 0.9) if tam == "medio" else 1.3)
     if a["acao"] == "aproximando":
