@@ -51,6 +51,15 @@ def enviar_video(caminho, legenda: str) -> None:
     _checar(r, "o vídeo")
 
 
+def enviar_arquivo(caminho, legenda: str = "") -> None:
+    caminho = Path(caminho)
+    with open(caminho, "rb") as f:
+        r = requests.post(_url("sendDocument"), timeout=120,
+                          data={"chat_id": env("TELEGRAM_CHAT_ID"), "caption": legenda[:1024]},
+                          files={"document": (caminho.name, f)})
+    _checar(r, "o arquivo")
+
+
 def enviar_audio(caminho, legenda: str) -> None:
     with open(caminho, "rb") as f:
         r = requests.post(_url("sendAudio"), timeout=300,

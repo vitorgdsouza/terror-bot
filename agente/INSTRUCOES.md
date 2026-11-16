@@ -89,6 +89,8 @@ Direção das cenas (como num desenho animado):
   `"gato": {"acao": "...", "posicao": "...", "tamanho": "..."}` (veja os valores no guia das cenas).
   Exemplos: {"acao": "assustado", "posicao": "direita", "tamanho": "medio"} antes da ameaça surgir;
   {"acao": "escondido", "posicao": "centro", "tamanho": "perto"} no cenário debaixo_cama.
+- Thumb: preencha "pergunta_thumb" com uma pergunta-gancho curta (até 35 caracteres) ligada ao dilema,
+  ex.: "Você subiria para buscar o Stu?". A thumb é gerada sozinha a partir da cena do clímax.
 - Voz do narrador: preencha "clima": "calma" ou "suspense" (escolhe o tom do narrador: "calma" para mistério lento, solidão, algo estranho e melancólico; "suspense" para perseguição, invasão, algo te observando, ameaça crescendo).
 
 ```json

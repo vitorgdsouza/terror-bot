@@ -311,6 +311,8 @@ def enviar_agora(r: dict, cfg: dict, nota: str = "") -> None:
     (TRAB / "legenda_do_post.txt").write_text(legenda, encoding="utf-8")
     telegram.enviar_video(FINAL, legenda)
     telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
+    from .thumb import enviar_thumbs
+    enviar_thumbs(r, TRAB / "thumbs")
     custo = r.get("_ilustracoes", {})
     if nota or custo:
         extra = f"\nIlustrações geradas: {custo.get('geradas', 0)} (~US$ {custo.get('custo_usd', 0)})" if custo else ""
