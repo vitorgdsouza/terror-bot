@@ -1,0 +1,38 @@
+name: Teste Kaggle (IA grátis)
+
+on:
+  workflow_dispatch:          # botão "Run workflow" na aba Actions (funciona no celular)
+
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar FFmpeg e fontes
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt "kaggle>=1.8"
+
+      - name: Gerar clipes no Kaggle e mandar no Telegram
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m src.kaggle_clipes --teste
+
+      - name: Guardar clipes e relatório
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: teste-kaggle
+          path: trabalho/teste_kaggle
+          if-no-files-found: ignore

@@ -28,8 +28,13 @@ PASTA_PER = RAIZ / "assets" / "personagem"
 META = json.loads((PASTA_CEN / "cenarios.json").read_text(encoding="utf-8"))
 
 CENARIOS = list(META) + ["celular_cftv"]
-POSES = ["frente", "medo", "gritando", "encolhida", "costas", "celular", "lanterna"]
-ACOES_P = ["parado", "andando", "entrando", "saindo", "tremendo", "virando"]
+POSES = ["frente", "medo", "gritando", "encolhida", "costas", "celular", "lanterna",
+         "sentado", "abrindo_porta", "agachado", "olhando_tras"]
+ACOES_P = ["parado", "andando", "correndo", "entrando", "saindo", "afastando", "aproximando", "tremendo", "virando"]
+try:
+    ESTILO_PERSONAGEM = json.loads((RAIZ / "config" / "serie.json").read_text(encoding="utf-8")).get("personagem_estilo", "boneco")
+except Exception:
+    ESTILO_PERSONAGEM = "boneco"
 ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo"]
 AMEACAS = ["abismo", "olhos", "invasor"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
@@ -51,10 +56,15 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   porao (caixas, lâmpada pendurada, escada ao fundo) | garagem (carro velho, ferramentas, portão aberto para a noite) |
   casa_fora (a casa vista da calçada à noite, uma janela acesa) | rua (rua de bairro vista do alto, poste aceso, carros) | celular_cftv (close das mãos segurando o celular; na tela, a câmera de segurança mostrando outro cenário)
 - "tela": só no celular_cftv, qual cenário aparece na câmera (ex.: "sala"). O personagem e a ameaça dessa cena aparecem DENTRO da câmera.
-- "personagem": o protagonista ou null. pose: frente | medo (rosto assustado, mãos no peito) | gritando (terror, mãos para frente) |
-  encolhida (agachada abraçando o corpo, de medo) | costas. Ao andar/entrar/sair ele aparece de perfil.
-  Na mulher, medo começa com o rosto normal e muda quando a ameaça surge ou na primeira palavra forte da narração.
-  acao: parado | andando | entrando (entra pelo lado) | saindo (vira e sai) | tremendo | virando (estava de costas e vira).
+- "personagem": o protagonista ou null. É um boneco animado de verdade (anda mexendo pernas e braços, segura objetos, muda a cara).
+  pose (o que ele faz parado): frente | medo (cara de medo, mãos no peito) | gritando (apavorado) | encolhida (sentado no chão
+  abraçando os joelhos, mãos na boca) | costas | celular (olhando o celular aceso na mão) | lanterna (apontando a lanterna) |
+  sentado (sentado na cadeira mexendo no computador) | abrindo_porta (estende a mão devagar) | agachado (agachado olhando algo
+  no chão) | olhando_tras (de lado, virando o rosto para trás).
+  acao: parado | andando (anda de lado e para) | correndo | entrando (entra pelo lado e para) | saindo (sai pelo lado) |
+  afastando (de costas, andando para o fundo da cena) | aproximando (de frente, andando para a câmera) | tremendo | virando
+  (estava de costas e vira). Ao parar, ele fica na pose escolhida.
+  "depois" (opcional): uma segunda pose que ele assume no meio da cena (ex.: pose "frente", depois "celular").
   posicao: esquerda | centro | direita. tamanho: longe | medio | perto (perto = close do rosto e do tronco).
 - "ameaca": null ou o perigo. tipo: abismo (O ABISMO: silhueta humana toda preta, rosto pálido de olhos arregalados e sorriso enorme;
   parado = em pé; medio parado = agachado observando; aproximando = vem em posição de ataque; perto = close do rosto) |
@@ -152,6 +162,8 @@ def normalizar(cena: dict) -> None:
             p["acao"] = p.get("acao") if p.get("acao") in ACOES_P else "parado"
             p["posicao"] = p.get("posicao") if p.get("posicao") in POSICOES else "centro"
             p["tamanho"] = p.get("tamanho") if p.get("tamanho") in TAMANHOS else "medio"
+            if p.get("depois") not in POSES:
+                p.pop("depois", None)
     else:
         cena["personagem"] = None
     if META.get(cena["cenario"], {}).get("detalhe") and cena["personagem"]:
@@ -214,7 +226,134 @@ def _luz(larg: int, alt: int, cor, alfa: int, blur: int) -> Image.Image:
     return _cache[chave]
 
 
+def _noite(img: Image.Image, k: float) -> Image.Image:
+    """Escurece e puxa para o azul (o boneco é desenhado com cores de dia)."""
+    if k <= 0:
+        return img
+    r, g, b, a = img.split()
+    r = r.point(lambda x: int(x * (1 - 0.55 * k)))
+    g = g.point(lambda x: int(x * (1 - 0.47 * k)))
+    b = b.point(lambda x: int(x * (1 - 0.25 * k)))
+    return Image.merge("RGBA", (r, g, b, a))
+
+
+def _feixe(quadro, origem, ang, comp):
+    """Feixe de luz da lanterna saindo de "origem" na direção "ang" (graus, como atan2 na imagem)."""
+    comp = max(60, int(comp) // 40 * 40)
+    angq = round(ang / 3) * 3
+    chave = ("feixe", comp, angq)
+    if chave not in _cache:
+        base = Image.new("L", (comp * 2, comp * 2), 0)
+        from PIL import ImageChops
+        for i in range(10):
+            k = i / 9
+            camada = Image.new("L", base.size, 0)
+            abre = math.radians(15 - 8 * k)
+            alc = comp * (1 - 0.35 * k)
+            ImageDraw.Draw(camada).polygon([(comp, comp), (comp + alc * math.cos(abre), comp - alc * math.sin(abre)),
+                                            (comp + alc * math.cos(abre), comp + alc * math.sin(abre))], fill=13)
+            base = ImageChops.add(base, camada)
+        base = base.filter(ImageFilter.GaussianBlur(comp / 40)).rotate(-angq, resample=Image.BICUBIC, center=(comp, comp))
+        im = Image.new("RGBA", base.size, (255, 238, 180, 0))
+        im.putalpha(base)
+        _cache[chave] = im
+    im = _cache[chave]
+    quadro.alpha_composite(im, (int(origem[0] - comp), int(origem[1] - comp)))
+
+
+ESCALA_BONECO = {"longe": 0.8, "medio": 0.74, "perto": 0.95}   # o boneco tem cabeça grande: fica um pouco menor
+NOITE_BONECO = 0.58
+
+
+def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4, paralaxe=0.0, tenso=False):
+    """Protagonista como boneco articulado (src/boneco.py): anda de verdade, segura objetos e muda a expressão."""
+    from . import boneco as B
+    cw, ch = quadro.size
+    acao, pose, tam = p["acao"], p["pose"], p["tamanho"]
+    altura = int(ch * TAMANHOS[tam] * ESCALA_BONECO.get(tam, 0.75) * escala_tela)
+    piso = meta.get("piso", 0.9)
+    fundo = meta.get("fundo", [0.5, piso, 0.4])
+    if tam == "longe":
+        piso = (fundo[1] + piso) / 2
+    elif tam == "perto":
+        piso = 1.25
+    alvo = POSICOES[p["posicao"]] * cw
+    lado = -1 if alvo <= cw / 2 else 1
+    corre = acao == "correndo"
+    vel = (0.62 if corre else 0.31) * altura          # velocidade que combina com o passo (sem "deslizar")
+    tipo_passo = "correndo" if corre else "andando"
+    x, movendo, sentido, parou_em = alvo, False, 0, None
+    escala, piso_mov = 1.0, piso
+    if acao == "entrando":
+        inicio = alvo + lado * 0.7 * cw
+        T = abs(inicio - alvo) / vel
+        x = inicio + (alvo - inicio) * min(1.0, t / T)
+        movendo, sentido, parou_em = t < T, -lado, T
+    elif acao == "saindo":
+        t0 = dur * 0.3
+        x = alvo + lado * max(0.0, t - t0) * vel
+        movendo, sentido = t > t0, lado
+    elif acao in ("andando", "correndo"):
+        dist = min(0.36 * cw, vel * dur * 0.85)
+        T = dist / vel
+        x = alvo - lado * dist / 2 + lado * min(t, T) * vel
+        movendo, sentido, parou_em = t < T, lado, T
+    elif acao in ("afastando", "aproximando"):
+        k = _suave(t / dur) if dur else 1
+        if acao == "aproximando":
+            k = 1 - k
+        escala = 1 - 0.45 * k                          # vai ficando menor ao se afastar
+        piso_mov = piso + (fundo[1] - piso) * 0.55 * k
+        x = alvo + (fundo[0] * cw - alvo) * 0.5 * k
+    # medo: a expressão muda quando a ameaça surge (ou na primeira palavra forte)
+    alvo_medo = {"medo": 0.75, "gritando": 1.0, "encolhida": 0.9}.get(pose, 0.35 if tenso else 0.0)
+    if acao == "tremendo":
+        alvo_medo = max(alvo_medo, 0.8)
+    medo = alvo_medo
+    muda = p.get("_muda_em")
+    if pose in ("medo", "gritando") and muda is not None:
+        medo = 0.15 + (alvo_medo - 0.15) * _suave((t - muda) / 0.5)
+    expressao = "aterrorizado" if pose == "gritando" and medo > 0.8 else None
+    parado_como = {"frente": "parado", "medo": "parado", "gritando": "parado", "encolhida": "escondido",
+                   "costas": "costas", "celular": "celular", "lanterna": "lanterna", "sentado": "sentado",
+                   "abrindo_porta": "abrindo_porta", "agachado": "agachado", "olhando_tras": "olhando_tras"}.get(pose, "parado")
+    espelhar_parado = x > cw / 2
+    if acao in ("afastando", "aproximando"):
+        pose_b = B.animar(acao, t, dur, medo, expressao)
+    elif movendo:
+        pose_b = B.animar(tipo_passo, t, dur, medo, expressao, espelhar=sentido < 0)
+    elif parou_em is not None and t - parou_em < 0.4:   # acabou de parar: passa suavemente para a pose da cena
+        pose_b = B.misturar(B.animar(tipo_passo, t, dur, medo, expressao, espelhar=sentido < 0),
+                            B.animar(parado_como, t, dur, medo, expressao, espelhar=espelhar_parado), (t - parou_em) / 0.4)
+    elif acao == "virando":
+        pose_b = B.pose_cena("virando", t, dur, medo, espelhar_parado, expressao)
+    else:
+        depois = p.get("depois")
+        pose_b = B.pose_cena(parado_como, t, dur, medo, espelhar_parado, expressao,
+                             depois={"frente": "parado", "medo": "parado"}.get(depois, depois) if depois else None,
+                             troca_em=p.get("troca_em", dur * 0.5) if depois else None)
+    img, info = B.desenhar(pose_b, max(40, int(altura * escala)), prot)
+    img = _noite(img, NOITE_BONECO if noturno >= 0.35 else noturno)
+    pes_x, pes_y = info["pes"]
+    cx = x + paralaxe * cw
+    chao = ch * piso_mov
+    if tam != "perto":
+        sb = _sombra_chao(int(img.width * 0.32))
+        quadro.alpha_composite(sb, (int(cx - sb.width / 2), int(chao - sb.height / 2)))
+    ox, oy = int(cx - pes_x), int(chao - pes_y)
+    quadro.alpha_composite(img, (ox, oy))
+    if "tela" in info:                                  # luz azulada do celular no rosto
+        rx, ry = info["rosto"]
+        luz = _luz(int(altura * escala * 0.22), int(altura * escala * 0.26), (140, 190, 255), 34, max(6, int(altura * 0.03)))
+        quadro.alpha_composite(luz, (int(ox + rx - luz.width / 2), int(oy + ry - luz.height / 2)))
+    if "lanterna" in info:
+        (bx, by), ang = info["lanterna"]
+        _feixe(quadro, (ox + bx, oy + by), ang, altura * escala * 0.95)
+
+
 def _desenhar_personagem(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4, paralaxe=0.0, tenso=False):
+    if ESTILO_PERSONAGEM == "boneco":
+        return _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela, noturno, paralaxe, tenso)
     cw, ch = quadro.size
     acao, pose = p["acao"], p["pose"]
     prog = t / dur if dur else 0
@@ -285,6 +424,53 @@ def _desenhar_personagem(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno
 
 
 # ---------------------------------------------------------------- ameaça
+def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, frac, alfa):
+    """O Abismo desenhado e animado a cada quadro (src/abismo_anim.py)."""
+    from . import abismo_anim as AB
+    cw, ch = quadro.size
+    tam, acao = a["tamanho"], a["acao"]
+    prog = t / dur if dur else 0
+    if tam == "perto":                                 # close do rosto: o sorriso vai abrindo devagar
+        pose = AB.animar("parado", t, dur)
+        pose["sorriso"] = 0.3 + 0.85 * _suave(prog / 0.8)
+        cresce = 1 + (0.15 * _suave(prog) if acao == "aproximando" else 0.05 * prog)
+        img, _ = AB.desenhar_rosto(pose, int(ch * 0.6 * cresce * escala_tela))
+        img = _com_alfa(_noite(img, 0.3), alfa)
+        cx, cy = cw * x + paralaxe * cw * 0.4, ch * 0.47
+        _aura(quadro, cx, cy, img.width * 2.0, img.height * 1.4, alfa)
+        quadro.alpha_composite(img, (int(cx - img.width / 2), int(cy - img.height / 2)))
+        return
+    espelhar = x > 0.5                                  # agachado ou atacando: virado para o meio da cena
+    if acao == "aproximando":
+        movimento = "ataque" if tam == "medio" else "andando"
+    elif tam == "medio" and acao == "parada":
+        movimento = "observando"
+    else:
+        movimento = "parado"
+    if tam == "longe":
+        altura = ch * frac * 1.2
+    else:
+        altura = ch * (0.46 if movimento != "observando" else 0.54)
+        piso = min(meta.get("piso", 0.9), 0.97)
+    if acao == "aproximando":
+        altura *= 1 + 0.3 * _suave(prog)
+        x = x + (0.5 - x) * 0.35 * _suave(prog)
+    if acao == "aparecendo" and alfa < 0.95 and int(t * 24) % 5 == 0:
+        alfa = min(1.0, alfa * 2.2)                     # pisca entre aparecer e sumir antes de ficar
+    pose = AB.animar(movimento, t, dur, espelhar=espelhar and movimento != "parado" and movimento != "andando")
+    img, info = AB.desenhar(pose, int(altura * escala_tela))
+    img = _com_alfa(_noite(img, 0.25), alfa)
+    cx = cw * x + paralaxe * cw * 0.4
+    chao = ch * piso
+    ox, oy = int(cx - info["pes"][0]), int(chao - info["pes"][1])
+    bb = img.getbbox() or (0, 0, img.width, img.height)
+    _aura(quadro, ox + (bb[0] + bb[2]) / 2, oy + (bb[1] + bb[3]) / 2, (bb[2] - bb[0]) * 2.0, (bb[3] - bb[1]) * 1.4,
+          alfa * (0.85 + 0.15 * math.sin(t * 1.1)))
+    sb = _sombra_chao(int((bb[2] - bb[0]) * 0.6))
+    quadro.alpha_composite(_com_alfa(sb, alfa), (int(cx - sb.width / 2), int(chao - sb.height / 2)))
+    quadro.alpha_composite(img, (ox, oy))
+
+
 def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
     cw, ch = quadro.size
     prog = t / dur if dur else 0
@@ -348,6 +534,9 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
             quadro.alpha_composite(_com_alfa(sb, alfa), (cx - sb.width // 2, int(ch * piso) - sb.height // 2))
         quadro.alpha_composite(img, (cx - img.width // 2, pes - int(img.height * PES_NO_DESENHO)))
         return
+
+    if ESTILO_PERSONAGEM == "boneco":
+        return _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, frac, alfa)
 
     # O ABISMO: silhueta preta com rosto pálido e sorriso enorme. Fica no chão, quase parado; é o silêncio que assusta.
     if tam == "perto":

@@ -16,6 +16,12 @@ EFEITOS_VOZ = {
     # "narrador_limpo": voz clara e próxima, como nos canais de animação de terror (sem eco, sem mudar o tom)
     "narrador_limpo": ("aresample=44100,highpass=f=70,equalizer=f=140:t=q:w=1:g=3,equalizer=f=3200:t=q:w=1.4:g=2.5,"
                        "acompressor=threshold=-18dB:ratio=3.5:attack=5:release=150,loudnorm=I=-15:TP=-1.5:LRA=9,aresample=44100"),
+    # "narrador_serio": voz grave, quente e calma, gostosa de ouvir: corta o "ruído" de baixo, dá corpo nos graves,
+    # tira o som embolado e o chiado dos "s", suaviza os agudos, compressão leve e só um toque de ambiente
+    "narrador_serio": ("aresample=44100,highpass=f=60,equalizer=f=170:t=q:w=1:g=2.5,equalizer=f=420:t=q:w=1.2:g=-2,"
+                       "equalizer=f=2700:t=q:w=1.5:g=1.5,deesser=i=0.4:m=0.5:f=0.5,lowpass=f=11500,"
+                       "acompressor=threshold=-20dB:ratio=2.5:attack=8:release=220:makeup=1.5,"
+                       "aecho=0.85:0.4:28:0.06,loudnorm=I=-16:TP=-1.5:LRA=8,aresample=44100"),
     "nenhum": "",
 }
 

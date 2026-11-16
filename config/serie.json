@@ -3,7 +3,7 @@
   "idioma": "pt-BR",
   "tema_padrao": "situações de terror realistas do dia a dia em que VOCÊ é o protagonista: sozinho em casa enquanto a família viaja, um estranho escondido dentro de casa, sinais de que alguém entrou, uma câmera de segurança que mostra algo, mensagens de número desconhecido, um vizinho estranho, o primeiro dia num emprego noturno, uma casa alugada, uma viagem de carro à noite",
   "duracao_alvo_segundos": 150,
-  "numero_de_cenas": 14,
+  "numero_de_cenas": 20,
   "formato": "segunda_pessoa_com_escolha",
   "modo_visual": "biblioteca",
   "numero_de_planos": 40,
@@ -61,5 +61,6 @@
     "custo_por_imagem_usd": 0.045,
     "estilo": "2D digital cartoon illustration for a horror animation channel, flat colors with soft cel shading, clean thin dark outlines, simple and readable shapes, cozy detailed everyday Brazilian home, dark night atmosphere with deep navy blue shadows and small warm light sources, cinematic framing"
   },
-  "video_diario_automatico": false
+  "video_diario_automatico": false,
+  "personagem_estilo": "boneco"
 }

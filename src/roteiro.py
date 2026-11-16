@@ -132,7 +132,9 @@ Tema deste vídeo: {tema}
 Protagonista deste vídeo: {info['descricao']}. Gênero {info['genero'].upper()}: escreva adjetivos e particípios
 referentes a "você" no {info['genero']} (ex.: "{'sozinha, assustada' if info['genero'] == 'feminino' else 'sozinho, assustado'}").
 
-Regras da história:
+{REGRAS_HISTORIA}
+
+Regras de formato:
 - História ORIGINAL, em português do Brasil, linguagem simples e natural, frases curtas.
 - Cerca de {palavras} palavras no total (uns {cfg['duracao_alvo_segundos']} segundos narrados), em exatamente {n} cenas.
 - Cena 1: GANCHO imediato que coloca o espectador na situação ("Sua família viajou e você ficou sozinho em casa...").

@@ -8,7 +8,7 @@ from .util import MUSICA, RAIZ, duracao, log, rodar
 FONTES = RAIZ / "assets" / "fontes"
 
 W, H, FPS = 1080, 1920, 30
-PAUSA = 0.5          # silêncio no fim de cada cena (segundos)
+PAUSA = 0.35         # silêncio no fim de cada cena (segundos)
 LIMITE_MB = 48       # o Telegram aceita vídeos de bots até 50 MB
 
 
