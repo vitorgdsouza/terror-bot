@@ -6,6 +6,7 @@ Comandos:
     /ideias            sugere 5 ideias de histórias (numeradas, com botões)
     /ideias <assunto>  sugere 5 ideias sobre um assunto (ex.: /ideias hospital abandonado)
     /usar <n>          gera o vídeo da ideia n da última lista
+    /postar            publica o último vídeo pronto no TikTok e no YouTube Shorts
     /continuar A|B     nova parte da última história, a partir da opção vencedora
     /final A|B         última parte da história, a partir da opção vencedora
     /historia          mostra a última história e as opções dela
@@ -27,6 +28,7 @@ AJUDA = ("Comandos:\n"
          "/ideias - sugere 5 ideias de histórias\n"
          "/ideias hospital abandonado - 5 ideias sobre esse assunto\n"
          "/usar 3 - gera o vídeo da ideia 3 da última lista\n"
+         "/postar - publica o último vídeo no TikTok e no YouTube Shorts\n"
          "/continuar A - nova parte da última história, seguindo a opção A (ou B)\n"
          "/final B - última parte da história, seguindo a opção B (ou A)\n"
          "/historia - mostra a última história e as opções dela\n\n"
@@ -43,6 +45,7 @@ def _saida_actions(chave: str, valor: str) -> None:
 def main():
     dono = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
     pedido = None
+    postar = ""
     for msg in telegram.ler_mensagens_novas():
         chat, texto = msg["chat_id"], msg["texto"]
         if not dono or chat != dono:
@@ -86,6 +89,16 @@ def main():
                                      "Toque num botão (ou mande /usar 2) para gerar o vídeo dessa ideia. "
                                      "Pode também mandar /novo com a ideia editada do seu jeito.",
                                      botoes=[[f"/usar {n}" for n in range(1, len(ideias) + 1)]])
+        elif comando == "/postar":
+            from .postar import PENDENTE
+            p = json.loads(PENDENTE.read_text(encoding="utf-8")) if PENDENTE.exists() else None
+            if not p:
+                telegram.enviar_mensagem("Não há vídeo pronto para postar. Gere um com /novo ou /usar.")
+            elif p.get("postado"):
+                telegram.enviar_mensagem(f"\"{p['titulo']}\" já foi postado. Gere um vídeo novo para postar de novo.")
+            else:
+                postar = p["run_id"]
+                telegram.enviar_mensagem(f"Publicando \"{p['titulo']}\" no TikTok e no YouTube Shorts...")
         elif comando == "/usar":
             try:
                 lista = json.loads(IDEIAS.read_text(encoding="utf-8"))["ideias"]
@@ -102,6 +115,7 @@ def main():
             telegram.enviar_mensagem(AJUDA)
 
     _saida_actions("gerar", "sim" if pedido is not None else "nao")
+    _saida_actions("postar", postar)
     _saida_actions("tema", pedido or "")
     log(f"Pedido de vídeo: {pedido!r}" if pedido is not None else "Nenhum pedido novo.")
 

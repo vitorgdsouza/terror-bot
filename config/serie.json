@@ -94,5 +94,12 @@
       "Ele não consegue sair pela porta da frente: só existe dentro da casa e no que está ligado a ela."
     ],
     "paradeiro_do_gato": "O Stu está vivo, escondido nos espaços entre as paredes e no fundo do porão. O Abismo o usa como isca. Às vezes ele aparece na câmera de segurança ou o miado vem de dentro da parede."
+  },
+  "postagem": {
+    "plataformas": [
+      "tiktok",
+      "youtube"
+    ],
+    "marcar_ia": true
   }
 }

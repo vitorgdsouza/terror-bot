@@ -42,6 +42,9 @@ def main():
     import time
     telegram.enviar_video(final, f"{r['titulo']} (versão ajustada {time.strftime('%H:%M', time.localtime(time.time() - 3 * 3600))})")
     telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
+    from .postar import marcar_pendente
+    marcar_pendente(r["titulo"])
+    telegram.enviar_mensagem("Gostou? Mande /postar para publicar esta versão no TikTok e no YouTube Shorts.")
 
 
 if __name__ == "__main__":

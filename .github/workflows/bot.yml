@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: read               # para baixar o vídeo de outra execução no /postar
 
 concurrency:
   group: video
@@ -25,6 +26,8 @@ jobs:
       KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
       KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
       FREESOUND_API_KEY: ${{ secrets.FREESOUND_API_KEY }}
+      UPLOAD_POST_API_KEY: ${{ secrets.UPLOAD_POST_API_KEY }}
+      UPLOAD_POST_USER: ${{ secrets.UPLOAD_POST_USER }}
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       USAR_CLAUDE: ${{ vars.USAR_CLAUDE }}
@@ -58,8 +61,33 @@ jobs:
           TEMA: ${{ steps.comandos.outputs.tema }}
         run: bash scripts/gerar.sh "$TEMA"
 
+      - name: Baixar o vídeo para postar
+        if: steps.comandos.outputs.postar != ''
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ steps.comandos.outputs.postar }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: baixado
+
+      - name: Postar no TikTok e YouTube
+        if: steps.comandos.outputs.postar != ''
+        run: python -m src.postar
+
+      - name: Guardar o vídeo (para o /postar)
+        if: steps.comandos.outputs.gerar == 'sim'
+        uses: actions/upload-artifact@v4
+        with:
+          name: video
+          path: |
+            trabalho/roteiro.json
+            trabalho/vozes.json
+            trabalho/legenda_do_post.txt
+            trabalho/video/video_final.mp4
+          retention-days: 30
+          if-no-files-found: ignore
+
       - name: Salvar histórico de histórias
-        if: success()
+        if: success() || failure()
         run: |
           git config user.name "bot-terror"
           git config user.email "bot-terror@users.noreply.github.com"

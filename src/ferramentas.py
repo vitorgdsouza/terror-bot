@@ -318,6 +318,10 @@ def enviar_agora(r: dict, cfg: dict, nota: str = "") -> None:
     from .serie import campos_historico, mensagem_proximo_passo
     telegram.enviar_mensagem(mensagem_proximo_passo(r))
     salvar_no_historico(r["titulo"], r.get("tema", ""), r.get("protagonista", ""), campos_historico(r))
+    from .postar import marcar_pendente
+    marcar_pendente(r["titulo"])
+    if os.environ.get("GITHUB_RUN_ID"):
+        telegram.enviar_mensagem("Gostou? Mande /postar para publicar este vídeo no TikTok e no YouTube Shorts.")
     (TRAB / "ENVIADO").write_text("ok")
 
 

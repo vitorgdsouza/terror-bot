@@ -70,7 +70,7 @@ jobs:
           done
           exit 1
 
-      - name: Guardar o vídeo por 7 dias (aba Actions > esta execução > Artifacts)
+      - name: Guardar o vídeo por 30 dias (aba Actions > esta execução > Artifacts)
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -83,9 +83,7 @@ jobs:
             trabalho/vozes.json
             trabalho/legenda_do_post.txt
             trabalho/video/video_final.mp4
-            trabalho/video/video_final.mp4
-            trabalho/roteiro.json
             trabalho/previa.jpg
             trabalho/agente.log
-          retention-days: 7
+          retention-days: 30
           if-no-files-found: ignore
