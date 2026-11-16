@@ -1,0 +1,33 @@
+name: Teste voz Gemini (Enceladus etc.)
+
+on:
+  workflow_dispatch:
+    inputs:
+      voz:
+        description: "Nome da voz do Gemini"
+        default: "Enceladus"
+
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar FFmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Gerar amostras e mandar no Telegram
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m src.voz_gemini --teste --voz "${{ inputs.voz }}"
