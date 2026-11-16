@@ -55,6 +55,10 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   escada (vista de baixo, subindo para um andar escuro) | escada_cima (vista do andar de cima, descendo para um hall escuro) | banheiro (espelho, pia, box com cortina) |
   debaixo_cama (close no chão do quarto, chinelos e o escuro embaixo da cama: só personagem "perto"; o abismo "longe" aparece no escuro embaixo da cama) |
   porao (caixas, lâmpada pendurada, escada ao fundo) | garagem (carro velho, ferramentas, portão aberto para a noite) |
+  escritorio (estantes de livros, mesa de madeira com abajur aceso, poltrona de couro, janela) |
+  quarto_crianca (o antigo quarto da Lívia: cama com ursinho, berço, móbile de luas e estrelas, abajur de lua, baú de brinquedos) |
+  planta_andar (o andar visto de cima, como uma planta: escritório e quarto lado a lado, o guarda-roupa aberto e escuro;
+  só o lugar, sem personagem: ótimo para abrir a história ou mostrar a casa em silêncio) |
   casa_fora (a casa vista da calçada à noite, uma janela acesa) | rua (rua de bairro vista do alto, poste aceso, carros) | celular_cftv (close das mãos segurando o celular; na tela, a câmera de segurança mostrando outro cenário)
 - "tela": só no celular_cftv, qual cenário aparece na câmera (ex.: "sala"). O personagem e a ameaça dessa cena aparecem DENTRO da câmera.
 - "personagem": o protagonista ou null. É um boneco animado de verdade (anda mexendo pernas e braços, segura objetos, muda a cara).
@@ -220,6 +224,10 @@ def normalizar(cena: dict) -> None:
             g["tamanho"] = "medio"                    # close do gato só sozinho (senão cobre o personagem)
     else:
         cena["gato"] = None
+    if META.get(cena["cenario"], {}).get("vista_de_cima"):
+        cena["personagem"], cena["gato"], cena["objeto"] = None, None, None   # visto do teto: só o lugar, ninguém em pé
+        if cena.get("ameaca"):
+            cena["ameaca"].update(acao="passando", tamanho="longe")
     a, p = cena["ameaca"], cena["personagem"]
     if a and p and a["tamanho"] == "longe" and a["posicao"] == "centro" and p["posicao"] == "centro" and p["tamanho"] != "longe":
         a["_desvio"] = 0.12          # não deixa o vulto do fundo escondido atrás da cabeça do personagem

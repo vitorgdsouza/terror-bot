@@ -271,5 +271,58 @@
    0.75
   ],
   "horizonte": 0.55
+ },
+ "escritorio": {
+  "piso": 0.95,
+  "janela": [
+   0.71,
+   0.33,
+   0.27,
+   0.19
+  ],
+  "fundo": [
+   0.8,
+   0.68,
+   0.2
+  ],
+  "escala": 1.05,
+  "faixa": [
+   0.2,
+   0.8
+  ],
+  "horizonte": 0.5
+ },
+ "quarto_crianca": {
+  "piso": 0.95,
+  "janela": [
+   0.71,
+   0.33,
+   0.27,
+   0.19
+  ],
+  "fundo": [
+   0.88,
+   0.67,
+   0.2
+  ],
+  "escala": 1.05,
+  "faixa": [
+   0.2,
+   0.8
+  ],
+  "assento": [
+   0.56,
+   0.93
+  ],
+  "horizonte": 0.45
+ },
+ "planta_andar": {
+  "piso": 0.95,
+  "vista_de_cima": true,
+  "fundo": [
+   0.65,
+   0.3,
+   0.1
+  ]
  }
 }

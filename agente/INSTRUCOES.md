@@ -71,6 +71,8 @@ Direção das cenas (como num desenho animado):
 - Sons: o ambiente de cada cenário, chuva, trovão, TV, passos, porta e o Abismo já entram sozinhos.
   Para um som específico da história, coloque na cena `"som": {"busca": "<som em inglês>", "palavra": "<palavra da narração>"}`
   e ele toca quando o narrador falar a palavra. Ex.: {"busca": "drawer slam", "palavra": "gaveta"}. No máximo 4 por vídeo.
+- Cenários novos: escritorio (bom para achar a foto, o jornal ou o bilhete em cima da mesa), quarto_crianca (o antigo quarto
+  da Lívia: perfeito para o desenho dela e para o Abismo na janela) e planta_andar (vista de cima, sem personagem).
 - Mistério da série: se o `contexto` mostrar "O MISTÉRIO DA SÉRIE", siga essas regras: insinue 1 ou 2 verdades sobre a
   origem do Abismo por pistas (foto, bilhete, jornal, desenho) sem explicar, mantenha o paradeiro do Stu como enigma,
   esconda o Stu pequeno ao fundo numa cena e preencha "lore" com os números das verdades insinuadas.
