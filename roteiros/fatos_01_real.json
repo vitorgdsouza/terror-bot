@@ -25,6 +25,10 @@
       "texto_tela": "NÃO ASSISTA|ANTES DE DORMIR",
       "movimentos": [
         "aproxima"
+      ],
+      "ids": [
+        "pv729",
+        "pv39292"
       ]
     },
     {
@@ -33,7 +37,11 @@
         "sleeping woman bed",
         "man sleeping"
       ],
-      "ambiente": "clock ticking quiet room"
+      "ambiente": "clock ticking quiet room",
+      "ids": [
+        "pf7288541",
+        "pf4807316"
+      ]
     },
     {
       "narracao": "Bem na hora em que você pega no sono, ouve um estrondo, como uma explosão, dentro da sua cabeça.",
@@ -49,7 +57,12 @@
       "som": {
         "busca": "loud explosion boom",
         "momento": "fim"
-      }
+      },
+      "ids": [
+        "pv44647",
+        "pf15599",
+        "pv47159"
+      ]
     },
     {
       "narracao": "Não dói. E não existe som nenhum. Foi o seu cérebro que criou.",
@@ -59,7 +72,11 @@
         "x-ray head",
         "scared woman"
       ],
-      "ambiente": "clock ticking quiet room"
+      "ambiente": "clock ticking quiet room",
+      "ids": [
+        "pv49809",
+        "pf2175161"
+      ]
     },
     {
       "narracao": "Na paralisia do sono, você acorda e não consegue se mexer.",
@@ -72,6 +89,10 @@
       "ambiente": "low drone dark ambience",
       "movimentos": [
         "pov"
+      ],
+      "ids": [
+        "pv729",
+        "pv47159"
       ]
     },
     {
@@ -85,7 +106,12 @@
         "busca": "heavy breathing",
         "palavra": "alguém"
       },
-      "thumb": true
+      "thumb": true,
+      "ids": [
+        "pf1850097",
+        "pf2603010",
+        "pf20326"
+      ]
     },
     {
       "narracao": "Pessoas que nunca se falaram descrevem a mesma presença.",
@@ -96,7 +122,12 @@
         "door"
       ],
       "ambiente": "low drone dark ambience",
-      "texto_tela": "VOCÊ JÁ|SENTIU ISSO? v"
+      "texto_tela": "VOCÊ JÁ|SENTIU ISSO? v",
+      "ids": [
+        "pv190010",
+        "pv20837",
+        "pf5696508"
+      ]
     },
     {
       "narracao": "Canadá, 1987. Kenneth Parks se levanta da cama, pega o carro e dirige cerca de 23 quilômetros até a casa dos sogros.",
@@ -111,6 +142,12 @@
       "ambiente": "car interior driving night",
       "movimentos": [
         "pov"
+      ],
+      "ids": [
+        "pv35277",
+        "pv5715",
+        "pv2689",
+        "pf2590537"
       ]
     },
     {
@@ -124,6 +161,10 @@
       "ambiente": "low drone dark ambience",
       "movimentos": [
         "aproxima"
+      ],
+      "ids": [
+        "pf334412",
+        "pv156373"
       ]
     },
     {
@@ -134,7 +175,12 @@
         "police",
         "siren"
       ],
-      "ambiente": "low drone dark ambience"
+      "ambiente": "low drone dark ambience",
+      "ids": [
+        "pf908847",
+        "pv11018",
+        "pf6819673"
+      ]
     },
     {
       "narracao": "Os médicos examinaram o sono dele. O júri concluiu que ele estava sonâmbulo. Ele foi absolvido.",
@@ -145,7 +191,12 @@
         "court",
         "doctor"
       ],
-      "ambiente": "low drone dark ambience"
+      "ambiente": "low drone dark ambience",
+      "ids": [
+        "pf2608394",
+        "pf7499921",
+        "pf144091"
+      ]
     },
     {
       "narracao": "Então... tem certeza de que você sabe o que faz enquanto dorme?",
@@ -158,6 +209,10 @@
       "texto_tela": "PARTE 2?|COMENTA “SIM”",
       "movimentos": [
         "aproxima"
+      ],
+      "ids": [
+        "pv39292",
+        "pv20263"
       ]
     }
   ]

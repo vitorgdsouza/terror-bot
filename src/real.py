@@ -28,6 +28,7 @@ GRADE = ("eq=brightness=-0.07:contrast=1.18:saturation=0.5,colorbalance=bs=0.10:
          "noise=alls=16:allf=t,vignette=angle=PI/3.6")
 
 _usados: set = set()
+_cache_ids: dict = {}
 _buscas: dict = {}
 
 
@@ -160,12 +161,13 @@ def _por_id(ident: str) -> dict | None:
 
 def _escolher(buscas: list[str], i: int, prefere_video: bool, ids: list | None = None) -> dict | None:
     """Um item ainda não usado no vídeo: primeiro os ids escolhidos na curadoria, depois as buscas da cena."""
-    for ident in ids or []:
-        if ident not in _usados:
-            it = _por_id(ident)
-            _usados.add(ident)
-            if it:
-                return it
+    if ids:                                              # curadoria: só os escolhidos (repete se faltar)
+        livres = [x for x in ids if x not in _usados] or ids
+        ident = livres[i % len(livres)] if not [x for x in ids if x not in _usados] else livres[0]
+        _usados.add(ident)
+        if ident not in _cache_ids:
+            _cache_ids[ident] = _por_id(ident)
+        return _cache_ids[ident]
     for k in range(len(buscas)):
         itens = _procurar(buscas[(i + k) % len(buscas)])
         livres = [it for it in itens if it["id"] not in _usados]
