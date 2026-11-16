@@ -29,6 +29,24 @@ def log(msg):
     print(f"[{(time.time() - INICIO) / 60:5.1f} min] {msg}", flush=True)
 
 
+# confere GPU e internet antes de tudo (sem telefone verificado, o Kaggle desliga os dois sem avisar)
+import urllib.request  # noqa: E402
+
+try:
+    urllib.request.urlopen("https://huggingface.co", timeout=15)
+    tem_internet = True
+except Exception:
+    tem_internet = False
+tem_gpu = subprocess.run(["nvidia-smi"], capture_output=True).returncode == 0
+if not (tem_internet and tem_gpu):
+    falta = " e ".join(x for x, ok in (("GPU", tem_gpu), ("internet", tem_internet)) if not ok)
+    relatorio["gpu"] = "sem GPU" if not tem_gpu else "ok"
+    relatorio["erros"].append(f"O notebook rodou sem {falta}. No Kaggle, verifique o telefone em Settings > Account "
+                              "> Phone verification (sem isso a GPU e a internet ficam desligadas).")
+    salvar()
+    print(relatorio["erros"][-1])
+    sys.exit(0)
+
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-U", "diffusers>=0.35", "transformers", "accelerate",
                 "ftfy", "imageio", "imageio-ffmpeg", "sentencepiece"], check=False)
 

@@ -76,7 +76,12 @@ def rodar_kernel(espera_max_min: int = 300, so_esperar: bool = False) -> None:
         "enable_gpu": True, "enable_internet": True,
         "dataset_sources": [f"{usuario}/{DATASET}"], "competition_sources": [], "kernel_sources": []}))
     if not so_esperar:
-        log(_kaggle("kernels", "push", "-p", str(pasta)))
+        try:
+            log(_kaggle("kernels", "push", "-p", str(pasta), "--accelerator", "NvidiaTeslaT4"))
+        except RuntimeError as e:                     # versão da ferramenta sem a opção: usa o pedido do metadata
+            if "accelerator" not in str(e).lower():
+                raise
+            log(_kaggle("kernels", "push", "-p", str(pasta)))
         time.sleep(60)
     inicio = time.time()
     while time.time() - inicio < espera_max_min * 60:
