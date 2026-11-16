@@ -360,7 +360,7 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
                              depois={"frente": "parado", "medo": "parado"}.get(depois, depois) if depois else None,
                              troca_em=p.get("troca_em", dur * 0.5) if depois else None)
     if p.get("_no_assento") and pose_b.get("sentado"):    # no sofá/cama: sem cadeira, mãos no colo
-        pose_b = {**pose_b, "cadeira": False, "ombro_e": 22, "cotovelo_e": 70, "ombro_d": 18, "cotovelo_d": 74, "tronco": 2}
+        pose_b = {**pose_b, "cadeira": False, "ombro_e": 6, "cotovelo_e": 58, "ombro_d": 4, "cotovelo_d": 62, "tronco": 2}
     img, info = B.desenhar(pose_b, max(40, int(altura * escala)), prot)
     img = _noite(img, NOITE_BONECO if noturno >= 0.35 else noturno)
     pes_x, pes_y = info["pes"]

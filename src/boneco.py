@@ -484,10 +484,9 @@ def animar(acao: str, t: float, dur: float = 4.0, medo: float = 0.0, expressao: 
     elif acao == "lanterna":
         varre = math.sin(t * 0.9) * 6
         pose.update(vista="lado", objeto="lanterna", ombro_d=82 + varre, cotovelo_d=4, ombro_e=8, cotovelo_e=16, tronco=3)
-    elif acao == "sentado":
-        digita = math.sin(t * 13) * 3
-        pose.update(vista="lado", sentado=True, quadril_e=88, joelho_e=88, quadril_d=84, joelho_d=84,
-                    ombro_e=50 + digita, cotovelo_e=40, ombro_d=48 - digita, cotovelo_d=42, tronco=6, cab_inc=3)
+    elif acao == "sentado":                     # sentado com as mãos no colo, só respirando (sem computador)
+        pose.update(vista="lado", sentado=True, cadeira=False, quadril_e=88, joelho_e=88, quadril_d=84, joelho_d=84,
+                    ombro_e=6, cotovelo_e=58, ombro_d=4, cotovelo_d=62, tronco=2, cab_inc=2)
     elif acao == "abrindo_porta":
         k = min(1.0, t / max(0.8, dur * 0.4))
         k = k * k * (3 - 2 * k)

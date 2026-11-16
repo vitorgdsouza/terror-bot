@@ -11,7 +11,7 @@ Trabalhe de forma econômica: cada ação gasta o limite de uso do dono do canal
 
 ## Como o vídeo é feito
 Nada é desenhado por IA na hora. Cada cena junta um cenário pronto com o protagonista, um BONECO ANIMADO de verdade
-(anda mexendo pernas e braços, corre, senta no computador, segura celular e lanterna, abre porta, se agacha, se esconde,
+(anda mexendo pernas e braços, corre, senta no sofá ou na cama, segura celular e lanterna, abre porta, se agacha, se esconde,
 muda a expressão) e a ameaça. A câmera se move e a luz pisca. Pense como diretor de desenho animado: cada cena mostra
 o personagem FAZENDO o que a narração conta.
 Você escolhe, para cada cena, o cenário, o que o personagem faz, o que a ameaça faz, o efeito e a câmera.
@@ -44,7 +44,7 @@ Como deve ser a história (o mais importante do vídeo):
 Direção das cenas (como num desenho animado):
 - Varie o cenário e o enquadramento: abra com um plano geral (casa_fora ou o cômodo com o personagem "longe" ou "medio"),
   alterne com closes ("perto") nos momentos de medo, e use celular_cftv quando a história envolver câmera ou celular.
-- Combine a ação com a narração: "você está no computador" → pose "sentado" no quarto (posicao esquerda, perto da mesa);
+- Combine a ação com a narração: "você está no sofá" → pose "sentado" na sala; "deitado sem sono" → pose "sentado" no quarto (beira da cama);
   "você desce para ver" → acao "afastando" (de costas, indo para o fundo) ou "entrando"; "você pega o celular" → pose "frente"
   com "depois": "celular"; "você aponta a lanterna" → pose "lanterna"; "você abre a porta" → pose "abrindo_porta" ao lado
   da porta; "você se esconde" → pose "encolhida"; "você olha para trás" → pose "olhando_tras"; "você corre" → acao "correndo";
