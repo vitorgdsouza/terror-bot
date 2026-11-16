@@ -7,7 +7,7 @@ import time
 import requests
 
 from .animacao import GUIA_CENAS, normalizar
-from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado, normalizar_plano
+from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado, normalizar_plano, regras_gato
 from .personagem import escolher_protagonista
 from . import serie
 from .util import carregar_historico, env, log
@@ -78,7 +78,7 @@ def gerar_roteiro(cfg: dict, tema: str | None = None) -> dict:
     ja_feitos = [h["titulo"] for h in carregar_historico()][-40:]
     n = cfg["numero_de_cenas"]
     prot = _protagonista(cfg)
-    palavras = int(cfg["duracao_alvo_segundos"] * 2.3)
+    palavras = int(cfg["duracao_alvo_segundos"] * 1.75)
     quem = info_serie.get("protagonista") or escolher_protagonista(cfg, carregar_historico())
     info = cfg.get("protagonistas", {}).get(quem, {"genero": "masculino", "descricao": ""})
 
@@ -95,6 +95,7 @@ Tamanho: cerca de {palavras} palavras narradas no total (uns {cfg['duracao_alvo_
 {"Esta é a PARTE FINAL: encerre a história no último plano, sem dilema." if final else ""}
 
 {REGRAS_HISTORIA}
+{regras_gato(cfg)}
 
 {GUIA_PLANOS}
 
@@ -133,6 +134,7 @@ Protagonista deste vídeo: {info['descricao']}. Gênero {info['genero'].upper()}
 referentes a "você" no {info['genero']} (ex.: "{'sozinha, assustada' if info['genero'] == 'feminino' else 'sozinho, assustado'}").
 
 {REGRAS_HISTORIA}
+{regras_gato(cfg)}
 
 Regras de formato:
 - História ORIGINAL, em português do Brasil, linguagem simples e natural, frases curtas.

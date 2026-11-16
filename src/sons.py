@@ -65,6 +65,7 @@ ACOES = {
     "correndo": ("running footsteps wooden floor", False),
 }
 POSES = {"abrindo_porta": ("door creak open slow", False)}
+GATO = {"miando": ("cat meow", False), "assustado": ("cat hiss angry", False), "correndo": ("cat running paws", False)}
 AMEACA = {"loop": "dark horror drone low rumble", "susto": "horror stinger hit"}
 
 VOLUMES = {"ambiente": 0.22, "efeito": 0.5, "acao": 0.32, "ameaca": 0.28, "susto": 0.55, "roteiro": 0.6}
@@ -236,6 +237,12 @@ def montar_trilha_sons(roteiro: dict, duracoes: list, destino: Path) -> Path | N
                 mesa.loop(arq, ini, fim, VOLUMES["ameaca"], 0.8)
             if a.get("acao") in ("aparecendo", "aproximando") and (arq := baixar(AMEACA["susto"], False)):
                 mesa.uma_vez(arq, ini + 0.3, VOLUMES["susto"])
+            usados += 1
+        # o gato: mia, rosna quando se assusta
+        g = cena.get("gato") or {}
+        som_gato = GATO.get(g.get("acao", ""))
+        if som_gato and (arq := baixar(*som_gato)):
+            mesa.uma_vez(arq, ini + 0.4, VOLUMES["acao"] * 1.4, max_dur=2.5)
             usados += 1
         # som pedido pelo roteiro, no momento da palavra
         som = cena.get("som")

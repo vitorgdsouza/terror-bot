@@ -36,7 +36,8 @@ try:
 except Exception:
     ESTILO_PERSONAGEM = "boneco"
 ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo"]
-AMEACAS = ["abismo", "olhos", "invasor"]
+AMEACAS = ["abismo", "invasor"]
+GATO_ACOES = ["parado", "andando", "correndo", "sentado", "miando", "deitado", "escondido", "assustado"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
 TAMANHOS = {"longe": 0.36, "medio": 0.62, "perto": 1.15}
 EFEITOS = ["nenhum", "luz_piscando", "tv_chiando", "relampago", "chuva", "tremor"]
@@ -52,14 +53,14 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   pia_detalhe (close da pia com prato e copo, janela ao lado: só personagem "perto"; o abismo "longe" aparece lá fora, pela janela) |
   porta_entrada (porta da rua por dentro com corrente e olho mágico, cabideiro com casaco) | janela (close numa janela grande, noite lá fora) |
   escada (vista de baixo, subindo para um andar escuro) | escada_cima (vista do andar de cima, descendo para um hall escuro) | banheiro (espelho, pia, box com cortina) |
-  debaixo_cama (close no chão do quarto, chinelos e o escuro embaixo da cama: só personagem "perto"; "olhos" longe aparecem embaixo da cama) |
+  debaixo_cama (close no chão do quarto, chinelos e o escuro embaixo da cama: só personagem "perto"; o abismo "longe" aparece no escuro embaixo da cama) |
   porao (caixas, lâmpada pendurada, escada ao fundo) | garagem (carro velho, ferramentas, portão aberto para a noite) |
   casa_fora (a casa vista da calçada à noite, uma janela acesa) | rua (rua de bairro vista do alto, poste aceso, carros) | celular_cftv (close das mãos segurando o celular; na tela, a câmera de segurança mostrando outro cenário)
 - "tela": só no celular_cftv, qual cenário aparece na câmera (ex.: "sala"). O personagem e a ameaça dessa cena aparecem DENTRO da câmera.
 - "personagem": o protagonista ou null. É um boneco animado de verdade (anda mexendo pernas e braços, segura objetos, muda a cara).
   pose (o que ele faz parado): frente | medo (cara de medo, mãos no peito) | gritando (apavorado) | encolhida (sentado no chão
   abraçando os joelhos, mãos na boca) | costas | celular (olhando o celular aceso na mão) | lanterna (apontando a lanterna) |
-  sentado (sentado na cadeira mexendo no computador) | abrindo_porta (estende a mão devagar) | agachado (agachado olhando algo
+  sentado (sentado no sofá da sala ou na beira da cama do quarto; em outros cenários fica em pé) | abrindo_porta (estende a mão devagar) | agachado (agachado olhando algo
   no chão) | olhando_tras (de lado, virando o rosto para trás).
   acao: parado | andando (anda de lado e para) | correndo | entrando (entra pelo lado e para) | saindo (sai pelo lado) |
   afastando (de costas, andando para o fundo da cena) | aproximando (de frente, andando para a câmera) | tremendo | virando
@@ -68,10 +69,13 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   posicao: esquerda | centro | direita. tamanho: longe | medio | perto (perto = close do rosto e do tronco).
 - "ameaca": null ou o perigo. tipo: abismo (O ABISMO: silhueta humana toda preta, rosto pálido de olhos arregalados e sorriso enorme;
   parado = em pé; medio parado = agachado observando; aproximando = vem em posição de ataque; perto = close do rosto) |
-  olhos (só dois olhos brilhando no escuro) | invasor (pessoa real de capa de chuva amarela, capuz com o rosto no escuro e um machado;
+  invasor (pessoa real de capa de chuva amarela, capuz com o rosto no escuro e um machado;
   use em histórias sem sobrenatural: invasão, perseguição, alguém dentro de casa).
   acao: parada | aparecendo (surge aos poucos) | aproximando (vem para perto) | sumindo.
   posicao e tamanho como no personagem; "longe" coloca a ameaça no fundo do cenário (fim do corredor, topo da escada, porta, janela).
+- "gato": null ou o gato do protagonista (gato laranja de peito branco). acao: parado | andando (anda e senta) | correndo |
+  sentado | miando | deitado | escondido (encolhido, olhos arregalados) | assustado (costas arqueadas, pelo eriçado).
+  posicao: esquerda | centro | direita. tamanho: longe | medio | perto (close do gato). Fica ao lado do personagem, nunca atrás.
 - "efeito": nenhum | luz_piscando | tv_chiando (só na sala e no quarto, no monitor) | relampago | chuva | tremor (susto).
 - "camera": zoom_in (aproxima devagar, padrão) | zoom_out | pan_esquerda | pan_direita | parada.
 A animação reage sozinha à narração: palavras de medo e frases com "...", "!" ou "?" dão uma leve aproximação da câmera,
@@ -169,7 +173,7 @@ def normalizar(cena: dict) -> None:
     if META.get(cena["cenario"], {}).get("detalhe") and cena["personagem"]:
         cena["personagem"]["tamanho"] = "perto"   # cenário em close: só cabe o personagem de perto
     a = cena.get("ameaca")
-    if isinstance(a, dict) and a.get("tipo") in ("sombra", "criatura", "fantasma"):
+    if isinstance(a, dict) and a.get("tipo") in ("sombra", "criatura", "fantasma", "olhos"):
         a["tipo"] = "abismo"                          # nomes antigos viram O Abismo
     if isinstance(a, dict) and a.get("tipo") in AMEACAS:
         a["acao"] = a.get("acao") if a.get("acao") in ACOES_A else "parada"
@@ -177,6 +181,15 @@ def normalizar(cena: dict) -> None:
         a["tamanho"] = a.get("tamanho") if a.get("tamanho") in TAMANHOS else "longe"
     else:
         cena["ameaca"] = None
+    g = cena.get("gato")
+    if isinstance(g, dict):
+        g["acao"] = g.get("acao") if g.get("acao") in GATO_ACOES else "sentado"
+        g["posicao"] = g.get("posicao") if g.get("posicao") in POSICOES else "direita"
+        g["tamanho"] = g.get("tamanho") if g.get("tamanho") in TAMANHOS else "medio"
+        if META.get(cena["cenario"], {}).get("detalhe"):
+            g["tamanho"] = "perto"
+    else:
+        cena["gato"] = None
     a, p = cena["ameaca"], cena["personagem"]
     if a and p and a["tamanho"] == "longe" and a["posicao"] == "centro" and p["posicao"] == "centro" and p["tamanho"] != "longe":
         a["_desvio"] = 0.12          # não deixa o vulto do fundo escondido atrás da cabeça do personagem
@@ -270,14 +283,26 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
     from . import boneco as B
     cw, ch = quadro.size
     acao, pose, tam = p["acao"], p["pose"], p["tamanho"]
-    altura = int(ch * TAMANHOS[tam] * ESCALA_BONECO.get(tam, 0.75) * escala_tela)
+    esc_cen = meta.get("escala", 1.0) if tam != "perto" else 1.0       # perspectiva do cenário (ex.: casa vista de longe)
+    altura = int(ch * TAMANHOS[tam] * ESCALA_BONECO.get(tam, 0.75) * escala_tela * esc_cen)
     piso = meta.get("piso", 0.9)
     fundo = meta.get("fundo", [0.5, piso, 0.4])
     if tam == "longe":
         piso = (fundo[1] + piso) / 2
     elif tam == "perto":
         piso = 1.25
-    alvo = POSICOES[p["posicao"]] * cw
+    faixa = meta.get("faixa", [0.22, 0.78])
+    alvo = min(max(POSICOES[p["posicao"]], faixa[0]), faixa[1]) * cw
+    if (pose == "sentado" or p.get("depois") == "sentado") and tam != "perto":
+        if meta.get("assento"):                       # senta onde há onde sentar (sofá, cama), no tamanho certo
+            ax, ay = meta["assento"]
+            hz = meta.get("horizonte", 0.45)
+            altura = int(altura * max(0.35, (ay - hz) / max(0.05, piso - hz)))
+            alvo, piso, acao = ax * cw, ay, "parado"
+            p = {**p, "_no_assento": True}
+        else:                                          # sem assento no cenário: fica em pé
+            p = {**p, "pose": "frente"} if pose == "sentado" else {**p, "depois": None}
+            pose = p["pose"]
     lado = -1 if alvo <= cw / 2 else 1
     corre = acao == "correndo"
     vel = (0.62 if corre else 0.31) * altura          # velocidade que combina com o passo (sem "deslizar")
@@ -294,9 +319,11 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
         x = alvo + lado * max(0.0, t - t0) * vel
         movendo, sentido = t > t0, lado
     elif acao in ("andando", "correndo"):
-        dist = min(0.36 * cw, vel * dur * 0.85)
+        dist = min(0.36 * cw, vel * dur * 0.85, (faixa[1] - faixa[0]) * cw)   # não sai do chão do cenário
         T = dist / vel
-        x = alvo - lado * dist / 2 + lado * min(t, T) * vel
+        ini = min(max(alvo - lado * dist / 2, faixa[0] * cw), faixa[1] * cw)
+        ini = min(max(ini, faixa[0] * cw + (dist if lado < 0 else 0)), faixa[1] * cw - (dist if lado > 0 else 0))
+        x = ini + lado * min(t, T) * vel
         movendo, sentido, parou_em = t < T, lado, T
     elif acao in ("afastando", "aproximando"):
         k = _suave(t / dur) if dur else 1
@@ -332,6 +359,8 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
         pose_b = B.pose_cena(parado_como, t, dur, medo, espelhar_parado, expressao,
                              depois={"frente": "parado", "medo": "parado"}.get(depois, depois) if depois else None,
                              troca_em=p.get("troca_em", dur * 0.5) if depois else None)
+    if p.get("_no_assento") and pose_b.get("sentado"):    # no sofá/cama: sem cadeira, mãos no colo
+        pose_b = {**pose_b, "cadeira": False, "ombro_e": 22, "cotovelo_e": 70, "ombro_d": 18, "cotovelo_d": 74, "tronco": 2}
     img, info = B.desenhar(pose_b, max(40, int(altura * escala)), prot)
     img = _noite(img, NOITE_BONECO if noturno >= 0.35 else noturno)
     pes_x, pes_y = info["pes"]
@@ -349,6 +378,46 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
     if "lanterna" in info:
         (bx, by), ang = info["lanterna"]
         _feixe(quadro, (ox + bx, oy + by), ang, altura * escala * 0.95)
+
+
+def _desenhar_gato(quadro, g, meta, t, dur, escala_tela=1.0, noturno=0.4, paralaxe=0.0, desvio=0.0):
+    """O gato do protagonista (src/gato.py): anda, senta, mia, se esconde e se assusta."""
+    from . import gato as G
+    cw, ch = quadro.size
+    tam, acao = g["tamanho"], g["acao"]
+    esc_cen = meta.get("escala", 1.0) if tam != "perto" else 1.0
+    altura = int(ch * {"longe": 0.075, "medio": 0.13, "perto": 0.42}[tam] * escala_tela * esc_cen)
+    piso = meta.get("piso", 0.9)
+    fundo = meta.get("fundo", [0.5, piso, 0.4])
+    if tam == "longe":
+        piso = (fundo[1] + piso) / 2
+    elif tam == "perto":
+        piso = 0.97
+        if acao in ("deitado", "escondido"):
+            altura = int(altura * 1.35)
+    faixa = meta.get("faixa", [0.22, 0.78])
+    alvo = (min(max(POSICOES[g["posicao"]], faixa[0]), faixa[1]) + desvio) * cw
+    lado = -1 if alvo <= cw / 2 else 1
+    x, sentido = alvo, (1 if alvo < cw / 2 else -1)       # parado: olha para o meio da tela
+    if acao in ("andando", "correndo"):
+        vel = (1.6 if acao == "correndo" else 0.75) * altura
+        dist = min(0.3 * cw, vel * dur * 0.8)
+        T = dist / vel
+        x = alvo - lado * dist / 2 + lado * min(t, T) * vel
+        sentido = lado
+        if t >= T:                                        # chegou: senta
+            acao = "sentado"
+    pose = G.animar(acao, t, dur, espelhar=sentido < 0)
+    img, info = G.desenhar(pose, max(24, altura))
+    img = _noite(img, NOITE_BONECO if noturno >= 0.35 else noturno)
+    pes_x, pes_y = info["pes"]
+    cx, chao = x + paralaxe * cw, ch * piso
+    if tam == "perto":                                    # close: o rosto do gato fica no meio da tela
+        cx = cw * 0.5 - (info["rosto"][0] - pes_x) + paralaxe * cw
+    if tam != "perto":
+        sb = _sombra_chao(int(img.width * 0.45))
+        quadro.alpha_composite(sb, (int(cx - sb.width / 2), int(chao - sb.height / 2)))
+    quadro.alpha_composite(img, (int(cx - pes_x), int(chao - pes_y)))
 
 
 def _desenhar_personagem(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4, paralaxe=0.0, tenso=False):
@@ -875,8 +944,16 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
         ameaca_atras = a and not (a["tamanho"] == "perto" and (not p or p["tamanho"] != "perto"))
         if a and ameaca_atras:
             _desenhar_ameaca(img, a, meta, t, dur, paralaxe=paralaxe)
+        g = cena.get("gato")
+        desvio = 0.0
+        if g and p and g["posicao"] == p["posicao"] and p["tamanho"] != "perto":
+            desvio = 0.16 if POSICOES[g["posicao"]] <= 0.5 else -0.16    # não fica escondido atrás do personagem
+        if g and g["tamanho"] == "longe":
+            _desenhar_gato(img, g, meta, t, dur, paralaxe=paralaxe, desvio=desvio)
         if p:
             _desenhar_personagem(img, p, meta, t, dur, prot, paralaxe=paralaxe, tenso=bool(a))
+        if g and g["tamanho"] != "longe":
+            _desenhar_gato(img, g, meta, t, dur, paralaxe=paralaxe * (1.6 if g["tamanho"] == "perto" else 1.0), desvio=desvio)
         if a and not ameaca_atras:
             _desenhar_ameaca(img, a, meta, t, dur, paralaxe=paralaxe * 1.6)
         _poeira(img, t, hash(cena["cenario"]) % 1000)

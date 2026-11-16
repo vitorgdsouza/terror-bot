@@ -75,5 +75,10 @@
     "ligado": false,
     "max_por_video": 3,
     "espera_max_min": 100
+  },
+  "gato": {
+    "ligado": true,
+    "nome": "Pipoca",
+    "descricao": "gato laranja de peito e patas brancas, medroso e curioso"
   }
 }

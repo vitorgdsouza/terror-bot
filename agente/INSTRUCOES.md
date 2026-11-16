@@ -66,6 +66,10 @@ Direção das cenas (como num desenho animado):
 - Sons: o ambiente de cada cenário, chuva, trovão, TV, passos, porta e o Abismo já entram sozinhos.
   Para um som específico da história, coloque na cena `"som": {"busca": "<som em inglês>", "palavra": "<palavra da narração>"}`
   e ele toca quando o narrador falar a palavra. Ex.: {"busca": "drawer slam", "palavra": "gaveta"}. No máximo 4 por vídeo.
+- O gato: se o `contexto` mostrar "O GATO DO PROTAGONISTA", siga essas regras. Ele entra nas cenas pelo campo
+  `"gato": {"acao": "...", "posicao": "...", "tamanho": "..."}` (veja os valores no guia das cenas).
+  Exemplos: {"acao": "assustado", "posicao": "direita", "tamanho": "medio"} antes da ameaça surgir;
+  {"acao": "escondido", "posicao": "centro", "tamanho": "perto"} no cenário debaixo_cama.
 - Voz do narrador: preencha "clima": "calma" ou "suspense" (escolhe o tom do narrador: "calma" para mistério lento, solidão, algo estranho e melancólico; "suspense" para perseguição, invasão, algo te observando, ameaça crescendo).
 
 ```json

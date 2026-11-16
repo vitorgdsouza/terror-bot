@@ -26,7 +26,7 @@ TRAB = RAIZ / "trabalho"
 ROTEIRO = TRAB / "roteiro.json"
 VOZES = TRAB / "vozes.json"
 FINAL = TRAB / "video" / "video_final.mp4"
-PALAVRAS_POR_SEGUNDO = 2.3
+PALAVRAS_POR_SEGUNDO = 1.75   # ritmo medido da voz Enceladus (mais pausada que a antiga)
 
 
 def _roteiro() -> dict:
@@ -67,13 +67,17 @@ def contexto(_):
         print("\n=== TIPO DE VÍDEO: história nova (termina com dilema A/B) ===")
     else:
         print(bloco_para_roteiro(info))
-    from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado
+    from .planos import EXEMPLO_JSON, GUIA_PLANOS, REGRAS_HISTORIA, modo_ilustrado, regras_gato
+    if regras_gato(cfg):
+        print("\n=== " + regras_gato(cfg))
     if modo_ilustrado(cfg):
         print(f"\nVisual do protagonista (para as descrições das imagens): {prot.get('visual', '')}")
         print(f"\n=== {REGRAS_HISTORIA}\n\n=== {GUIA_PLANOS}\n\n=== EXEMPLO DE roteiro.json ===\n{EXEMPLO_JSON}")
         print(f"\nPlanos: cerca de {cfg.get('numero_de_planos', 40)} | duração alvo: {cfg['duracao_alvo_segundos']}s "
               f"(~{int(cfg['duracao_alvo_segundos'] * PALAVRAS_POR_SEGUNDO)} palavras)")
     else:
+        print(f"\nDuração alvo: {cfg['duracao_alvo_segundos']}s = cerca de "
+              f"{int(cfg['duracao_alvo_segundos'] * PALAVRAS_POR_SEGUNDO)} palavras narradas no total, em {cfg['numero_de_cenas']} cenas")
         print("\n=== VALORES ACEITOS NAS CENAS ===\n" + _catalogo())
     hist = carregar_historico()[-40:]
     print("\n=== HISTÓRIAS JÁ PUBLICADAS (não repetir) ===")
@@ -120,6 +124,10 @@ def validar(_):
         if com_ameaca and com_ameaca[0] < len(r["cenas"]) * 0.5:
             avisos.append(f"a ameaça aparece cedo (plano {com_ameaca[0]}); guarde para o último terço")
     elif len(r["cenas"]) != cfg["numero_de_cenas"]:
+        pass
+    if (cfg.get("gato") or {}).get("ligado") and not any(c.get("gato") for c in r["cenas"]):
+        avisos.append(f'o gato {cfg["gato"].get("nome", "")} não aparece em nenhuma cena: coloque o campo "gato" em 3 a 6 cenas')
+    if not ilustrado and len(r["cenas"]) != cfg["numero_de_cenas"]:
         avisos.append(f"tem {len(r['cenas'])} cenas; a série pede {cfg['numero_de_cenas']}")
     alvo = cfg["duracao_alvo_segundos"]
     if not 0.75 * alvo <= seg <= 1.25 * alvo:

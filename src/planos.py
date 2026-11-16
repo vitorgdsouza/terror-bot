@@ -77,3 +77,16 @@ def normalizar_plano(p: dict) -> None:
 
 def modo_ilustrado(cfg: dict) -> bool:
     return cfg.get("modo_visual", "ilustrado") == "ilustrado"
+
+
+def regras_gato(cfg: dict) -> str:
+    """Regras do gato do protagonista (personagem fixo da série), se estiver ligado em config/serie.json."""
+    g = cfg.get("gato") or {}
+    if not g.get("ligado"):
+        return ""
+    nome, desc = g.get("nome", "o gato"), g.get("descricao", "gato laranja")
+    return f"""O GATO DO PROTAGONISTA: você tem um gato, {nome} ({desc}). Ele aparece na história e dá um segundo
+objetivo além de sobreviver: encontrar {nome} e deixá-lo em segurança. Use-o a favor do suspense: ele some, mia de um
+cômodo fechado, encara o escuro, se arrepia antes de a ameaça aparecer ou corre para debaixo da cama. O dilema final
+pode envolver o gato (ex.: Opção A: voltar para buscar {nome}; Opção B: fugir sem ele). Nunca mostre o gato ferido
+ou morto: no máximo em perigo. Coloque-o nas cenas em que ele aparece com o campo "gato" (em 3 a 6 cenas)."""

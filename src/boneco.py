@@ -32,7 +32,7 @@ VISUAIS = {
 NUMERICOS = ["y", "tronco", "cab_inc", "cab_vira", "olhar", "ombro_e", "cotovelo_e", "ombro_d", "cotovelo_d",
              "quadril_e", "joelho_e", "quadril_d", "joelho_d", "pe_e", "pe_d", "respira", "luz", "mao_boca"]
 POSE_BASE = {
-    "vista": "frente", "espelhar": False, "sentado": False, "objeto": None, "joelhos_peito": False,
+    "vista": "frente", "espelhar": False, "sentado": False, "cadeira": True, "objeto": None, "joelhos_peito": False,
     "olhos": "normal", "sobrancelhas": "neutras", "boca": "reta",
     "y": 0.0, "tronco": 0.0, "cab_inc": 0.0, "cab_vira": 0.0, "olhar": 0.0,
     "ombro_e": 4.0, "cotovelo_e": 6.0, "ombro_d": 4.0, "cotovelo_d": 6.0,
@@ -230,7 +230,7 @@ def desenhar(pose: dict, altura: int, quem: str = "homem"):
     # ------------------------------------------------ ordem de desenho
     escuro = lambda c: tuple(int(x * 0.72) for x in c[:3])
     if lado:
-        if p["sentado"]:
+        if p["sentado"] and p["cadeira"]:
             cadeira()
         ombro = _rot((pescoco[0] + u * 0.005, pescoco[1] + u * 0.03), pescoco, 0)
         perna(quadril, p["quadril_e"], p["joelho_e"], 0, escuro(v["calca"]), escuro(v["barra"]), escuro(v["tenis"]), True)
