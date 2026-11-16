@@ -182,5 +182,21 @@
     "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
     "url": "https://freesound.org/people/Moulaythami/sounds/858958/",
     "id": 858958
+  },
+  "metal_bowl_drop_floor.mp3": {
+    "busca": "metal bowl drop floor",
+    "nome": "coins - in cloth 08.wav",
+    "autor": "Anthousai",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/Anthousai/sounds/336576/",
+    "id": 336576
+  },
+  "quiet_house_night_ambience.mp3": {
+    "busca": "quiet house night ambience",
+    "nome": "Livingroom at night",
+    "autor": "Azrael1905",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/Azrael1905/sounds/652415/",
+    "id": 652415
   }
 }

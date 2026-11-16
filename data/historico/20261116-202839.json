@@ -1,0 +1,16 @@
+{
+  "data": "2026-11-16",
+  "titulo": "O Moço do Sorriso",
+  "tema": "Stu some e a casa guarda a família Duarte",
+  "protagonista": "mulher",
+  "serie": "O Moço do Sorriso",
+  "parte": 1,
+  "resumo": "Na terceira noite na casa nova, o Stu some. Pistas levam a um jornal sobre a família Duarte, a um desenho do moço do sorriso e a um miado dentro da parede. No alto da escada, algo sorri e espera.",
+  "opcao_a": "subir para buscar o Stu",
+  "opcao_b": "fugir sem ele",
+  "final": false,
+  "lore": [
+    1,
+    2
+  ]
+}
