@@ -28,11 +28,17 @@ def _checar(r: requests.Response, acao: str) -> dict:
     return dados
 
 
-def enviar_mensagem(texto: str, chat_id: str | None = None) -> None:
+def enviar_mensagem(texto: str, chat_id: str | None = None, botoes: list[list[str]] | None = None) -> None:
+    """botoes: linhas de botões de resposta (ao tocar, o Telegram envia o texto do botão como mensagem)."""
+    import json
     chat_id = chat_id or env("TELEGRAM_CHAT_ID")
-    for i in range(0, len(texto), 4000):  # limite do Telegram por mensagem
-        r = requests.post(_url("sendMessage"), timeout=30,
-                          data={"chat_id": chat_id, "text": texto[i:i + 4000]})
+    partes = [texto[i:i + 4000] for i in range(0, len(texto), 4000)] or [""]  # limite do Telegram por mensagem
+    for n, parte in enumerate(partes):
+        dados = {"chat_id": chat_id, "text": parte}
+        if botoes and n == len(partes) - 1:
+            dados["reply_markup"] = json.dumps({"keyboard": [[{"text": b} for b in linha] for linha in botoes],
+                                                "resize_keyboard": True, "one_time_keyboard": True})
+        r = requests.post(_url("sendMessage"), timeout=30, data=dados)
         _checar(r, "a mensagem")
 
 

@@ -115,7 +115,9 @@ Pronto: os próximos vídeos já saem pelo agente. No Telegram chega uma "Nota d
 |---|---|
 | `/novo` | gera um vídeo com o tema padrão da série |
 | `/novo você ouve passos no sótão e mora sozinho` | gera um vídeo sobre esse tema |
-| `/ideias` | sugere 5 ideias inéditas de histórias |
+| `/ideias` | sugere 5 ideias inéditas de histórias, numeradas e com botões |
+| `/ideias <assunto>` | 5 ideias sobre um assunto (ex.: `/ideias hospital abandonado`) |
+| `/usar <n>` | gera o vídeo da ideia n da última lista (ou toque no botão) |
 | `/continuar A` | nova parte da última história, começando pela opção A (ou `/continuar B`) |
 | `/final B` | última parte da história, começando pela opção B (ou `/final A`), com desfecho e sem novo dilema |
 | `/historia` | mostra o resumo da última história e as opções dela |

@@ -3,23 +3,30 @@
 Comandos:
     /novo              gera um vídeo com o tema padrão da série
     /novo <tema>       gera um vídeo sobre o tema escolhido
-    /ideias            sugere 5 ideias de histórias
+    /ideias            sugere 5 ideias de histórias (numeradas, com botões)
+    /ideias <assunto>  sugere 5 ideias sobre um assunto (ex.: /ideias hospital abandonado)
+    /usar <n>          gera o vídeo da ideia n da última lista
     /continuar A|B     nova parte da última história, a partir da opção vencedora
     /final A|B         última parte da história, a partir da opção vencedora
     /historia          mostra a última história e as opções dela
     /ajuda             mostra os comandos
 Quando há um /novo, este script escreve o tema na saída do GitHub Actions para o próximo passo gerar o vídeo.
 """
+import json
 import os
 
 from . import serie, telegram
 from .roteiro import gerar_ideias
-from .util import carregar_config, log
+from .util import RAIZ, carregar_config, log
+
+IDEIAS = RAIZ / "data" / "ideias.json"   # última lista de ideias (salva no repositório junto com o histórico)
 
 AJUDA = ("Comandos:\n"
          "/novo - gera um vídeo com o tema padrão\n"
          "/novo você ouve passos no sótão - gera um vídeo sobre esse tema\n"
          "/ideias - sugere 5 ideias de histórias\n"
+         "/ideias hospital abandonado - 5 ideias sobre esse assunto\n"
+         "/usar 3 - gera o vídeo da ideia 3 da última lista\n"
          "/continuar A - nova parte da última história, seguindo a opção A (ou B)\n"
          "/final B - última parte da história, seguindo a opção B (ou A)\n"
          "/historia - mostra a última história e as opções dela\n\n"
@@ -69,9 +76,28 @@ def main():
                 telegram.enviar_mensagem(f"Última: {ant['titulo']}\n\n{ant['resumo']}\n\n"
                                          + serie.mensagem_proximo_passo(ant))
         elif comando == "/ideias":
-            ideias = gerar_ideias(carregar_config())
-            telegram.enviar_mensagem("Ideias:\n\n" + "\n".join(f"- {i}" for i in ideias)
-                                     + "\n\nPara usar uma: /novo <cole a ideia aqui>")
+            assunto = resto.strip()
+            ideias = gerar_ideias(carregar_config(), assunto=assunto)
+            IDEIAS.parent.mkdir(parents=True, exist_ok=True)
+            IDEIAS.write_text(json.dumps({"assunto": assunto, "ideias": ideias}, ensure_ascii=False, indent=2),
+                              encoding="utf-8")
+            numeradas = "\n\n".join(f"{n}. {i}" for n, i in enumerate(ideias, 1))
+            telegram.enviar_mensagem(f"Ideias{' sobre ' + assunto if assunto else ''}:\n\n{numeradas}\n\n"
+                                     "Toque num botão (ou mande /usar 2) para gerar o vídeo dessa ideia. "
+                                     "Pode também mandar /novo com a ideia editada do seu jeito.",
+                                     botoes=[[f"/usar {n}" for n in range(1, len(ideias) + 1)]])
+        elif comando == "/usar":
+            try:
+                lista = json.loads(IDEIAS.read_text(encoding="utf-8"))["ideias"]
+                ideia = lista[int(resto.strip()) - 1]
+            except (FileNotFoundError, ValueError, IndexError, KeyError):
+                telegram.enviar_mensagem("Não achei essa ideia. Mande /ideias para uma lista nova e depois /usar 1 a 5.")
+                continue
+            if pedido is None:
+                pedido = ideia
+                telegram.enviar_mensagem(f"Pedido recebido: {ideia}\nComeçando agora.")
+            else:
+                telegram.enviar_mensagem("Já tem um vídeo na fila. Mande o próximo pedido depois que este chegar.")
         else:
             telegram.enviar_mensagem(AJUDA)
 

@@ -189,9 +189,12 @@ def _validar(roteiro: dict, cfg: dict) -> None:
             normalizar(c)
 
 
-def gerar_ideias(cfg: dict, quantidade: int = 5) -> list:
+def gerar_ideias(cfg: dict, quantidade: int = 5, assunto: str = "") -> list:
     ja_feitos = [h["titulo"] for h in carregar_historico()][-40:]
+    foco = (f"todas sobre este assunto pedido pelo dono do canal: {assunto}" if assunto
+            else f"dentro do tema: {cfg['tema_padrao']}")
     prompt = f"""Sugira {quantidade} ideias ORIGINAIS de histórias curtas de terror para o canal "{cfg['nome_serie']}",
-dentro do tema: {cfg['tema_padrao']}. Evite repetir: {json.dumps(ja_feitos, ensure_ascii=False)}.
+{foco}. Cada ideia em uma frase, na segunda pessoa ("Você..."), com um gancho forte e um dilema possível no fim.
+Evite repetir: {json.dumps(ja_feitos, ensure_ascii=False)}.
 Responda SOMENTE com JSON: {{"ideias": ["ideia em uma frase", "..."]}}"""
     return _extrair_json(_chamar_gemini(prompt))["ideias"]
