@@ -139,16 +139,17 @@ def _teste(so_esperar: bool = False):
     cenas = {
         "casa": ({"cenario": "casa_fora", "personagem": None, "ameaca": None, "efeito": "nenhum", "camera": "parada"},
                  "slow cinematic camera push in toward the house at night, the warm lit window flickers softly, "
-                 "leaves and bushes sway gently in the wind, static house"),
+                 "leaves and bushes sway gently in the wind, clouds drift, static house, lighting stays the same"),
         "corredor": ({"cenario": "corredor", "personagem": P("costas"),
                       "ameaca": {"tipo": "abismo", "acao": "parada", "posicao": "centro", "tamanho": "longe"},
                       "efeito": "nenhum", "camera": "parada"},
                      "a boy in a green hoodie stands still seen from behind in a dark hallway, at the far end a tall "
-                     "black figure slowly tilts its head, wall lamps flicker, very subtle motion, static camera"),
+                     "black figure with a pale face slowly tilts its head and stays visible, the wall lamp glows steadily, "
+                     "very subtle motion, static camera, lighting stays the same until the end"),
         "sala": ({"cenario": "sala", "personagem": P("medo", "parado", "esquerda"), "ameaca": None,
                   "efeito": "nenhum", "camera": "parada"},
-                 "a scared cartoon boy breathes nervously and looks around the dark living room, the tv screen "
-                 "flickers with static, subtle natural motion, static camera"),
+                 "a scared cartoon boy with his mouth slightly open breathes nervously and glances to the side, his hands "
+                 "stay still at his sides, the tv screen glows with soft blue light, subtle natural motion, static camera"),
     }
     imagens, pedidos = {}, []
     for i, (cid, (cena, prompt)) in enumerate(cenas.items()):

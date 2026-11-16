@@ -64,7 +64,9 @@ pedidos = json.loads(entrada.read_text())
 log(f"{len(pedidos)} pedidos em {pasta_in}")
 
 NEGATIVO = ("photorealistic, 3d render, realistic, blurry, deformed, distorted face, extra limbs, morphing, "
-            "text, watermark, low quality, jitter")
+            "text, watermark, low quality, jitter, blood, gore, wounds, drooling, deformed hands, extra fingers, "
+            "melting, fading to black, screen going dark, lights turning off, scene change, glitch, noise on screen, "
+            "new objects appearing, new characters appearing")
 ESTILO = " 2D cartoon animation, flat colors, clean outlines, consistent character design, smooth subtle motion."
 W, H = 480, 832           # vertical, múltiplos de 32
 
@@ -168,9 +170,13 @@ if gerador:
             destino = SAIDA / "clipes" / f"{p['id']}.mp4"
             export_to_video(frames, str(destino), fps=fps)
             import numpy as np
-            brilho = float(np.asarray(frames[len(frames) // 2]).mean()) if len(frames) else 0
+            meio = np.asarray(frames[len(frames) // 2], dtype=np.float32) if len(frames) else np.zeros(1)
+            brilho = float(meio.mean() * (255 if meio.max() <= 1.0 else 1))  # quadros podem vir em 0-1
+            fim = np.asarray(frames[-1], dtype=np.float32) if len(frames) else np.zeros(1)
+            brilho_fim = float(fim.mean() * (255 if fim.max() <= 1.0 else 1))
             relatorio["clipes"].append({"id": p["id"], "minutos": round((time.time() - t0) / 60, 1),
-                                        "quadros": len(frames), "brilho_medio": round(brilho, 1)})
+                                        "quadros": len(frames), "brilho_medio": round(brilho, 1),
+                                        "brilho_final": round(brilho_fim, 1)})
             if brilho < 3:
                 relatorio["erros"].append(f"{p['id']}: o clipe saiu todo preto (problema de precisão fp16)")
             log(f"Clipe {p['id']} pronto em {(time.time() - t0) / 60:.1f} min")
