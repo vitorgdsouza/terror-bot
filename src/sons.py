@@ -214,8 +214,8 @@ def montar_trilha_sons(roteiro: dict, duracoes: list, destino: Path) -> Path | N
         ini, fim = t0, t0 + dur
         t0 = fim
         # ambiente (o mesmo cenário seguido emenda sem cortar)
-        busca_amb = AMBIENTES.get(cena.get("cenario") or cena.get("lugar") or "", "quiet house night ambience")
-        arq = baixar(busca_amb, True)
+        busca_amb = cena.get("ambiente") or AMBIENTES.get(cena.get("cenario") or cena.get("lugar") or "", "quiet house night ambience")
+        arq = None if busca_amb == "nenhum" else baixar(busca_amb, True)
         if arq:
             fade = 0.05 if busca_amb == ambiente_anterior else 0.6
             mesa.loop(arq, ini, fim, VOLUMES["ambiente"], fade)

@@ -64,7 +64,15 @@ def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
     from .animacao import quadro
     pasta.mkdir(parents=True, exist_ok=True)
     prot = r.get("protagonista", "homem")
-    cena = ImageEnhance.Brightness(quadro(_cena_chave(r), 2.2, 4.0, prot).convert("RGB")).enhance(1.25)
+    if r.get("formato") == "real":                     # quadro do próprio vídeo (cena marcada com "thumb": true)
+        import subprocess
+        i = next((k for k, c in enumerate(r["cenas"]) if c.get("thumb")), len(r["cenas"]) // 2)
+        clip = RAIZ / "trabalho" / "video" / f"clip_{i:02d}.mp4"
+        png = pasta / "quadro.png"
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "1.0", "-i", str(clip), "-frames:v", "1", str(png)], check=True)
+        cena = ImageEnhance.Brightness(Image.open(png).convert("RGB")).enhance(1.15)
+    else:
+        cena = ImageEnhance.Brightness(quadro(_cena_chave(r), 2.2, 4.0, prot).convert("RGB")).enhance(1.25)
     W, H = cena.size
     l1, l2 = _linhas(r.get("titulo", "Você escaparia?"))
     pergunta = _pergunta(r)

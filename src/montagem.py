@@ -234,6 +234,11 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
                 continue
             except Exception as e:  # clipe com problema: usa a animação normal nesta cena
                 log(f"  clipe de IA da cena {i} falhou na montagem ({e}); usando a animação normal")
+        if roteiro.get("formato") == "real":
+            from .real import renderizar_cena_real
+            duracoes.append(renderizar_cena_real(cena, voz, destino, pausa, i))
+            cenas.append(destino)
+            continue
         duracoes.append(renderizar_cena(cena, voz, destino, prot, pausa))
         cenas.append(destino)
 

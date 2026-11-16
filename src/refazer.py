@@ -27,6 +27,9 @@ def main():
     shutil.rmtree(TRAB, ignore_errors=True)
     TRAB.mkdir(parents=True)
     r = json.loads(achados[0].read_text(encoding="utf-8"))
+    if r.get("formato") == "real" and not os.environ.get("PEXELS_API_KEY"):
+        telegram.enviar_mensagem("Para o formato real falta o segredo PEXELS_API_KEY no GitHub (grátis em pexels.com/api).")
+        sys.exit(1)
     for c in r["cenas"]:                                  # limpa marcas internas da montagem anterior
         for k in [k for k in c if k.startswith("_")]:
             c.pop(k)
