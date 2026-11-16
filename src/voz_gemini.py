@@ -14,7 +14,7 @@ import requests
 from .util import env, log
 
 URL = "https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent"
-MODELOS = ["gemini-2.5-pro-preview-tts", "gemini-2.5-flash-preview-tts", "gemini-2.5-pro-tts", "gemini-2.5-flash-tts"]
+MODELOS = ["gemini-2.5-flash-preview-tts", "gemini-2.5-pro-preview-tts", "gemini-2.5-pro-tts", "gemini-2.5-flash-tts"]
 
 ESTILOS = {
     "calma": ("Leia em português do Brasil, como narrador de uma história de terror: voz grave, calma, "
