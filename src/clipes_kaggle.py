@@ -92,7 +92,12 @@ def com_wan():
     mid = "Wan-AI/Wan2.2-TI2V-5B-Diffusers"
     dtype = _tipo()
     vae = AutoencoderKLWan.from_pretrained(mid, subfolder="vae", torch_dtype=torch.float32)
-    pipe = WanImageToVideoPipeline.from_pretrained(mid, vae=vae, torch_dtype=dtype)
+    # O codificador de texto (UMT5) estoura em fp16 e gera NaN -> vídeo todo preto. Ele roda uma vez só por clipe,
+    # então pode ficar em bfloat16 (mais lento na T4, mas correto); o resto continua em fp16.
+    from transformers import UMT5EncoderModel
+    texto = UMT5EncoderModel.from_pretrained(mid, subfolder="text_encoder", torch_dtype=torch.bfloat16)
+    pipe = WanImageToVideoPipeline.from_pretrained(mid, vae=vae, text_encoder=texto, torch_dtype=dtype)
+    relatorio["precisao"] = {"transformer": str(dtype), "texto": "bfloat16", "vae": "float32"}
     pipe.enable_model_cpu_offload()
     for f in ("enable_tiling", "enable_slicing"):
         try:
