@@ -41,7 +41,10 @@ def _chave() -> str:
 PROIBIDO = {"animation", "animated", "cartoon", "illustration", "render", "3d", "fantasy", "dragon", "anime",
             "green screen", "greenscreen", "chroma", "chroma key", "ai generated", "generated", "drawing", "vector",
             "cow", "cows", "cattle", "dog", "cat", "pet", "funny", "happy", "smile", "summer", "beach", "sunset",
-            "wedding", "christmas", "snow", "desert", "aerial", "drone", "city", "skyline", "abstract"}
+            "wedding", "christmas", "snow", "desert", "aerial", "drone", "city", "skyline", "abstract",
+            "lingerie", "sexy", "bikini", "erotic", "sensual", "underwear", "fashion", "beauty", "model", "nude",
+            "body", "wolf", "animal", "wildlife", "bird", "fire", "campfire", "flame", "toy", "ferris", "moon",
+            "planet", "space", "sea", "ocean", "boat", "castle", "forest", "leaves", "tron", "neon", "futuristic"}
 VAZIAS = {"a", "of", "in", "on", "at", "the", "and", "with", "dark", "night", "close", "up", "pov", "empty", "old"}
 
 
@@ -52,7 +55,8 @@ def _relevancia(busca: str, tags: str) -> int:
     if t & PROIBIDO or palavras & PROIBIDO:
         return -1
     chave = [w for w in busca.lower().split() if w not in VAZIAS]
-    return sum(1 for w in chave if w in palavras or w.rstrip("s") in palavras)
+    n = sum(1 for w in chave if w in palavras or w.rstrip("s") in palavras)
+    return n if n >= min(2, len(chave)) else 0          # busca de 2+ palavras: precisa bater pelo menos 2
 
 
 def _procurar_pixabay(busca: str, chave: str) -> list[dict]:
@@ -134,8 +138,33 @@ def _baixar(item: dict) -> Path:
     return destino
 
 
-def _escolher(buscas: list[str], i: int, prefere_video: bool) -> dict | None:
-    """Um item ainda não usado no vídeo (alterna entre as buscas da cena)."""
+def _por_id(ident: str) -> dict | None:
+    """Item específico do Pixabay pelo id da curadoria (pv123 = vídeo, pf123 = foto)."""
+    chave = os.environ.get("PIXABAY_API_KEY", "").strip()
+    video = ident.startswith("pv")
+    url = "https://pixabay.com/api/videos/" if video else "https://pixabay.com/api/"
+    try:
+        hits = requests.get(url, params={"key": chave, "id": ident[2:]}, timeout=30).json().get("hits", [])
+    except Exception:  # noqa: BLE001
+        return None
+    if not hits:
+        return None
+    h = hits[0]
+    if video:
+        vs = [x for x in (h.get("videos") or {}).values() if isinstance(x, dict) and x.get("url")]
+        f = min(vs, key=lambda x: abs((x.get("height") or 0) - 1080))
+        return {"tipo": "video", "id": ident, "url": f["url"], "credito": h.get("user", "")}
+    return {"tipo": "foto", "id": ident, "url": h.get("largeImageURL") or h["webformatURL"], "credito": h.get("user", "")}
+
+
+def _escolher(buscas: list[str], i: int, prefere_video: bool, ids: list | None = None) -> dict | None:
+    """Um item ainda não usado no vídeo: primeiro os ids escolhidos na curadoria, depois as buscas da cena."""
+    for ident in ids or []:
+        if ident not in _usados:
+            it = _por_id(ident)
+            _usados.add(ident)
+            if it:
+                return it
     for k in range(len(buscas)):
         itens = _procurar(buscas[(i + k) % len(buscas)])
         livres = [it for it in itens if it["id"] not in _usados]
@@ -233,7 +262,7 @@ def renderizar_cena_real(cena: dict, voz: dict, destino: Path, pausa: float, ind
         d = fim_voz / n
         item, arq = None, None
         for _ in range(6):                               # até achar um que sirva (não claro demais nem fundo verde)
-            item = _escolher(buscas, i, prefere_video=i % 3 != 2)
+            item = _escolher(buscas, i, prefere_video=i % 3 != 2, ids=cena.get("ids"))
             if not item:
                 break
             try:
@@ -289,3 +318,45 @@ def _creditos(item: dict) -> None:
     dados = json.loads(arq.read_text()) if arq.exists() else {}
     dados[item["id"]] = item.get("credito", "")
     arq.write_text(json.dumps(dados, ensure_ascii=False, indent=1))
+
+
+def catalogo(roteiro: dict, pasta: Path) -> list[Path]:
+    """Folhas com as opções de cada cena (quadro + id) para escolher à mão os melhores planos."""
+    from PIL import Image, ImageDraw
+    pasta.mkdir(parents=True, exist_ok=True)
+    folhas = []
+    for i, cena in enumerate(roteiro["cenas"]):
+        itens = []
+        for b in cena.get("buscas") or []:
+            itens += [it for it in _procurar(b) if it["id"] not in {x["id"] for x in itens}]
+        miniaturas = []
+        for it in itens[:16]:
+            try:
+                arq = _baixar(it)
+                png = arq.with_suffix(".mini.png")
+                subprocess.run(["ffmpeg", "-y", "-loglevel", "error"] + (["-ss", "1"] if it["tipo"] == "video" else []) +
+                               ["-i", str(arq), "-frames:v", "1", "-vf", "scale=240:-1", str(png)], check=True)
+                im = Image.open(png).convert("RGB")
+                im.thumbnail((240, 240))
+                c = Image.new("RGB", (240, 262), (0, 0, 0))
+                c.paste(im, ((240 - im.width) // 2, (240 - im.height) // 2))
+                ImageDraw.Draw(c).text((4, 244), it["id"], fill=(255, 255, 0))
+                miniaturas.append(c)
+            except Exception:  # noqa: BLE001
+                continue
+        if not miniaturas:
+            continue
+        folha = Image.new("RGB", (240 * 4, 262 * math.ceil(len(miniaturas) / 4) + 30), (20, 20, 30))
+        ImageDraw.Draw(folha).text((6, 6), f"cena {i}: {cena['narracao'][:110]}", fill=(255, 255, 255))
+        for k, m in enumerate(miniaturas):
+            folha.paste(m, ((k % 4) * 240, 30 + (k // 4) * 262))
+        destino = pasta / f"cena_{i:02d}.jpg"
+        folha.save(destino, quality=70)
+        folhas.append(destino)
+    return folhas
+
+
+if __name__ == "__main__":
+    import sys
+    r = json.loads((RAIZ / sys.argv[1]).read_text(encoding="utf-8"))
+    print(catalogo(r, RAIZ / "data" / "previas" / "catalogo"))
