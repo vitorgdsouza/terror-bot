@@ -141,7 +141,7 @@ def desenhar(pose: dict, altura: int):
             braco_((pescoco[0] + sx * u * 0.085, pescoco[1] + u * 0.04), o, c, sx)
     L.finalizar()
     costelas()
-    _cabeca(d, L, cab, u, p, lado, info)
+    _cabeca(d, L, cab, u, p, lado, info, p.get("cab_escala", 1.0))
 
     if p.get("espelhar"):
         img = img.transpose(Image.FLIP_LEFT_RIGHT)
@@ -271,6 +271,12 @@ def animar(acao: str, t: float, dur: float = 4.0, espelhar: bool = False) -> dic
                     joelho_e=max(0.0, 50 * math.sin(c - 1.1)) + 20, joelho_d=max(0.0, 50 * math.sin(c + math.pi - 1.1)) + 20,
                     ombro_e=95 + 10 * s, cotovelo_e=-25, ombro_d=105 - 10 * s, cotovelo_d=-20, dedos=1.0,
                     cab_inc=-12 + cabeca * 0.3)
+    elif acao == "bizarro":                        # de corpo inteiro, encara a câmera: cabeça tomba devagar e estala
+        k = min(1.0, t / max(1.0, dur * 0.7))          # o sorriso vai rasgando ao longo da cena
+        tomba = 38 * math.sin(min(t, dur) * 0.9) + _cabeca_estalando(t, semente=7, amp=30) * 0.6
+        pose.update(vista="frente", sorriso=0.55 + 0.65 * k, cab_inc=tomba, cab_escala=1.18,
+                    ombro_e=9 + respira * 1.5, ombro_d=9 - respira * 1.5, cotovelo_e=4, cotovelo_d=4,
+                    tronco=4 * math.sin(t * 0.6), y=respira * 0.003, dedos=0.5 + 0.5 * abs(math.sin(t * 5.3)))
     else:                                          # parado: imóvel, só a respiração e a cabeça estalando
         pose.update(vista="frente", ombro_e=7 + respira, ombro_d=7 - respira, cotovelo_e=5, cotovelo_d=5,
                     y=respira * 0.002, dedos=0.15 + 0.1 * math.sin(t * 0.7))

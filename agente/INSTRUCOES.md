@@ -53,7 +53,9 @@ Direção das cenas (como num desenho animado):
 - O Abismo é sorrateiro e sádico: ele se esgueira e brinca com o medo antes de se mostrar. A ameaça cresce assim:
   primeiro só relances ("passando" ao "longe", atravessando o fundo e sumindo; "longe" "parada" no fim do corredor),
   depois "espiando" ("medio", posicao esquerda ou direita: só a cabeça surge pela borda, estala e recua),
-  depois "medio" parado (agachado observando), e no clímax "aproximando" ou o close do rosto ("perto"), uma vez só.
+  ou "na_janela" (do lado de fora, sobe devagar até aparecer no vidro, olhando para dentro: sala, quarto, cozinha,
+  janela ou casa_fora), depois "medio" parado (agachado observando), e no clímax "aproximando" ou "perto" (ele de
+  corpo inteiro, grande, encarando com a cabeça tombando e o sorriso rasgando), uma vez só.
   Nunca o mostre inteiro e parado logo no começo. Em histórias sem
   sobrenatural, use "invasor" no lugar de "abismo".
 - Efeitos com moderação: luz_piscando e relampago marcam sustos; tv_chiando só na sala e no quarto (monitor).

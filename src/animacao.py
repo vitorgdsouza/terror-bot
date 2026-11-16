@@ -35,7 +35,7 @@ try:
     ESTILO_PERSONAGEM = json.loads((RAIZ / "config" / "serie.json").read_text(encoding="utf-8")).get("personagem_estilo", "boneco")
 except Exception:
     ESTILO_PERSONAGEM = "boneco"
-ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando"]
+ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando", "na_janela"]
 AMEACAS = ["abismo", "invasor"]
 GATO_ACOES = ["parado", "andando", "correndo", "sentado", "miando", "deitado", "escondido", "assustado"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
@@ -73,7 +73,10 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   use em histórias sem sobrenatural: invasão, perseguição, alguém dentro de casa).
   acao: parada | aparecendo (surge aos poucos) | aproximando (vem para perto) | sumindo |
   espiando (só a cabeça e o ombro surgem devagar pela borda da tela, a cabeça estala; use com tamanho medio e posicao
-  esquerda ou direita) | passando (atravessa o fundo de relance e some; use com tamanho longe).
+  esquerda ou direita) | passando (atravessa o fundo de relance e some; use com tamanho longe) |
+  na_janela (do lado de fora, sobe devagar e aparece no vidro olhando para dentro, cabeça tombando e sorriso abrindo;
+  só em sala, quarto, cozinha, janela e casa_fora). tamanho "perto" = clímax: ele de corpo inteiro, grande, encarando
+  com a cara bizarra (cabeça tombando, sorriso rasgando).
   Para um Abismo sorrateiro, prefira espiando, passando e longe parado; deixe "medio parado" e o close para o clímax.
   posicao e tamanho como no personagem; "longe" coloca a ameaça no fundo do cenário (fim do corredor, topo da escada, porta, janela).
 - "gato": null ou o gato do protagonista (gato laranja de peito branco). acao: parado | andando (anda e senta) | correndo |
@@ -184,6 +187,10 @@ def normalizar(cena: dict) -> None:
         a["acao"] = a.get("acao") if a.get("acao") in ACOES_A else "parada"
         a["posicao"] = a.get("posicao") if a.get("posicao") in POSICOES else "centro"
         a["tamanho"] = a.get("tamanho") if a.get("tamanho") in TAMANHOS else "longe"
+        if a["acao"] == "na_janela" and not META.get(cena["cenario"], {}).get("janela"):
+            a["acao"], a["tamanho"] = "espiando", "medio"     # cenário sem janela: espia pela borda
+        elif a["acao"] == "na_janela":
+            a["tamanho"] = "longe"
     else:
         cena["ameaca"] = None
     g = cena.get("gato")
@@ -506,15 +513,37 @@ def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, fra
     cw, ch = quadro.size
     tam, acao = a["tamanho"], a["acao"]
     prog = t / dur if dur else 0
-    if tam == "perto":                                 # close do rosto: o sorriso vai abrindo devagar
-        pose = AB.animar("parado", t, dur)
-        pose["sorriso"] = 0.3 + 0.85 * _suave(prog / 0.8)
-        cresce = 1 + (0.15 * _suave(prog) if acao == "aproximando" else 0.05 * prog)
-        img, _ = AB.desenhar_rosto(pose, int(ch * 0.6 * cresce * escala_tela))
-        img = _com_alfa(_noite(img, 0.3), alfa)
-        cx, cy = cw * x + paralaxe * cw * 0.4, ch * 0.47
-        _aura(quadro, cx, cy, img.width * 2.0, img.height * 1.4, alfa)
-        quadro.alpha_composite(img, (int(cx - img.width / 2), int(cy - img.height / 2)))
+    if acao == "na_janela" and meta.get("janela"):    # do lado de fora, encostado no vidro, olhando para dentro
+        jx, jy, jw, jh = meta["janela"]
+        janela = (int(jx * cw), int(jy * ch), int((jx + jw) * cw), int((jy + jh) * ch))
+        pose = AB.animar("bizarro", t, dur)
+        alt = int(min(jh * ch * 2.1, ch * 0.75) * escala_tela)
+        img, info = AB.desenhar(pose, alt)
+        img = _noite(img, 0.35)
+        sobe = _suave(prog / 0.5)                         # vai subindo devagar até aparecer na janela
+        cx = (janela[0] + janela[2]) / 2 + (jw * cw * 0.18 if a["posicao"] == "direita" else -jw * cw * 0.18 if a["posicao"] == "esquerda" else 0)
+        topo_cab = janela[1] + (janela[3] - janela[1]) * (0.75 - 0.6 * sobe)
+        ox = int(cx - info["rosto"][0])
+        oy = int(topo_cab - (info["rosto"][1] - alt * 0.09))
+        camada = Image.new("RGBA", quadro.size, (0, 0, 0, 0))
+        camada.alpha_composite(img, (ox, oy))
+        mascara = Image.new("L", quadro.size, 0)
+        ImageDraw.Draw(mascara).rectangle(janela, fill=int(255 * 0.85 * alfa))   # só aparece dentro do vidro
+        camada.putalpha(Image.composite(camada.getchannel("A"), Image.new("L", quadro.size, 0), mascara)
+                        .point(lambda v: v * 0.85))
+        quadro.alpha_composite(camada)
+        return
+    if tam == "perto":                                 # clímax: de corpo inteiro, grande, com a cara bizarra
+        pose = AB.animar("bizarro", t, dur)
+        cresce = 1 + (0.12 * _suave(prog) if acao == "aproximando" else 0.03 * prog)
+        altura = ch * 0.66 * cresce * escala_tela
+        img, info = AB.desenhar(pose, int(altura))
+        img = _com_alfa(_noite(img, 0.25), alfa)
+        cx, chao = cw * (0.5 + (x - 0.5) * 0.4) + paralaxe * cw * 0.4, ch * 0.985
+        ox, oy = int(cx - info["pes"][0]), int(chao - info["pes"][1])
+        bb = img.getbbox() or (0, 0, img.width, img.height)
+        _aura(quadro, ox + (bb[0] + bb[2]) / 2, oy + (bb[1] + bb[3]) / 2, (bb[2] - bb[0]) * 2.0, (bb[3] - bb[1]) * 1.3, alfa)
+        quadro.alpha_composite(img, (ox, oy))
         return
     espelhar = x > 0.5                                  # agachado ou atacando: virado para o meio da cena
     if acao == "passando":                              # atravessa o fundo de relance
