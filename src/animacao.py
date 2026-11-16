@@ -332,11 +332,12 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
     faixa = meta.get("faixa", [0.22, 0.78])
     alvo = min(max(POSICOES[p["posicao"]], faixa[0]), faixa[1]) * cw
     if (pose == "sentado" or p.get("depois") == "sentado") and tam != "perto":
-        if meta.get("assento"):                       # senta onde há onde sentar (sofá, cama), no tamanho certo
-            ax, ay = meta["assento"]
+        if meta.get("assento"):                       # senta EM CIMA do sofá/cama: o quadril fica na altura do assento
+            ax, ay = meta["assento"]                    # ay = altura da superfície do assento (fração da tela)
             hz = meta.get("horizonte", 0.45)
-            altura = int(altura * max(0.35, (ay - hz) / max(0.05, piso - hz)))
-            alvo, piso, acao = ax * cw, ay, "parado"
+            altura = int(altura * max(0.35, (ay + 0.1 - hz) / max(0.05, piso - hz)))
+            pes = ay + 0.26 * altura / ch               # no boneco sentado, os pés ficam 0,26 da altura abaixo do quadril
+            alvo, piso, acao = ax * cw, pes, "parado"
             p = {**p, "_no_assento": True}
         else:                                          # sem assento no cenário: fica em pé
             p = {**p, "pose": "frente"} if pose == "sentado" else {**p, "depois": None}
@@ -404,7 +405,7 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
     pes_x, pes_y = info["pes"]
     cx = x + paralaxe * cw
     chao = ch * piso_mov
-    if tam != "perto":
+    if tam != "perto" and not p.get("_no_assento"):    # sentado no sofá/cama: sem sombra no chão
         sb = _sombra_chao(int(img.width * 0.32))
         quadro.alpha_composite(sb, (int(cx - sb.width / 2), int(chao - sb.height / 2)))
     ox, oy = int(cx - pes_x), int(chao - pes_y)
