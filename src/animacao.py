@@ -544,6 +544,7 @@ def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, fra
         jx, jy, jw, jh = meta["janela"]
         janela = (int(jx * cw), int(jy * ch), int((jx + jw) * cw), int((jy + jh) * ch))
         pose = AB.animar("bizarro", t, dur)
+        pose["silhueta"] = a.get("_silhueta", False)
         alt = int(min(jh * ch * 2.1, ch * 0.75) * escala_tela)
         img, info = AB.desenhar(pose, alt)
         img = _noite(img, 0.35)
@@ -562,6 +563,7 @@ def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, fra
         return
     if tam == "perto":                                 # clímax: de corpo inteiro, grande, com a cara bizarra
         pose = AB.animar("bizarro", t, dur)
+        pose["silhueta"] = a.get("_silhueta", False)
         cresce = 1 + (0.12 * _suave(prog) if acao == "aproximando" else 0.03 * prog)
         altura = ch * 0.66 * cresce * escala_tela
         img, info = AB.desenhar(pose, int(altura))
@@ -597,8 +599,10 @@ def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, fra
         alfa = min(1.0, alfa * 2.2)                     # pisca entre aparecer e sumir antes de ficar
     if acao == "passando":
         espelhar = a.get("_sentido", 1) < 0
+    silhueta = a.get("_silhueta", False)
     pose = AB.animar(movimento, t, dur, espelhar=(espelhar and movimento != "parado" and movimento != "andando")
                      or (acao == "passando" and espelhar))
+    pose["silhueta"] = silhueta
     img, info = AB.desenhar(pose, int(altura * escala_tela))
     img = _com_alfa(_noite(img, 0.25), alfa)
     cx = cw * x + paralaxe * cw * 0.4
@@ -635,11 +639,11 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
         x = x + (0.5 - x) * 0.5 * k
     elif a["acao"] == "passando":
         # cruza o fundo de um lado ao outro no meio da cena e some: só um relance
-        k = _suave((prog - 0.25) / 0.4)
+        k = (prog - 0.1) / 0.8                           # atravessa devagar, quase a cena inteira
         sentido = -1 if a["posicao"] == "direita" else 1
         a["_sentido"] = sentido
-        x = (-0.15 + 1.3 * k) if sentido > 0 else (1.15 - 1.3 * k)
-        alfa = 0.0 if prog < 0.25 or prog > 0.65 else 0.9
+        x = (0.05 + 0.9 * k) if sentido > 0 else (0.95 - 0.9 * k)
+        alfa = 0.0 if k < 0 or k > 1 else min(1.0, k / 0.15, (1 - k) / 0.15) * 0.9
     elif a["acao"] == "espiando":
         # surge devagar pela borda da tela (ou do batente), espia e recua um pouco no fim
         lado = -1 if a["posicao"] == "esquerda" else 1
@@ -1004,6 +1008,8 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
     if cena.get("_img"):
         return _quadro_ilustrado(cena, t, dur, n)
     normalizar(cena)
+    if cena.get("ameaca"):
+        cena["ameaca"]["_silhueta"] = cena.get("_silhueta", False)
     prog = t / dur if dur else 0
     k = _suave(prog)
     cam = cena["camera"]
@@ -1098,6 +1104,23 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
     if borda < 0.2:
         img = Image.blend(img, Image.new("RGB", (W, H), (0, 0, 0)), 1 - max(0.0, borda) / 0.2)
     return img
+
+
+def marcar_revelacao(roteiro: dict) -> None:
+    """O Abismo é só uma silhueta escura até o clímax. O rosto aparece a partir da primeira cena da reta final
+    (último terço) em que ele encara, avança ou aparece de perto; antes disso, todas as aparições são silhueta."""
+    cenas = roteiro.get("cenas", [])
+    n = len(cenas)
+    revela = n
+    for i, c in enumerate(cenas):
+        a = c.get("ameaca") or {}
+        if i >= n * 0.65 and a.get("tipo") == "abismo" and (a.get("acao") in ("encarando", "aproximando") or a.get("tamanho") == "perto"):
+            revela = i
+            break
+    if roteiro.get("parte", 1) not in (1, None, "") and not roteiro.get("silhueta_sempre"):
+        revela = 0                                     # nas partes seguintes o público já viu o rosto dele
+    for i, c in enumerate(cenas):
+        c["_silhueta"] = i < revela
 
 
 def renderizar_cena(cena: dict, voz: dict, destino: Path, prot: str, pausa: float = 0.5) -> float:

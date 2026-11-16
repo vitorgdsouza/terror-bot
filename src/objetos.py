@@ -20,7 +20,7 @@ from PIL import Image, ImageDraw, ImageFilter
 TRACO = (24, 22, 30, 255)
 TIPOS = ["coleira", "tigela", "pelo", "novelo", "ratinho", "pegadas", "arranhoes", "marcas_mao",
          "foto", "bilhete", "jornal", "desenho"]
-ESCALA = {"coleira": 0.55, "ratinho": 0.8, "pelo": 0.8, "foto": 0.9, "bilhete": 0.8, "jornal": 1.0, "desenho": 1.0}
+ESCALA = {"coleira": 0.42, "ratinho": 0.8, "pelo": 0.8, "foto": 0.9, "bilhete": 0.8, "jornal": 1.0, "desenho": 1.0}
 NO_CHAO = {"coleira", "tigela", "pelo", "novelo", "ratinho"}
 S = 2
 

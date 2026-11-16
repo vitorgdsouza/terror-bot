@@ -173,6 +173,10 @@ def _cabeca(d, L, pos, u, p, lado, info, escala=1.0):
 
 def _rosto(d, L, cx, cy, rx, ry, u, p, lado):
     o = L.o
+    if p.get("silhueta"):                              # identidade escondida: só a forma escura da cabeça
+        d.ellipse((cx - rx - o, cy - ry - o, cx + rx + o, cy + ry + o), fill=BORDA)
+        d.ellipse((cx - rx, cy - ry, cx + rx, cy + ry), fill=CORPO)
+        return
     d.ellipse((cx - rx - o, cy - ry - o, cx + rx + o, cy + ry + o), fill=BORDA)
     d.ellipse((cx - rx, cy - ry, cx + rx, cy + ry), fill=PELE)
     d.chord((cx - rx, cy - ry, cx + rx, cy + ry), 290, 70, fill=PELE_S)        # sombra de um lado

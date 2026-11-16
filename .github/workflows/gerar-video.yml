@@ -79,6 +79,10 @@ jobs:
             saida/**/video/video_final.mp4
             saida/**/roteiro.json
             saida/**/legenda_do_post.txt
+            trabalho/roteiro.json
+            trabalho/vozes.json
+            trabalho/legenda_do_post.txt
+            trabalho/video/video_final.mp4
             trabalho/video/video_final.mp4
             trabalho/roteiro.json
             trabalho/previa.jpg

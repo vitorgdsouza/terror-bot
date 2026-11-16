@@ -208,8 +208,9 @@ def _trilha(total: float, cfg: dict) -> list:
 
 def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
     """Anima cada cena (src/animacao.py), junta tudo e coloca legendas e trilha."""
-    from .animacao import renderizar_cena, renderizar_clipe
+    from .animacao import marcar_revelacao, renderizar_cena, renderizar_clipe
     pasta.mkdir(parents=True, exist_ok=True)
+    marcar_revelacao(roteiro)
     prot = roteiro.get("protagonista", "homem")
     cenas, duracoes = [], []
     lista_cenas = roteiro["cenas"]

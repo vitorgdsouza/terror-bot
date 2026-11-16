@@ -217,8 +217,9 @@ def _previa_ilustrada(r):
 
 def previa(a):
     """Quadros de prévia, sem narração (o agente avalia a composição antes de montar)."""
-    from .animacao import quadro
+    from .animacao import marcar_revelacao, quadro
     r = _roteiro()
+    marcar_revelacao(r)
     if r["cenas"] and (r["cenas"][0].get("imagem") or r["cenas"][0].get("_img")) and a.cena is None:
         return _previa_ilustrada(r)
     prot = r.get("protagonista", "homem")
