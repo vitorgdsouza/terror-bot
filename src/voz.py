@@ -13,6 +13,9 @@ EFEITOS_VOZ = {
                          "equalizer=f=110:t=q:w=1.2:g=5,equalizer=f=3500:t=q:w=1.5:g=2,"
                          "acompressor=threshold=-20dB:ratio=3:attack=10:release=200,"
                          "aecho=0.8:0.5:45|90:0.18|0.10,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100"),
+    # "narrador_limpo": voz clara e próxima, como nos canais de animação de terror (sem eco, sem mudar o tom)
+    "narrador_limpo": ("aresample=44100,highpass=f=70,equalizer=f=140:t=q:w=1:g=3,equalizer=f=3200:t=q:w=1.4:g=2.5,"
+                       "acompressor=threshold=-18dB:ratio=3.5:attack=5:release=150,loudnorm=I=-15:TP=-1.5:LRA=9,aresample=44100"),
     "nenhum": "",
 }
 
@@ -65,14 +68,18 @@ def gerar_narracao(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
     for i, cena in enumerate(roteiro["cenas"]):
         destino = pasta / f"voz_{i:02d}.mp3"
         log(f"Narração {i + 1}/{len(roteiro['cenas'])}")
-        for tentativa in range(3):
+        vozes = [cfg["voz"]["nome"]] + [v for v in cfg["voz"].get("reservas", ["pt-BR-AntonioNeural"]) if v != cfg["voz"]["nome"]]
+        for tentativa in range(4):
+            cfg_voz = {**cfg["voz"], "nome": vozes[min(tentativa // 2, len(vozes) - 1)]}
             try:
-                palavras = asyncio.run(_sintetizar(cena["narracao"], cfg["voz"], destino))
-                break
-            except Exception as e:  # falha de rede ocasional
-                if tentativa == 2:
+                palavras = asyncio.run(_sintetizar(cena["narracao"], cfg_voz, destino))
+                if destino.exists() and destino.stat().st_size > 1000:
+                    break
+                raise RuntimeError("áudio vazio")
+            except Exception as e:  # falha de rede ou voz indisponível: tenta de novo e depois a voz reserva
+                if tentativa == 3:
                     raise
-                log(f"  erro na voz ({e}), tentando de novo")
+                log(f"  erro na voz {cfg_voz['nome']} ({e}), tentando de novo")
         _tratar(destino, cfg["voz"].get("efeito", "nenhum"))
         total = duracao(destino)
         if not palavras:

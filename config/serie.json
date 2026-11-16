@@ -19,23 +19,26 @@
     }
   },
   "voz": {
-    "nome": "pt-BR-AntonioNeural",
-    "velocidade": "-12%",
-    "tom": "-8Hz",
-    "efeito": "narrador_sombrio"
+    "nome": "pt-BR-MacerioMultilingualNeural",
+    "reservas": [
+      "pt-BR-AntonioNeural"
+    ],
+    "velocidade": "+0%",
+    "tom": "-2Hz",
+    "efeito": "narrador_limpo"
   },
   "legenda": {
     "estilo": "karaoke",
     "fonte": "DejaVu Sans",
     "tamanho": 60,
-    "palavras_por_bloco": 4,
+    "palavras_por_bloco": 2,
     "cor_destaque": "#7B2FE0",
     "mostrar_titulo": false
   },
   "efeitos": "limpo",
   "musica": {
     "volume_musica": 0.12,
-    "volume_ambiente_gerado": 0.22
+    "volume_ambiente_gerado": 0.3
   },
   "hashtags_fixas": [
     "#vocesobreviveria",

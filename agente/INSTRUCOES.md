@@ -32,7 +32,7 @@ Formato "segunda_pessoa_com_escolha":
 - Cena 1: gancho imediato nos 3 primeiros segundos ("Sua família viajou e você ficou sozinha em casa...").
 - Detalhes concretos (horários exatos, objetos, sons), pistas estranhas e tensão crescente; o perigo fica cara a cara perto do fim.
 - Última cena: duas escolhas, "Opção A: ..." e "Opção B: ...", ambas arriscadas e plausíveis, terminando EXATAMENTE com "Comente A ou B."
-- Escreva para ser FALADO por um contador de histórias de terror: frases curtas, ritmo lento, pausas dramáticas com "..."
+- Escreva para ser FALADO por um contador de histórias de terror: frases curtas e ritmo contínuo, como um narrador de canal de terror; pausas dramáticas com "..." só 1 ou 2 vezes por cena,
   antes das revelações ("E então... a luz apagou."), sons e sensações (o rangido, o frio na nuca, o silêncio), perguntas que
   prendem ("Mas quem acendeu a luz?") e um gancho no fim de cada cena. Nada de parênteses, siglas ou números longos (escreva por extenso).
 - Suspense, sem gore, sangue ou violência explícita.
