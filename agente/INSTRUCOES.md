@@ -44,7 +44,7 @@ Direção das cenas (como num desenho animado):
   alterne com closes ("perto") nos momentos de medo, e use celular_cftv quando a história envolver câmera ou celular.
 - Combine a ação com a narração: "você caminha até a porta" → acao "andando"/"entrando"; "você congela" → "tremendo" e pose "medo".
 - A ameaça cresce: primeiro só "olhos" ao "longe", depois "sombra" "aparecendo", e no clímax "aproximando" com "tremor".
-- Efeitos com moderação: luz_piscando e relampago marcam sustos; tv_chiando só na sala.
+- Efeitos com moderação: luz_piscando e relampago marcam sustos; tv_chiando só na sala e no quarto (monitor). pia_detalhe é um close: use com personagem "perto" ou só com a sombra lá fora na janela.
 
 ```json
 {

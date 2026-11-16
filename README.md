@@ -5,7 +5,7 @@ Este projeto cria sozinho animações de terror em segunda pessoa ("você está 
 **Como funciona:**
 
 1. **Roteiro**: o Gemini (IA do Google, plano gratuito) escreve uma história original em 14 cenas, falando com o espectador e terminando com duas opções (A ou B).
-2. **Animação**: cada cena é montada com cenários desenhados à mão (sala, corredor, quarto, cozinha, porta, janela, escada, banheiro, casa por fora, rua e a tela de câmera de segurança no celular). O protagonista e o vulto se mexem: respiram, piscam, andam, tremem, aparecem e se aproximam. Nenhuma imagem é feita por IA, então não há marca d'água nem desenho deformado.
+2. **Animação**: cada cena é montada com uma biblioteca fixa de cenários (sala, corredor, quarto, cozinha, pia, porta, janela, escada vista de baixo e de cima, banheiro, casa por fora, rua e a tela de câmera de segurança no celular). Os cenários em `assets/cenarios` foram gerados uma única vez com IA de imagem ou desenhados por código; os vídeos sempre reutilizam os mesmos arquivos. O protagonista e o vulto se mexem: respiram, piscam, andam, tremem, aparecem e se aproximam. Nada é gerado na hora, então não há marca d'água nem desenho deformado.
 3. **Narração**: as vozes neurais do Microsoft Edge (gratuitas) narram em português.
 4. **Montagem**: a câmera se move (zoom e panorâmica), entram efeitos como luz piscando, relâmpago, chuva e TV chiando, e o FFmpeg coloca legendas palavra por palavra, com a palavra falada destacada numa caixa roxa, além de um som ambiente sombrio.
 5. **Entrega**: o vídeo chega no seu Telegram junto com a legenda pronta para colar no post.
@@ -123,7 +123,8 @@ O protagonista, o vulto e os cenários são desenhos fixos, guardados em `assets
 
 - **Poses disponíveis:** `frente`, `medo`, `costas`, `celular`, `lanterna` e `maos_celular` (close das mãos segurando o celular).
 - **Ameaças:** `sombra` (o vulto inteiro) e `olhos` (só os olhos no escuro).
-- **Cenários disponíveis:** sala, corredor, quarto, cozinha, porta_entrada, janela, escada, banheiro, casa_fora, rua e celular_cftv.
+- **Cenários disponíveis:** sala, corredor, quarto, cozinha, pia_detalhe, porta_entrada, janela, escada, escada_cima, banheiro, casa_fora, rua e celular_cftv.
+- **Adicionar um cenário novo:** gere a imagem vertical (9:16, vazia, sem pessoas) no mesmo estilo, salve em `assets/cenarios/fonte/originais_ia/`, converta para 1188x2112 PNG em `assets/cenarios/<nome>.png` e adicione o nome em `cenarios.json` com `piso` (altura do chão onde o personagem pisa, 0 a 1), `fundo` [x, chão, tamanho] para o vulto ao longe e, se houver, `porta`, `janela`, `tv` ou `espelho` como [x, y, largura, altura]. Os desenhos antigos ficam em `assets/cenarios/fonte/desenhados_antigos/`.
 - **Mudar o visual ou criar cenários novos:** os desenhos originais ficam em `assets/personagem/fonte/` e `assets/cenarios/fonte/`. Peça ao Claude para criar novas poses, cenários (um hospital, uma escola, uma estrada) ou mudar as cores; ele gera os PNGs de novo.
 
 ## Personalizar a série

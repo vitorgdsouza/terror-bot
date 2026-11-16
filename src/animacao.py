@@ -43,9 +43,10 @@ _cache: dict = {}
 # explicação dos valores, usada no pedido ao Gemini e nas instruções do agente
 GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fixas:
 - "cenario": o lugar. sala (sofá, TV, abajur, janela) | corredor (comprido, porta escura no fundo) |
-  quarto (cama, guarda-roupa entreaberto, janela) | cozinha (armários, geladeira, janela) |
-  porta_entrada (porta da rua por dentro, olho mágico) | janela (close numa janela grande, noite lá fora) |
-  escada (subindo para um andar escuro) | banheiro (espelho, pia, cortina) | casa_fora (a casa vista da rua à noite) |
+  quarto (cama, escrivaninha com monitor aceso, janela) | cozinha (armários, geladeira, janela com lua) |
+  pia_detalhe (close da pia com prato e copo, janela ao lado: só personagem "perto"; a sombra "longe" aparece lá fora na janela) |
+  porta_entrada (porta da rua por dentro com corrente e olho mágico, cabideiro com casaco) | janela (close numa janela grande, noite lá fora) |
+  escada (vista de baixo, subindo para um andar escuro) | escada_cima (vista do andar de cima, descendo para um hall escuro) | banheiro (espelho, pia, cortina) | casa_fora (a casa vista da rua à noite) |
   rua (rua escura com poste) | celular_cftv (close das mãos segurando o celular; na tela, a câmera de segurança mostrando outro cenário)
 - "tela": só no celular_cftv, qual cenário aparece na câmera (ex.: "sala"). O personagem e a ameaça dessa cena aparecem DENTRO da câmera.
 - "personagem": o protagonista ou null. pose: frente | medo | costas | celular (mexendo no celular) | lanterna.
@@ -54,7 +55,7 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
 - "ameaca": null ou o vulto. tipo: sombra (vulto encapuzado de olhos brancos) | olhos (só dois olhos brancos no escuro).
   acao: parada | aparecendo (surge aos poucos) | aproximando (vem para perto) | sumindo.
   posicao e tamanho como no personagem; "longe" coloca a ameaça no fundo do cenário (fim do corredor, topo da escada, porta, janela).
-- "efeito": nenhum | luz_piscando | tv_chiando (só na sala) | relampago | chuva | tremor (susto).
+- "efeito": nenhum | luz_piscando | tv_chiando (só na sala e no quarto, no monitor) | relampago | chuva | tremor (susto).
 - "camera": zoom_in (aproxima devagar, padrão) | zoom_out | pan_esquerda | pan_direita | parada.
 Dicas: varie cenários e enquadramentos como num desenho; deixe a ameaça para a segunda metade e aumente a presença dela
 até o clímax; use celular_cftv quando a história falar de câmera de segurança ou de algo visto no celular."""
@@ -144,6 +145,8 @@ def normalizar(cena: dict) -> None:
             p["tamanho"] = p.get("tamanho") if p.get("tamanho") in TAMANHOS else "medio"
     else:
         cena["personagem"] = None
+    if META.get(cena["cenario"], {}).get("detalhe") and cena["personagem"]:
+        cena["personagem"]["tamanho"] = "perto"   # cenário em close: só cabe o personagem de perto
     a = cena.get("ameaca")
     if isinstance(a, dict) and a.get("tipo") in AMEACAS:
         a["acao"] = a.get("acao") if a.get("acao") in ACOES_A else "parada"
@@ -350,6 +353,11 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
     else:
         meta = META[cena["cenario"]]
         img = _img(PASTA_CEN / f"{cena['cenario']}.png").copy()
+        ef = cena["efeito"]
+        if ef == "tv_chiando":      # TV e chuva ficam no cenário, atrás de quem estiver na frente
+            _tv(img, meta, t, n)
+        elif ef == "chuva":
+            _chuva(img, meta, t, n)
         a, p = cena.get("ameaca"), cena.get("personagem")
         # a ameaça fica atrás do personagem, a não ser que ela esteja em close e ele não
         ameaca_atras = a and not (a["tamanho"] == "perto" and (not p or p["tamanho"] != "perto"))
@@ -359,11 +367,6 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
             _desenhar_personagem(img, p, meta, t, dur, prot)
         if a and not ameaca_atras:
             _desenhar_ameaca(img, a, meta, t, dur)
-        ef = cena["efeito"]
-        if ef == "tv_chiando":
-            _tv(img, meta, t, n)
-        elif ef == "chuva":
-            _chuva(img, meta, t, n)
 
     ef = cena["efeito"]
     if ef == "luz_piscando":
