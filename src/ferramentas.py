@@ -1,31 +1,28 @@
 """Ferramentas de linha de comando usadas pelo agente diretor (Claude Code).
 
 Todas trabalham na pasta trabalho/. Exemplos:
-    python -m src.ferramentas contexto              # mostra a configuração da série e o histórico
-    python -m src.ferramentas validar               # confere trabalho/roteiro.json
-    python -m src.ferramentas imagens               # gera as imagens que ainda faltam
-    python -m src.ferramentas folha                 # junta todas as cenas em trabalho/folha.jpg
-    python -m src.ferramentas imagem 3 --tentativa 1  # refaz o cenário da cena 3 com outra semente
-    python -m src.ferramentas recompor 3            # reaplica personagem/ameaça da cena 3 (sem gerar cenário)
-    python -m src.ferramentas narracao              # gera a narração de todas as cenas
-    python -m src.ferramentas montar                # monta trabalho/video/video_final.mp4
-    python -m src.ferramentas quadros               # quadros do vídeo final em trabalho/quadros.jpg
+    python -m src.ferramentas contexto        # configuração da série, protagonista da vez e histórico
+    python -m src.ferramentas validar         # confere e corrige trabalho/roteiro.json
+    python -m src.ferramentas previa          # um quadro de cada cena em trabalho/previa.jpg (instantâneo)
+    python -m src.ferramentas previa 4        # 3 momentos da cena 4 em trabalho/previa_cena.jpg
+    python -m src.ferramentas narracao        # gera a narração de todas as cenas
+    python -m src.ferramentas montar          # anima e monta trabalho/video/video_final.mp4
+    python -m src.ferramentas quadros         # 8 quadros do vídeo final em trabalho/quadros.jpg
     python -m src.ferramentas enviar --nota "..."   # manda para o Telegram e salva no histórico
 """
 import argparse
 import json
 import sys
-import time
 from pathlib import Path
 
-from .util import RAIZ, carregar_config, carregar_historico, duracao, log, rodar, salvar_no_historico
+from PIL import Image, ImageDraw
+
+from .util import RAIZ, carregar_config, carregar_historico, duracao, rodar, salvar_no_historico
 
 TRAB = RAIZ / "trabalho"
 ROTEIRO = TRAB / "roteiro.json"
-IMGS = TRAB / "imagens"
 VOZES = TRAB / "vozes.json"
 FINAL = TRAB / "video" / "video_final.mp4"
-ULTIMO_PEDIDO = TRAB / ".ultimo_pedido_imagem"
 PALAVRAS_POR_SEGUNDO = 2.3
 
 
@@ -35,30 +32,42 @@ def _roteiro() -> dict:
     return json.loads(ROTEIRO.read_text(encoding="utf-8"))
 
 
+def _catalogo() -> str:
+    from . import animacao as A
+    return (f"cenario: {', '.join(A.CENARIOS)}\n"
+            f"personagem.pose: {', '.join(A.POSES)} | acao: {', '.join(A.ACOES_P)}\n"
+            f"ameaca.tipo: {', '.join(A.AMEACAS)} | acao: {', '.join(A.ACOES_A)}\n"
+            f"posicao: {', '.join(A.POSICOES)} | tamanho: {', '.join(A.TAMANHOS)}\n"
+            f"efeito: {', '.join(A.EFEITOS)} | camera: {', '.join(A.CAMERAS)}")
+
+
 def contexto(_):
+    from .personagem import escolher_protagonista
     cfg = carregar_config()
     print("=== CONFIGURAÇÃO DA SÉRIE (config/serie.json) ===")
     print(json.dumps(cfg, ensure_ascii=False, indent=2))
-    from .personagem import escolher_protagonista
     quem = escolher_protagonista(cfg, carregar_historico())
     info = cfg.get("protagonistas", {}).get(quem, {})
     print(f"\n=== PROTAGONISTA DESTE VÍDEO: {quem} ({info.get('descricao', '')}) ===")
     print(f'Coloque "protagonista": "{quem}" no roteiro.json e escreva os adjetivos de "você" no {info.get("genero", "masculino")}.')
+    print("\n=== VALORES ACEITOS NAS CENAS ===\n" + _catalogo())
     hist = carregar_historico()[-40:]
     print("\n=== HISTÓRIAS JÁ PUBLICADAS (não repetir) ===")
     print("\n".join(f"- {h['titulo']} ({h['tema'][:60]})" for h in hist) or "(nenhuma ainda)")
 
 
 def validar(_):
-    from .roteiro import MOVIMENTOS, _validar
+    from .animacao import normalizar
+    from .personagem import escolher_protagonista
     cfg = carregar_config()
     r = _roteiro()
-    try:
-        _validar(r, cfg)
-    except (ValueError, KeyError) as e:
-        sys.exit(f"ROTEIRO INVÁLIDO: {e}")
+    if not r.get("titulo") or not r.get("cenas"):
+        sys.exit("ROTEIRO INVÁLIDO: faltou título ou cenas")
+    for i, c in enumerate(r["cenas"]):
+        if not c.get("narracao"):
+            sys.exit(f"ROTEIRO INVÁLIDO: a cena {i} não tem narração")
+        normalizar(c)
     if r.get("protagonista") not in ("homem", "mulher"):
-        from .personagem import escolher_protagonista
         r["protagonista"] = escolher_protagonista(cfg, carregar_historico())
     ROTEIRO.write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
     palavras = sum(len(c["narracao"].split()) for c in r["cenas"])
@@ -71,112 +80,51 @@ def validar(_):
         avisos.append(f"duração estimada {seg:.0f}s está longe do alvo de {alvo}s")
     if cfg.get("formato") == "segunda_pessoa_com_escolha" and "comente a ou b" not in r["cenas"][-1]["narracao"].lower():
         avisos.append('a última cena deve terminar com "Comente A ou B."')
-    from .personagem import AMEACAS, POSES, POSICOES, TAMANHOS
-    sem_prot = sum(1 for c in r["cenas"] if not c.get("personagem"))
-    print(f"OK: \"{r['titulo']}\" | protagonista: {r['protagonista']} | {len(r['cenas'])} cenas | {palavras} palavras | ~{seg:.0f}s narrados")
-    print(f"Cenas sem o protagonista: {sem_prot} | com ameaça: {sum(1 for c in r['cenas'] if c.get('ameaca'))}")
-    print(f"Valores válidos -> pose: {', '.join(POSES)} | ameaça: {', '.join(AMEACAS)} | posicao: {', '.join(POSICOES)} "
-          f"| tamanho: {', '.join(TAMANHOS)} | movimento: {', '.join(MOVIMENTOS)}")
+    usados = [c["cenario"] for c in r["cenas"]]
+    print(f"OK: \"{r['titulo']}\" | protagonista: {r['protagonista']} | {len(r['cenas'])} cenas | {palavras} palavras | ~{seg:.0f}s")
+    print(f"Cenários usados: {', '.join(usados)}")
+    print(f"Cenas com ameaça: {sum(1 for c in r['cenas'] if c.get('ameaca'))}")
+    print("(valores inválidos foram trocados por padrões; confira no roteiro.json)")
     print("\n".join(f"AVISO: {a}" for a in avisos) or "Sem avisos.")
 
 
-def _respeitar_limite():
-    from .imagens import ESPERA_ENTRE_IMAGENS
-    if ULTIMO_PEDIDO.exists():
-        falta = ESPERA_ENTRE_IMAGENS - (time.time() - float(ULTIMO_PEDIDO.read_text()))
-        if falta > 0:
-            time.sleep(falta)
-    ULTIMO_PEDIDO.write_text(str(time.time()))
+def _rotulo(img: Image.Image, texto: str) -> Image.Image:
+    d = ImageDraw.Draw(img)
+    d.rectangle((0, 0, 70, 44), fill=(0, 0, 0))
+    d.text((10, 8), texto, fill=(255, 230, 0))
+    return img
 
 
-def _previa(origem: Path, destino: Path, largura: int = 360):
-    rodar(["ffmpeg", "-y", "-i", str(origem), "-vf", f"scale={largura}:-2", "-q:v", "4", str(destino)])
-
-
-def _gerar_cena(r: dict, cfg: dict, i: int, tentativa: int) -> bool:
-    from .imagens import gerar_imagem, montar_prompt, placeholder, semente_do_video
-    fundo = IMGS / f"fundo_{i:02d}.jpg"
-    semente = semente_do_video(r["titulo"]) + i + 1000 * tentativa
-    _respeitar_limite()
-    log(f"Cena {i} (tentativa {tentativa}, semente {semente})")
-    ok = gerar_imagem(montar_prompt(r["cenas"][i], r, cfg), fundo, semente)
-    marca = IMGS / f"cena_{i:02d}.falhou"
-    if ok:
-        marca.unlink(missing_ok=True)
+def previa(a):
+    """Quadros de prévia, sem narração (o agente avalia a composição antes de montar)."""
+    from .animacao import quadro
+    r = _roteiro()
+    prot = r.get("protagonista", "homem")
+    if a.cena is not None:
+        cena = r["cenas"][a.cena]
+        imgs = [_rotulo(quadro(dict(cena), t, 6.0, prot, int(t * 24)).resize((360, 640)), f"{a.cena}:{t:.0f}s")
+                for t in (0.6, 3.0, 5.4)]
+        destino = TRAB / "previa_cena.jpg"
+        cols = 3
     else:
-        placeholder(fundo)
-        marca.write_text("1")
-        log(f"  FALHOU: cena {i} ficou com fundo escuro provisório; tente de novo mais tarde")
-    _compor_cena(r, i)
-    return ok
-
-
-def _compor_cena(r: dict, i: int):
-    from .personagem import compor
-    destino = IMGS / f"cena_{i:02d}.jpg"
-    compor(IMGS / f"fundo_{i:02d}.jpg", r["cenas"][i], destino, r.get("protagonista", "homem"))
-    _previa(destino, IMGS / f"previa_{i:02d}.jpg")
-
-
-def recompor(a):
-    """Reaplica personagem/ameaça (depois de mudar pose, posição ou tamanho no roteiro) sem gerar o cenário de novo."""
-    r = _roteiro()
-    alvo = range(len(r["cenas"])) if a.cena is None else [a.cena]
-    for i in alvo:
-        if not (IMGS / f"fundo_{i:02d}.jpg").exists():
-            sys.exit(f"ERRO: a cena {i} ainda não tem cenário. Rode 'imagens' antes.")
-        _compor_cena(r, i)
-    print("Recomposto. Rode 'folha' para conferir.")
-
-
-def imagem(a):
-    r, cfg = _roteiro(), carregar_config()
-    if not 0 <= a.cena < len(r["cenas"]):
-        sys.exit(f"ERRO: a cena deve ir de 0 a {len(r['cenas']) - 1}")
-    _gerar_cena(r, cfg, a.cena, a.tentativa)
-    print(f"Prévia: trabalho/imagens/previa_{a.cena:02d}.jpg")
-
-
-def imagens(_):
-    r, cfg = _roteiro(), carregar_config()
-    for i in range(len(r["cenas"])):
-        if (IMGS / f"fundo_{i:02d}.jpg").exists() and not (IMGS / f"cena_{i:02d}.falhou").exists():
-            continue
-        _gerar_cena(r, cfg, i, 0)
-    falhas = sorted(p.stem for p in IMGS.glob("*.falhou"))
-    print("Todas as imagens geradas." if not falhas else f"Ainda com falha: {', '.join(falhas)}")
-
-
-def folha(_):
-    """Junta as prévias numa grade numerada (para avaliar todas de uma vez)."""
-    r = _roteiro()
-    n = len(r["cenas"])
-    entradas, filtros = [], []
-    for i in range(n):
-        p = IMGS / f"previa_{i:02d}.jpg"
-        if not p.exists():
-            sys.exit(f"ERRO: falta a imagem da cena {i}. Rode 'imagens' antes.")
-        entradas += ["-i", str(p)]
-        filtros.append(f"[{i}:v]scale=240:420,drawtext=text='{i}':x=10:y=10:fontsize=36:"
-                       f"fontcolor=yellow:box=1:boxcolor=black@0.7[c{i}]")
-    colunas = 7 if n > 7 else n
-    linhas = -(-n // colunas)
-    layout = "|".join(f"{(i % colunas) * 240}_{(i // colunas) * 420}" for i in range(n))
-    filtros.append("".join(f"[c{i}]" for i in range(n)) +
-                   f"xstack=inputs={n}:layout={layout}:fill=black[out]" if n > 1 else "[c0]null[out]")
-    rodar(["ffmpeg", "-y", *entradas, "-filter_complex", ";".join(filtros),
-           "-map", "[out]", "-frames:v", "1", "-q:v", "4", str(TRAB / "folha.jpg")])
-    print(f"Folha com {n} cenas ({colunas}x{linhas}): trabalho/folha.jpg")
+        imgs = [_rotulo(quadro(dict(c), 3.0, 6.0, prot, 72).resize((240, 427)), str(i)) for i, c in enumerate(r["cenas"])]
+        destino = TRAB / "previa.jpg"
+        cols = 7
+    w, h = imgs[0].size
+    linhas = -(-len(imgs) // cols)
+    folha = Image.new("RGB", (w * min(cols, len(imgs)), h * linhas))
+    for i, im in enumerate(imgs):
+        folha.paste(im, ((i % cols) * w, (i // cols) * h))
+    folha.save(destino, quality=85)
+    print(f"Prévia salva em trabalho/{destino.name}")
 
 
 def narracao(_):
     from .voz import gerar_narracao
     r, cfg = _roteiro(), carregar_config()
     vozes = gerar_narracao(r, cfg, TRAB / "audio")
-    VOZES.write_text(json.dumps([{**v, "arquivo": str(v["arquivo"])} for v in vozes],
-                                ensure_ascii=False), encoding="utf-8")
-    total = sum(v["duracao"] for v in vozes)
-    print(f"Narração pronta: {total:.0f}s no total")
+    VOZES.write_text(json.dumps([{**v, "arquivo": str(v["arquivo"])} for v in vozes], ensure_ascii=False), encoding="utf-8")
+    print(f"Narração pronta: {sum(v['duracao'] for v in vozes):.0f}s no total")
     for i, v in enumerate(vozes):
         print(f"  cena {i}: {v['duracao']:.1f}s")
 
@@ -187,11 +135,7 @@ def montar(_):
     if not VOZES.exists():
         sys.exit("ERRO: rode 'narracao' antes de montar.")
     vozes = [{**v, "arquivo": Path(v["arquivo"])} for v in json.loads(VOZES.read_text(encoding="utf-8"))]
-    imgs = [IMGS / f"cena_{i:02d}.jpg" for i in range(len(r["cenas"]))]
-    falt = [str(p.name) for p in imgs if not p.exists()]
-    if falt:
-        sys.exit(f"ERRO: faltam imagens: {', '.join(falt)}")
-    video = montar_video(r, imgs, vozes, cfg, TRAB / "video")
+    video = montar_video(r, vozes, cfg, TRAB / "video")
     print(f"Vídeo: {video} ({duracao(video):.0f}s, {video.stat().st_size / 1e6:.1f} MB)")
 
 
@@ -226,15 +170,9 @@ def main():
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("contexto").set_defaults(f=contexto)
     sub.add_parser("validar").set_defaults(f=validar)
-    s = sub.add_parser("imagem")
-    s.add_argument("cena", type=int)
-    s.add_argument("--tentativa", type=int, default=1, help="mude o número para obter outra semente")
-    s.set_defaults(f=imagem)
-    sub.add_parser("imagens").set_defaults(f=imagens)
-    s = sub.add_parser("recompor")
+    s = sub.add_parser("previa")
     s.add_argument("cena", type=int, nargs="?", default=None)
-    s.set_defaults(f=recompor)
-    sub.add_parser("folha").set_defaults(f=folha)
+    s.set_defaults(f=previa)
     sub.add_parser("narracao").set_defaults(f=narracao)
     sub.add_parser("montar").set_defaults(f=montar)
     sub.add_parser("quadros").set_defaults(f=quadros)

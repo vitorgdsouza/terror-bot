@@ -13,7 +13,6 @@ import time
 import traceback
 
 from . import telegram
-from .imagens import gerar_imagens
 from .montagem import montar_video
 from .roteiro import gerar_roteiro
 from .util import SAIDA, carregar_config, log, salvar_no_historico
@@ -33,11 +32,10 @@ def executar(tema: str | None = None, usar_telegram: bool = True):
     (pasta / "roteiro.json").write_text(json.dumps(roteiro, ensure_ascii=False, indent=2), encoding="utf-8")
 
     if usar_telegram:
-        telegram.enviar_mensagem(f"Roteiro pronto: \"{roteiro['titulo']}\". Gerando imagens, voz e vídeo (leva uns 5 a 10 minutos)...")
+        telegram.enviar_mensagem(f"Roteiro pronto: \"{roteiro['titulo']}\". Gerando voz e animação (leva uns 5 minutos)...")
 
-    imagens = gerar_imagens(roteiro, cfg, pasta / "imagens")
     vozes = gerar_narracao(roteiro, cfg, pasta / "audio")
-    video = montar_video(roteiro, imagens, vozes, cfg, pasta / "video")
+    video = montar_video(roteiro, vozes, cfg, pasta / "video")
 
     hashtags = " ".join(dict.fromkeys(roteiro.get("hashtags", []) + cfg["hashtags_fixas"]))
     legenda = f"{roteiro['titulo']}\n\n{roteiro.get('legenda_post', '')}\n\n{hashtags}"

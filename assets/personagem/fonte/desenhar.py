@@ -104,14 +104,19 @@ def cabeca(expressao="neutro", costas=False, olhar_baixo=False):
     if LONGO:  # cílios
         g += (f'<path d="M {CX-56} {oy-8} L {CX-66} {oy-18} M {CX+56} {oy-8} L {CX+66} {oy-18}" '
               f'stroke="{LINHA}" stroke-width="5" stroke-linecap="round"/>')
+    if FECHADO:
+        olhos = (f'<path d="M {CX-58} {oy} Q {CX-42} {oy+12} {CX-26} {oy}" fill="none" stroke="{LINHA}" stroke-width="7" stroke-linecap="round"/>'
+                 f'<path d="M {CX+26} {oy} Q {CX+42} {oy+12} {CX+58} {oy}" fill="none" stroke="{LINHA}" stroke-width="7" stroke-linecap="round"/>')
+    else:
+        olhos = ""
     if expressao == "medo":
-        g += f'<circle cx="{CX-42}" cy="{oy}" r="14" fill="#111"/><circle cx="{CX+42}" cy="{oy}" r="14" fill="#111"/>'
+        g += olhos or f'<circle cx="{CX-42}" cy="{oy}" r="14" fill="#111"/><circle cx="{CX+42}" cy="{oy}" r="14" fill="#111"/>'
         g += f'<path d="M {CX-72} {oy-26} L {CX-24} {oy-42}" stroke="{LINHA}" stroke-width="8" stroke-linecap="round"/>'
         g += f'<path d="M {CX+72} {oy-26} L {CX+24} {oy-42}" stroke="{LINHA}" stroke-width="8" stroke-linecap="round"/>'
         g += f'<ellipse cx="{CX}" cy="{oy+52}" rx="20" ry="26" fill="#3a1418" stroke="{LINHA}" stroke-width="6"/>'
         g += f'<path d="M {CX+98} {hy-30} q 12 22 0 34 q -12 -12 0 -34 Z" fill="#9fd3ff" stroke="{LINHA}" stroke-width="4"/>'
     else:
-        g += f'<circle cx="{CX-42}" cy="{oy}" r="11" fill="#111"/><circle cx="{CX+42}" cy="{oy}" r="11" fill="#111"/>'
+        g += olhos or f'<circle cx="{CX-42}" cy="{oy}" r="11" fill="#111"/><circle cx="{CX+42}" cy="{oy}" r="11" fill="#111"/>'
         g += f'<path d="M {CX-18} {oy+50} Q {CX} {oy+56} {CX+18} {oy+50}" fill="none" stroke="{LINHA}" stroke-width="7" stroke-linecap="round"/>'
     return g
 
@@ -125,42 +130,57 @@ def salvar(nome, conteudo):
     (OUT / f"{nome}.svg").write_text(conteudo, encoding="utf-8")
 
 
-# 1. frente
-braco_e = membro(f"M {CX-95} 330 Q {CX-150} 500 {CX-160} 680", CAPA, 58)
-braco_d = membro(f"M {CX+95} 330 Q {CX+150} 500 {CX+160} 680", CAPA, 58)
-salvar("frente", svg(cabelo_atras() + pernas() + braco_e + braco_d + casaco() + mao(CX-160, 700) + mao(CX+160, 700) + cabeca()))
+FECHADO = False
+PASSO = False
 
-# 2. medo (mãos junto ao peito)
-be = membro(f"M {CX-95} 330 Q {CX-175} 470 {CX-50} 470", CAPA, 58)
-bd = membro(f"M {CX+95} 330 Q {CX+175} 470 {CX+50} 470", CAPA, 58)
-salvar("medo", svg(cabelo_atras() + pernas() + casaco() + be + bd + mao(CX-35, 470) + mao(CX+35, 470) + cabeca("medo")))
 
-# 3. costas (andando)
-be = membro(f"M {CX-95} 330 Q {CX-150} 500 {CX-150} 670", CAPA, 58)
-bd = membro(f"M {CX+95} 330 Q {CX+150} 500 {CX+170} 660", CAPA, 58)
-salvar("costas", svg(pernas(abertas=True) + be + bd + casaco(costas=True) + mao(CX-150, 690) + mao(CX+172, 680) + cabeca(costas=True) + cabelo_costas()))
+def poses(suf=""):
+    # 1. frente
+    braco_e = membro(f"M {CX-95} 330 Q {CX-150} 500 {CX-160} 680", CAPA, 58)
+    braco_d = membro(f"M {CX+95} 330 Q {CX+150} 500 {CX+160} 680", CAPA, 58)
+    salvar("frente" + suf, svg(cabelo_atras() + pernas(PASSO) + braco_e + braco_d + casaco() + mao(CX-160, 700) + mao(CX+160, 700) + cabeca()))
 
-# 4. celular (olhando para baixo, rosto iluminado)
-defs = ('<radialGradient id="luz" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#bfe6ff" stop-opacity="0.55"/>'
-        '<stop offset="100%" stop-color="#bfe6ff" stop-opacity="0"/></radialGradient>')
-be = membro(f"M {CX-95} 330 Q {CX-170} 500 {CX-45} 520", CAPA, 58)
-bd = membro(f"M {CX+95} 330 Q {CX+170} 500 {CX+45} 520", CAPA, 58)
-fone = (f'<rect x="{CX-38}" y="455" width="76" height="120" rx="12" fill="#101018" stroke="{LINHA}" stroke-width="7"/>'
-        f'<rect x="{CX-29}" y="466" width="58" height="98" rx="6" fill="#9fd8ff"/>')
-brilho = f'<ellipse cx="{CX}" cy="330" rx="230" ry="260" fill="url(#luz)"/>'
-salvar("celular", svg(cabelo_atras() + pernas() + casaco() + be + bd + fone + mao(CX-42, 530) + mao(CX+42, 530)
-                      + cabeca(olhar_baixo=True) + brilho, defs))
+    # 2. medo (mãos junto ao peito)
+    be = membro(f"M {CX-95} 330 Q {CX-175} 470 {CX-50} 470", CAPA, 58)
+    bd = membro(f"M {CX+95} 330 Q {CX+175} 470 {CX+50} 470", CAPA, 58)
+    salvar("medo" + suf, svg(cabelo_atras() + pernas() + casaco() + be + bd + mao(CX-35, 470) + mao(CX+35, 470) + cabeca("medo")))
 
-# 5. lanterna (braço direito estendido com feixe de luz)
-defs = ('<linearGradient id="feixe" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fff4b8" stop-opacity="0.75"/>'
-        '<stop offset="100%" stop-color="#fff4b8" stop-opacity="0"/></linearGradient>')
-be = membro(f"M {CX-95} 330 Q {CX-150} 500 {CX-160} 680", CAPA, 58)
-bd = membro(f"M {CX+95} 330 Q {CX+170} 420 {CX+255} 470", CAPA, 58)
-feixe = f'<polygon points="{CX+320},455 {W},300 {W},640 {CX+320},485" fill="url(#feixe)"/>'
-lanterna = (f'<rect x="{CX+265}" y="452" width="62" height="34" rx="6" fill="#2b2f3a" stroke="{LINHA}" stroke-width="6"/>'
-            f'<rect x="{CX+318}" y="446" width="14" height="46" rx="4" fill="#fff4b8" stroke="{LINHA}" stroke-width="5"/>')
-salvar("lanterna", svg(feixe + cabelo_atras() + pernas() + be + casaco() + bd + mao(CX-160, 700) + lanterna + mao(CX+265, 470)
-                       + cabeca("medo"), defs))
+    # 3. costas (andando)
+    be = membro(f"M {CX-95} 330 Q {CX-150} 500 {CX-150} 670", CAPA, 58)
+    bd = membro(f"M {CX+95} 330 Q {CX+150} 500 {CX+170} 660", CAPA, 58)
+    salvar("costas" + suf, svg(pernas(not PASSO) + be + bd + casaco(costas=True) + mao(CX-150, 690) + mao(CX+172, 680) + cabeca(costas=True) + cabelo_costas()))
+
+    # 4. celular (olhando para baixo, rosto iluminado)
+    defs = ('<radialGradient id="luz" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#bfe6ff" stop-opacity="0.55"/>'
+            '<stop offset="100%" stop-color="#bfe6ff" stop-opacity="0"/></radialGradient>')
+    be = membro(f"M {CX-95} 330 Q {CX-170} 500 {CX-45} 520", CAPA, 58)
+    bd = membro(f"M {CX+95} 330 Q {CX+170} 500 {CX+45} 520", CAPA, 58)
+    fone = (f'<rect x="{CX-38}" y="455" width="76" height="120" rx="12" fill="#101018" stroke="{LINHA}" stroke-width="7"/>'
+            f'<rect x="{CX-29}" y="466" width="58" height="98" rx="6" fill="#9fd8ff"/>')
+    brilho = f'<ellipse cx="{CX}" cy="330" rx="230" ry="260" fill="url(#luz)"/>'
+    salvar("celular" + suf, svg(cabelo_atras() + pernas() + casaco() + be + bd + fone + mao(CX-42, 530) + mao(CX+42, 530)
+                          + cabeca(olhar_baixo=True) + brilho, defs))
+
+    # 5. lanterna (braço direito estendido com feixe de luz)
+    defs = ('<linearGradient id="feixe" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fff4b8" stop-opacity="0.75"/>'
+            '<stop offset="100%" stop-color="#fff4b8" stop-opacity="0"/></linearGradient>')
+    be = membro(f"M {CX-95} 330 Q {CX-150} 500 {CX-160} 680", CAPA, 58)
+    bd = membro(f"M {CX+95} 330 Q {CX+170} 420 {CX+255} 470", CAPA, 58)
+    feixe = f'<polygon points="{CX+320},455 {W},300 {W},640 {CX+320},485" fill="url(#feixe)"/>'
+    lanterna = (f'<rect x="{CX+265}" y="452" width="62" height="34" rx="6" fill="#2b2f3a" stroke="{LINHA}" stroke-width="6"/>'
+                f'<rect x="{CX+318}" y="446" width="14" height="46" rx="4" fill="#fff4b8" stroke="{LINHA}" stroke-width="5"/>')
+    salvar("lanterna" + suf, svg(feixe + cabelo_atras() + pernas() + be + casaco() + bd + mao(CX-160, 700) + lanterna + mao(CX+265, 470)
+                           + cabeca("medo"), defs))
+
+
+
+poses()
+FECHADO = True
+poses("_piscando")
+FECHADO = False
+PASSO = True
+poses("_passo")
+PASSO = False
 
 # 6. mãos segurando o celular (visão em primeira pessoa, close)
 defs = ('<radialGradient id="tela" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#cdeeff"/>'

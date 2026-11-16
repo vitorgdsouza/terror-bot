@@ -138,13 +138,16 @@ def _trilha(total: float, cfg: dict) -> list:
     return [], filtro
 
 
-def montar_video(roteiro: dict, imagens: list, vozes: list, cfg: dict, pasta: Path) -> Path:
+def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
+    """Anima cada cena (src/animacao.py), junta tudo e coloca legendas e trilha."""
+    from .animacao import renderizar_cena
     pasta.mkdir(parents=True, exist_ok=True)
+    prot = roteiro.get("protagonista", "homem")
     cenas, duracoes = [], []
-    for i, (img, voz, cena) in enumerate(zip(imagens, vozes, roteiro["cenas"])):
-        log(f"Renderizando cena {i + 1}/{len(imagens)} ({cena['movimento']})")
+    for i, (voz, cena) in enumerate(zip(vozes, roteiro["cenas"])):
+        log(f"Animando cena {i + 1}/{len(vozes)} ({cena.get('cenario')})")
         destino = pasta / f"clip_{i:02d}.mp4"
-        duracoes.append(_renderizar_cena(img, voz, cena["movimento"], destino, cfg.get("efeitos", "terror")))
+        duracoes.append(renderizar_cena(cena, voz, destino, prot, PAUSA))
         cenas.append(destino)
 
     lista = pasta / "lista.txt"

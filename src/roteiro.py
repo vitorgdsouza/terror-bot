@@ -6,7 +6,8 @@ import time
 
 import requests
 
-from .personagem import escolher_protagonista, normalizar
+from .animacao import GUIA_CENAS, normalizar
+from .personagem import escolher_protagonista
 from .util import carregar_historico, env, log
 
 URL = "https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent"
@@ -96,15 +97,8 @@ Regras da história:
 - Suspense e atmosfera: nada de violência explícita, sangue ou gore.
 - Não repita estas histórias: {json.dumps(ja_feitos, ensure_ascii=False)}
 
-Regras das imagens (o protagonista e a ameaça são figurinhas fixas coladas sobre o cenário):
-- Campo "imagem": descreva em INGLÊS só o CENÁRIO VAZIO (lugar, luz, objetos, enquadramento), sem pessoas.
-  Varie como num desenho: fachada da casa à noite, quarto, corredor, cozinha, escada, porta, janela, tela de câmera de segurança.
-- Campo "personagem": como o protagonista aparece, ou null se ele não aparece.
-  pose: frente | medo | costas | celular | lanterna | maos_celular (close das mãos segurando o celular)
-  posicao: esquerda | centro | direita    tamanho: longe | medio | perto
-- Campo "ameaca": a silhueta escura, ou null. tipo: sombra (vulto encapuzado de olhos brancos) | olhos (só dois olhos brancos no escuro).
-  posicao e tamanho iguais aos do personagem. Use a ameaça com moderação, crescendo perto do fim.
-- Outras pessoas da história nunca aparecem na imagem (só são citadas na narração).
+Como cada cena vira animação:
+{GUIA_CENAS}
 
 Responda SOMENTE com JSON válido neste formato:
 {{
@@ -112,10 +106,11 @@ Responda SOMENTE com JSON válido neste formato:
   "cenas": [
     {{
       "narracao": "texto narrado desta cena",
-      "imagem": "English description of the EMPTY setting",
-      "personagem": {{"pose": "frente", "posicao": "centro", "tamanho": "medio"}},
+      "cenario": "sala",
+      "personagem": {{"pose": "frente", "acao": "parado", "posicao": "centro", "tamanho": "medio"}},
       "ameaca": null,
-      "movimento": "um de: {', '.join(MOVIMENTOS)}"
+      "efeito": "nenhum",
+      "camera": "zoom_in"
     }}
   ],
   "legenda_post": "legenda curta para o post, terminando com: E você, A ou B?",
@@ -141,11 +136,8 @@ def _validar(roteiro: dict, cfg: dict) -> None:
         raise ValueError("faltou título ou cenas")
     roteiro.setdefault("personagens", [])
     for c in roteiro["cenas"]:
-        if not c.get("narracao") or not c.get("imagem"):
-            raise ValueError("cena sem narração ou imagem")
-        if c.get("movimento") not in MOVIMENTOS:
-            c["movimento"] = "zoom_in"
-        c.setdefault("personagens_na_cena", [])
+        if not c.get("narracao"):
+            raise ValueError("cena sem narração")
         normalizar(c)
 
 
