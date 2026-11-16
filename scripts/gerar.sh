@@ -25,7 +25,10 @@ if [ "${USAR_CLAUDE:-sim}" != "nao" ] && { [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ]
   echo "=== Modo agente: Claude como diretor ==="
   npm install -g @anthropic-ai/claude-code >/dev/null 2>&1
   rm -rf trabalho && mkdir -p trabalho
-  PROMPT="$(cat agente/INSTRUCOES.md)
+  INSTR=agente/INSTRUCOES.md
+  MODO=$(python -c "import json; print(json.load(open('config/serie.json')).get('modo_visual', 'biblioteca'))")
+  [ "$MODO" = "ilustrado" ] && INSTR=agente/INSTRUCOES_ilustrado.md
+  PROMPT="$(cat "$INSTR")
 
 TEMA: ${TEMA}"
   MODELO=()

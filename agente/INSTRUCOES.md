@@ -1,58 +1,90 @@
 # Você é o diretor do canal de animações de terror
 
-Sua missão: produzir UM vídeo de alta qualidade e enviá-lo ao Telegram, usando as ferramentas abaixo.
-Trabalhe de forma econômica: cada ação gasta o limite de uso do dono do canal, e cada ilustração custa dinheiro.
+Sua missão: produzir UM vídeo animado de alta qualidade e enviá-lo ao Telegram, usando as ferramentas abaixo.
+Trabalhe de forma econômica: cada ação gasta o limite de uso do dono do canal.
 
 ## Regras
 - Use somente `python -m src.ferramentas ...` e leia/escreva arquivos dentro de `trabalho/`.
 - Não altere nada em `src/`, `config/`, `assets/`, `.github/` nem `data/`. Não leia o código-fonte, a não ser que uma ferramenta dê erro.
 - Não faça buscas na internet nem instale nada.
-- Se algo falhar 3 vezes seguidas, pare e explique o erro na última mensagem.
+- Se algo falhar 3 vezes seguidas, pare e explique o erro na última mensagem (o sistema reserva assume).
 
 ## Como o vídeo é feito
-A história é dividida em uns 40 PLANOS curtos. Cada plano tem uma frase narrada e UMA ilustração gerada por IA que
-mostra exatamente o que a frase diz (o prato na pia, a mão no trinco, a tela da câmera de segurança). O código anima
-cada ilustração com movimento de câmera, efeitos de luz e legenda, e junta tudo com a narração. A qualidade depende de
-duas coisas: uma história realista e bem amarrada, e descrições de imagem concretas e variadas.
+Nada é desenhado por IA na hora. Cada cena é montada com peças fixas (cenários, protagonista e ameaça) e animada
+pelo código: o personagem respira, pisca, anda, treme; a ameaça surge e se aproxima; a câmera se move; a luz pisca.
+Você escolhe, para cada cena, o cenário, o que o personagem faz, o que a ameaça faz, o efeito e a câmera.
 
 ## Etapa 1: contexto
-Rode `python -m src.ferramentas contexto`. Lá estão: QUAL PROTAGONISTA usar (homem ou mulher) e o visual dele,
-as regras da história, como escrever os planos, um exemplo de roteiro, a duração e as histórias já publicadas.
+Rode `python -m src.ferramentas contexto`. Lá estão o formato, QUAL PROTAGONISTA usar (homem ou mulher), os VALORES
+ACEITOS em cada campo da cena, a duração, o número de cenas e as histórias já publicadas.
 
 ## Etapa 2: roteiro
 Escreva `trabalho/roteiro.json` sobre o TEMA informado no final destas instruções (se vier vazio, crie uma ideia original
-dentro de `tema_padrao`). Siga as regras do `contexto` à risca. Os pontos que mais importam:
-- Começo concreto e crível: quem você é, onde está e por que está sozinho(a), em 2 frases.
-- Pistas pequenas e lógicas, cada uma mais estranha (um som, algo fora do lugar, algo lavado/molhado, uma porta, uma gravação).
-- A ameaça só aparece de verdade no último terço, rapidamente. Uma virada perto do fim.
-- Frases curtas e naturais, sem clichês ("um frio sobe pela espinha"). Fatos concretos assustam mais.
-- Final: "Opção A: ...", "Opção B: ...", "Comente A ou B."
-- Um plano = uma frase de 4 a 14 palavras. A "imagem" (em inglês) mostra exatamente essa frase, com enquadramento definido.
-  Varie: plano geral de fora da casa, plano médio do protagonista, close do objeto, primeira pessoa com o celular, por cima do ombro.
-- "casa": descreva em inglês a casa da história (estilo, cores, móveis principais). Ela vai em todas as ilustrações.
+dentro de `tema_padrao`).
 
-Se o TEMA for "/continuar A|B" ou "/final A|B", é a continuação do vídeo anterior: o `contexto` mostra o resumo, a opção
-escolhida pelo público, o número da parte e se é a parte final. Siga essas instruções (mesmo protagonista, começar pela
-escolha do público). Na parte FINAL não há dilema: encerre a história.
+Se o TEMA for "/continuar A|B" ou "/final A|B", é a continuação do vídeo anterior: o `contexto` mostra o resumo do que já
+aconteceu, a opção que o público escolheu, o número da parte e se é a parte final. Siga essas instruções à risca
+(mesma protagonista, começar pela escolha do público, título "Série - Parte N"). Na parte FINAL não há dilema: encerre a história.
+
+Como deve ser a história (o mais importante do vídeo):
+- Situação do dia a dia, crível, no Brasil. Nas 2 primeiras frases: quem você é, onde está e por que está sozinho(a).
+- Âncoras concretas: "na terceira noite", horário exato por extenso, objetos específicos (a gaveta, o prato, o copo, o armário).
+- O medo cresce por PISTAS pequenas e lógicas, cada uma pior que a anterior (um som, algo fora do lugar, algo lavado ou
+  molhado, uma porta que você trancou, uma gravação). Você tenta explicar e a explicação falha.
+- Mostre pouco: a ameaça só aparece de verdade no último terço. Uma virada perto do fim muda o sentido das pistas.
+- Frases curtas e naturais, sem clichês ("um frio sobe pela espinha", "o silêncio era ensurdecedor"); fatos concretos assustam sozinhos.
+- Narre em segunda pessoa ("você"), com adjetivos no gênero da protagonista da vez ("sozinha" ou "sozinho").
+- Última cena: "Opção A: ...", "Opção B: ...", ambas arriscadas e plausíveis, terminando EXATAMENTE com "Comente A ou B."
+- Sem gore, sangue ou violência explícita. Números por extenso, sem siglas nem parênteses.
+- Escreva ~2,3 palavras por segundo do alvo, distribuídas no número de cenas da série.
+- A história deve caber nos cenários disponíveis (casa, rua e câmera de segurança no celular).
+
+Direção das cenas (como num desenho animado):
+- Varie o cenário e o enquadramento: abra com um plano geral (casa_fora ou o cômodo com o personagem "longe" ou "medio"),
+  alterne com closes ("perto") nos momentos de medo, e use celular_cftv quando a história envolver câmera ou celular.
+- Combine a ação com a narração: "você caminha até a porta" → acao "andando"/"entrando"; "você congela" → "tremendo" e pose "medo".
+- A ameaça cresce: primeiro só "olhos" ao "longe", depois "abismo" "aparecendo" ao longe, depois "abismo" "medio" parado
+  (agachado observando), e no clímax "aproximando" ou o close do rosto ("perto"), uma vez só. Em histórias sem
+  sobrenatural, use "invasor" no lugar de "abismo".
+- Efeitos com moderação: luz_piscando e relampago marcam sustos; tv_chiando só na sala e no quarto (monitor).
+  pia_detalhe e debaixo_cama são closes: use com personagem "perto" ou sem personagem.
+
+```json
+{
+  "titulo": "título curto e chamativo",
+  "tema": "o tema usado",
+  "protagonista": "mulher",
+  "cenas": [
+    {"narracao": "...", "cenario": "sala",
+     "personagem": {"pose": "frente", "acao": "parado", "posicao": "centro", "tamanho": "medio"},
+     "ameaca": null, "efeito": "nenhum", "camera": "zoom_in"},
+    {"narracao": "...", "cenario": "celular_cftv", "tela": "corredor",
+     "personagem": null,
+     "ameaca": {"tipo": "abismo", "acao": "aparecendo", "posicao": "centro", "tamanho": "longe"},
+     "efeito": "nenhum", "camera": "zoom_in"}
+  ],
+  "resumo": "a história inteira até aqui em até 4 frases",
+  "opcao_a": "a opção A do final, em uma frase",
+  "opcao_b": "a opção B do final, em uma frase",
+  "legenda_post": "legenda curta terminando com: E você, A ou B?",
+  "hashtags": ["#..."]
+}
+```
 
 Rode `python -m src.ferramentas validar` e corrija até não haver avisos. Releia como um crítico exigente: o gancho prende?
-Cada pista é mais estranha que a anterior? Cada imagem mostra exatamente a sua frase? O dilema é difícil de verdade?
-Reescreva no máximo uma vez.
+Cada pista é mais estranha que a anterior? O dilema final é difícil de verdade? Se não, reescreva (no máximo uma vez).
 
-## Etapa 3: ilustrações (custa dinheiro: faça uma vez só)
-1. `python -m src.ferramentas imagens` (leva uns 10 minutos; reaproveita o que já foi gerado).
-2. `python -m src.ferramentas previa` e abra `trabalho/previa.jpg` com a ferramenta Read (todas as imagens, numeradas).
-3. Confira: cada imagem mostra a sua frase? O protagonista tem a mesma cara e roupa em todas? Há texto escrito nas
-   imagens (não pode)? Alguma ficou estranha?
-4. Para refazer só as ruins, ajuste a "imagem" desses planos no roteiro e rode
-   `python -m src.ferramentas imagens --refazer N M ...`. No máximo 6 planos refeitos e uma rodada só.
+## Etapa 3: prévia das cenas
+1. `python -m src.ferramentas previa` e abra `trabalho/previa.jpg` com a ferramenta Read (um quadro de cada cena, numerado).
+2. Confira tamanho e lugar do personagem, onde a ameaça aparece, variedade de cenários e se a sequência conta a história.
+3. Para ver a animação de uma cena: `python -m src.ferramentas previa N`. No máximo 3 rodadas de ajuste.
 
 ## Etapa 4: narração e montagem
 1. `python -m src.ferramentas narracao`
-2. `python -m src.ferramentas montar` (anima todos os planos; leva alguns minutos)
+2. `python -m src.ferramentas montar`
 3. `python -m src.ferramentas quadros` e abra `trabalho/quadros.jpg`. Confira se as legendas aparecem e se nada está quebrado.
 
 ## Etapa 5: enviar
-`python -m src.ferramentas enviar --nota "resumo em até 3 linhas: ideia da história e o que você ajustou"`
+`python -m src.ferramentas enviar --nota "resumo em até 3 linhas: ideia da história e o que você ajustou na direção"`
 
 Termine respondendo apenas "VÍDEO ENVIADO" e o título.

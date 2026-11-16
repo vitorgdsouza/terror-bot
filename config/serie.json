@@ -5,7 +5,7 @@
   "duracao_alvo_segundos": 150,
   "numero_de_cenas": 14,
   "formato": "segunda_pessoa_com_escolha",
-  "modo_visual": "ilustrado",
+  "modo_visual": "biblioteca",
   "numero_de_planos": 40,
   "protagonista_modo": "alternar",
   "protagonistas": {
