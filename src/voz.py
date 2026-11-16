@@ -4,7 +4,26 @@ from pathlib import Path
 
 import edge_tts
 
-from .util import duracao, log
+from .util import duracao, log, rodar
+
+# tratamento "narrador sombrio": voz um pouco mais grave (sem mudar a velocidade), graves encorpados,
+# presença na fala, compressão de locutor, eco curto de sala e volume padronizado
+EFEITOS_VOZ = {
+    "narrador_sombrio": ("aresample=44100,asetrate=44100*0.95,aresample=44100,atempo=1.0526316,"
+                         "equalizer=f=110:t=q:w=1.2:g=5,equalizer=f=3500:t=q:w=1.5:g=2,"
+                         "acompressor=threshold=-20dB:ratio=3:attack=10:release=200,"
+                         "aecho=0.8:0.5:45|90:0.18|0.10,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100"),
+    "nenhum": "",
+}
+
+
+def _tratar(arquivo: Path, efeito: str) -> None:
+    filtro = EFEITOS_VOZ.get(efeito, "")
+    if not filtro:
+        return
+    tmp = arquivo.with_suffix(".tmp.mp3")
+    rodar(["ffmpeg", "-y", "-i", str(arquivo), "-af", filtro, "-ac", "1", "-b:a", "128k", str(tmp)])
+    tmp.replace(arquivo)
 
 
 async def _sintetizar(texto: str, cfg_voz: dict, destino: Path) -> list[dict]:
@@ -54,6 +73,7 @@ def gerar_narracao(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
                 if tentativa == 2:
                     raise
                 log(f"  erro na voz ({e}), tentando de novo")
+        _tratar(destino, cfg["voz"].get("efeito", "nenhum"))
         total = duracao(destino)
         if not palavras:
             palavras = _tempos_aproximados(cena["narracao"], total)

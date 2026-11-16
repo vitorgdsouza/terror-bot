@@ -96,6 +96,10 @@ Regras da história:
 - Use detalhes concretos e horários ("às duas e seis da manhã"), pequenas pistas estranhas e tensão crescente.
 - Perto do fim, o perigo fica cara a cara com você.
 - Última cena: {"encerre a história (veja CONTINUAÇÃO abaixo)" if info_serie["modo"] == "final" else 'apresente DUAS escolhas, "opção A: ..." e "opção B: ...", e termine EXATAMENTE com "Comente A ou B."'}
+- Escreva para ser FALADO por um contador de histórias de terror: frases curtas, ritmo lento, pausas dramáticas com "..."
+  antes das revelações ("E então... a luz apagou."), detalhes de sons e sensações (o rangido, o frio na nuca, o silêncio),
+  perguntas que prendem ("Mas quem acendeu a luz?") e uma frase final de cada cena que deixa o espectador querendo a próxima.
+  Evite parênteses, siglas e números com mais de dois dígitos (escreva por extenso: "duas e seis da manhã").
 - Suspense e atmosfera: nada de violência explícita, sangue ou gore.
 - Não repita estas histórias: {json.dumps(ja_feitos, ensure_ascii=False)}
 

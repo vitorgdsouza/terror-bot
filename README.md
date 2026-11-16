@@ -133,7 +133,7 @@ Tudo fica em `config/serie.json`, que você pode editar direto no site do GitHub
 - **`tema_padrao`**: o assunto das histórias.
 - **`protagonista_modo`**: `alternar` (um vídeo com cada protagonista), `homem` ou `mulher`.
 - **`legenda`**: `estilo` `karaoke` (palavra destacada) ou `simples`, a cor do destaque e se mostra o título no começo.
-- **`voz`**: `pt-BR-AntonioNeural` (masculina) ou `pt-BR-FranciscaNeural` (feminina). Para uma voz mais lenta e grave, use velocidade `-15%` e tom `-10Hz`.
+- **`voz`**: `pt-BR-AntonioNeural` (masculina) ou `pt-BR-FranciscaNeural` (feminina); `velocidade` e `tom` deixam a voz mais lenta e grave; `efeito` `narrador_sombrio` aplica o tratamento de cinema (voz mais grave e encorpada, eco curto de sala) ou `nenhum` para a voz pura.
 - **`numero_de_cenas`** e **`duracao_alvo_segundos`**: o tamanho do vídeo.
 - **Horário diário**: no arquivo `.github/workflows/gerar-video.yml`, linha `cron: "17 21 * * *"`. O horário está em UTC, que é Brasília + 3 horas. Apague as duas linhas do `schedule` para desligar.
 - **Música**: coloque `.mp3` livres de direitos em `assets/musica/`. Sem nenhuma música lá, o sistema gera um som ambiente sozinho.

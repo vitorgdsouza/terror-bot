@@ -20,8 +20,9 @@
   },
   "voz": {
     "nome": "pt-BR-AntonioNeural",
-    "velocidade": "+0%",
-    "tom": "-4Hz"
+    "velocidade": "-12%",
+    "tom": "-8Hz",
+    "efeito": "narrador_sombrio"
   },
   "legenda": {
     "estilo": "karaoke",
