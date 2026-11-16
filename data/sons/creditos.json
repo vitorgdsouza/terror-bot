@@ -86,5 +86,29 @@
     "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
     "url": "https://freesound.org/people/Josh74000MC/sounds/475094/",
     "id": 475094
+  },
+  "door_creak_open_slow.mp3": {
+    "busca": "door creak open slow",
+    "nome": "screen door opening and closing slow",
+    "autor": "ponysparkleworld",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/ponysparkleworld/sounds/854338/",
+    "id": 854338
+  },
+  "bedroom_night_ambience_quiet.mp3": {
+    "busca": "bedroom night ambience quiet",
+    "nome": "Bedroom Room Tone Electric Lamp Hum",
+    "autor": "jamesdrake89",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/jamesdrake89/sounds/671455/",
+    "id": 671455
+  },
+  "electrical_hum_static_ambience.mp3": {
+    "busca": "electrical hum static ambience",
+    "nome": "phone-intercom-noise-ep.flac",
+    "autor": "Timbre",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/Timbre/sounds/550328/",
+    "id": 550328
   }
 }
