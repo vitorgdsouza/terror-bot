@@ -6,7 +6,7 @@ Cada cena do roteiro tem a narração e "buscas" (termos em inglês). A cena é 
   - tratamento de terror: escuro, frio, dessaturado, granulado e com vinheta;
   - corte com flash rápido e, de vez em quando, um glitch de cor;
   - texto na tela ("texto_tela") e corte seco para o preto ("corte_preto") como no formato animado.
-Requer o segredo PEXELS_API_KEY (grátis em pexels.com/api). Créditos: "Vídeos e fotos: Pexels".
+Requer o segredo PIXABAY_API_KEY (grátis em pixabay.com/api/docs) ou PEXELS_API_KEY.
 """
 import json
 import math
@@ -34,13 +34,43 @@ _buscas: dict = {}
 def _chave() -> str:
     k = os.environ.get("PEXELS_API_KEY", "").strip()
     if not k:
-        raise RuntimeError("Falta o segredo PEXELS_API_KEY (grátis em pexels.com/api).")
+        raise RuntimeError("Falta o segredo PIXABAY_API_KEY (grátis em pixabay.com/api/docs).")
     return k
 
 
+def _procurar_pixabay(busca: str, chave: str) -> list[dict]:
+    itens = []
+    try:
+        r = requests.get("https://pixabay.com/api/videos/", params={"key": chave, "q": busca, "per_page": 15,
+                                                                     "safesearch": "true"}, timeout=30)
+        for v in r.json().get("hits", []):
+            vs = [x for x in (v.get("videos") or {}).values() if isinstance(x, dict) and x.get("url")]
+            if not vs:
+                continue
+            f = min(vs, key=lambda x: abs((x.get("height") or 0) - 1080) + (5000 if (x.get("height") or 0) < 700 else 0))
+            itens.append({"tipo": "video", "id": f"pv{v['id']}", "url": f["url"], "dur": v.get("duration", 10),
+                          "credito": v.get("user", "")})
+    except Exception as e:  # noqa: BLE001
+        log(f"Pixabay (vídeo) falhou para '{busca}': {e}")
+    try:
+        r = requests.get("https://pixabay.com/api/", params={"key": chave, "q": busca, "image_type": "photo",
+                                                              "orientation": "vertical", "per_page": 10,
+                                                              "safesearch": "true"}, timeout=30)
+        for p in r.json().get("hits", []):
+            itens.append({"tipo": "foto", "id": f"pf{p['id']}", "url": p.get("largeImageURL") or p["webformatURL"],
+                          "credito": p.get("user", "")})
+    except Exception as e:  # noqa: BLE001
+        log(f"Pixabay (foto) falhou para '{busca}': {e}")
+    return itens
+
+
 def _procurar(busca: str) -> list[dict]:
-    """Resultados de vídeos (retrato primeiro) e fotos para a busca. Guardados para não repetir chamadas."""
+    """Resultados de vídeos e fotos para a busca (Pixabay; ou Pexels se houver chave). Guardados para não repetir."""
     if busca in _buscas:
+        return _buscas[busca]
+    pix = os.environ.get("PIXABAY_API_KEY", "").strip()
+    if pix:
+        _buscas[busca] = _procurar_pixabay(busca, pix)
         return _buscas[busca]
     h = {"Authorization": _chave()}
     itens = []
