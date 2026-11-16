@@ -74,6 +74,9 @@ Direção das cenas (como num desenho animado):
 - Pistas: coloque cada pista do mistério na cena com `"objeto": {"tipo": "...", "posicao": "...", "tamanho": "medio|perto"}`
   (veja os tipos no guia das cenas). Ex.: {"tipo": "coleira", "tamanho": "perto"} sem personagem = close da coleira
   com a luz da lanterna; {"tipo": "pegadas", "posicao": "centro"} com o personagem segurando a lanterna no corredor.
+- No clímax, não repita o mesmo plano: alterne o plano geral (ex.: a escada com o Abismo lá em cima) com o close do
+  rosto do personagem ("perto", pose "medo" ou "gritando"), com o gato e com a pista mais importante em close.
+  No máximo 3 cenas seguidas no mesmo cenário.
 - Cena da escada (ótima para o clímax): cenario "escada", ameaca {"tipo": "abismo", "acao": "encarando",
   "posicao": "centro", "tamanho": "longe"} (ele parado lá em cima) e personagem {"pose": "costas", "acao": "tremendo",
   "posicao": "centro", "tamanho": "medio"} (você embaixo, paralisado).

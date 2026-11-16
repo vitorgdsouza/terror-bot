@@ -129,6 +129,25 @@ def validar(_):
         pass
     if (cfg.get("gato") or {}).get("ligado") and not any(c.get("gato") for c in r["cenas"]):
         avisos.append(f'o gato {cfg["gato"].get("nome", "")} não aparece em nenhuma cena: coloque o campo "gato" em 3 a 6 cenas')
+    # Abismo sorrateiro: antes do clímax ele não fica inteiro e parado ao lado do personagem -> espia pela borda
+    corte = int(len(r["cenas"]) * 0.7)
+    for i, c in enumerate(r["cenas"][:corte]):
+        a = c.get("ameaca")
+        if a and a.get("tipo") == "abismo" and a.get("tamanho") in ("medio", "perto") and \
+                a.get("acao") in ("parada", "aparecendo", "aproximando", "encarando"):
+            a.update(acao="espiando", tamanho="medio", posicao=a.get("posicao") if a.get("posicao") in ("esquerda", "direita") else "direita")
+            print(f"(cena {i}: o Abismo inteiro antes do clímax virou \"espiando\" pela borda)")
+    ROTEIRO.write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
+    # variedade: o mesmo cenário muitas vezes seguidas cansa (alterne com closes do rosto, do gato ou da pista)
+    seguidas, maior, onde = 1, 1, 0
+    for i in range(1, len(r["cenas"])):
+        mesmo = (r["cenas"][i].get("cenario") or r["cenas"][i].get("lugar")) == (r["cenas"][i - 1].get("cenario") or r["cenas"][i - 1].get("lugar"))
+        seguidas = seguidas + 1 if mesmo else 1
+        if seguidas > maior:
+            maior, onde = seguidas, i - seguidas + 1
+    if maior > 3:
+        avisos.append(f"{maior} cenas seguidas no mesmo cenário a partir da cena {onde}: intercale com closes "
+                      "(personagem \"perto\" com cara de medo, o gato, uma pista em close) para não ficar repetitivo")
     if (cfg.get("gato") or {}).get("ligado") and not r.get("final"):
         pistas = sum(1 for c in r["cenas"] if c.get("objeto"))
         if pistas < 3:
