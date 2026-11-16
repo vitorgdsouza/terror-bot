@@ -38,6 +38,23 @@ def _chave() -> str:
     return k
 
 
+PROIBIDO = {"animation", "animated", "cartoon", "illustration", "render", "3d", "fantasy", "dragon", "anime",
+            "green screen", "greenscreen", "chroma", "chroma key", "ai generated", "generated", "drawing", "vector",
+            "cow", "cows", "cattle", "dog", "cat", "pet", "funny", "happy", "smile", "summer", "beach", "sunset",
+            "wedding", "christmas", "snow", "desert", "aerial", "drone", "city", "skyline", "abstract"}
+VAZIAS = {"a", "of", "in", "on", "at", "the", "and", "with", "dark", "night", "close", "up", "pov", "empty", "old"}
+
+
+def _relevancia(busca: str, tags: str) -> int:
+    """Quantas palavras importantes da busca aparecem nas etiquetas do item; -1 se tiver etiqueta proibida."""
+    t = {x.strip().lower() for x in tags.split(",")}
+    palavras = set(" ".join(t).split())
+    if t & PROIBIDO or palavras & PROIBIDO:
+        return -1
+    chave = [w for w in busca.lower().split() if w not in VAZIAS]
+    return sum(1 for w in chave if w in palavras or w.rstrip("s") in palavras)
+
+
 def _procurar_pixabay(busca: str, chave: str) -> list[dict]:
     itens = []
     try:
@@ -45,11 +62,12 @@ def _procurar_pixabay(busca: str, chave: str) -> list[dict]:
                                                                      "safesearch": "true"}, timeout=30)
         for v in r.json().get("hits", []):
             vs = [x for x in (v.get("videos") or {}).values() if isinstance(x, dict) and x.get("url")]
-            if not vs:
+            rel = _relevancia(busca, v.get("tags", ""))
+            if not vs or v.get("type", "film") != "film" or rel < 1:
                 continue
             f = min(vs, key=lambda x: abs((x.get("height") or 0) - 1080) + (5000 if (x.get("height") or 0) < 700 else 0))
             itens.append({"tipo": "video", "id": f"pv{v['id']}", "url": f["url"], "dur": v.get("duration", 10),
-                          "credito": v.get("user", "")})
+                          "credito": v.get("user", ""), "rel": rel})
     except Exception as e:  # noqa: BLE001
         log(f"Pixabay (vídeo) falhou para '{busca}': {e}")
     try:
@@ -57,10 +75,15 @@ def _procurar_pixabay(busca: str, chave: str) -> list[dict]:
                                                               "orientation": "vertical", "per_page": 10,
                                                               "safesearch": "true"}, timeout=30)
         for p in r.json().get("hits", []):
+            rel = _relevancia(busca, p.get("tags", ""))
+            if rel < 1:
+                continue
             itens.append({"tipo": "foto", "id": f"pf{p['id']}", "url": p.get("largeImageURL") or p["webformatURL"],
-                          "credito": p.get("user", "")})
+                          "credito": p.get("user", ""), "rel": rel})
     except Exception as e:  # noqa: BLE001
         log(f"Pixabay (foto) falhou para '{busca}': {e}")
+    itens.sort(key=lambda it: -it.get("rel", 0))           # o mais parecido com a busca primeiro
+    log(f"Pixabay '{busca}': {len(itens)} itens relevantes")
     return itens
 
 
@@ -125,6 +148,27 @@ def _escolher(buscas: list[str], i: int, prefere_video: bool) -> dict | None:
     return None
 
 
+def _serve(arq: Path, item: dict) -> bool:
+    """Descarta imagem estourada/branca e fundo verde (chroma key): olha 3 quadros."""
+    import numpy as np
+    from PIL import Image
+    tempos = [0.5, 0.5 * max(1.0, _duracao(arq)), max(0.5, _duracao(arq) - 0.5)] if item["tipo"] == "video" else [0]
+    for t in tempos:
+        png = arq.with_suffix(".teste.png")
+        cmd = ["ffmpeg", "-y", "-loglevel", "error"] + (["-ss", f"{t:.2f}"] if item["tipo"] == "video" else []) + \
+              ["-i", str(arq), "-frames:v", "1", "-vf", "scale=96:-1", str(png)]
+        if subprocess.run(cmd, capture_output=True).returncode != 0 or not png.exists():
+            return False
+        a = np.asarray(Image.open(png).convert("RGB")).astype(float)
+        png.unlink()
+        if a.mean() > 150:
+            return False
+        r, g, b = a[..., 0], a[..., 1], a[..., 2]
+        if ((g > r * 1.4) & (g > b * 1.4) & (g > 90)).mean() > 0.25:
+            return False
+    return True
+
+
 def _duracao(arq: Path) -> float:
     r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(arq)],
                        capture_output=True, text=True)
@@ -187,14 +231,21 @@ def renderizar_cena_real(cena: dict, voz: dict, destino: Path, pausa: float, ind
     movs = cena.get("movimentos") or ["pov", "aproxima", "deriva"]
     for i in range(n):
         d = fim_voz / n
-        item = _escolher(buscas, i, prefere_video=i % 3 != 2)
-        arq = None
-        if item:
+        item, arq = None, None
+        for _ in range(6):                               # até achar um que sirva (não claro demais nem fundo verde)
+            item = _escolher(buscas, i, prefere_video=i % 3 != 2)
+            if not item:
+                break
             try:
                 arq = _baixar(item)
             except Exception as e:  # noqa: BLE001
-                log(f"  download falhou ({e}); plano escuro no lugar")
-                item = None
+                log(f"  download falhou ({e})")
+                item, arq = None, None
+                continue
+            if _serve(arq, item):
+                break
+            log(f"  descartado (claro demais ou fundo verde): {item['id']}")
+            item, arq = None, None
         p = pasta / f"p{i:02d}.mp4"
         _plano(item, arq, d, movs[(indice + i) % len(movs)], glitch=(indice + i) % 4 == 3, destino=p,
                semente=indice * 100 + i)

@@ -7,39 +7,140 @@
   "ritmo": 1.2,
   "final": true,
   "legenda_post": "3 fatos reais sobre o sono que vão te fazer pensar duas vezes antes de apagar a luz. Você já sentiu alguém no quarto? Parte 2? Comenta SIM\n\nVídeos e fotos: Pixabay",
-  "hashtags": ["#fatosreais", "#paralisiadosono", "#sonambulismo", "#curiosidades", "#creepy"],
+  "hashtags": [
+    "#fatosreais",
+    "#paralisiadosono",
+    "#sonambulismo",
+    "#curiosidades",
+    "#creepy"
+  ],
   "cenas": [
-    {"narracao": "Se você está vendo isso deitado... talvez seja melhor parar agora.",
-     "buscas": ["empty bed dark bedroom night", "dark bedroom pov"], "ambiente": "clock ticking quiet room",
-     "texto_tela": "NÃO ASSISTA|ANTES DE DORMIR", "movimentos": ["aproxima"]},
-    {"narracao": "Existe uma condição real chamada Síndrome da Cabeça Explodindo.",
-     "buscas": ["person sleeping dark", "man sleeping bed night"], "ambiente": "clock ticking quiet room"},
-    {"narracao": "Bem na hora em que você pega no sono, ouve um estrondo, como uma explosão, dentro da sua cabeça.",
-     "buscas": ["closed eyes close up dark", "woman sleeping close up"], "ambiente": "nenhum",
-     "corte_preto": true, "pausa_extra": 1.6, "som": {"busca": "loud explosion boom", "momento": "fim"}},
-    {"narracao": "Não dói. E não existe som nenhum. Foi o seu cérebro que criou.",
-     "buscas": ["brain scan", "person waking up scared night"], "ambiente": "clock ticking quiet room"},
-    {"narracao": "Na paralisia do sono, você acorda e não consegue se mexer.",
-     "buscas": ["bedroom corner dark", "person lying in bed eyes open dark"], "ambiente": "low drone dark ambience",
-     "movimentos": ["pov"]},
-    {"narracao": "E muita gente relata a mesma coisa: alguém no quarto. Em pé no canto. Ou sentado no peito.",
-     "buscas": ["shadow figure dark room", "dark corner of room", "silhouette doorway dark"],
-     "ambiente": "low drone dark ambience", "som": {"busca": "heavy breathing", "palavra": "alguém"}, "thumb": true},
-    {"narracao": "Pessoas que nunca se falaram descrevem a mesma presença.",
-     "buscas": ["dark hallway night", "door ajar dark"], "ambiente": "low drone dark ambience",
-     "texto_tela": "VOCÊ JÁ|SENTIU ISSO? v"},
-    {"narracao": "Canadá, 1987. Kenneth Parks se levanta da cama, pega o carro e dirige cerca de 23 quilômetros até a casa dos sogros.",
-     "buscas": ["driving at night pov road", "car headlights night road", "dashboard night driving"],
-     "ambiente": "car interior driving night", "movimentos": ["pov"]},
-    {"narracao": "Lá, ele ataca os dois. A sogra morre.",
-     "buscas": ["suburban house at night", "front door night porch light"], "ambiente": "low drone dark ambience",
-     "movimentos": ["aproxima"]},
-    {"narracao": "Ele vai até a polícia, confuso, com as mãos feridas, e diz que não lembra de nada.",
-     "buscas": ["police station night", "police lights night", "old newspaper"], "ambiente": "low drone dark ambience"},
-    {"narracao": "Os médicos examinaram o sono dele. O júri concluiu que ele estava sonâmbulo. Ele foi absolvido.",
-     "buscas": ["sleep study lab", "courtroom empty", "old newspaper close up"], "ambiente": "low drone dark ambience"},
-    {"narracao": "Então... tem certeza de que você sabe o que faz enquanto dorme?",
-     "buscas": ["empty bed dark bedroom night", "bedroom door ajar dark"], "ambiente": "clock ticking quiet room",
-     "texto_tela": "PARTE 2?|COMENTA “SIM”", "movimentos": ["aproxima"]}
+    {
+      "narracao": "Se você está vendo isso deitado... talvez seja melhor parar agora.",
+      "buscas": [
+        "bedroom night bed",
+        "dark bedroom"
+      ],
+      "ambiente": "clock ticking quiet room",
+      "texto_tela": "NÃO ASSISTA|ANTES DE DORMIR",
+      "movimentos": [
+        "aproxima"
+      ]
+    },
+    {
+      "narracao": "Existe uma condição real chamada Síndrome da Cabeça Explodindo.",
+      "buscas": [
+        "sleeping woman bed",
+        "man sleeping"
+      ],
+      "ambiente": "clock ticking quiet room"
+    },
+    {
+      "narracao": "Bem na hora em que você pega no sono, ouve um estrondo, como uma explosão, dentro da sua cabeça.",
+      "buscas": [
+        "eyes closed sleeping",
+        "sleeping face"
+      ],
+      "ambiente": "nenhum",
+      "corte_preto": true,
+      "pausa_extra": 1.6,
+      "som": {
+        "busca": "loud explosion boom",
+        "momento": "fim"
+      }
+    },
+    {
+      "narracao": "Não dói. E não existe som nenhum. Foi o seu cérebro que criou.",
+      "buscas": [
+        "brain x-ray",
+        "waking up scared"
+      ],
+      "ambiente": "clock ticking quiet room"
+    },
+    {
+      "narracao": "Na paralisia do sono, você acorda e não consegue se mexer.",
+      "buscas": [
+        "sleep paralysis",
+        "woman lying bed night"
+      ],
+      "ambiente": "low drone dark ambience",
+      "movimentos": [
+        "pov"
+      ]
+    },
+    {
+      "narracao": "E muita gente relata a mesma coisa: alguém no quarto. Em pé no canto. Ou sentado no peito.",
+      "buscas": [
+        "shadow silhouette door",
+        "dark doorway shadow"
+      ],
+      "ambiente": "low drone dark ambience",
+      "som": {
+        "busca": "heavy breathing",
+        "palavra": "alguém"
+      },
+      "thumb": true
+    },
+    {
+      "narracao": "Pessoas que nunca se falaram descrevem a mesma presença.",
+      "buscas": [
+        "dark hallway",
+        "door ajar dark"
+      ],
+      "ambiente": "low drone dark ambience",
+      "texto_tela": "VOCÊ JÁ|SENTIU ISSO? v"
+    },
+    {
+      "narracao": "Canadá, 1987. Kenneth Parks se levanta da cama, pega o carro e dirige cerca de 23 quilômetros até a casa dos sogros.",
+      "buscas": [
+        "night driving road",
+        "car headlights night",
+        "driving car night"
+      ],
+      "ambiente": "car interior driving night",
+      "movimentos": [
+        "pov"
+      ]
+    },
+    {
+      "narracao": "Lá, ele ataca os dois. A sogra morre.",
+      "buscas": [
+        "house night",
+        "front door night"
+      ],
+      "ambiente": "low drone dark ambience",
+      "movimentos": [
+        "aproxima"
+      ]
+    },
+    {
+      "narracao": "Ele vai até a polícia, confuso, com as mãos feridas, e diz que não lembra de nada.",
+      "buscas": [
+        "police car night",
+        "police lights"
+      ],
+      "ambiente": "low drone dark ambience"
+    },
+    {
+      "narracao": "Os médicos examinaram o sono dele. O júri concluiu que ele estava sonâmbulo. Ele foi absolvido.",
+      "buscas": [
+        "courtroom",
+        "newspaper",
+        "sleep laboratory"
+      ],
+      "ambiente": "low drone dark ambience"
+    },
+    {
+      "narracao": "Então... tem certeza de que você sabe o que faz enquanto dorme?",
+      "buscas": [
+        "bedroom night bed",
+        "dark bedroom door"
+      ],
+      "ambiente": "clock ticking quiet room",
+      "texto_tela": "PARTE 2?|COMENTA “SIM”",
+      "movimentos": [
+        "aproxima"
+      ]
+    }
   ]
 }
