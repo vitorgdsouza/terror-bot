@@ -110,5 +110,45 @@
     "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
     "url": "https://freesound.org/people/Timbre/sounds/550328/",
     "id": 550328
+  },
+  "cat_hiss_angry.mp3": {
+    "busca": "cat hiss angry",
+    "nome": "Cat hissing",
+    "autor": "rickismyname",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/rickismyname/sounds/819958/",
+    "id": 819958
+  },
+  "bathroom_dripping_water_ambience.mp3": {
+    "busca": "bathroom dripping water ambience",
+    "nome": "Water drip and fan ambience.wav",
+    "autor": "lolamadeus",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/lolamadeus/sounds/159732/",
+    "id": 159732
+  },
+  "cat_meow.mp3": {
+    "busca": "cat meow",
+    "nome": "Cat_Twit1.wav",
+    "autor": "steffcaffrey",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/steffcaffrey/sounds/262306/",
+    "id": 262306
+  },
+  "deep_cinematic_boom_impact.mp3": {
+    "busca": "deep cinematic boom impact",
+    "nome": "Riser Hit sfx 097",
+    "autor": "AudioPapkin",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/AudioPapkin/sounds/754771/",
+    "id": 754771
+  },
+  "running_footsteps_wooden_floor.mp3": {
+    "busca": "running footsteps wooden floor",
+    "nome": "Wood Floor Classic Shoe Footstep 1_10",
+    "autor": "Joao_Janz",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/Joao_Janz/sounds/504020/",
+    "id": 504020
   }
 }
