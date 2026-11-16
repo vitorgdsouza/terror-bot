@@ -35,7 +35,7 @@ try:
     ESTILO_PERSONAGEM = json.loads((RAIZ / "config" / "serie.json").read_text(encoding="utf-8")).get("personagem_estilo", "boneco")
 except Exception:
     ESTILO_PERSONAGEM = "boneco"
-ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando", "na_janela"]
+ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando", "na_janela", "encarando"]
 AMEACAS = ["abismo", "invasor"]
 GATO_ACOES = ["parado", "andando", "correndo", "sentado", "miando", "deitado", "escondido", "assustado"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
@@ -76,7 +76,12 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   esquerda ou direita) | passando (atravessa o fundo de relance e some; use com tamanho longe) |
   na_janela (do lado de fora, sobe devagar e aparece no vidro olhando para dentro, cabeça tombando e sorriso abrindo;
   só em sala, quarto, cozinha, janela e casa_fora). tamanho "perto" = clímax: ele de corpo inteiro, grande, encarando
-  com a cara bizarra (cabeça tombando, sorriso rasgando).
+  com a cara bizarra (cabeça tombando, sorriso rasgando). encarando = parado, imóvel, encarando com a cara bizarra
+  (ótimo "longe" no alto da escada, com o personagem embaixo paralisado de medo).
+- "objeto": null, uma pista ou uma lista com até 2: {"tipo": coleira | tigela | pelo | novelo | ratinho | pegadas |
+  arranhoes | marcas_mao, "posicao": esquerda|centro|direita, "tamanho": medio | perto}. perto = close da pista no chão
+  com a luz da lanterna (use sem personagem ou com o personagem "perto"). pegadas = trilha de patinhas de poeira indo
+  para o fundo; arranhoes e marcas_mao (mãos compridas e escuras: o Abismo esteve ali) ficam na porta/janela/parede.
   Para um Abismo sorrateiro, prefira espiando, passando e longe parado; deixe "medio parado" e o close para o clímax.
   posicao e tamanho como no personagem; "longe" coloca a ameaça no fundo do cenário (fim do corredor, topo da escada, porta, janela).
 - "gato": null ou o gato do protagonista (gato laranja de peito branco). acao: parado | andando (anda e senta) | correndo |
@@ -193,6 +198,14 @@ def normalizar(cena: dict) -> None:
             a["tamanho"] = "longe"
     else:
         cena["ameaca"] = None
+    from .objetos import TIPOS as TIPOS_OBJ
+    objs = cena.get("objeto")
+    objs = objs if isinstance(objs, list) else ([objs] if isinstance(objs, dict) else [])
+    objs = [o for o in objs if isinstance(o, dict) and o.get("tipo") in TIPOS_OBJ][:2]
+    for o in objs:
+        o["posicao"] = o.get("posicao") if o.get("posicao") in POSICOES else "centro"
+        o["tamanho"] = "perto" if o.get("tamanho") == "perto" else "medio"
+    cena["objeto"] = objs or None
     g = cena.get("gato")
     if isinstance(g, dict):
         g["acao"] = g.get("acao") if g.get("acao") in GATO_ACOES else "sentado"
@@ -405,7 +418,9 @@ def _desenhar_gato(quadro, g, meta, t, dur, escala_tela=1.0, noturno=0.4, parala
     fundo = meta.get("fundo", [0.5, piso, 0.4])
     if tam == "longe":
         piso = (fundo[1] + piso) / 2
-    elif tam == "perto":
+    else:
+        piso -= 0.03 if tam == "medio" else 0           # longe da borda de baixo (a câmera corta o rodapé)
+    if tam == "perto":
         piso = 0.97
         if acao in ("deitado", "escondido"):
             altura = int(altura * 1.35)
@@ -548,6 +563,8 @@ def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, fra
     espelhar = x > 0.5                                  # agachado ou atacando: virado para o meio da cena
     if acao == "passando":                              # atravessa o fundo de relance
         movimento = "andando"
+    elif acao == "encarando":                           # parado, imóvel, encarando com a cara bizarra
+        movimento = "bizarro"
     elif acao == "espiando":                            # só a cabeça e o ombro aparecem pela borda, a cabeça estala
         movimento = "parado"
     elif acao == "aproximando":
@@ -993,6 +1010,10 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
             _tv(img, meta, t, n)
         elif ef == "chuva":
             _chuva(img, meta, t, n)
+        if cena.get("objeto"):                         # pistas no chão e nas paredes, atrás de quem estiver em cena
+            from .objetos import desenhar as desenhar_objeto
+            for o in cena["objeto"]:
+                desenhar_objeto(img, o, meta, t, dur, _noite)
         a, p = cena.get("ameaca"), cena.get("personagem")
         if p and "_muda_em" not in p:     # quando a expressão muda (medo/grito): ameaça surgindo ou 1ª palavra forte
             ac = _acentos(cena)

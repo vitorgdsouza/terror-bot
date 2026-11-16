@@ -41,6 +41,7 @@ def _catalogo() -> str:
             f"personagem.pose: {', '.join(A.POSES)} | acao: {', '.join(A.ACOES_P)}\n"
             f"ameaca.tipo: {', '.join(A.AMEACAS)} | acao: {', '.join(A.ACOES_A)}\n"
             f"gato.acao: {', '.join(A.GATO_ACOES)}\n"
+            f"objeto.tipo: coleira, tigela, pelo, novelo, ratinho, pegadas, arranhoes, marcas_mao | tamanho: medio, perto\n"
             f"posicao: {', '.join(A.POSICOES)} | tamanho: {', '.join(A.TAMANHOS)}\n"
             f"efeito: {', '.join(A.EFEITOS)} | camera: {', '.join(A.CAMERAS)}")
 
@@ -128,6 +129,10 @@ def validar(_):
         pass
     if (cfg.get("gato") or {}).get("ligado") and not any(c.get("gato") for c in r["cenas"]):
         avisos.append(f'o gato {cfg["gato"].get("nome", "")} não aparece em nenhuma cena: coloque o campo "gato" em 3 a 6 cenas')
+    if (cfg.get("gato") or {}).get("ligado") and not r.get("final"):
+        pistas = sum(1 for c in r["cenas"] if c.get("objeto"))
+        if pistas < 3:
+            avisos.append(f"só {pistas} pista(s) com o campo \"objeto\"; o mistério do sumiço do gato pede de 3 a 5 pistas")
     if not ilustrado and len(r["cenas"]) != cfg["numero_de_cenas"]:
         avisos.append(f"tem {len(r['cenas'])} cenas; a série pede {cfg['numero_de_cenas']}")
     alvo = cfg["duracao_alvo_segundos"]

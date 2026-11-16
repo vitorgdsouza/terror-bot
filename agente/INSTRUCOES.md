@@ -71,6 +71,12 @@ Direção das cenas (como num desenho animado):
 - Sons: o ambiente de cada cenário, chuva, trovão, TV, passos, porta e o Abismo já entram sozinhos.
   Para um som específico da história, coloque na cena `"som": {"busca": "<som em inglês>", "palavra": "<palavra da narração>"}`
   e ele toca quando o narrador falar a palavra. Ex.: {"busca": "drawer slam", "palavra": "gaveta"}. No máximo 4 por vídeo.
+- Pistas: coloque cada pista do mistério na cena com `"objeto": {"tipo": "...", "posicao": "...", "tamanho": "medio|perto"}`
+  (veja os tipos no guia das cenas). Ex.: {"tipo": "coleira", "tamanho": "perto"} sem personagem = close da coleira
+  com a luz da lanterna; {"tipo": "pegadas", "posicao": "centro"} com o personagem segurando a lanterna no corredor.
+- Cena da escada (ótima para o clímax): cenario "escada", ameaca {"tipo": "abismo", "acao": "encarando",
+  "posicao": "centro", "tamanho": "longe"} (ele parado lá em cima) e personagem {"pose": "costas", "acao": "tremendo",
+  "posicao": "centro", "tamanho": "medio"} (você embaixo, paralisado).
 - O gato: se o `contexto` mostrar "O GATO DO PROTAGONISTA", siga essas regras. Ele entra nas cenas pelo campo
   `"gato": {"acao": "...", "posicao": "...", "tamanho": "..."}` (veja os valores no guia das cenas).
   Exemplos: {"acao": "assustado", "posicao": "direita", "tamanho": "medio"} antes da ameaça surgir;

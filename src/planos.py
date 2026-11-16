@@ -85,8 +85,19 @@ def regras_gato(cfg: dict) -> str:
     if not g.get("ligado"):
         return ""
     nome, desc = g.get("nome", "o gato"), g.get("descricao", "gato laranja")
-    return f"""O GATO DO PROTAGONISTA: você tem um gato, {nome} ({desc}). Ele aparece na história e dá um segundo
-objetivo além de sobreviver: encontrar {nome} e deixá-lo em segurança. Use-o a favor do suspense: ele some, mia de um
-cômodo fechado, encara o escuro, se arrepia antes de a ameaça aparecer ou corre para debaixo da cama. O dilema final
-pode envolver o gato (ex.: Opção A: voltar para buscar {nome}; Opção B: fugir sem ele). Nunca mostre o gato ferido
-ou morto: no máximo em perigo. Coloque-o nas cenas em que ele aparece com o campo "gato" (em 3 a 6 cenas)."""
+    return f"""O GATO DO PROTAGONISTA: você tem um gato, {nome} ({desc}). Ele dá à história um segundo objetivo
+além de sobreviver: encontrar {nome} e deixá-lo em segurança.
+- CONEXÃO: nas primeiras cenas, um detalhe de carinho que só vocês dois têm (um ritual, uma mania de {nome}), para o
+  público se importar com ele antes de ele sumir. Esse detalhe volta no final.
+- MISTÉRIO COM PISTAS: o sumiço de {nome} é um quebra-cabeça. Use de 3 a 5 pistas, cada uma mais inquietante e
+  apontando um caminho: algo fora do lugar (tigela virada, novelo desenrolado até uma porta), uma trilha (pegadas de
+  patinhas indo para um cômodo, tufo de pelo), um sinal de que algo pegou {nome} (a coleira com o guizo largada no
+  chão, arranhões fundos na porta) e a prova de que não é um animal (marcas de mãos compridas demais na janela).
+  Cada pista aparece na cena com o campo "objeto" (use o close "perto" na pista mais importante).
+- O ABISMO É SÁDICO: ele está brincando com você. Deixa as pistas de propósito, imita o miado de {nome}, move as
+  coisas de lugar enquanto você não olha. Ele se esgueira e quase nunca se mostra inteiro antes do clímax.
+- CLÍMAX: as pistas levam a um lugar (o porão, o sótão pela escada, o quarto trancado). Uma imagem forte, por exemplo:
+  o Abismo parado no alto da escada, encarando, enquanto você, embaixo, fica paralisado de medo, e o miado de
+  {nome} vem lá de cima.
+- O dilema final envolve {nome} (ex.: Opção A: subir para buscar {nome}; Opção B: fugir sem ele).
+- Nunca mostre {nome} ferido ou morto: no máximo em perigo. Ele aparece nas cenas com o campo "gato" (em 3 a 6 cenas)."""
