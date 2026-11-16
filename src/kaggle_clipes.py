@@ -65,7 +65,7 @@ def _status_kernel(usuario: str, KERNEL: str = KERNEL) -> str:
 
 
 def rodar_kernel(espera_max_min: int = 300, so_esperar: bool = False, SCRIPT: Path = SCRIPT_KAGGLE,
-                 KERNEL: str = KERNEL, DATASET: str = DATASET) -> None:
+                 KERNEL: str = KERNEL, DATASET: str = DATASET, so_disparar: bool = False) -> None:
     usuario = _usuario()
     pasta = RAIZ / "trabalho" / f"kernel_{KERNEL}"
     shutil.rmtree(pasta, ignore_errors=True)
@@ -83,6 +83,8 @@ def rodar_kernel(espera_max_min: int = 300, so_esperar: bool = False, SCRIPT: Pa
             if "accelerator" not in str(e).lower():
                 raise
             log(_kaggle("kernels", "push", "-p", str(pasta)))
+        if so_disparar:
+            return
         time.sleep(60)
     inicio = time.time()
     while time.time() - inicio < espera_max_min * 60:

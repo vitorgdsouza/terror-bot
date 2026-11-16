@@ -208,7 +208,7 @@ def _trilha(total: float, cfg: dict) -> list:
 
 def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
     """Anima cada cena (src/animacao.py), junta tudo e coloca legendas e trilha."""
-    from .animacao import renderizar_cena
+    from .animacao import renderizar_cena, renderizar_clipe
     pasta.mkdir(parents=True, exist_ok=True)
     prot = roteiro.get("protagonista", "homem")
     cenas, duracoes = [], []
@@ -226,6 +226,13 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
             pausa = 1.6 if ultimo else (0.38 if muda else 0.1)
             cena["_fade_in"] = i == 0 or lista_cenas[i - 1].get("lugar") != cena.get("lugar")
             cena["_fade_out"] = muda
+        if cena.get("_clipe") and Path(cena["_clipe"]).exists():
+            try:
+                duracoes.append(renderizar_clipe(cena, voz, destino, pausa))
+                cenas.append(destino)
+                continue
+            except Exception as e:  # clipe com problema: usa a animação normal nesta cena
+                log(f"  clipe de IA da cena {i} falhou na montagem ({e}); usando a animação normal")
         duracoes.append(renderizar_cena(cena, voz, destino, prot, pausa))
         cenas.append(destino)
 

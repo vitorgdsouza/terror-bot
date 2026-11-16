@@ -955,3 +955,24 @@ def renderizar_cena(cena: dict, voz: dict, destino: Path, prot: str, pausa: floa
     if ff.returncode != 0:
         raise RuntimeError(f"FFmpeg falhou ao gravar a cena: {erro[-1500:]}")
     return dur
+
+
+def renderizar_clipe(cena: dict, voz: dict, destino: Path, pausa: float = 0.5) -> float:
+    """Usa um clipe de IA (Kaggle) no lugar da animação da cena: ajusta tamanho, ritmo e duração à narração."""
+    dur = voz["duracao"] + pausa
+    clipe = Path(cena["_clipe"])
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(clipe)],
+                       capture_output=True, text=True)
+    dur_clipe = float(r.stdout.strip() or 4.0)
+    lento = min(max(dur / dur_clipe, 1.0), 1.5)          # desacelera até 1,5x; o resto segura o último quadro
+    filtro = (f"[0:v]setpts={lento:.3f}*PTS,scale={W}:{H}:force_original_aspect_ratio=increase:flags=lanczos,"
+              f"crop={W}:{H},fps={FPS},tpad=stop_mode=clone:stop_duration={dur:.3f},trim=duration={dur:.3f},"
+              f"fade=t=in:d=0.2,fade=t=out:st={max(dur - 0.2, 0):.3f}:d=0.2,format=yuv420p[v];"
+              "[1:a]aresample=44100,apad[a]")
+    r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(clipe), "-i", str(voz["arquivo"]),
+                        "-filter_complex", filtro, "-map", "[v]", "-map", "[a]", "-t", f"{dur:.3f}", "-r", str(FPS),
+                        "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-c:a", "aac", "-b:a", "160k",
+                        "-ac", "2", str(destino)], capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(r.stderr[-800:])
+    return dur

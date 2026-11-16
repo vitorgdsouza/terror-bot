@@ -133,6 +133,16 @@ def validar(_):
         avisos.append("esta é a parte FINAL: a última cena deve encerrar a história, sem dilema")
     if not r.get("resumo"):
         avisos.append('preencha "resumo" (a história inteira até aqui em até 4 frases)')
+    from .clipes_ia import config as cfg_clipes
+    com_clipe = [i for i, c in enumerate(r["cenas"]) if str(c.get("clipe_ia") or "").strip()]
+    if com_clipe and cfg_clipes(cfg)["ligado"]:
+        if len(com_clipe) > cfg_clipes(cfg)["max_por_video"]:
+            avisos.append(f"clipe_ia em {len(com_clipe)} cenas; o máximo é {cfg_clipes(cfg)['max_por_video']} (só as primeiras serão usadas)")
+        longas = [i for i in com_clipe if len(r["cenas"][i]["narracao"].split()) > 12]
+        if longas:
+            avisos.append(f"cenas com clipe_ia e narração longa (mais de 12 palavras): {longas}")
+    elif com_clipe:
+        print("(clipes de IA desligados em config/serie.json: o campo clipe_ia será ignorado)")
     usados = [c.get("lugar") or c.get("cenario") for c in r["cenas"]]
     print(f"Tipo: {'parte FINAL' if r.get('final') else 'parte ' + str(r.get('parte', 1))} da série \"{r.get('serie')}\"")
     print(f"OK: \"{r['titulo']}\" | protagonista: {r['protagonista']} | {len(r['cenas'])} cenas | {palavras} palavras | ~{seg:.0f}s")
@@ -211,7 +221,11 @@ def narracao(_):
     r, cfg = _roteiro(), carregar_config()
     vozes = gerar_narracao(r, cfg, TRAB / "audio")
     VOZES.write_text(json.dumps([{**v, "arquivo": str(v["arquivo"])} for v in vozes], ensure_ascii=False), encoding="utf-8")
-    print(f"Narração pronta: {sum(v['duracao'] for v in vozes):.0f}s no total")
+    print(f"Narração pronta: {sum(v['duracao'] for v in vozes):.0f}s no total" + (f" | voz: {r['_voz']}" if r.get("_voz") else ""))
+    from . import clipes_ia
+    n = clipes_ia.iniciar(r, cfg)
+    if n:
+        print(f"Clipes de IA disparados no Kaggle para {n} cena(s); entram no vídeo automaticamente depois do envio.")
     for i, v in enumerate(vozes):
         print(f"  cena {i}: {v['duracao']:.1f}s")
 
@@ -236,24 +250,36 @@ def quadros(_):
 
 
 def enviar(a):
-    from . import telegram
+    from . import clipes_ia
     r, cfg = _roteiro(), carregar_config()
     if not FINAL.exists():
         sys.exit("ERRO: o vídeo final ainda não existe.")
+    if clipes_ia.pendente():
+        (TRAB / "nota_diretor.txt").write_text(a.nota or "", encoding="utf-8")
+        clipes_ia.AGUARDANDO.write_text("ok")
+        (TRAB / "ENVIADO").write_text("ok")
+        print("Vídeo pronto. Os clipes de IA ainda estão sendo feitos no Kaggle: o vídeo será remontado com eles e "
+              "enviado automaticamente depois. Pode encerrar.")
+        return
+    enviar_agora(r, cfg, a.nota)
+    print("Enviado para o Telegram e salvo no histórico.")
+
+
+def enviar_agora(r: dict, cfg: dict, nota: str = "") -> None:
+    from . import telegram
     hashtags = " ".join(dict.fromkeys(r.get("hashtags", []) + cfg["hashtags_fixas"]))
     legenda = f"{r['titulo']}\n\n{r.get('legenda_post', '')}\n\n{hashtags}"
     (TRAB / "legenda_do_post.txt").write_text(legenda, encoding="utf-8")
     telegram.enviar_video(FINAL, legenda)
     telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
     custo = r.get("_ilustracoes", {})
-    if a.nota or custo:
+    if nota or custo:
         extra = f"\nIlustrações geradas: {custo.get('geradas', 0)} (~US$ {custo.get('custo_usd', 0)})" if custo else ""
-        telegram.enviar_mensagem(f"Nota do diretor (Claude):\n{a.nota}{extra}")
+        telegram.enviar_mensagem(f"Nota do diretor (Claude):\n{nota}{extra}")
     from .serie import campos_historico, mensagem_proximo_passo
     telegram.enviar_mensagem(mensagem_proximo_passo(r))
     salvar_no_historico(r["titulo"], r.get("tema", ""), r.get("protagonista", ""), campos_historico(r))
     (TRAB / "ENVIADO").write_text("ok")
-    print("Enviado para o Telegram e salvo no histórico.")
 
 
 def main():

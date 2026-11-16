@@ -39,6 +39,13 @@ TEMA: ${TEMA}"
     | tee trabalho/agente.log
   if [ -f trabalho/ENVIADO ]; then
     echo "=== Agente concluiu ==="
+    if [ -f trabalho/AGUARDANDO_CLIPES ]; then
+      echo "=== Esperando os clipes de IA do Kaggle ==="
+      avisar "Vídeo montado! Só falta encaixar as cenas animadas por IA (GPU do Kaggle). Ele chega aqui em seguida."
+      if ! python -m src.clipes_ia --finalizar; then
+        python -c "from src import ferramentas as F; F.enviar_agora(F._roteiro(), F.carregar_config(), 'Os clipes de IA falharam; o vídeo foi enviado sem eles.')" || exit 1
+      fi
+    fi
     exit 0
   fi
   GERADAS=$(python -c "import json,pathlib; p=pathlib.Path('trabalho/imagens/contagem.json'); print(json.loads(p.read_text())['geradas'] if p.exists() else 0)")

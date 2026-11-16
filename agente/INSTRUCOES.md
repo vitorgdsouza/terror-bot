@@ -56,6 +56,12 @@ Direção das cenas (como num desenho animado):
 - Efeitos com moderação: luz_piscando e relampago marcam sustos; tv_chiando só na sala e no quarto (monitor).
   pia_detalhe e debaixo_cama são closes: use com personagem "perto" ou sem personagem.
 
+- Cenas animadas por IA (só se `contexto` mostrar "clipes_ia": ligado): escolha no máximo 3 cenas de destaque e
+  coloque nelas `"clipe_ia": "<o que se mexe, em inglês>"`. A GPU anima o quadro da cena a partir desse texto.
+  Bons momentos: a reação de medo do protagonista, o Abismo aparecendo/inclinando a cabeça, a TV ou a luz piscando.
+  Regras: narração dessa cena com até 12 palavras (o clipe tem ~4 s); personagem parado (sem andar/correr);
+  descreva movimento pequeno e contínuo, câmera parada e luz constante. Ex.: "the boy breathes nervously and his eyes
+  widen, his hands stay still, the tv glows softly, static camera, lighting stays the same".
 - Voz do narrador: preencha "clima": "calma" ou "suspense" (escolhe o tom do narrador: "calma" para mistério lento, solidão, algo estranho e melancólico; "suspense" para perseguição, invasão, algo te observando, ameaça crescendo).
 
 ```json
