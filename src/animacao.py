@@ -28,10 +28,10 @@ PASTA_PER = RAIZ / "assets" / "personagem"
 META = json.loads((PASTA_CEN / "cenarios.json").read_text(encoding="utf-8"))
 
 CENARIOS = list(META) + ["celular_cftv"]
-POSES = ["frente", "medo", "costas", "celular", "lanterna"]
+POSES = ["frente", "medo", "gritando", "encolhida", "costas", "celular", "lanterna"]
 ACOES_P = ["parado", "andando", "entrando", "saindo", "tremendo", "virando"]
 ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo"]
-AMEACAS = ["sombra", "olhos"]
+AMEACAS = ["sombra", "olhos", "invasor"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
 TAMANHOS = {"longe": 0.36, "medio": 0.62, "perto": 1.15}
 EFEITOS = ["nenhum", "luz_piscando", "tv_chiando", "relampago", "chuva", "tremor"]
@@ -46,17 +46,25 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   quarto (cama, escrivaninha com monitor aceso, janela) | cozinha (armários, geladeira, janela com lua) |
   pia_detalhe (close da pia com prato e copo, janela ao lado: só personagem "perto"; a sombra "longe" aparece lá fora na janela) |
   porta_entrada (porta da rua por dentro com corrente e olho mágico, cabideiro com casaco) | janela (close numa janela grande, noite lá fora) |
-  escada (vista de baixo, subindo para um andar escuro) | escada_cima (vista do andar de cima, descendo para um hall escuro) | banheiro (espelho, pia, cortina) | casa_fora (a casa vista da rua à noite) |
-  rua (rua escura com poste) | celular_cftv (close das mãos segurando o celular; na tela, a câmera de segurança mostrando outro cenário)
+  escada (vista de baixo, subindo para um andar escuro) | escada_cima (vista do andar de cima, descendo para um hall escuro) | banheiro (espelho, pia, box com cortina) |
+  debaixo_cama (close no chão do quarto, chinelos e o escuro embaixo da cama: só personagem "perto"; "olhos" longe aparecem embaixo da cama) |
+  porao (caixas, lâmpada pendurada, escada ao fundo) | garagem (carro velho, ferramentas, portão aberto para a noite) |
+  casa_fora (a casa vista da calçada à noite, uma janela acesa) | rua (rua de bairro vista do alto, poste aceso, carros) | celular_cftv (close das mãos segurando o celular; na tela, a câmera de segurança mostrando outro cenário)
 - "tela": só no celular_cftv, qual cenário aparece na câmera (ex.: "sala"). O personagem e a ameaça dessa cena aparecem DENTRO da câmera.
-- "personagem": o protagonista ou null. pose: frente | medo | costas | celular (mexendo no celular) | lanterna.
+- "personagem": o protagonista ou null. pose: frente | medo (rosto assustado, mãos no peito) | gritando (terror, mãos para frente) |
+  encolhida (agachada abraçando o corpo, de medo) | costas. Ao andar/entrar/sair ele aparece de perfil.
+  Na mulher, medo começa com o rosto normal e muda quando a ameaça surge ou na primeira palavra forte da narração.
   acao: parado | andando | entrando (entra pelo lado) | saindo (vira e sai) | tremendo | virando (estava de costas e vira).
   posicao: esquerda | centro | direita. tamanho: longe | medio | perto (perto = close do rosto e do tronco).
-- "ameaca": null ou o vulto. tipo: sombra (vulto encapuzado de olhos brancos) | olhos (só dois olhos brancos no escuro).
+- "ameaca": null ou o perigo. tipo: sombra (criatura escura que flutua, com tentáculos e um olho que brilha) |
+  olhos (só dois olhos brilhando no escuro) | invasor (pessoa real de capa de chuva amarela, capuz com o rosto no escuro e um machado;
+  use em histórias sem sobrenatural: invasão, perseguição, alguém dentro de casa).
   acao: parada | aparecendo (surge aos poucos) | aproximando (vem para perto) | sumindo.
   posicao e tamanho como no personagem; "longe" coloca a ameaça no fundo do cenário (fim do corredor, topo da escada, porta, janela).
 - "efeito": nenhum | luz_piscando | tv_chiando (só na sala e no quarto, no monitor) | relampago | chuva | tremor (susto).
 - "camera": zoom_in (aproxima devagar, padrão) | zoom_out | pan_esquerda | pan_direita | parada.
+A animação reage sozinha à narração: palavras de medo e frases com "...", "!" ou "?" dão uma leve aproximação da câmera,
+e a tensão (bordas escuras, pulsação) cresce até o fim do vídeo. Por isso, use reticências nos momentos de suspense.
 Dicas: varie cenários e enquadramentos como num desenho; deixe a ameaça para a segunda metade e aumente a presença dela
 até o clímax; use celular_cftv quando a história falar de câmera de segurança ou de algo visto no celular."""
 
@@ -154,40 +162,84 @@ def normalizar(cena: dict) -> None:
         a["tamanho"] = a.get("tamanho") if a.get("tamanho") in TAMANHOS else "longe"
     else:
         cena["ameaca"] = None
+    a, p = cena["ameaca"], cena["personagem"]
+    if a and p and a["tamanho"] == "longe" and a["posicao"] == "centro" and p["posicao"] == "centro" and p["tamanho"] != "longe":
+        a["_desvio"] = 0.12          # não deixa o vulto do fundo escondido atrás da cabeça do personagem
 
 
 # ---------------------------------------------------------------- personagem
-def _desenhar_personagem(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.5):
+PASTA_V2 = PASTA_PER / "v2"
+VISTAS = {"homem": ["frente", "costas", "perfil"], "mulher": ["frente", "perfil", "costas"]}
+
+
+# pose pedida -> desenho usado, por personagem (quando não há desenho próprio)
+APELIDOS = {"homem": {"encolhida": "gritando"}, "mulher": {"gritando": "medo"}}
+
+
+def _arquivo_pose(prot: str, pose: str):
+    """Caminho do desenho próprio de uma pose (medo, gritando, encolhida…) ou None."""
+    if not pose or pose in ("frente", "costas", "celular", "lanterna"):
+        return None
+    pose = APELIDOS.get(prot, {}).get(pose, pose)
+    arq = PASTA_V2 / prot / f"{pose}.png"
+    return arq if arq.exists() else None
+
+
+def _figura(prot: str, vista: str, piscando: bool = False, pose: str = "") -> Image.Image:
+    """Figurinha dos modelos novos (assets/personagem/v2). Se existir um desenho próprio da pose
+    (ex.: v2/mulher/medo.png), usa ele; senão troca pela vista mais próxima."""
+    prot = prot if prot in VISTAS else "homem"
+    arq = _arquivo_pose(prot, pose) if vista == "frente" else None
+    if arq:
+        return _img(arq)
+    if vista not in VISTAS[prot]:
+        vista = {"costas": "perfil", "perfil": "frente"}.get(vista, "frente")
+        if vista not in VISTAS[prot]:
+            vista = "frente"
+    arq = PASTA_V2 / prot / f"{vista}{'_piscando' if piscando else ''}.png"
+    if not arq.exists():
+        arq = PASTA_V2 / prot / f"{vista}.png"
+    return _img(arq)
+
+
+def _luz(larg: int, alt: int, cor, alfa: int, blur: int) -> Image.Image:
+    chave = ("luz", larg, alt, cor, alfa, blur)
+    if chave not in _cache:
+        im = Image.new("RGBA", (larg + blur * 4, alt + blur * 4), (0, 0, 0, 0))
+        ImageDraw.Draw(im).ellipse((blur * 2, blur * 2, blur * 2 + larg, blur * 2 + alt), fill=cor + (alfa,))
+        _cache[chave] = im.filter(ImageFilter.GaussianBlur(blur))
+    return _cache[chave]
+
+
+def _desenhar_personagem(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.25, paralaxe=0.0, tenso=False):
     cw, ch = quadro.size
     acao, pose = p["acao"], p["pose"]
     prog = t / dur if dur else 0
     alvo_x = POSICOES[p["posicao"]]
     lado = -1 if alvo_x <= 0.5 else 1                 # de que lado ele entra/sai
     x = alvo_x
-    andando = False
+    andando, sentido = False, 0
     if acao == "entrando":
         k = _suave(prog / 0.6)
         x = (alvo_x + lado * 0.75) * (1 - k) + alvo_x * k
-        andando = k < 1
+        andando, sentido = k < 1, -lado
     elif acao == "saindo":
         k = _suave((prog - 0.3) / 0.7)
         x = alvo_x * (1 - k) + (alvo_x + lado * 0.8) * k
-        andando = k > 0
+        andando, sentido = k > 0, lado
     elif acao == "andando":
         x = alvo_x - lado * 0.18 + lado * 0.36 * prog
-        andando = True
+        andando, sentido = True, lado
 
-    nome = pose
+    vista = "costas" if pose == "costas" else "frente"
     if acao == "virando" and prog < 0.45:
-        nome = "costas"
-    if acao == "saindo" and prog > 0.3:
-        nome = "costas"
-    if andando and int(t / 0.22) % 2 == 1:
-        nome = f"{nome}_passo"
-    elif nome != "costas" and (t % 3.1) < 0.13:
-        nome = f"{nome}_piscando"
-    if acao == "tremendo" and pose == "frente":
-        nome = nome.replace("frente", "medo")
+        vista = "costas"
+    if andando and sentido:
+        vista = "perfil"
+    # piscada a cada ~3,5 s, em momentos diferentes para cada cena
+    fase = (t + (hash(p["pose"] + p["posicao"]) % 7) * 0.37) % 3.5
+    piscando = vista != "costas" and fase < 0.12
+    espelhar = vista == "perfil" and sentido > 0          # o desenho de perfil olha para a esquerda
 
     tam = p["tamanho"]
     altura = int(ch * TAMANHOS[tam] * escala_tela)
@@ -196,27 +248,77 @@ def _desenhar_personagem(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno
         piso = (meta.get("fundo", [0.5, piso])[1] + piso) / 2
     elif tam == "perto":
         piso = 1.42
-    espelhar = p["posicao"] == "direita" and pose == "lanterna"
-    img = _escalado(_sprite(nome, prot), altura, espelhar, noturno)
+    medo = pose in ("medo", "gritando", "encolhida") or acao == "tremendo"
+    # expressão muda durante a cena: começa normal e, quando a ameaça aparece ou numa palavra forte, troca para a pose
+    pose_arte = pose
+    if pose in ("medo", "gritando") and p.get("_muda_em") is not None and t < p["_muda_em"] and prot == "mulher":
+        pose_arte = "frente"      # (o desenho de terror do homem tem outra calça: ele já começa assustado)
+    tem_arte = _arquivo_pose(prot, pose_arte) is not None
+    img = _escalado(_figura(prot, vista, piscando, pose_arte), altura, espelhar,
+                    noturno + (0.25 if medo and not tem_arte else 0))
 
-    bob = 0
+    # vida: respiração, peso do corpo mudando de lado; mais rápida quando há perigo na cena
+    periodo = 1.7 if (tenso or medo) else 3.4
     if andando:
-        bob = -abs(math.sin(t * math.pi / 0.22)) * altura * 0.012
+        bob = -abs(math.sin(t * math.pi / 0.3)) * altura * 0.010
+        balanco = 0.0
     else:
-        bob = math.sin(t * 2 * math.pi / 3.2) * altura * 0.004       # respiração
-    dx = 0
-    if acao == "tremendo":
-        dx = math.sin(t * 47) * altura * 0.006
-    cx = int(cw * x + dx)
+        bob = math.sin(t * 2 * math.pi / periodo) * altura * 0.0035
+        balanco = math.sin(t * 2 * math.pi / 5.3) * altura * 0.003
+    dx = balanco
+    if medo:
+        forca = 0.004 if acao == "tremendo" else 0.0016
+        dx += (math.sin(t * 47) + 0.5 * math.sin(t * 71)) * altura * forca
+    cx = int(cw * x + dx + paralaxe * cw)
     pes = int(ch * piso + bob)
     if tam != "perto":
-        sb = _sombra_chao(int(img.width * 0.33))
+        sb = _sombra_chao(int(img.width * 0.5))
         quadro.alpha_composite(sb, (cx - sb.width // 2, int(ch * piso) - sb.height // 2))
-    quadro.alpha_composite(img, (cx - img.width // 2, pes - int(img.height * PES_NO_DESENHO)))
+    topo = pes - int(img.height * PES_NO_DESENHO)
+    quadro.alpha_composite(img, (cx - img.width // 2, topo))
+
+    escala = img.height / 1200                       # medidas da figurinha (tela 1000x1200)
+
 
 
 # ---------------------------------------------------------------- ameaça
-def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0):
+def _olho_criatura(img: Image.Image):
+    """Posição (fração) do ponto mais claro da criatura: o olho que brilha."""
+    chave = ("olho", id(img))
+    if chave not in _cache:
+        p = img.convert("L").resize((img.width // 8, img.height // 8))
+        px = list(p.getdata())
+        i = max(range(len(px)), key=px.__getitem__)
+        _cache[chave] = ((i % p.width + 0.5) / p.width, (i // p.width + 0.5) / p.height)
+    return _cache[chave]
+
+
+def _criatura_escura() -> Image.Image:
+    """A criatura em tom bem escuro (quase preto azulado), mantendo o olho claro."""
+    if "criatura_escura" not in _cache:
+        import numpy as np
+        im = _img(PASTA_V2 / "sobrenatural.png")
+        a = np.asarray(im).astype(float)
+        lum = a[:, :, :3].mean(axis=2, keepdims=True)
+        escuro = a[:, :, :3] * np.array([0.32, 0.30, 0.42])
+        olho = (lum > 175)                            # o olho que brilha continua claro
+        rgb = np.where(olho, a[:, :, :3], escuro)
+        _cache["criatura_escura"] = Image.fromarray(np.dstack([rgb, a[:, :, 3:]]).clip(0, 255).astype("uint8"))
+    return _cache["criatura_escura"]
+
+
+def _ondular(img: Image.Image, t: float, forca: float) -> Image.Image:
+    """Faz a parte de baixo da criatura (a cauda e os tentáculos) balançar devagar, como fumaça."""
+    import numpy as np
+    a = np.asarray(img)
+    h = a.shape[0]
+    ys = np.arange(h)
+    desloc = (np.sin(ys / h * 7.0 - t * 1.9) * forca * (ys / h) ** 1.6).astype(int)
+    cols = (np.arange(a.shape[1])[None, :] - desloc[:, None]).clip(0, a.shape[1] - 1)
+    return Image.fromarray(a[ys[:, None], cols])
+
+
+def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
     cw, ch = quadro.size
     prog = t / dur if dur else 0
     alfa = 1.0
@@ -229,6 +331,7 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0):
     fundo = meta.get("fundo", [0.5, meta.get("piso", 0.9), 0.4])
     if tam == "longe":
         x, piso, frac = (fundo[0] if a["posicao"] == "centro" else POSICOES[a["posicao"]]), fundo[1], fundo[2]
+        x += a.get("_desvio", 0)
     else:
         x, piso = POSICOES[a["posicao"]], (meta.get("piso", 0.9) if tam == "medio" else 1.3)
     if a["acao"] == "aproximando":
@@ -246,20 +349,62 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0):
             cx, cy = (regiao[0] + regiao[2] / 2) * cw, (regiao[1] + regiao[3] * 0.4) * ch
         else:
             cx, cy = x * cw, ch * 0.45
+        cx += paralaxe * cw * 0.4
         base = _sprite("olhos", "homem")
         img = _escalado(base, int(larg * base.height / base.width), False, 0)
         if (t % 2.7) < 0.12:                       # piscada
             img = img.resize((img.width, max(1, img.height // 6)))
         pulso = 0.82 + 0.18 * math.sin(t * 3)
+        brilho = _luz(int(img.width * 0.55), int(img.height * 0.9), (170, 150, 255), int(35 * pulso * alfa), 14)
+        quadro.alpha_composite(brilho, (int(cx - brilho.width / 2), int(cy - brilho.height / 2)))
         img = _com_alfa(img, alfa * pulso)
         quadro.alpha_composite(img, (int(cx - img.width / 2), int(cy - img.height / 2)))
         return
 
+    if a["tipo"] == "invasor":
+        # pessoa de capa amarela e capuz, com machado: fica no chão, respira, anda quando se aproxima
+        if tam == "longe":
+            altura = int(ch * frac * 1.05 * escala_tela)
+        else:
+            altura = int(ch * {"medio": 0.62, "perto": 1.05}[tam] * escala_tela)
+            if a["acao"] == "aproximando":
+                altura = int(altura * (1 + 0.5 * _suave(prog)))
+            piso = meta.get("piso", 0.9) if tam == "medio" else 1.38
+        img = _escalado(_img(PASTA_V2 / "invasor.png"), altura, x > 0.5, 0.65)
+        andando = a["acao"] == "aproximando"
+        bob = (-abs(math.sin(t * math.pi / 0.42)) * 0.008 if andando else math.sin(t * 2 * math.pi / 4.1) * 0.003) * altura
+        img = _com_alfa(img, alfa)
+        cx = int(cw * x + paralaxe * cw * 0.4)
+        pes = int(ch * piso + bob)
+        if tam != "perto":
+            sb = _sombra_chao(int(img.width * 0.45))
+            quadro.alpha_composite(_com_alfa(sb, alfa), (cx - sb.width // 2, int(ch * piso) - sb.height // 2))
+        quadro.alpha_composite(img, (cx - img.width // 2, pes - int(img.height * PES_NO_DESENHO)))
+        return
+
+    # criatura sobrenatural: flutua, ondula, fica meio transparente e o olho pulsa
+    if tam != "longe":                               # a criatura é grande: limita para caber no quadro
+        frac = {"medio": 0.46, "perto": 0.72}[tam] * (1 + (0.45 * _suave(prog) if a["acao"] == "aproximando" else 0))
+        piso = min(piso, 0.97)
     altura = int(ch * frac * escala_tela)
-    img = _escalado(_sprite("sombra", "homem"), altura, False, 0)
-    balanco = math.sin(t * 1.7) * altura * 0.004
-    img = _com_alfa(img, alfa)
-    quadro.alpha_composite(img, (int(cw * x - img.width / 2 + balanco), int(ch * piso - img.height * 0.94)))
+    base = _criatura_escura()
+    img = _escalado(base, altura, x < 0.5 and tam != "longe", 0)
+    img = _ondular(img, t, altura * 0.02)
+    flutua = math.sin(t * 2 * math.pi / 3.7) * altura * 0.012
+    deriva = math.sin(t * 0.9) * altura * 0.006
+    tremula = 0.82 + 0.1 * math.sin(t * 5.1) * math.sin(t * 1.3) + 0.08 * math.sin(t * 0.7)
+    img = _com_alfa(img, alfa * tremula)
+    px0 = int(cw * x - img.width / 2 + deriva + paralaxe * cw * 0.4)
+    py0 = int(ch * piso - img.height * 0.94 + flutua)
+    margem = int(cw * 0.06)                          # mantém a criatura inteira dentro da área visível
+    px0 = max(margem - img.width // 6, min(px0, cw - margem - img.width * 5 // 6))
+    py0 = max(int(ch * 0.07), py0)
+    quadro.alpha_composite(img, (px0, py0))
+    ox, oy = _olho_criatura(img)
+    pulso = 0.6 + 0.4 * (0.5 + 0.5 * math.sin(t * 2.4))
+    r = max(20, int(altura * 0.09))
+    brilho = _luz(r, r, (190, 170, 255), int(130 * pulso * alfa), max(6, r // 3))
+    quadro.alpha_composite(brilho, (px0 + int(ox * img.width) - brilho.width // 2, py0 + int(oy * img.height) - brilho.height // 2))
 
 
 # ---------------------------------------------------------------- efeitos
@@ -343,10 +488,91 @@ def _quadro_cftv(cena, t, dur, prot, n):
     return fundo
 
 
+# ---------------------------------------------------------------- ritmo da narração
+PALAVRAS_FORTES = {
+    "porta", "atrás", "atras", "sombra", "vulto", "olhos", "olhando", "alguém", "alguem", "ninguém", "ninguem",
+    "passos", "grito", "gritou", "silêncio", "silencio", "apagou", "apagaram", "escuro", "escuridão", "sozinho",
+    "sozinha", "sangue", "voz", "nome", "parou", "batida", "batidas", "bateu", "rangeu", "respiração", "sussurro",
+    "sussurrou", "embaixo", "debaixo", "dentro", "janela", "espelho", "corre", "corra", "fuja", "agora", "nunca",
+    "morto", "morta", "sorriu", "sorriso", "abriu", "trancada", "trancado", "câmera", "camera", "mexeu", "vindo",
+}
+
+
+def _acentos(cena: dict) -> list:
+    """Momentos (segundos) das palavras de impacto da narração desta cena: palavras de medo e
+    palavras seguidas de reticências, exclamação ou interrogação. Mínimo de 1,6 s entre um e outro."""
+    if "_acentos" in cena:
+        return cena["_acentos"]
+    palavras = cena.get("_palavras") or []
+    fichas = (cena.get("narracao") or "").split()
+    usar_pont = len(fichas) == len(palavras)
+    tempos = []
+    for i, w in enumerate(palavras):
+        limpa = w["texto"].lower().strip(".,;:!?…\"'()")
+        forte = limpa in PALAVRAS_FORTES
+        if usar_pont and any(fichas[i].endswith(p) for p in ("...", "…", "!", "?")):
+            forte = True
+        if forte and (not tempos or w["inicio"] - tempos[-1] >= 1.6):
+            tempos.append(w["inicio"])
+    cena["_acentos"] = tempos
+    return tempos
+
+
+def _envelope(t: float, tempos: list) -> float:
+    """0..1: sobe rápido no início da palavra forte e some devagar em ~1 s."""
+    v = 0.0
+    for ta in tempos:
+        d = t - ta
+        if -0.3 < d < 2.2:
+            v = max(v, _suave((d + 0.3) / 0.3) if d < 0 else math.exp(-d * 1.6))
+    return v
+
+
+def _batimento(t: float, bpm: float) -> float:
+    """Pulso duplo de coração (tum-tum), 0..1."""
+    f = (t * bpm / 60) % 1
+    return math.exp(-((f - 0.05) / 0.04) ** 2) + 0.6 * math.exp(-((f - 0.22) / 0.04) ** 2)
+
+
+def _vinheta(k: float) -> Image.Image:
+    """Máscara de bordas escuras (quantizada para reaproveitar)."""
+    k = round(min(0.95, max(0.0, k)) * 20) / 20
+    chave = ("vinheta", k)
+    if chave not in _cache:
+        if "vinheta_base" not in _cache:
+            m = Image.new("L", (W // 4, H // 4), 0)
+            ImageDraw.Draw(m).ellipse((-W // 10, -H // 14, W // 4 + W // 10, H // 4 + H // 14), fill=255)
+            _cache["vinheta_base"] = m.filter(ImageFilter.GaussianBlur(70)).resize((W, H), Image.BILINEAR)
+        _cache[chave] = _cache["vinheta_base"].point(lambda v: int((255 - v) * k))
+    return _cache[chave]
+
+
+def _poeira(img: Image.Image, t: float, semente: int, quantidade: int = 22):
+    """Partículas de poeira flutuando devagar na luz (bem discretas)."""
+    rnd = random.Random(semente)
+    d = ImageDraw.Draw(img, "RGBA")
+    cw, ch = img.size
+    for _ in range(quantidade):
+        x0, y0 = rnd.uniform(0, cw), rnd.uniform(0, ch)
+        vx, vy = rnd.uniform(-9, 9), rnd.uniform(-16, -4)
+        fase, r = rnd.uniform(0, 6.28), rnd.uniform(1.4, 3.2)
+        x = (x0 + vx * t + math.sin(t * 0.8 + fase) * 14) % cw
+        y = (y0 + vy * t) % ch
+        a = int(10 + 24 * (0.5 + 0.5 * math.sin(t * 1.1 + fase)))
+        d.ellipse((x - r, y - r, x + r, y + r), fill=(200, 210, 240, a))
+
+
 # ---------------------------------------------------------------- quadro completo
 def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) -> Image.Image:
     """Desenha o quadro da cena no instante t (segundos). Devolve imagem RGB 1080x1920."""
     normalizar(cena)
+    prog = t / dur if dur else 0
+    k = _suave(prog)
+    cam = cena["camera"]
+    tensao = float(cena.get("_progresso", 0.5))          # 0 no começo do vídeo, 1 no final
+    acento = _envelope(t, _acentos(cena))
+    # paralaxe: quem está na frente anda um pouco mais que o cenário quando a câmera desliza
+    paralaxe = {"pan_esquerda": 0.035 * (k - 0.5), "pan_direita": -0.035 * (k - 0.5)}.get(cam, 0.0)
     if cena["cenario"] == "celular_cftv":
         img = _quadro_cftv(cena, t, dur, prot, n)
         meta = {}
@@ -359,14 +585,18 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
         elif ef == "chuva":
             _chuva(img, meta, t, n)
         a, p = cena.get("ameaca"), cena.get("personagem")
+        if p and "_muda_em" not in p:     # quando a expressão muda (medo/grito): ameaça surgindo ou 1ª palavra forte
+            ac = _acentos(cena)
+            p["_muda_em"] = dur * 0.25 if (a and a["acao"] == "aparecendo") else (ac[0] if ac else None)
         # a ameaça fica atrás do personagem, a não ser que ela esteja em close e ele não
         ameaca_atras = a and not (a["tamanho"] == "perto" and (not p or p["tamanho"] != "perto"))
         if a and ameaca_atras:
-            _desenhar_ameaca(img, a, meta, t, dur)
+            _desenhar_ameaca(img, a, meta, t, dur, paralaxe=paralaxe)
         if p:
-            _desenhar_personagem(img, p, meta, t, dur, prot)
+            _desenhar_personagem(img, p, meta, t, dur, prot, paralaxe=paralaxe, tenso=bool(a))
         if a and not ameaca_atras:
-            _desenhar_ameaca(img, a, meta, t, dur)
+            _desenhar_ameaca(img, a, meta, t, dur, paralaxe=paralaxe * 1.6)
+        _poeira(img, t, hash(cena["cenario"]) % 1000)
 
     ef = cena["efeito"]
     if ef == "luz_piscando":
@@ -380,9 +610,6 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
                 img = _brilho(img, 0.55 * (1 - d / 0.08), (235, 240, 255))
 
     # câmera
-    prog = t / dur if dur else 0
-    k = _suave(prog)
-    cam = cena["camera"]
     z, px = 1.0, 0.5
     if cam == "zoom_in":
         z = 1 + 0.12 * k
@@ -392,28 +619,39 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
         px = 1 - k
     elif cam == "pan_direita":
         px = k
+    # palavra forte = leve aproximação; perigo ou reta final = pulsação de coração bem sutil
+    z *= 1 + 0.014 * acento
+    if cena.get("ameaca") or tensao > 0.65:
+        z *= 1 + 0.0018 * _batimento(t, 62 + 24 * tensao)
     cw, chh = W / z, H / z
     x0 = (CW - cw) * px
     y0 = (CH - chh) * 0.5
     if ef == "tremor":
-        x0 += math.sin(t * 53) * 9
-        y0 += math.cos(t * 41) * 9
+        k_tr = math.exp(-t * 1.5)              # sacode só no começo do susto e acalma
+        x0 += math.sin(t * 23) * 3.5 * k_tr
+        y0 += math.cos(t * 19) * 3.5 * k_tr
     x0 = min(max(0, x0), CW - cw)
     y0 = min(max(0, y0), CH - chh)
     img = img.crop((int(x0), int(y0), int(x0 + cw), int(y0 + chh)))
     if img.size != (W, H):
         img = img.resize((W, H), Image.BILINEAR)
 
+    # bordas escurecem conforme a história fica mais tensa e em cada palavra forte
+    img = img.convert("RGB")
+    vin = 0.30 + 0.30 * tensao + 0.18 * acento + 0.04 * math.sin(t * 0.9)
+    img = Image.composite(Image.new("RGB", (W, H), (2, 3, 10)), img, _vinheta(vin))
+
     # transição: escurece no começo e no fim da cena
     borda = min(t, dur - t)
     if borda < 0.2:
-        img = _brilho(img, 1 - max(0.0, borda) / 0.2)
-    return img.convert("RGB")
+        img = Image.blend(img, Image.new("RGB", (W, H), (0, 0, 0)), 1 - max(0.0, borda) / 0.2)
+    return img
 
 
 def renderizar_cena(cena: dict, voz: dict, destino: Path, prot: str, pausa: float = 0.5) -> float:
     """Gera o clipe .mp4 da cena com a narração. Devolve a duração."""
     dur = voz["duracao"] + pausa
+    cena.setdefault("_palavras", voz.get("palavras") or [])
     frames = math.ceil(dur * FPS)
     ff = subprocess.Popen(
         ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",

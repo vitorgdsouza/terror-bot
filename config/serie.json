@@ -11,11 +11,11 @@
   "protagonistas": {
     "homem": {
       "genero": "masculino",
-      "descricao": "homem de capa de chuva amarela e cabelo preto curto"
+      "descricao": "homem adulto de cabelo escuro bem curto, jaqueta escura e calça cargo"
     },
     "mulher": {
       "genero": "feminino",
-      "descricao": "mulher loira de cabelo comprido e jaqueta vermelha"
+      "descricao": "mulher adulta de cabelo escuro preso num coque, suéter escuro e calça jeans"
     }
   },
   "voz": {

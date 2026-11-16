@@ -147,6 +147,8 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
     for i, (voz, cena) in enumerate(zip(vozes, roteiro["cenas"])):
         log(f"Animando cena {i + 1}/{len(vozes)} ({cena.get('cenario')})")
         destino = pasta / f"clip_{i:02d}.mp4"
+        cena["_progresso"] = i / max(1, len(vozes) - 1)   # usado para aumentar a tensão ao longo do vídeo
+        cena["_palavras"] = voz.get("palavras") or []
         duracoes.append(renderizar_cena(cena, voz, destino, prot, PAUSA))
         cenas.append(destino)
 
