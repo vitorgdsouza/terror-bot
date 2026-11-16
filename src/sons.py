@@ -122,9 +122,13 @@ def baixar(busca: str, loop: bool) -> Path | None:
     bruto.write_bytes(audio.content)
     # volume padronizado, sem silêncio no começo
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(bruto), "-af",
-                    "silenceremove=start_periods=1:start_threshold=-45dB,loudnorm=I=-20:TP=-2",
+                    "loudnorm=I=-20:TP=-2,silenceremove=start_periods=1:start_threshold=-60dB",
                     "-ar", str(SR), "-ac", "2", "-b:a", "160k", str(destino)], check=True)
     bruto.unlink()
+    if len(_ler(destino)) < SR * 0.3:      # arquivo vazio ou quebrado: descarta
+        destino.unlink(missing_ok=True)
+        log(f"Freesound: o som de '{busca}' veio vazio, ignorado")
+        return None
     cred = _creditos()
     cred[destino.name] = {"busca": busca, "nome": som["name"], "autor": som["username"],
                           "licenca": som["license"], "url": som["url"], "id": som["id"]}
@@ -134,8 +138,12 @@ def baixar(busca: str, loop: bool) -> Path | None:
 
 
 def _ler(arq: Path) -> np.ndarray:
-    bruto = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(arq), "-f", "f32le", "-ac", "2", "-ar", str(SR), "-"],
-                           capture_output=True, check=True).stdout
+    r = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(arq), "-f", "f32le", "-ac", "2", "-ar", str(SR), "-"],
+                       capture_output=True)
+    if r.returncode != 0:
+        log(f"Não consegui ler {arq.name}: {r.stderr.decode(errors='ignore')[-200:]}")
+        return np.zeros((0, 2), np.float32)
+    bruto = r.stdout
     return np.frombuffer(bruto, np.float32).reshape(-1, 2).copy()
 
 
