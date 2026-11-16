@@ -9,6 +9,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 CONFIG = RAIZ / "config" / "serie.json"
 HISTORICO = RAIZ / "data" / "historico.json"
+HIST_DIR = RAIZ / "data" / "historico"
 SAIDA = RAIZ / "saida"
 MUSICA = RAIZ / "assets" / "musica"
 
@@ -23,18 +24,26 @@ def carregar_config() -> dict:
 
 
 def carregar_historico() -> list:
+    """Histórico de vídeos: o arquivo antigo data/historico.json + um arquivo por vídeo em data/historico/.
+    Um arquivo por vídeo evita conflito quando duas execuções salvam ao mesmo tempo."""
+    hist = []
     if HISTORICO.exists():
         with open(HISTORICO, encoding="utf-8") as f:
-            return json.load(f)
-    return []
+            hist = json.load(f)
+    if HIST_DIR.exists():
+        for arq in sorted(HIST_DIR.glob("*.json")):
+            try:
+                hist.append(json.loads(arq.read_text(encoding="utf-8")))
+            except ValueError:
+                pass
+    return hist
 
 
 def salvar_no_historico(titulo: str, tema: str, protagonista: str = "", extra: dict | None = None) -> None:
-    hist = carregar_historico()
-    hist.append({"data": time.strftime("%Y-%m-%d"), "titulo": titulo, "tema": tema, "protagonista": protagonista, **(extra or {})})
-    HISTORICO.parent.mkdir(parents=True, exist_ok=True)
-    with open(HISTORICO, "w", encoding="utf-8") as f:
-        json.dump(hist[-200:], f, ensure_ascii=False, indent=2)
+    HIST_DIR.mkdir(parents=True, exist_ok=True)
+    item = {"data": time.strftime("%Y-%m-%d"), "titulo": titulo, "tema": tema, "protagonista": protagonista, **(extra or {})}
+    nome = time.strftime("%Y%m%d-%H%M%S") + ".json"
+    (HIST_DIR / nome).write_text(json.dumps(item, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def env(nome: str, obrigatorio: bool = True) -> str:
