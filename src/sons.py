@@ -50,7 +50,7 @@ AMBIENTES = {
 }
 # efeitos visuais da cena -> som (loop = toca a cena inteira; senão toca uma vez)
 EFEITOS = {
-    "chuva": ("rain on window", True),
+    "chuva": ("rain heavy ambience", True),
     "relampago": ("thunder strike close", False),
     "luz_piscando": ("fluorescent light flicker buzz", True),
     "tv_chiando": ("tv static white noise", True),
