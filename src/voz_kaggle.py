@@ -41,7 +41,14 @@ if not (internet and gpu):
     salvar()
     sys.exit(0)
 
-subprocess.run([sys.executable, "-m", "pip", "install", "-q", "chatterbox-tts"], check=False)
+# o Chatterbox exige versões específicas (o Kaggle vem com versões mais novas que quebram o modelo)
+r = subprocess.run([sys.executable, "-m", "pip", "install", "-q", "chatterbox-tts",
+                    "torch==2.6.0", "torchaudio==2.6.0", "transformers==4.46.3", "diffusers==0.29.0"],
+                   capture_output=True, text=True)
+log((r.stdout + r.stderr)[-1500:])
+v = subprocess.run([sys.executable, "-c", "import torch, transformers; print(torch.__version__, transformers.__version__)"],
+                   capture_output=True, text=True)
+relatorio["versoes"] = (v.stdout + v.stderr).strip()[-300:]
 
 import torch  # noqa: E402
 import torchaudio  # noqa: E402
@@ -57,6 +64,7 @@ try:
     log("Modelo carregado")
 except Exception as e:
     relatorio["erros"].append(f"carregar modelo: {type(e).__name__}: {e}"[:800])
+    relatorio["detalhe"] = traceback.format_exc()[-1500:]
     log(traceback.format_exc()[-2000:])
     salvar()
     sys.exit(0)
