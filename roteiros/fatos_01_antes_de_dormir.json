@@ -30,7 +30,7 @@
     {"narracao": "E muita gente que passa por isso relata a mesma coisa: a sensação de que tem alguém no quarto. Às vezes em pé no canto. Às vezes sentado no peito.",
      "cenario": "quarto_crianca", "personagem": null,
      "ameaca": {"tipo": "abismo", "acao": "relance", "posicao": "direita", "tamanho": "medio"},
-     "efeito": "nenhum", "camera": "zoom_in", "som": {"busca": "heavy breathing dark", "palavra": "alguém"}},
+     "efeito": "nenhum", "camera": "zoom_in", "som": {"busca": "heavy breathing", "palavra": "alguém"}},
     {"narracao": "Pessoas de países diferentes, que nunca se falaram, descrevem a mesma presença.",
      "cenario": "quarto_crianca", "personagem": null, "ameaca": null, "efeito": "nenhum", "camera": "zoom_out",
      "texto_tela": "VOCÊ JÁ|SENTIU ISSO? v"},
