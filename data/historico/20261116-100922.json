@@ -1,0 +1,12 @@
+{
+  "data": "2026-11-16",
+  "titulo": "Fora do Lugar",
+  "tema": "sozinha em casa e encontrando coisas fora do lugar",
+  "protagonista": "mulher",
+  "serie": "Fora do Lugar",
+  "parte": 1,
+  "resumo": "Você está sozinha em casa e encontra coisas fora do lugar: copo lavado, controle trocado, chaveiro sumido. A câmera mostra um vulto, e a gaveta abre ao vivo. Alguém mora escondido na casa há dias.",
+  "opcao_a": "Pular a janela e correr até a casa do vizinho.",
+  "opcao_b": "Trancar a porta do quarto e ligar para a polícia em silêncio.",
+  "final": false
+}
