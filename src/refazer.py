@@ -43,6 +43,12 @@ def main():
     telegram.enviar_mensagem(f"Montando \"{r['titulo']}\"...")
     vozes = gerar_narracao(r, cfg, TRAB / "audio")
     final = montar_video(r, vozes, cfg, TRAB / "video")
+    # folha de contato (um quadro a cada 1,5 s) para revisão: fica no repositório em data/previas/
+    import subprocess
+    previas = RAIZ / "data" / "previas"
+    previas.mkdir(parents=True, exist_ok=True)
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(final), "-vf", "fps=1/1.5,scale=150:-1,tile=8x7",
+                    "-frames:v", "1", "-q:v", "4", str(previas / "ultima_folha.jpg")])
     legenda = next((p.read_text(encoding="utf-8") for p in (RAIZ / "baixado").rglob("legenda_do_post.txt")), None)
     if not legenda:
         tags = " ".join(dict.fromkeys(r.get("hashtags", []) + cfg.get("hashtags_fixas", [])))

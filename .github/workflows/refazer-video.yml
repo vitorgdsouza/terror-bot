@@ -65,7 +65,7 @@ jobs:
         run: |
           git config user.name "bot-terror"
           git config user.email "bot-terror@users.noreply.github.com"
-          git add data/pendente.json
+          git add data/pendente.json data/previas
           git diff --cached --quiet && exit 0
           git commit -m "Vídeo refeito pronto para postar"
           git pull --rebase --autostash && git push
