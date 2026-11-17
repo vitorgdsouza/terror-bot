@@ -81,6 +81,27 @@ def publicar(video: Path, titulo: str, legenda: str, hashtags: list[str]) -> dic
     return resp
 
 
+def testar() -> None:
+    """Confere a chave e o perfil do Upload-Post sem postar nada (lê o histórico de uploads)."""
+    from . import telegram
+    chave = os.environ.get("UPLOAD_POST_API_KEY", "").strip()
+    perfil = os.environ.get("UPLOAD_POST_USER", "").strip()
+    if not chave or not perfil:
+        msg = "Upload-Post: faltam os segredos UPLOAD_POST_API_KEY e/ou UPLOAD_POST_USER."
+    else:
+        r = requests.get(f"{API}/uploadposts/history", headers={"Authorization": f"Apikey {chave}"},
+                         params={"limit": 5}, timeout=60)
+        if r.status_code == 401 or r.status_code == 403:
+            msg = f"Upload-Post: a chave foi recusada ({r.status_code}). Confira o segredo UPLOAD_POST_API_KEY."
+        elif r.status_code >= 400:
+            msg = f"Upload-Post: erro {r.status_code}: {r.text[:200]}"
+        else:
+            n = len(r.json().get("history", []))
+            msg = f"Upload-Post conectado ✅ (perfil \"{perfil}\", {n} uploads recentes no histórico). O /postar está liberado."
+    log(msg)
+    telegram.enviar_mensagem(msg)
+
+
 def _links(resp: dict) -> str:
     """Tira da resposta os links/estado de cada rede, sem depender do formato exato."""
     linhas = []
@@ -129,4 +150,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "testar":
+        testar()
+    else:
+        main()

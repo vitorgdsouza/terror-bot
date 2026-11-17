@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       acao:
-        description: "relatorio = indicadores do canal no Telegram | thumbs = põe a thumb nos Shorts já postados"
+        description: "relatorio = indicadores do canal | thumbs = thumb nos Shorts já postados | uploadpost = testa a conexão do /postar"
         default: relatorio
       runs:
         description: "execuções antigas com o roteiro de vídeos que não estão em roteiros/ (separadas por espaço)"
@@ -26,6 +26,8 @@ jobs:
       YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
       YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      UPLOAD_POST_API_KEY: ${{ secrets.UPLOAD_POST_API_KEY }}
+      UPLOAD_POST_USER: ${{ secrets.UPLOAD_POST_USER }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +42,9 @@ jobs:
       - name: O que fazer
         id: acao
         run: |
-          if [ "${{ github.event.schedule }}" = "41 */6 * * *" ] || [ "${{ github.event.inputs.acao }}" = "thumbs" ]; then
+          if [ "${{ github.event.inputs.acao }}" = "uploadpost" ]; then
+            echo "acao=uploadpost" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "41 */6 * * *" ] || [ "${{ github.event.inputs.acao }}" = "thumbs" ]; then
             echo "acao=thumbs" >> "$GITHUB_OUTPUT"; else echo "acao=relatorio" >> "$GITHUB_OUTPUT"; fi
       - name: Baixar roteiros de execuções antigas
         if: steps.acao.outputs.acao == 'thumbs'
@@ -52,6 +56,9 @@ jobs:
       - name: Thumbs nos Shorts já postados
         if: steps.acao.outputs.acao == 'thumbs'
         run: python -m src.thumb_youtube antigas
+      - name: Testar o Upload-Post
+        if: steps.acao.outputs.acao == 'uploadpost'
+        run: python -m src.postar testar
       - name: Relatório do canal
         if: steps.acao.outputs.acao == 'relatorio'
         run: python -m src.analise
