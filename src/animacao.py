@@ -29,16 +29,19 @@ META = json.loads((PASTA_CEN / "cenarios.json").read_text(encoding="utf-8"))
 
 CENARIOS = list(META) + ["celular_cftv"]
 POSES = ["frente", "medo", "gritando", "encolhida", "costas", "celular", "lanterna",
-         "sentado", "abrindo_porta", "agachado", "olhando_tras"]
+         "sentado", "abrindo_porta", "agachado", "olhando_tras",
+         "engatinhando", "olhando_cima", "alcancando", "com_gato", "golpeando", "silencio", "caido", "chamando"]
+POSES_NOVAS = ["engatinhando", "olhando_cima", "alcancando", "com_gato", "golpeando", "silencio", "caido", "chamando"]
 ACOES_P = ["parado", "andando", "correndo", "entrando", "saindo", "afastando", "aproximando", "tremendo", "virando"]
 try:
     ESTILO_PERSONAGEM = json.loads((RAIZ / "config" / "serie.json").read_text(encoding="utf-8")).get("personagem_estilo", "boneco")
 except Exception:
     ESTILO_PERSONAGEM = "boneco"
-ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando", "na_janela", "encarando", "relance"]
+ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando", "na_janela", "encarando", "relance",
+           "teto", "rastejando", "sorriso_escuro"]
 AMEACAS = ["abismo", "invasor"]
 CAO_ACOES = ["parado", "andando", "correndo", "brincando", "sentado", "deitado", "levantando_cabeca", "de_pe"]
-GATO_ACOES = ["parado", "andando", "correndo", "sentado", "miando", "deitado", "escondido", "assustado"]
+GATO_ACOES = ["parado", "andando", "correndo", "sentado", "miando", "deitado", "escondido", "assustado", "olhos_escuro"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
 TAMANHOS = {"longe": 0.36, "medio": 0.62, "perto": 1.15}
 EFEITOS = ["nenhum", "luz_piscando", "tv_chiando", "relampago", "chuva", "tremor"]
@@ -75,7 +78,12 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   pose (o que ele faz parado): frente | medo (cara de medo, mãos no peito) | gritando (apavorado) | encolhida (sentado no chão
   abraçando os joelhos, mãos na boca) | costas | celular (olhando o celular aceso na mão) | lanterna (apontando a lanterna) |
   sentado (sentado no sofá da sala ou na beira da cama do quarto; em outros cenários fica em pé) | abrindo_porta (estende a mão devagar) | agachado (agachado olhando algo
-  no chão) | olhando_tras (de lado, virando o rosto para trás).
+  no chão) | olhando_tras (de lado, virando o rosto para trás) | engatinhando (de quatro; com acao "andando" vai devagar:
+  túnel, vão da parede, debaixo da cama) | olhando_cima (olhos arregalados para o alto: fundo do poço, topo da escada) |
+  alcancando (agachado, estica o braço devagar para dentro de um buraco ou fresta) | com_gato (abraçando o Stu no colo:
+  só quando ele REALMENTE achar o gato) | golpeando (bate com um martelo: quebrar parede ou cadeado) | silencio (uma mão
+  tapando a boca, olhos arregalados: segurando o grito) | caido (caiu sentado no chão, apoiado nas mãos, recuando) |
+  chamando (mãos em volta da boca, chamando o gato).
   acao: parado | andando (anda de lado e para) | correndo | entrando (entra pelo lado e para) | saindo (sai pelo lado) |
   afastando (de costas, andando para o fundo da cena) | aproximando (de frente, andando para a câmera) | tremendo | virando
   (estava de costas e vira). Ao parar, ele fica na pose escolhida.
@@ -91,7 +99,10 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   na_janela (do lado de fora, sobe devagar e aparece no vidro olhando para dentro, cabeça tombando e sorriso abrindo;
   só em sala, quarto, cozinha, janela e casa_fora) | relance (aparece por um piscar de olhos e some). tamanho "perto" = clímax: ele de corpo inteiro, grande, encarando
   com a cara bizarra (cabeça tombando, sorriso rasgando). encarando = parado, imóvel, encarando com a cara bizarra
-  (ótimo "longe" no alto da escada, com o personagem embaixo paralisado de medo).
+  (ótimo "longe" no alto da escada, com o personagem embaixo paralisado de medo). teto = pendurado de cabeça para baixo
+  no teto, balançando devagar (use posicao esquerda/direita, com o personagem sem perceber: o público vê, ele não) |
+  rastejando = de quatro, vem do fundo do cenário até perto, devagar (túnel, corredor, porão) | sorriso_escuro = a tela
+  escurece e só os olhos e o sorriso dele aparecem no breu, abrindo devagar (ótimo no fim do túnel, na câmara, no poço).
 - "objeto": null, uma pista ou uma lista com até 2: {"tipo": coleira | tigela | pelo | novelo | ratinho | pegadas |
   arranhoes | marcas_mao | arma | caixa_arma, "posicao": esquerda|centro|direita, "tamanho": medio | perto}. perto = close da pista no chão
   com a luz da lanterna (use sem personagem ou com o personagem "perto"). pegadas = trilha de patinhas de poeira indo
@@ -102,7 +113,8 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   Para um Abismo sorrateiro, prefira espiando, passando e longe parado; deixe "medio parado" e o close para o clímax.
   posicao e tamanho como no personagem; "longe" coloca a ameaça no fundo do cenário (fim do corredor, topo da escada, porta, janela).
 - "gato": null ou o gato do protagonista (gato laranja de peito branco). acao: parado | andando (anda e senta) | correndo |
-  sentado | miando | deitado | escondido (encolhido, olhos arregalados) | assustado (costas arqueadas, pelo eriçado).
+  sentado | miando | deitado | escondido (encolhido, olhos arregalados) | assustado (costas arqueadas, pelo eriçado) |
+  olhos_escuro (no breu, só os dois olhos verdes brilhando e piscando: o Stu escondido no túnel, no poço, no vão da parede).
   posicao: esquerda | centro | direita. tamanho: longe | medio | perto (close do gato, só em cena sem o personagem).
   Fica ao lado do personagem, nunca atrás. A ação do gato acompanha o clima da frase: cenas de carinho = sentado,
   deitado ou miando; "assustado" e "escondido" só quando o perigo está perto.
@@ -371,6 +383,8 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
     corre = acao == "correndo"
     vel = (0.62 if corre else 0.31) * altura          # velocidade que combina com o passo (sem "deslizar")
     tipo_passo = "correndo" if corre else "andando"
+    if pose == "engatinhando":                         # de quatro: vai devagar
+        vel, tipo_passo = 0.12 * altura, "engatinhando"
     x, movendo, sentido, parou_em = alvo, False, 0, None
     escala, piso_mov = 1.0, piso
     if acao == "entrando":
@@ -407,7 +421,8 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
     expressao = "aterrorizado" if pose == "gritando" and medo > 0.8 else None
     parado_como = {"frente": "parado", "medo": "parado", "gritando": "parado", "encolhida": "escondido",
                    "costas": "costas", "celular": "celular", "lanterna": "lanterna", "sentado": "sentado",
-                   "abrindo_porta": "abrindo_porta", "agachado": "agachado", "olhando_tras": "olhando_tras"}.get(pose, "parado")
+                   "abrindo_porta": "abrindo_porta", "agachado": "agachado", "olhando_tras": "olhando_tras",
+                   **{k: k for k in POSES_NOVAS}}.get(pose, "parado")
     espelhar_parado = x > cw / 2
     if acao in ("afastando", "aproximando"):
         pose_b = B.animar(acao, t, dur, medo, expressao)
@@ -521,6 +536,17 @@ def _desenhar_gato(quadro, g, meta, t, dur, escala_tela=1.0, noturno=0.4, parala
         sentido = lado
         if t >= T:                                        # chegou: senta
             acao = "sentado"
+    if acao == "olhos_escuro":                            # no breu do túnel: só dois olhos verdes, piscando
+        cx, cy = x + paralaxe * cw, ch * piso - altura * 0.62
+        r = max(3, int(altura * 0.07))
+        if (t % 2.9) > 0.15:
+            for lado_ in (-1, 1):
+                ex = cx + lado_ * altura * 0.13
+                brilho = _luz(r * 6, r * 6, (150, 255, 160), 60, 6)
+                quadro.alpha_composite(brilho, (int(ex - brilho.width / 2), int(cy - brilho.height / 2)))
+                ImageDraw.Draw(quadro).ellipse((ex - r, cy - r * 0.8, ex + r, cy + r * 0.8), fill=(190, 255, 170, 255))
+                ImageDraw.Draw(quadro).ellipse((ex - r * 0.25, cy - r * 0.7, ex + r * 0.25, cy + r * 0.7), fill=(10, 20, 10, 255))
+        return
     pose = G.animar(acao, t, dur, espelhar=sentido < 0)
     img, info = G.desenhar(pose, max(24, altura))
     img = _noite(img, NOITE_BONECO if noturno >= 0.35 else noturno)
@@ -645,6 +671,51 @@ def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, fra
         ox, oy = int(cx - info["pes"][0]), int(chao - info["pes"][1])
         bb = img.getbbox() or (0, 0, img.width, img.height)
         _aura(quadro, ox + (bb[0] + bb[2]) / 2, oy + (bb[1] + bb[3]) / 2, (bb[2] - bb[0]) * 2.0, (bb[3] - bb[1]) * 1.3, alfa)
+        quadro.alpha_composite(img, (ox, oy))
+        return
+    if acao == "teto":                                  # pendurado de cabeça para baixo no teto, balançando devagar
+        pose = AB.animar("observando", t, dur)
+        pose["silhueta"] = a.get("_silhueta", False)
+        alt = int(ch * (0.55 if tam != "longe" else 0.3) * escala_tela)
+        img, info = AB.desenhar(pose, alt)
+        img = _com_alfa(_noite(img, 0.25), alfa).transpose(Image.FLIP_TOP_BOTTOM)
+        img = img.rotate(math.sin(t * 0.9) * 4, resample=Image.BICUBIC, center=(img.width / 2, 0), expand=False)
+        cx = cw * x + paralaxe * cw * 0.4
+        topo = ch * (0.0 if tam != "longe" else 0.14) - (img.height - info["pes"][1])   # os pés grudados no teto
+        bb = img.getbbox() or (0, 0, img.width, img.height)
+        _aura(quadro, cx, topo + (bb[1] + bb[3]) / 2, (bb[2] - bb[0]) * 2.0, (bb[3] - bb[1]) * 1.3, alfa)
+        quadro.alpha_composite(img, (int(cx - info["pes"][0]), int(topo)))
+        return
+    if acao == "sorriso_escuro":                        # no breu, só os olhos e o sorriso aparecem, abrindo devagar
+        escuro = Image.new("RGBA", quadro.size, (0, 0, 0, int(150 * alfa)))
+        quadro.alpha_composite(escuro)
+        pose = AB.animar("bizarro", t, dur)
+        alt = int(ch * (0.22 if tam == "longe" else 0.36 if tam == "medio" else 0.6) * escala_tela)
+        img, info = AB.desenhar_rosto(pose, alt)
+        surge = _suave(prog / 0.6)
+        img = _com_alfa(img, alfa * surge)
+        cy = ch * (meta.get("fundo", [0.5, 0.6])[1] - 0.12 if tam == "longe" else 0.45)
+        cx = cw * x + paralaxe * cw * 0.4
+        quadro.alpha_composite(img, (int(cx - img.width / 2), int(cy - img.height / 2)))
+        return
+    if acao == "rastejando":                            # de quatro, vem do fundo devagar, cada vez mais perto
+        fundo = meta.get("fundo", [0.5, meta.get("piso", 0.9), 0.3])
+        k = _suave(prog)
+        pose = AB.animar("observando", t * 1.6, dur)
+        pose["silhueta"] = a.get("_silhueta", False)
+        pose["ombro_d"] = 70 + 25 * math.sin(t * 3.1)
+        pose["ombro_e"] = 40 - 25 * math.sin(t * 3.1)
+        alt = int(ch * (fundo[2] * 1.1 + (0.5 - fundo[2] * 1.1) * k) * escala_tela)
+        chao = ch * (fundo[1] + (min(meta.get("piso", 0.9), 0.97) - fundo[1]) * k)
+        img, info = AB.desenhar(pose, alt)
+        img = _com_alfa(_noite(img, 0.25), alfa)
+        if x > 0.5:
+            img = img.transpose(Image.FLIP_LEFT_RIGHT)
+            info = {**info, "pes": (img.width - info["pes"][0], info["pes"][1])}
+        cx = cw * (fundo[0] + (x - fundo[0]) * k) + paralaxe * cw * 0.4
+        ox, oy = int(cx - info["pes"][0]), int(chao - info["pes"][1] + math.sin(t * 6.2) * alt * 0.01)
+        bb = img.getbbox() or (0, 0, img.width, img.height)
+        _aura(quadro, ox + (bb[0] + bb[2]) / 2, oy + (bb[1] + bb[3]) / 2, (bb[2] - bb[0]) * 2.0, (bb[3] - bb[1]) * 1.4, alfa)
         quadro.alpha_composite(img, (ox, oy))
         return
     espelhar = x > 0.5                                  # agachado ou atacando: virado para o meio da cena

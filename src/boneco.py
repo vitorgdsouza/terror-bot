@@ -47,14 +47,14 @@ VISUAIS = {
 }
 
 NUMERICOS = ["y", "tronco", "cab_inc", "cab_vira", "olhar", "ombro_e", "cotovelo_e", "ombro_d", "cotovelo_d",
-             "quadril_e", "joelho_e", "quadril_d", "joelho_d", "pe_e", "pe_d", "respira", "luz", "mao_boca"]
+             "quadril_e", "joelho_e", "quadril_d", "joelho_d", "pe_e", "pe_d", "respira", "luz", "mao_boca", "olhar_y"]
 POSE_BASE = {
     "vista": "frente", "espelhar": False, "sentado": False, "cadeira": True, "objeto": None, "joelhos_peito": False,
     "olhos": "normal", "sobrancelhas": "neutras", "boca": "reta",
     "y": 0.0, "tronco": 0.0, "cab_inc": 0.0, "cab_vira": 0.0, "olhar": 0.0,
     "ombro_e": 4.0, "cotovelo_e": 6.0, "ombro_d": 4.0, "cotovelo_d": 6.0,
     "quadril_e": 0.0, "joelho_e": 0.0, "quadril_d": 0.0, "joelho_d": 0.0, "pe_e": 0.0, "pe_d": 0.0,
-    "respira": 0.0, "luz": 1.0, "mao_boca": 0.0,
+    "respira": 0.0, "luz": 1.0, "mao_boca": 0.0, "com_gato": False, "olhar_y": 0.0,
 }
 
 
@@ -175,6 +175,15 @@ def desenhar(pose: dict, altura: int, quem: str = "homem"):
                         fill=(int(120 + 70 * k), int(170 + 50 * k), int(220 + 35 * k)))
             L.elipse(mao[0], mao[1] - u * 0.005, u * 0.024, u * 0.022, v["pele"])   # dedos por cima
             info["tela"] = (mao[0], box[1])
+        elif tipo == "martelo":                       # cabo + cabeça de ferro (para quebrar a parede)
+            dx, dy = math.cos(ang), math.sin(ang)
+            ponta = (mao[0] + dx * u * 0.16, mao[1] + dy * u * 0.16)
+            L.capsula((mao[0] - dx * u * 0.03, mao[1] - dy * u * 0.03), ponta, u * 0.022, (120, 84, 52))
+            nx, ny = -dy, dx
+            L.poligono([(ponta[0] + nx * u * 0.06 - dx * u * 0.02, ponta[1] + ny * u * 0.06 - dy * u * 0.02),
+                        (ponta[0] + nx * u * 0.06 + dx * u * 0.03, ponta[1] + ny * u * 0.06 + dy * u * 0.03),
+                        (ponta[0] - nx * u * 0.04 + dx * u * 0.03, ponta[1] - ny * u * 0.04 + dy * u * 0.03),
+                        (ponta[0] - nx * u * 0.04 - dx * u * 0.02, ponta[1] - ny * u * 0.04 - dy * u * 0.02)], (90, 94, 104))
         elif tipo == "lanterna":
             dx, dy = math.cos(ang), math.sin(ang)
             a = (mao[0] - dx * u * 0.02, mao[1] - dy * u * 0.02)
@@ -262,6 +271,7 @@ def desenhar(pose: dict, altura: int, quem: str = "homem"):
         for sx, q, j, pe_ in (() if p.get("joelhos_peito") else ((-1, p["quadril_e"], p["joelho_e"], p["pe_e"]), (1, p["quadril_d"], p["joelho_d"], p["pe_d"]))):
             perna((quadril[0] + sx * u * 0.055, quadril[1]), q * sx, j, pe_, v["calca"], v["barra"], v["tenis"], False)
         (tronco_costas if costas else tronco_frente)()
+
         if p.get("joelhos_peito"):
             for sx in (-1, 1):
                 q0 = (quadril[0] + sx * u * 0.055, quadril[1])
@@ -280,6 +290,10 @@ def desenhar(pose: dict, altura: int, quem: str = "homem"):
                 maos.append((orig, o, c, sx, obj))
                 continue
             braco_(orig, o, c, sx, v["moletom"] if sx < 0 else v["moletom_s"], v["pele"], obj)
+        if p.get("com_gato") and not costas:            # o Stu no colo, aninhado nos braços
+            from . import gato as G
+            gi, _ = G.desenhar(G.animar("deitado", 1.0, 4.0), int(u * 0.3))
+            img.alpha_composite(gi, (int(pescoco[0] - gi.width / 2), int(pescoco[1] + u * 0.25 - gi.height)))
         _cabeca(d, L, cabeca_pos, u, p, v, vista, info)
         for orig, o, c, sx, obj in maos:          # mãos na frente da boca: braços por cima da cabeça
             braco_(orig, o, c, sx, v["moletom"] if sx < 0 else v["moletom_s"], v["pele"], obj)
@@ -344,7 +358,8 @@ def _cabeca(d, L, pos, u, p, v, vista, info):
     if lado:
         olhos = [(cx + rx * 0.5, cy + ry * 0.02)]
     else:
-        olhos = [(cx - rx * 0.36 + olhar, cy + ry * 0.04), (cx + rx * 0.36 + olhar, cy + ry * 0.04)]
+        oy_ = cy + ry * 0.04 - ry * 0.06 * p["olhar_y"]
+        olhos = [(cx - rx * 0.36 + olhar, oy_), (cx + rx * 0.36 + olhar, oy_)]
     re = u * 0.016
     for (ex, ey) in olhos:
         tipo = p["olhos"]
@@ -355,7 +370,8 @@ def _cabeca(d, L, pos, u, p, v, vista, info):
             d.ellipse((ex - R - L.o, ey - R - L.o, ex + R + L.o, ey + R + L.o), fill=TRACO)
             d.ellipse((ex - R, ey - R, ex + R, ey + R), fill=(250, 250, 248))
             px = ex + R * 0.3 * p["olhar"]
-            d.ellipse((px - re * 0.55, ey - re * 0.55, px + re * 0.55, ey + re * 0.55), fill=TRACO)
+            py = ey - R * 0.45 * p["olhar_y"]
+            d.ellipse((px - re * 0.55, py - re * 0.55, px + re * 0.55, py + re * 0.55), fill=TRACO)
         else:
             h = re * (0.75 if tipo == "apertados" else 1.25)
             d.ellipse((ex - re * 0.95, ey - h, ex + re * 0.95, ey + h), fill=TRACO)
@@ -457,7 +473,8 @@ EXPRESSOES = {
 }
 
 ACOES = ["parado", "andando", "correndo", "afastando", "aproximando", "olhando_tras", "celular", "lanterna",
-         "sentado", "abrindo_porta", "agachado", "escondido", "costas", "virando"]
+         "sentado", "abrindo_porta", "agachado", "escondido", "costas", "virando",
+         "engatinhando", "olhando_cima", "alcancando", "com_gato", "golpeando", "silencio", "caido", "chamando"]
 
 
 def animar(acao: str, t: float, dur: float = 4.0, medo: float = 0.0, expressao: str | None = None,
@@ -517,6 +534,39 @@ def animar(acao: str, t: float, dur: float = 4.0, medo: float = 0.0, expressao: 
                     olhos="arregalados" if not _piscar(t) else "fechados", sobrancelhas="preocupadas")
     elif acao == "costas":
         pose.update(vista="costas", ombro_e=4 + treme, ombro_d=4 - treme)
+    elif acao == "engatinhando":                 # de quatro (túnel, parede, debaixo da cama)
+        c = t * 2 * math.pi / 1.3
+        s_ = math.sin(c)
+        pose.update(vista="lado", y=-0.1, tronco=76, quadril_e=8 + 14 * s_, joelho_e=95, quadril_d=8 - 14 * s_, joelho_d=95,
+                    ombro_e=6 - 14 * s_, cotovelo_e=4, ombro_d=6 + 14 * s_, cotovelo_d=4, cab_inc=-6)
+    elif acao == "olhando_cima":                 # olha para o alto (o fundo do poço, o topo da escada)
+        pose.update(vista="frente", cab_inc=-6 + math.sin(t * 0.8) * 2, olhar=math.sin(t * 0.5) * 0.3, olhar_y=1.0,
+                    olhos="arregalados" if not _piscar(t) else "fechados", sobrancelhas="erguidas",
+                    ombro_e=4 + treme, ombro_d=4 - treme)
+    elif acao == "alcancando":                   # agachado, estica o braço devagar para dentro de um buraco
+        k = min(1.0, t / max(1.0, dur * 0.7))
+        k = k * k * (3 - 2 * k)
+        pose.update(vista="lado", y=-0.13, quadril_e=78, joelho_e=140, quadril_d=62, joelho_d=125, tronco=24,
+                    ombro_d=40 + 52 * k, cotovelo_d=40 - 36 * k, ombro_e=20, cotovelo_e=40, cab_inc=4)
+    elif acao == "com_gato":                     # abraçando o Stu no colo
+        pose.update(vista="frente", com_gato=True, ombro_e=-10, cotovelo_e=-112, ombro_d=-10, cotovelo_d=-112,
+                    cab_inc=6 + math.sin(t * 0.7) * 2, olhar=0.0)
+    elif acao == "golpeando":                    # bate com o martelo (na parede)
+        c = (t % 0.8) / 0.8
+        golpe = 150 - 95 * (c / 0.3) if c < 0.3 else 55 + 95 * ((c - 0.3) / 0.7)
+        pose.update(vista="lado", objeto="martelo", ombro_d=golpe, cotovelo_d=18, ombro_e=30, cotovelo_e=50,
+                    tronco=6 + (8 if c < 0.3 else 0))
+    elif acao == "silencio":                     # em pé, uma mão tapando a boca
+        pose.update(vista="frente", mao_boca=1.0, ombro_d=-24, cotovelo_d=-160, ombro_e=4 + treme, cotovelo_e=8,
+                    olhos="arregalados" if not _piscar(t) else "fechados", sobrancelhas="preocupadas", olhar=math.sin(t * 1.7) * 0.8)
+    elif acao == "caido":                        # caiu sentado no chão, apoiado nas mãos, recuando
+        recua = math.sin(t * 2.2) * 2
+        pose.update(vista="lado", y=-0.27, quadril_e=96, joelho_e=6 + recua, quadril_d=92, joelho_d=20 - recua,
+                    tronco=-26, ombro_e=-38, cotovelo_e=6, ombro_d=-44, cotovelo_d=6,
+                    olhos="arregalados", sobrancelhas="preocupadas", boca="grito" if medo > 0.5 else "aberta")
+    elif acao == "chamando":                     # mãos em volta da boca, chamando o Stu
+        pose.update(vista="frente", mao_boca=1.0, ombro_e=-26, cotovelo_e=-158, ombro_d=-26, cotovelo_d=-158,
+                    boca="aberta", cab_inc=-4 + math.sin(t * 3) * 2)
     else:                                                     # parado / virando
         glance = math.sin(t * 0.6) * 0.7 if medo < 0.5 else math.sin(t * 2.1) * 0.9
         pose.update(vista="frente", olhar=glance, cab_inc=math.sin(t * 0.45) * 2 + treme,
