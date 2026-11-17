@@ -4,6 +4,7 @@ O estilo da leitura é controlado por uma instrução em texto antes da fala (ca
 Teste: python -m src.voz_gemini --teste [--voz Enceladus]  -> manda 3 amostras no Telegram.
 """
 import base64
+import shutil
 import subprocess
 import sys
 import time
@@ -102,6 +103,31 @@ def _tempos_whisper(wav: Path) -> list[dict]:
     return [{"t": w.word.strip(), "i": w.start, "f": w.end} for s in segs for w in (s.words or []) if w.word.strip()]
 
 
+def _nota_fala(palavras: list[str], reconhecidas: list[dict]) -> float:
+    """Quanto do roteiro o Whisper reconheceu na fala (1.0 = tudo)."""
+    import difflib
+    if not reconhecidas:
+        return 0.0
+    a = [_norm(p) for p in palavras]
+    b = [_norm(r["t"]) for r in reconhecidas]
+    casadas = sum(bl.size for bl in difflib.SequenceMatcher(None, a, b, autojunk=False).get_matching_blocks())
+    return casadas / max(1, len(a))
+
+
+def _silencios(arquivo) -> list[tuple[float, float]]:
+    """Trechos de silêncio do áudio (para cortar as cenas sem comer palavra)."""
+    r = subprocess.run(["ffmpeg", "-i", str(arquivo), "-af", "silencedetect=noise=-42dB:d=0.12", "-f", "null", "-"],
+                       capture_output=True, text=True)
+    ini, out = None, []
+    for linha in r.stderr.splitlines():
+        if "silence_start:" in linha:
+            ini = float(linha.split("silence_start:")[1].split()[0])
+        elif "silence_end:" in linha and ini is not None:
+            out.append((ini, float(linha.split("silence_end:")[1].split()[0])))
+            ini = None
+    return out
+
+
 def alinhar(palavras: list[str], reconhecidas: list[dict], total: float) -> list[tuple[float, float]]:
     """Dá início/fim a cada palavra do roteiro, casando com o que o Whisper ouviu; o resto é interpolado."""
     import difflib
@@ -156,31 +182,53 @@ def narrar_roteiro(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
     completo = pasta / "narracao_completa.wav"
     log(f"Narração com a voz {voz}, estilo {estilo} (clima do episódio)")
     ritmo = float(roteiro.get("ritmo") or cfg_voz.get("gemini_ritmo") or 1.0)   # 1.2 = 20% mais rápido
-    bruto = pasta / "narracao_bruta.wav"
-    sintetizar(" ".join(cenas), bruto, voz, estilo)
-    # o Gemini às vezes deixa silêncios enormes entre frases: encurta qualquer pausa para no máximo ~0,6 s
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(bruto), "-af",
-                    "silenceremove=start_periods=1:start_threshold=-50dB:stop_periods=-1:stop_duration=0.55:"
-                    "stop_threshold=-50dB" + (f",atempo={ritmo:.3f}" if abs(ritmo - 1) > 0.01 else ""),
-                    str(completo)], check=True)
-    log(f"Áudio do Gemini: {duracao(bruto):.1f}s, sem pausas longas: {duracao(completo):.1f}s")
-    total = duracao(completo)
-
     palavras, dono = [], []
     for i, texto in enumerate(cenas):
         for p in texto.split():
             palavras.append(p)
             dono.append(i)
-    tempos = alinhar(palavras, _tempos_whisper(completo), total)
-    achadas = sum(1 for _ in tempos)
-    log(f"Alinhamento: {achadas} palavras, áudio de {total:.1f}s")
+    # até 3 tomadas: fica com a que o Whisper entende melhor (fala embolada ou palavra comida = nota baixa)
+    melhor = None
+    for tomada in range(3):
+        bruto = pasta / f"narracao_bruta_{tomada}.wav"
+        candidato = pasta / f"narracao_{tomada}.wav"
+        try:
+            sintetizar(" ".join(cenas), bruto, voz, estilo)
+        except Exception as e:
+            if melhor is None:
+                raise
+            log(f"Tomada {tomada + 1} falhou ({e}); fico com a melhor até aqui")
+            break
+        # o Gemini às vezes deixa silêncios enormes entre frases: encurta qualquer pausa para no máximo ~0,6 s
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(bruto), "-af",
+                        "silenceremove=start_periods=1:start_threshold=-50dB:stop_periods=-1:stop_duration=0.55:"
+                        "stop_threshold=-50dB" + (f",atempo={ritmo:.3f}" if abs(ritmo - 1) > 0.01 else ""),
+                        str(candidato)], check=True)
+        ouvidas = _tempos_whisper(candidato)
+        nota = _nota_fala(palavras, ouvidas)
+        log(f"Tomada {tomada + 1}: {duracao(candidato):.1f}s, o Whisper entendeu {nota:.0%} do texto")
+        if melhor is None or nota > melhor[0]:
+            melhor = (nota, candidato, ouvidas)
+        if nota >= 0.96:
+            break
+    nota, escolhido, ouvidas = melhor
+    shutil.copy(escolhido, completo)
+    total = duracao(completo)
+    tempos = alinhar(palavras, ouvidas, total)
+    log(f"Alinhamento: {len(tempos)} palavras, áudio de {total:.1f}s (tomada com {nota:.0%})")
+    silencios = _silencios(completo)
 
     # corte entre cenas: no meio do silêncio entre a última palavra de uma e a primeira da próxima
     primeiras = [dono.index(i) for i in range(len(cenas))]
     cortes = [0.0]
     for i in range(1, len(cenas)):
         fim_ant, ini_prox = tempos[primeiras[i] - 1][1], tempos[primeiras[i]][0]
-        cortes.append(max(cortes[-1] + 0.2, (fim_ant + ini_prox) / 2))
+        alvo = (fim_ant + ini_prox) / 2
+        # o corte cai sempre num silêncio de verdade perto dali (nunca no meio de uma palavra)
+        perto = [(abs((a + b) / 2 - alvo), (a + b) / 2) for a, b in silencios if abs((a + b) / 2 - alvo) < 0.9]
+        if perto:
+            alvo = min(perto)[1]
+        cortes.append(max(cortes[-1] + 0.2, alvo))
     cortes.append(total)
 
     resultado = []

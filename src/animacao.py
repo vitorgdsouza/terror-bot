@@ -130,6 +130,8 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
 - "cachorro": null ou o cão (Rufus). acao: parado | andando | correndo | brincando (vai e volta) | sentado | deitado |
   levantando_cabeca | de_pe (só o falso: em duas pernas). "falso": true = a coisa vestida com a pele dele
   (pernas compridas demais, mãos humanas, olho humano, sorriso de dentes). posicao e tamanho como no gato.
+- "foco" (opcional): [x, y, zoom] = close num detalhe do cenário, aproximando devagar (ex.: a maçaneta da porta_entrada:
+  [0.47, 0.49, 3.2]). Use sem personagem; com "chacoalha": true a imagem treme (a maçaneta sendo forçada).
 - "efeito": nenhum | luz_piscando | tv_chiando (só na sala e no quarto, no monitor) | relampago | chuva | tremor (susto).
 - "camera": zoom_in (aproxima devagar, padrão) | zoom_out | pan_esquerda | pan_direita | parada.
 A animação reage sozinha à narração: palavras de medo e frases com "...", "!" ou "?" dão uma leve aproximação da câmera,
@@ -611,6 +613,10 @@ def _desenhar_gato(quadro, g, meta, t, dur, escala_tela=1.0, noturno=0.4, parala
             acao = "sentado"
     if acao == "olhos_escuro":                            # no breu do túnel: só dois olhos verdes, piscando
         cx, cy = x + paralaxe * cw, ch * piso - altura * 0.62
+        reg = meta.get("escuro") or meta.get("porta")     # dentro do buraco escuro do cenário, onde faz sentido
+        if reg:
+            cx, cy = (reg[0] + reg[2] * 0.5) * cw + paralaxe * cw, (reg[1] + reg[3] * 0.55) * ch
+            altura = int(reg[2] * cw * 0.55)
         r = max(3, int(altura * 0.07))
         if (t % 2.9) > 0.15:
             for lado_ in (-1, 1):
@@ -1304,6 +1310,15 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
     if cena.get("corte_preto") and t >= cena.get("_fim_voz", dur):   # corte seco para o preto (susto no silêncio)
         return Image.new("RGB", (W, H), (0, 0, 0))
     img = _quadro_base(cena, t, dur, prot, n)
+    if cena.get("foco"):                               # close num detalhe do cenário (ex.: a maçaneta), aproximando devagar
+        fx, fy, fz = cena["foco"]
+        z = fz * (1 + 0.08 * _suave(t / dur if dur else 0))
+        cw_, ch_ = img.width / z, img.height / z
+        x0 = min(max(0.0, fx * img.width - cw_ / 2), img.width - cw_)
+        y0 = min(max(0.0, fy * img.height - ch_ / 2), img.height - ch_)
+        if cena.get("efeito") == "tremor" or cena.get("chacoalha"):
+            x0 += math.sin(t * 31) * cw_ * 0.006
+        img = img.resize(img.size, Image.LANCZOS, box=(x0, y0, x0 + cw_, y0 + ch_))
     if cena.get("texto_tela"):
         _texto_tela(img, str(cena["texto_tela"]), t)
     if cena.get("_vhs"):

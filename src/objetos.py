@@ -191,6 +191,9 @@ def desenhar(quadro: Image.Image, obj: dict, meta: dict, t: float, dur: float, n
                 camada.alpha_composite(mao, (int(cx - mao.width / 2), int(cy - mao.height / 2)))
         quadro.alpha_composite(camada)
         return
+    if obj.get("nas_maos") and tipo in COM_TEXTO:         # o Lucas segura o papel bem perto da câmera, as mãos tremendo
+        _nas_maos(quadro, obj, t, noite)
+        return
     # objetos no chão
     if tam == "perto":
         u = cw * 0.55 * ESCALA.get(tipo, 1.0)
@@ -235,6 +238,45 @@ def desenhar(quadro: Image.Image, obj: dict, meta: dict, t: float, dur: float, n
 
 # ---------------------------------------------------------------- pistas sobre a origem do Abismo
 COM_TEXTO = {"bilhete", "jornal", "foto", "desenho"}
+PELE, PELE_S, MANGA, MANGA_S = (240, 205, 172), (214, 176, 146), (66, 128, 72), (48, 100, 56)
+
+
+def _nas_maos(quadro, obj, t, noite):
+    """Ponto de vista do Lucas: o papel nas mãos dele, perto da câmera, com a lanterna/abajur iluminando."""
+    cw, ch = quadro.size
+    escuro = Image.new("RGBA", quadro.size, (0, 0, 8, 120))       # o fundo some um pouco: o olhar vai para o papel
+    quadro.alpha_composite(escuro)
+    u = cw * 0.78
+    img, _ = DESENHOS[obj["tipo"]](u, t, obj.get("texto", ""))
+    img = noite(img, 0.2)
+    bb = img.getbbox() or (0, 0, img.width, img.height)
+    img = img.crop(bb)
+    tremor = math.sin(t * 9.0) * 0.6 + math.sin(t * 13.7) * 0.4
+    img = img.rotate(-3 + tremor, resample=Image.BICUBIC, expand=True)
+    cx, cy = cw * 0.5 + tremor * cw * 0.004, ch * 0.6 + math.sin(t * 1.3) * ch * 0.004
+    luz = Image.new("L", quadro.size, 0)
+    ImageDraw.Draw(luz).ellipse((cx - cw * 0.6, cy - ch * 0.3, cx + cw * 0.6, cy + ch * 0.3), fill=90)
+    luz = luz.filter(ImageFilter.GaussianBlur(cw * 0.08))
+    quadro.paste(Image.new("RGBA", quadro.size, (255, 230, 180, 255)), (0, 0), luz.point(lambda v: int(v * 0.4)))
+    ox, oy = int(cx - img.width / 2), int(cy - img.height / 2)
+    quadro.alpha_composite(img, (ox, oy))
+    d = ImageDraw.Draw(quadro)
+    o = max(3, int(cw * 0.006))
+    for lado in (-1, 1):                                          # mangas verdes vindo de baixo e as mãos segurando as bordas
+        mx = cx + lado * img.width * 0.47
+        my = cy + img.height * 0.12
+        base = (cx + lado * cw * 0.62, ch * 1.05)
+        larg = cw * 0.13
+        d.line((base, (mx, my + cw * 0.05)), fill=(20, 18, 24), width=int(larg + o * 2))
+        d.line((base, (mx, my + cw * 0.05)), fill=MANGA if lado < 0 else MANGA_S, width=int(larg))
+        r = cw * 0.06
+        d.ellipse((mx - r - o, my - r * 1.1 - o, mx + r + o, my + r * 1.1 + o), fill=(20, 18, 24))
+        d.ellipse((mx - r, my - r * 1.1, mx + r, my + r * 1.1), fill=PELE)
+        polegar = (mx - lado * r * 0.2, my - r * 0.9)                 # o polegar por cima do papel
+        d.rounded_rectangle((polegar[0] - r * 0.28 - o, polegar[1] - r * 0.9 - o, polegar[0] + r * 0.28 + o, polegar[1] + r * 0.3 + o),
+                            radius=int(r * 0.3), fill=(20, 18, 24))
+        d.rounded_rectangle((polegar[0] - r * 0.28, polegar[1] - r * 0.9, polegar[0] + r * 0.28, polegar[1] + r * 0.3),
+                            radius=int(r * 0.25), fill=PELE_S)
 
 
 def _fonte(px):

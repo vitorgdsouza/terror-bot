@@ -58,24 +58,41 @@
     {
       "narracao": "A maçaneta gira... mas a porta não abre. Trancada. Por dentro.",
       "cenario": "porta_entrada",
+      "personagem": null,
+      "foco": [
+        0.46,
+        0.5,
+        3.2
+      ],
+      "chacoalha": true,
+      "camera": "parada",
+      "som": {
+        "busca": "door handle rattle",
+        "palavra": "maçaneta"
+      }
+    },
+    {
+      "narracao": "Você procura a chave reserva pela sala... e acha um jornal velho.",
+      "cenario": "sala",
       "personagem": {
-        "pose": "medo",
+        "pose": "agachado",
         "acao": "parado",
-        "posicao": "esquerda",
-        "tamanho": "perto"
+        "posicao": "direita",
+        "tamanho": "medio"
       },
       "camera": "zoom_in"
     },
     {
-      "narracao": "Igual ao porão em 1987, quando seus bisavós sumiram.",
+      "narracao": "Igual ao porão em 1987, na noite em que seus bisavós sumiram.",
       "cenario": "sala",
       "personagem": null,
       "objeto": {
         "tipo": "jornal",
         "tamanho": "perto",
+        "nas_maos": true,
         "texto": "FAMÍLIA DUARTE SOME"
       },
-      "camera": "zoom_in"
+      "camera": "parada"
     },
     {
       "narracao": "Então o guizo toca. Mas não lá em cima... lá fora.",
