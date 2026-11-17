@@ -12,6 +12,8 @@ Tipos:
   pegadas     trilha de patinhas de poeira indo para o fundo do cômodo
   arranhoes   arranhões fundos na porta ou na parede
   marcas_mao  marcas de mãos compridas e escuras na parede/janela (o Abismo esteve aqui)
+  arma        a pistola de serviço (de perfil)
+  caixa_arma  maleta da arma aberta, com o recorte da pistola na espuma... vazio
 """
 import math
 
@@ -360,3 +362,69 @@ def _desenho(u, t, texto=""):
 
 
 DESENHOS.update({"foto": _foto, "bilhete": _bilhete, "jornal": _jornal, "desenho": _desenho})
+
+
+# ---------------------------------------------------------------- a arma da policial
+COR_ARMA, COR_ARMA_S = (58, 60, 66), (40, 42, 48)
+
+
+def _pistola(d, ox, oy, U, cor, cor_s, o, contorno=True):
+    """Pistola de serviço de perfil, cano para a direita (U = largura)."""
+    def P(pts):
+        return [(ox + x * U, oy + y * U) for x, y in pts]
+    ferrolho = P([(0.04, 0.06), (0.96, 0.06), (0.98, 0.1), (0.98, 0.24), (0.04, 0.24)])
+    corpo = P([(0.1, 0.24), (0.86, 0.24), (0.86, 0.31), (0.42, 0.31), (0.1, 0.31)])
+    cabo = P([(0.08, 0.28), (0.34, 0.28), (0.3, 0.86), (0.27, 0.9), (0.04, 0.88), (0.02, 0.84)])
+    guarda = (ox + 0.33 * U, oy + 0.26 * U, ox + 0.56 * U, oy + 0.5 * U)
+    for poly in (cabo, corpo, ferrolho):
+        d.polygon(poly, fill=cor, outline=TRACO if contorno else None, width=o if contorno else 0)
+    d.arc(guarda, 0, 180, fill=TRACO if contorno else cor, width=max(2, int(o * 1.6)))
+    return {"ferrolho": ferrolho, "cabo": cabo}
+
+
+def _arma(u, t):
+    img, d = _tela(u * 1.1, u * 0.75)
+    o = max(2, int(u * S * 0.018))
+    U = u * S
+    ox, oy = U * 0.05, U * 0.05
+    _pistola(d, ox, oy, U, COR_ARMA, COR_ARMA_S, o)
+    for i in range(6):                                           # estrias do ferrolho
+        x = ox + U * (0.1 + i * 0.03)
+        d.line((x, oy + U * 0.09, x, oy + U * 0.21), fill=COR_ARMA_S, width=max(1, o // 2))
+    d.line((ox + U * 0.46, oy + U * 0.31, ox + U * 0.43, oy + U * 0.42), fill=TRACO, width=o)   # gatilho
+    for i in range(5):                                           # textura do cabo
+        y = oy + U * (0.4 + i * 0.09)
+        d.line((ox + U * 0.08, y, ox + U * 0.27, y - U * 0.02), fill=COR_ARMA_S, width=max(1, o // 2))
+    d.line((ox + U * 0.12, oy + U * 0.1, ox + U * 0.9, oy + U * 0.1), fill=(150, 152, 160), width=max(1, o // 2))  # reflexo
+    return _final(img), (ox / S + u * 0.9, oy / S + u * 0.12)
+
+
+def _caixa_arma(u, t):
+    """Maleta da arma aberta: o recorte da espuma no formato da pistola... vazio."""
+    img, d = _tela(u * 1.3, u * 1.05)
+    o = max(2, int(u * S * 0.018))
+    U = u * S
+    x0, x1 = U * 0.05, U * 1.25
+    # tampa aberta (para trás), com espuma ondulada
+    d.polygon([(x0 + U * 0.08, U * 0.03), (x1 - U * 0.08, U * 0.03), (x1, U * 0.42), (x0, U * 0.42)], fill=(30, 30, 34), outline=TRACO, width=o)
+    d.polygon([(x0 + U * 0.14, U * 0.08), (x1 - U * 0.14, U * 0.08), (x1 - U * 0.06, U * 0.38), (x0 + U * 0.06, U * 0.38)], fill=(70, 70, 78))
+    for i in range(9):
+        for j in range(3):
+            cx, cy = x0 + U * (0.18 + i * 0.11), U * (0.14 + j * 0.09)
+            d.ellipse((cx - U * 0.03, cy - U * 0.025, cx + U * 0.03, cy + U * 0.025), fill=(58, 58, 66))
+    # base com a espuma lisa
+    d.rounded_rectangle((x0, U * 0.42, x1, U * 1.0), radius=int(U * 0.04), fill=(30, 30, 34), outline=TRACO, width=o)
+    d.rectangle((x0 + U * 0.06, U * 0.47, x1 - U * 0.06, U * 0.94), fill=(78, 78, 86))
+    # recorte vazio da pistola e do carregador
+    _pistola(d, x0 + U * 0.2, U * 0.5, U * 0.62, (16, 16, 20), None, o, contorno=False)
+    d.rounded_rectangle((x0 + U * 0.92, U * 0.58, x0 + U * 1.04, U * 0.88), radius=int(U * 0.02), fill=(16, 16, 20))
+    # fechos
+    for fx in (0.3, 0.9):
+        d.rectangle((x0 + U * fx, U * 0.4, x0 + U * (fx + 0.06), U * 0.46), fill=(150, 150, 158), outline=TRACO, width=max(1, o // 2))
+    return _final(img), (x0 / S + u * 0.5, u * 0.7)
+
+
+DESENHOS.update({"arma": _arma, "caixa_arma": _caixa_arma})
+TIPOS += ["arma", "caixa_arma"]
+ESCALA.update({"arma": 0.7, "caixa_arma": 0.85})
+NO_CHAO |= {"arma", "caixa_arma"}

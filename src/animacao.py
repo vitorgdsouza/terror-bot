@@ -57,6 +57,7 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   escada (vista de baixo, subindo para um andar escuro) | escada_cima (vista do andar de cima, descendo para um hall escuro) | banheiro (espelho, pia, box com cortina) |
   debaixo_cama (close no chão do quarto, chinelos e o escuro embaixo da cama: só personagem "perto"; o abismo "longe" aparece no escuro embaixo da cama) |
   porao (caixas, lâmpada pendurada, escada ao fundo) | garagem (carro velho, ferramentas, portão aberto para a noite) |
+  armario (quarto escuro com um guarda-roupa de porta aberta e o vão preto, abajur aceso, cama) |
   escritorio (estantes de livros, mesa de madeira com abajur aceso, poltrona de couro, janela) |
   quarto_crianca (o antigo quarto da Lívia: cama com ursinho, berço, móbile de luas e estrelas, abajur de lua, baú de brinquedos) |
   planta_andar (o andar visto de cima, como uma planta: escritório e quarto lado a lado, o guarda-roupa aberto e escuro;
@@ -85,7 +86,7 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   com a cara bizarra (cabeça tombando, sorriso rasgando). encarando = parado, imóvel, encarando com a cara bizarra
   (ótimo "longe" no alto da escada, com o personagem embaixo paralisado de medo).
 - "objeto": null, uma pista ou uma lista com até 2: {"tipo": coleira | tigela | pelo | novelo | ratinho | pegadas |
-  arranhoes | marcas_mao, "posicao": esquerda|centro|direita, "tamanho": medio | perto}. perto = close da pista no chão
+  arranhoes | marcas_mao | arma | caixa_arma, "posicao": esquerda|centro|direita, "tamanho": medio | perto}. perto = close da pista no chão
   com a luz da lanterna (use sem personagem ou com o personagem "perto"). pegadas = trilha de patinhas de poeira indo
   para o fundo; arranhoes e marcas_mao (mãos compridas e escuras: o Abismo esteve ali) ficam na porta/janela/parede.
   Pistas da origem do Abismo: foto (foto antiga de 1987, família na frente da casa, um rosto riscado, um vulto na

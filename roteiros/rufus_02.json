@@ -59,13 +59,19 @@
       "camera": "zoom_in"
     },
     {
-      "narracao": "O armário está aberto. A caixa da arma... vazia.",
-      "cenario": "corredor",
-      "personagem": {
-        "pose": "agachado",
-        "acao": "parado",
-        "posicao": "direita",
-        "tamanho": "medio"
+      "narracao": "O armário do quarto está aberto. Escuro lá dentro.",
+      "cenario": "armario",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "A caixa da arma... vazia.",
+      "cenario": "armario",
+      "personagem": null,
+      "objeto": {
+        "tipo": "caixa_arma",
+        "tamanho": "perto"
       },
       "camera": "zoom_in"
     },
