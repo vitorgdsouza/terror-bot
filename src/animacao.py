@@ -66,6 +66,8 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   poco (poço de pedra no quintal dos fundos, tampa de madeira quebrada, corda descendo para o escuro) |
   poco_sorriso (CENA ESPECIAL, sem personagem: o fundo do poço e, no breu do túnel, só os olhos e o sorriso do Abismo,
   parados, gargalhando; o som traz a risada e miados imitados. Use uma vez, num momento de susto) |
+  janela_poco (CENA ESPECIAL, sem personagem: pela janela, no quintal, o Abismo junto do poço segurando o Stu pela nuca,
+  encarando quem olha; a cabeça estala, o Stu se debate) |
   tunel_abismo (CENA ESPECIAL, sem personagem: o Abismo de corpo inteiro rastejando de quatro no túnel, vindo para a
   câmera, a cabeça estalando de lado; use uma vez, perto do clímax) |
   fundo_poco (fundo do poço seco, lua lá em cima, poças, um túnel baixo aberto na parede) |
@@ -1005,12 +1007,28 @@ def _animar_especial(img, an, t, dur):
         queixo = img.crop((caixa[0], caixa[1] + meio, caixa[2], caixa[3]))
         novo = queixo.resize((bw, int(queixo.height * (1 + abre))), Image.BICUBIC)
         img.paste(novo, (caixa[0], caixa[1] + meio), _mascara_oval(novo.width, novo.height, 0.35))
+    elif an["tipo"] == "partes":                       # várias partes: cabeça que estala, gato que balança...
+        for parte in an["partes"]:
+            x, y, w, h = parte["regiao"]
+            caixa = (int(x * cw), int(y * ch), int((x + w) * cw), int((y + h) * ch))
+            if parte["modo"] == "estalo":
+                rnd = random.Random(int(t * 1.5))
+                if (t * 1.5) % 1.0 >= 0.12:              # só no estalo (2 ou 3 quadros): parece a imagem "pular"
+                    continue
+                ang = rnd.choice((-1, 1)) * 8
+            else:                                        # balanço de algo pendurado (o Stu se debatendo)
+                ang = math.sin(t * 2.6) * 3.2 + math.sin(t * 7.1) * 0.8
+            peca = img.crop(caixa)
+            piv = (parte["pivo"][0] * cw - caixa[0], parte["pivo"][1] * ch - caixa[1])
+            img.paste(peca.rotate(ang, resample=Image.BICUBIC, center=piv), caixa[:2], _mascara_oval(peca.width, peca.height, 0.28))
     elif an["tipo"] == "rastejando":
         x, y, w, h = an["cabeca"]
         caixa = (int(x * cw), int(y * ch), int((x + w) * cw), int((y + h) * ch))
         rnd = random.Random(int(t * 1.7))
         estalo = (t * 1.7) % 1.0 < 0.12                # de tempos em tempos a cabeça estala para o lado
-        ang = (rnd.choice((-1, 1)) * 9 if estalo else 0) + math.sin(t * 0.9) * 3
+        if not estalo:
+            return
+        ang = rnd.choice((-1, 1)) * 9
         cab = img.crop(caixa)
         piv = (an["pescoco"][0] * cw - caixa[0], an["pescoco"][1] * ch - caixa[1])
         girada = cab.rotate(ang, resample=Image.BICUBIC, center=piv, fillcolor=None)

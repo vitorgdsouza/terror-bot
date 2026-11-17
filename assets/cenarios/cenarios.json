@@ -563,5 +563,51 @@
     0.475
    ]
   }
+ },
+ "janela_poco": {
+  "piso": 0.95,
+  "fundo": [
+   0.4,
+   0.7,
+   0.2
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.2,
+   0.8
+  ],
+  "horizonte": 0.6,
+  "especial": true,
+  "anima": {
+   "tipo": "partes",
+   "partes": [
+    {
+     "regiao": [
+      0.59,
+      0.245,
+      0.15,
+      0.135
+     ],
+     "pivo": [
+      0.665,
+      0.372
+     ],
+     "modo": "estalo"
+    },
+    {
+     "regiao": [
+      0.585,
+      0.39,
+      0.145,
+      0.235
+     ],
+     "pivo": [
+      0.66,
+      0.415
+     ],
+     "modo": "balanco"
+    }
+   ]
+  }
  }
 }

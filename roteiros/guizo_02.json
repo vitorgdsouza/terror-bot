@@ -1,14 +1,14 @@
 {
-  "titulo": "Trancada por Dentro",
+  "titulo": "O Poço do Quintal",
   "serie": "O Guizo na Escada",
   "parte": 2,
   "protagonista": "homem",
   "clima": "suspense",
   "selo": "EP. 2",
-  "pergunta_thumb": "Você quebraria a parede?",
+  "pergunta_thumb": "Você desceria no poço?",
   "trilha": "dark ambient drone hum",
   "trilha_volume": 0.4,
-  "legenda_post": "No TikTok vocês mandaram subir. No YouTube, fugir. Ele tentou fugir... E agora, A ou B?",
+  "legenda_post": "No TikTok vocês mandaram subir. No YouTube, fugir. O Lucas tentou fugir... e viu o Stu lá fora. Onde você acha que esse poço vai dar? E você, A ou B?",
   "hashtags": [
     "#gato",
     "#terror",
@@ -16,12 +16,18 @@
     "#animacao",
     "#medo"
   ],
-  "resumo": "Você tenta fugir, mas a porta da frente está trancada por dentro, como a do porão dos Duarte em 1987. O guizo toca lá em cima e um miado fraco vem de dentro da parede: é o Stu de verdade. Você sobe e acha pelo laranja preso no rodapé, enquanto a escada range atrás de você.",
-  "opcao_a": "Quebrar a parede e tirar o Stu.",
-  "opcao_b": "Se trancar no quarto até amanhecer.",
+  "resumo": "Os pais do Lucas viajaram e ele está sozinho. Ele tenta fugir, mas a porta da frente está trancada por dentro, como o porão na noite em que os bisavós dele sumiram em 1987. O guizo toca lá fora: pela janela, o Abismo está junto do poço velho do quintal, segurando o Stu. Ele sorri e pula no poço com o gato. Lucas corre até a borda; lá embaixo, dois olhinhos verdes, e ao lado deles um sorriso que gargalha e mia igualzinho ao Stu.",
+  "lore": [
+    0,
+    1,
+    4,
+    6
+  ],
+  "opcao_a": "Descer pela corda atrás do Stu.",
+  "opcao_b": "Correr e ligar para os seus pais.",
   "cenas": [
     {
-      "narracao": "Ele ainda está lá em cima. Sorrindo. Metade de vocês mandou subir... metade mandou fugir.",
+      "narracao": "Ele ainda está lá em cima. Sorrindo. E seus pais só voltam domingo.",
       "cenario": "escada",
       "personagem": {
         "pose": "medo",
@@ -61,7 +67,7 @@
       "camera": "zoom_in"
     },
     {
-      "narracao": "Igual ao porão dos Duarte, em 1987.",
+      "narracao": "Igual ao porão em 1987, quando seus bisavós sumiram.",
       "cenario": "sala",
       "personagem": null,
       "objeto": {
@@ -72,18 +78,8 @@
       "camera": "zoom_in"
     },
     {
-      "narracao": "Lá em cima, o guizo toca. Uma vez.",
-      "cenario": "escada",
-      "personagem": null,
-      "camera": "zoom_in",
-      "som": {
-        "busca": "small bell jingle",
-        "palavra": "guizo"
-      }
-    },
-    {
-      "narracao": "E um miado fraco, rouco... de dentro da parede.",
-      "cenario": "corredor",
+      "narracao": "Então o guizo toca. Mas não lá em cima... lá fora.",
+      "cenario": "corredor_velho",
       "personagem": {
         "pose": "olhando_tras",
         "acao": "parado",
@@ -92,74 +88,77 @@
       },
       "camera": "zoom_in",
       "som": {
-        "busca": "cat meow",
-        "palavra": "miado"
+        "busca": "small bell jingle",
+        "palavra": "guizo"
       }
     },
     {
-      "narracao": "Esse chiado, o Stu tem desde filhote. Ele não sabe imitar isso.",
-      "cenario": "corredor",
+      "narracao": "Pela janela, junto do poço do quintal... ele segura o Stu.",
+      "cenario": "janela_poco",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "thumb": true,
+      "som": {
+        "busca": "cat hiss angry",
+        "palavra": "Stu"
+      }
+    },
+    {
+      "narracao": "Ele olha para você. E o sorriso abre mais.",
+      "cenario": "janela_poco",
+      "personagem": null,
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "E pula dentro do poço. Com o Stu.",
+      "cenario": "poco",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "som": {
+        "busca": "small bell jingle",
+        "palavra": "Stu"
+      }
+    },
+    {
+      "narracao": "Você corre até a borda. Lá de baixo, só o eco do guizo.",
+      "cenario": "poco",
       "personagem": {
-        "pose": "medo",
+        "pose": "alcancando",
         "acao": "parado",
-        "posicao": "centro",
-        "tamanho": "perto"
-      },
-      "camera": "zoom_in"
-    },
-    {
-      "narracao": "Então você sobe.",
-      "cenario": "escada",
-      "personagem": {
-        "pose": "costas",
-        "acao": "afastando",
-        "posicao": "centro",
-        "tamanho": "medio"
-      },
-      "camera": "zoom_in"
-    },
-    {
-      "narracao": "Arranhões pequenos na porta. Feitos de dentro para fora.",
-      "cenario": "escada_cima",
-      "personagem": null,
-      "objeto": {
-        "tipo": "arranhoes",
-        "tamanho": "medio"
-      },
-      "camera": "zoom_in"
-    },
-    {
-      "narracao": "E na fresta, pelo laranja.",
-      "cenario": "corredor",
-      "personagem": null,
-      "objeto": {
-        "tipo": "pelo",
-        "tamanho": "perto"
-      },
-      "camera": "zoom_in"
-    },
-    {
-      "narracao": "Atrás de você, a escada range.",
-      "cenario": "corredor",
-      "personagem": {
-        "pose": "costas",
-        "acao": "tremendo",
         "posicao": "esquerda",
         "tamanho": "medio"
       },
-      "ameaca": {
-        "tipo": "abismo",
-        "acao": "espiando",
-        "posicao": "direita",
-        "tamanho": "medio"
-      },
-      "camera": "zoom_in",
-      "efeito": "luz_piscando"
+      "camera": "zoom_in"
     },
     {
-      "narracao": "A: quebrar a parede e tirar o Stu. B: se trancar no quarto até amanhecer. Comente A ou B.",
-      "cenario": "quarto",
+      "narracao": "No fundo, dois olhinhos verdes brilham no escuro.",
+      "cenario": "fundo_poco",
       "personagem": null,
+      "gato": {
+        "acao": "olhos_escuro",
+        "posicao": "centro",
+        "tamanho": "longe"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "E do lado deles... um sorriso. Que mia igualzinho ao Stu.",
+      "cenario": "poco_sorriso",
+      "personagem": null,
+      "camera": "zoom_in",
+      "pausa_extra": 1.2
+    },
+    {
+      "narracao": "A: descer pela corda atrás do Stu. B: correr e ligar para os seus pais. Comente A ou B.",
+      "cenario": "poco",
+      "personagem": {
+        "pose": "olhando_tras",
+        "acao": "parado",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
       "camera": "zoom_in"
     }
   ]

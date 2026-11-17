@@ -1,13 +1,19 @@
 {
  "data": "2026-11-17",
- "titulo": "Trancada por Dentro",
+ "titulo": "O Poço do Quintal",
  "tema": "Mistério do sumiço do Stu",
  "protagonista": "homem",
  "serie": "O Guizo na Escada",
  "parte": 2,
- "resumo": "Você tenta fugir, mas a porta da frente está trancada por dentro, como a do porão dos Duarte em 1987. O guizo toca lá em cima e um miado fraco vem de dentro da parede: é o Stu de verdade. Você sobe e acha pelo laranja preso no rodapé, enquanto a escada range atrás de você.",
- "opcao_a": "Quebrar a parede e tirar o Stu.",
- "opcao_b": "Se trancar no quarto até amanhecer.",
+ "resumo": "Os pais do Lucas viajaram e ele está sozinho. Ele tenta fugir, mas a porta da frente está trancada por dentro, como o porão na noite em que os bisavós dele sumiram em 1987. O guizo toca lá fora: pela janela, o Abismo está junto do poço velho do quintal, segurando o Stu. Ele sorri e pula no poço com o gato. Lucas corre até a borda; lá embaixo, dois olhinhos verdes, e ao lado deles um sorriso que gargalha e mia igualzinho ao Stu.",
+ "opcao_a": "Descer pela corda atrás do Stu.",
+ "opcao_b": "Correr e ligar para os seus pais.",
  "final": false,
- "episodio_oficial": 2
+ "episodio_oficial": 2,
+ "lore": [
+  0,
+  1,
+  4,
+  6
+ ]
 }
