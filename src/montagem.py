@@ -134,7 +134,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
 
 def _escrever_legendas(roteiro: dict, vozes: list, duracoes: list, cfg: dict, destino: Path) -> None:
-    if roteiro.get("formato") == "protocolo" or roteiro.get("estilo") == "vhs":   # o texto já está no quadro
+    if roteiro.get("formato") in ("protocolo", "sombra") or roteiro.get("estilo") == "vhs":   # o texto já está no quadro
         destino.write_text(f"[Script Info]\nScriptType: v4.00+\nPlayResX: {W}\nPlayResY: {H}\n\n[V4+ Styles]\n"
                            "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, "
                            "Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, "
@@ -266,6 +266,11 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
         if roteiro.get("formato") == "protocolo":
             from .protocolo import renderizar_cena_protocolo
             duracoes.append(renderizar_cena_protocolo(cena, voz, destino, pausa, i))
+            cenas.append(destino)
+            continue
+        if roteiro.get("formato") == "sombra":
+            from .sombra import renderizar_cena_sombra
+            duracoes.append(renderizar_cena_sombra(cena, voz, destino, pausa, i))
             cenas.append(destino)
             continue
         if roteiro.get("formato") == "real":

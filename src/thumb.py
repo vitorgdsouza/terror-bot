@@ -71,6 +71,10 @@ def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
         png = pasta / "quadro.png"
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "1.0", "-i", str(clip), "-frames:v", "1", str(png)], check=True)
         cena = ImageEnhance.Brightness(Image.open(png).convert("RGB")).enhance(1.15)
+    elif r.get("formato") == "sombra":                 # a cena marcada com "thumb" (ou o close do Abismo)
+        from .sombra import quadro as quadro_sombra
+        c = next((c for c in r["cenas"] if c.get("thumb")), None) or next(c for c in reversed(r["cenas"]) if c.get("quadro") == "abismo")
+        cena = quadro_sombra(dict(c, texto=None), 3.0, 3.2, 1)
     else:
         cena = ImageEnhance.Brightness(quadro(_cena_chave(r), 2.2, 4.0, prot).convert("RGB")).enhance(1.25)
     W, H = cena.size
