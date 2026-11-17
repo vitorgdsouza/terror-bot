@@ -58,6 +58,13 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   debaixo_cama (close no chão do quarto, chinelos e o escuro embaixo da cama: só personagem "perto"; o abismo "longe" aparece no escuro embaixo da cama) |
   porao (caixas, lâmpada pendurada, escada ao fundo) | garagem (carro velho, ferramentas, portão aberto para a noite) |
   armario (quarto escuro com um guarda-roupa de porta aberta e o vão preto, abajur aceso, cama) |
+  corredor_velho (corredor antigo de papel de parede rasgado, arandela acesa, porta aberta para o escuro, escada ao fundo) |
+  poco (poço de pedra no quintal dos fundos, tampa de madeira quebrada, corda descendo para o escuro) |
+  fundo_poco (fundo do poço seco, lua lá em cima, poças, um túnel baixo aberto na parede) |
+  tunel (túnel subterrâneo de terra e tijolo, raízes e vigas, escuridão no fim) |
+  parede_dentro (o vão por dentro das paredes da casa, vigas e isolamento, um buraco descendo) |
+  porao_duarte (o porão antigo dos Duarte, lençóis sobre caixas, fornalha, porta trancada com ferrolho por dentro) |
+  camara (a câmara do Abismo debaixo da casa: paredes arranhadas, fotos de crianças, desenhos, uma coleira num prego, uma abertura escura) |
   escritorio (estantes de livros, mesa de madeira com abajur aceso, poltrona de couro, janela) |
   quarto_crianca (o antigo quarto da Lívia: cama com ursinho, berço, móbile de luas e estrelas, abajur de lua, baú de brinquedos) |
   planta_andar (o andar visto de cima, como uma planta: escritório e quarto lado a lado, o guarda-roupa aberto e escuro;

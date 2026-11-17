@@ -356,5 +356,155 @@
    0.5,
    0.74
   ]
+ },
+ "corredor_velho": {
+  "piso": 0.95,
+  "porta": [
+   0.69,
+   0.29,
+   0.13,
+   0.42
+  ],
+  "fundo": [
+   0.47,
+   0.6,
+   0.2
+  ],
+  "escala": 0.9,
+  "faixa": [
+   0.2,
+   0.78
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.45,
+   0.8
+  ]
+ },
+ "poco": {
+  "piso": 0.93,
+  "fundo": [
+   0.3,
+   0.64,
+   0.2
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.15,
+   0.62
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.4,
+   0.78
+  ]
+ },
+ "fundo_poco": {
+  "piso": 0.95,
+  "porta": [
+   0.42,
+   0.68,
+   0.16,
+   0.11
+  ],
+  "fundo": [
+   0.5,
+   0.79,
+   0.15
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.2,
+   0.8
+  ],
+  "horizonte": 0.6,
+  "objeto_perto": [
+   0.5,
+   0.86
+  ]
+ },
+ "tunel": {
+  "piso": 0.95,
+  "fundo": [
+   0.5,
+   0.64,
+   0.15
+  ],
+  "escala": 0.75,
+  "faixa": [
+   0.3,
+   0.7
+  ],
+  "horizonte": 0.55,
+  "objeto_perto": [
+   0.5,
+   0.84
+  ]
+ },
+ "parede_dentro": {
+  "piso": 0.97,
+  "fundo": [
+   0.5,
+   0.62,
+   0.2
+  ],
+  "escala": 0.72,
+  "faixa": [
+   0.3,
+   0.7
+  ],
+  "horizonte": 0.55,
+  "objeto_perto": [
+   0.5,
+   0.9
+  ]
+ },
+ "porao_duarte": {
+  "piso": 0.93,
+  "porta": [
+   0.72,
+   0.28,
+   0.18,
+   0.33
+  ],
+  "fundo": [
+   0.55,
+   0.62,
+   0.25
+  ],
+  "escala": 0.9,
+  "faixa": [
+   0.3,
+   0.75
+  ],
+  "horizonte": 0.45,
+  "objeto_perto": [
+   0.5,
+   0.8
+  ]
+ },
+ "camara": {
+  "piso": 0.93,
+  "porta": [
+   0.56,
+   0.34,
+   0.28,
+   0.3
+  ],
+  "fundo": [
+   0.7,
+   0.64,
+   0.25
+  ],
+  "escala": 0.9,
+  "faixa": [
+   0.25,
+   0.8
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.45,
+   0.82
+  ]
  }
 }
