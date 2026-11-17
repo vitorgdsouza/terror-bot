@@ -131,6 +131,8 @@ def _procurar(busca: str) -> list[dict]:
 
 
 def _baixar(item: dict) -> Path:
+    if item.get("local"):
+        return Path(item["local"])
     CACHE.mkdir(parents=True, exist_ok=True)
     destino = CACHE / f"{item['id']}.{'mp4' if item['tipo'] == 'video' else 'jpg'}"
     if not destino.exists():
@@ -140,8 +142,67 @@ def _baixar(item: dict) -> Path:
     return destino
 
 
+def _jornal(texto: str) -> Path:
+    """Recorte de jornal antigo, em português, feito aqui (no lugar de jornal real de banco de imagens)."""
+    import numpy as np
+    from PIL import Image, ImageDraw, ImageFilter, ImageFont
+    CACHE.mkdir(parents=True, exist_ok=True)
+    import hashlib
+    destino = CACHE / f"jornal_{hashlib.md5(texto.encode()).hexdigest()[:10]}.jpg"
+    if destino.exists():
+        return destino
+    titulo, _, sub = texto.partition("|")
+    fonte = next((p for p in ("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
+                              str(RAIZ / "assets" / "fontes" / "Poppins-Bold.ttf")) if Path(p).exists()))
+    pw, ph = 900, 1250
+    papel = np.full((ph, pw, 3), (214, 204, 178), np.float32)
+    papel += np.random.default_rng(3).normal(0, 9, (ph, pw, 1))
+    yy, xx = np.mgrid[0:ph, 0:pw]
+    papel *= (1 - 0.28 * (((xx - pw / 2) / pw) ** 2 + ((yy - ph / 2) / ph) ** 2))[..., None] * 1.1
+    img = Image.fromarray(papel.clip(0, 255).astype("uint8"))
+    d = ImageDraw.Draw(img)
+    d.text((40, 30), "O NOTURNO", font=ImageFont.truetype(fonte, 44), fill=(40, 36, 32))
+    d.line((40, 92, pw - 40, 92), fill=(40, 36, 32), width=4)
+    d.text((40, 100), "Edição de 26 de maio de 1988", font=ImageFont.truetype(fonte, 22), fill=(60, 54, 48))
+    px, y = 86, 150
+    palavras, linha, linhas = titulo.upper().split(), "", []
+    f = ImageFont.truetype(fonte, px)
+    for w in palavras:
+        if f.getlength((linha + " " + w).strip()) > pw - 80:
+            linhas.append(linha)
+            linha = w
+        else:
+            linha = (linha + " " + w).strip()
+    linhas.append(linha)
+    for ln in linhas:
+        d.text((40, y), ln, font=f, fill=(20, 18, 16))
+        y += int(px * 1.15)
+    if sub:
+        ps = 34
+        while ps > 18 and ImageFont.truetype(fonte, ps).getlength(sub) > pw - 80:
+            ps -= 2
+        d.text((40, y + 6), sub, font=ImageFont.truetype(fonte, ps), fill=(50, 46, 40))
+        y += 60
+    y += 20
+    d.rectangle((40, y, 480, y + 330), fill=(70, 66, 60))                         # "foto" da matéria
+    d.polygon([(80, y + 200), (260, y + 70), (440, y + 200)], fill=(42, 40, 36))
+    d.rectangle((110, y + 200, 410, y + 330), fill=(52, 50, 46))
+    for k in range(int((ph - y - 40) / 26)):                                      # colunas de texto
+        yy_ = y + 10 + k * 26
+        for x0, x1 in ((510, pw - 40),) if yy_ < y + 340 else ((40, pw // 2 - 15), (pw // 2 + 15, pw - 40)):
+            d.line((x0, yy_, x1 - (k * 37 % 60), yy_), fill=(120, 112, 98), width=7)
+    img = img.filter(ImageFilter.GaussianBlur(0.8)).rotate(-4, expand=True, fillcolor=(8, 8, 10))
+    fundo = Image.new("RGB", (1080, 1920), (8, 8, 10))
+    img.thumbnail((1000, 1500))
+    fundo.paste(img, ((1080 - img.width) // 2, (1920 - img.height) // 2))
+    fundo.save(destino, quality=92)
+    return destino
+
+
 def _por_id(ident: str) -> dict | None:
-    """Item específico do Pixabay pelo id da curadoria (pv123 = vídeo, pf123 = foto)."""
+    """Item específico do Pixabay pelo id da curadoria (pv123 = vídeo, pf123 = foto, jornal:Manchete|subtítulo)."""
+    if ident.startswith("jornal:"):
+        return {"tipo": "foto", "id": ident, "local": str(_jornal(ident[7:])), "credito": ""}
     chave = os.environ.get("PIXABAY_API_KEY", "").strip()
     video = ident.startswith("pv")
     url = "https://pixabay.com/api/videos/" if video else "https://pixabay.com/api/"
@@ -185,6 +246,7 @@ def _serve(arq: Path, item: dict) -> bool:
     import numpy as np
     from PIL import Image
     tempos = [0.5, 0.5 * max(1.0, _duracao(arq)), max(0.5, _duracao(arq) - 0.5)] if item["tipo"] == "video" else [0]
+    medias = []
     for t in tempos:
         png = arq.with_suffix(".teste.png")
         cmd = ["ffmpeg", "-y", "-loglevel", "error"] + (["-ss", f"{t:.2f}"] if item["tipo"] == "video" else []) + \
@@ -195,9 +257,11 @@ def _serve(arq: Path, item: dict) -> bool:
         png.unlink()
         if a.mean() > 150:
             return False
+        medias.append(a.mean())
         r, g, b = a[..., 0], a[..., 1], a[..., 2]
         if ((g > r * 1.4) & (g > b * 1.4) & (g > 90)).mean() > 0.25:
             return False
+    item["brilho"] = sum(medias) / max(1, len(medias))
     return True
 
 
@@ -231,7 +295,11 @@ def _plano(item: dict | None, arq: Path | None, d: float, mov: str, glitch: bool
     escala = (f"scale=w='ceil({W}*{z}*max(1\\,{H}/{W}*iw/ih)/2)*2':h=-2:eval=frame,"
               f"scale=w='max(iw\\,{W})':h='max(ih\\,{H})':force_original_aspect_ratio=increase:eval=frame,"
               f"crop={W}:{H}:x='{cx}':y='{cy}'")
-    filtro = f"{escala},{GRADE},fps={FPS},fade=t=in:st=0:d=0.12:color=white@0.5"
+    claro = ""
+    if item and item.get("brilho", 99) < 45:            # imagem escura demais: levanta as sombras antes do tratamento
+        g = 1.6 if item["brilho"] < 25 else 1.35
+        claro = f"eq=gamma={g}:brightness=0.03,"
+    filtro = f"{escala},{claro}{GRADE},fps={FPS},fade=t=in:st=0:d=0.12:color=white@0.5"
     if glitch:
         filtro += ",rgbashift=rh=10:bh=-10:enable='lt(t\\,0.18)'"
     filtro += ",format=yuv420p"
