@@ -72,6 +72,13 @@ def _tempos_aproximados(texto: str, total: float) -> list[dict]:
 def gerar_narracao(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
     """Gera um áudio por cena. Devolve [{arquivo, duracao, palavras}] para cada cena."""
     pasta.mkdir(parents=True, exist_ok=True)
+    quer_minha = roteiro.get("voz") == "minha" or (roteiro.get("formato") == "real" and cfg["voz"].get("real") == "minha")
+    if quer_minha:
+        try:
+            from .voz_minha import narrar_roteiro_minha
+            return narrar_roteiro_minha(roteiro, cfg, pasta)
+        except Exception as e:  # Kaggle fora ou cota acabou: cai na Enceladus
+            log(f"AVISO: sua voz clonada falhou ({e}). Usando a Enceladus.")
     if cfg["voz"].get("motor") == "gemini":
         try:
             from .voz_gemini import narrar_roteiro

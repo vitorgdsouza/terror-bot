@@ -35,7 +35,13 @@
     ],
     "velocidade": "-7%",
     "tom": "-4Hz",
-    "efeito": "narrador_serio"
+    "efeito": "narrador_serio",
+    "real": "minha",
+    "minha": {
+      "exagero": 0.45,
+      "cfg": 0.45,
+      "ritmo": 1.0
+    }
   },
   "legenda": {
     "estilo": "frase",

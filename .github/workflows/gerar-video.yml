@@ -49,6 +49,7 @@ jobs:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           FREESOUND_API_KEY: ${{ secrets.FREESOUND_API_KEY }}
+          VOZ_CHAVE: ${{ secrets.VOZ_CHAVE }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           USAR_CLAUDE: ${{ vars.USAR_CLAUDE }}
