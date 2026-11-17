@@ -387,7 +387,7 @@ def quadro(cena: dict, t: float, dur: float, n: int) -> Image.Image:
         _aviso(img, cena["texto"], t)
     _contador(img, cena, t)
     # câmera: aproxima devagar; tremor no susto e nas batidas
-    z = 1.0 + 0.05 * min(1.0, t / max(1.0, dur))
+    z = 1.02 + 0.05 * min(1.0, t / max(1.0, dur))     # sempre um pouco aproximado: sobra margem para o tremor
     sx = sy = 0.0
     batendo = any(0 <= t - tb < 0.12 for tb in cena.get("_batidas_t", []))
     if cena.get("susto") or batendo:
@@ -396,7 +396,8 @@ def quadro(cena: dict, t: float, dur: float, n: int) -> Image.Image:
         sx, sy = (rnd.random() - 0.5) * forca, (rnd.random() - 0.5) * forca
     if z > 1.001 or sx or sy:
         cw, ch = W / z, H / z
-        x0, y0 = (W - cw) / 2 + sx, (H - ch) / 2 + sy
+        x0 = min(max(0.0, (W - cw) / 2 + sx), W - cw)
+        y0 = min(max(0.0, (H - ch) / 2 + sy), H - ch)
         img = img.resize((W, H), Image.BILINEAR, box=(x0, y0, x0 + cw, y0 + ch))
     a = np.asarray(img).astype(np.float32) * _vinheta()
     rnd = np.random.default_rng(n)
