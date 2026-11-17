@@ -67,7 +67,7 @@
       "objeto": {
         "tipo": "jornal",
         "tamanho": "perto",
-        "texto": "FAMÍLIA DUARTE|DESAPARECE"
+        "texto": "FAMÍLIA DUARTE SOME"
       },
       "camera": "zoom_in"
     },
@@ -119,8 +119,8 @@
       "camera": "zoom_in"
     },
     {
-      "narracao": "Arranhões pequenos no rodapé. Feitos de dentro para fora.",
-      "cenario": "corredor",
+      "narracao": "Arranhões pequenos na porta. Feitos de dentro para fora.",
+      "cenario": "escada_cima",
       "personagem": null,
       "objeto": {
         "tipo": "arranhoes",
