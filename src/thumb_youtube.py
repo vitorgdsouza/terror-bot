@@ -132,7 +132,7 @@ def _roteiros_conhecidos() -> list[dict]:
         if r.get("titulo") and r.get("cenas"):
             legenda = arq.parent / "legenda_do_post.txt"
             extra = legenda.read_text(encoding="utf-8") if legenda.exists() else ""
-            r["_texto"] = _norm(" ".join(str(r.get(k, "")) for k in ("titulo", "legenda_post", "resumo", "pergunta_thumb")) + " " + extra)
+            r["_texto"] = _norm(" ".join(str(r.get(k, "")) for k in ("titulo", "titulo_youtube", "legenda_post", "resumo", "pergunta_thumb")) + " " + extra)
             achados.append(r)
     return achados
 
