@@ -41,7 +41,8 @@ def publicar(video: Path, titulo: str, legenda: str, hashtags: list[str]) -> dic
         raise RuntimeError("Faltam os segredos UPLOAD_POST_API_KEY e/ou UPLOAD_POST_USER no GitHub.")
     c = _cfg()
     tags_txt = " ".join(hashtags)
-    yt_titulo = (titulo[:90] + " #shorts") if "#shorts" not in titulo.lower() else titulo[:100]
+    yt_titulo = os.environ.get("TITULO_YOUTUBE", "").strip() or titulo
+    yt_titulo = (yt_titulo[:90] + " #shorts") if "#shorts" not in yt_titulo.lower() else yt_titulo[:100]
     dados = [("user", perfil), ("title", titulo), ("async_upload", "true")]
     dados += [("platform[]", p) for p in c["plataformas"]]
     # TikTok: legenda completa com hashtags; público; conteúdo com voz de IA identificado
@@ -127,7 +128,7 @@ def main():
     roteiros = sorted(base.rglob("roteiro.json"))
     r = json.loads(roteiros[0].read_text(encoding="utf-8")) if roteiros else {}
     titulo = r.get("titulo", "Você escaparia?")
-    legenda = r.get("legenda_post", "")
+    legenda = os.environ.get("LEGENDA_POST", "").strip() or r.get("legenda_post", "")
     cfg = carregar_config()
     hashtags = list(dict.fromkeys((r.get("hashtags") or []) + cfg.get("hashtags_fixas", [])))
     try:

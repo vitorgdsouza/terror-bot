@@ -4,8 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       acao:
-        description: "relatorio = indicadores do canal | thumbs = thumb nos Shorts já postados | uploadpost = testa a conexão do /postar"
+        description: "relatorio | thumbs | uploadpost (testa a conexão) | postar (publica o vídeo pendente)"
         default: relatorio
+      titulo_youtube:
+        description: "postar: título no YouTube (vazio = título do roteiro)"
+        default: ""
+      legenda:
+        description: "postar: legenda/descrição (vazio = a do roteiro)"
+        default: ""
       runs:
         description: "execuções antigas com o roteiro de vídeos que não estão em roteiros/ (separadas por espaço)"
         default: "43939945243"
@@ -42,8 +48,8 @@ jobs:
       - name: O que fazer
         id: acao
         run: |
-          if [ "${{ github.event.inputs.acao }}" = "uploadpost" ]; then
-            echo "acao=uploadpost" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event.inputs.acao }}" = "uploadpost" ] || [ "${{ github.event.inputs.acao }}" = "postar" ]; then
+            echo "acao=${{ github.event.inputs.acao }}" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.event.schedule }}" = "41 */6 * * *" ] || [ "${{ github.event.inputs.acao }}" = "thumbs" ]; then
             echo "acao=thumbs" >> "$GITHUB_OUTPUT"; else echo "acao=relatorio" >> "$GITHUB_OUTPUT"; fi
       - name: Baixar roteiros de execuções antigas
@@ -56,6 +62,16 @@ jobs:
       - name: Thumbs nos Shorts já postados
         if: steps.acao.outputs.acao == 'thumbs'
         run: python -m src.thumb_youtube antigas
+      - name: Postar o vídeo pendente
+        if: steps.acao.outputs.acao == 'postar'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITULO_YOUTUBE: ${{ github.event.inputs.titulo_youtube }}
+          LEGENDA_POST: ${{ github.event.inputs.legenda }}
+        run: |
+          RUN=$(python -c "import json;print(json.load(open('data/pendente.json'))['run_id'])")
+          gh run download "$RUN" -D baixado
+          python -m src.postar
       - name: Testar o Upload-Post
         if: steps.acao.outputs.acao == 'uploadpost'
         run: python -m src.postar testar
@@ -67,7 +83,7 @@ jobs:
         run: |
           git config user.name "bot-terror"
           git config user.email "bot-terror@users.noreply.github.com"
-          for f in data/analise data/thumbs_feitas.json; do [ -e "$f" ] && git add "$f"; done
+          for f in data/analise data/thumbs_feitas.json data/pendente.json; do [ -e "$f" ] && git add "$f"; done
           git diff --cached --quiet && exit 0
           git commit -m "YouTube: relatório e thumbs"
           git pull --rebase --autostash && git push
