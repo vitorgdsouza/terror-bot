@@ -11,6 +11,7 @@ on:
         default: "43939945243"
   schedule:
     - cron: "17 12 * * 1"     # toda segunda, 9h17 de Brasília: relatório da semana
+    - cron: "41 */6 * * *"    # a cada 6 horas: thumb nos Shorts novos que ainda não têm
 
 permissions:
   contents: write
@@ -36,25 +37,30 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
       - name: Instalar dependências
         run: pip install -r requirements.txt
+      - name: O que fazer
+        id: acao
+        run: |
+          if [ "${{ github.event.schedule }}" = "41 */6 * * *" ] || [ "${{ github.event.inputs.acao }}" = "thumbs" ]; then
+            echo "acao=thumbs" >> "$GITHUB_OUTPUT"; else echo "acao=relatorio" >> "$GITHUB_OUTPUT"; fi
       - name: Baixar roteiros de execuções antigas
-        if: github.event.inputs.acao == 'thumbs'
+        if: steps.acao.outputs.acao == 'thumbs'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RUNS: ${{ github.event.inputs.runs }}
+          RUNS: ${{ github.event.inputs.runs || '43939945243' }}
         run: |
           for r in $RUNS; do gh run download "$r" -D "baixado/$r" || echo "sem artefato em $r"; done
       - name: Thumbs nos Shorts já postados
-        if: github.event.inputs.acao == 'thumbs'
+        if: steps.acao.outputs.acao == 'thumbs'
         run: python -m src.thumb_youtube antigas
       - name: Relatório do canal
-        if: github.event.inputs.acao != 'thumbs'
+        if: steps.acao.outputs.acao == 'relatorio'
         run: python -m src.analise
-      - name: Guardar o relatório
-        if: github.event.inputs.acao != 'thumbs' && success()
+      - name: Guardar relatório e thumbs feitas
+        if: always()
         run: |
           git config user.name "bot-terror"
           git config user.email "bot-terror@users.noreply.github.com"
-          git add data/analise
+          for f in data/analise data/thumbs_feitas.json; do [ -e "$f" ] && git add "$f"; done
           git diff --cached --quiet && exit 0
-          git commit -m "Relatório do YouTube"
+          git commit -m "YouTube: relatório e thumbs"
           git pull --rebase --autostash && git push

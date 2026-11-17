@@ -22,6 +22,23 @@ from .util import RAIZ, log
 
 
 
+FEITAS = RAIZ / "data" / "thumbs_feitas.json"      # vídeos que já receberam a nossa thumb (não reenviar)
+
+
+def _feitas() -> dict:
+    try:
+        return json.loads(FEITAS.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _marcar(video_id: str, titulo: str) -> None:
+    f = _feitas()
+    f[video_id] = {"titulo": titulo, "quando": time.strftime("%Y-%m-%d %H:%M")}
+    FEITAS.parent.mkdir(parents=True, exist_ok=True)
+    FEITAS.write_text(json.dumps(f, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def _norm(t: str) -> str:
     t = unicodedata.normalize("NFKD", (t or "").lower())
     t = "".join(c for c in t if not unicodedata.combining(c))
@@ -68,6 +85,8 @@ def _explica(resp: dict) -> str:
         return "ok ✅"
     erro = resp.get("error")
     msg = erro.get("message") if isinstance(erro, dict) else erro
+    if resp.get("_status") == 429:
+        return "o YouTube limitou o envio de thumbs por hoje; o bot tenta de novo sozinho"
     if resp.get("_status") == 403:
         return ("o YouTube recusou (403): para Shorts ele só libera thumb própria para alguns canais "
                 f"(verificação por telefone em youtube.com/verify; o resto vem com o Programa de Parcerias). Detalhe: {msg}")
@@ -95,7 +114,10 @@ def definir_depois_de_postar(resp: dict, roteiro: dict, thumb: Path | None = Non
     thumb = thumb or _gerar_thumb(roteiro, RAIZ / "trabalho" / "thumb_yt")
     if not thumb:
         return "thumb no YouTube: sem thumb para este formato"
-    return f"thumb no YouTube: {_explica(definir(item['video_id'], thumb, tok))}"
+    resp = definir(item["video_id"], thumb, tok)
+    if resp.get("_status", 500) < 300:
+        _marcar(item["video_id"], roteiro.get("titulo", ""))
+    return f"thumb no YouTube: {_explica(resp)}"
 
 
 def _roteiros_conhecidos() -> list[dict]:
@@ -130,6 +152,15 @@ def antigas():
     roteiros = _roteiros_conhecidos()
     linhas = []
     tok, lista = _videos_do_canal()
+    feitas = _feitas()
+    if not feitas:                                    # as 10 primeiras foram enviadas antes deste controle existir
+        feitas = {v["video_id"]: {} for v in lista if v["quando"] <= "2026-11-17" and "protocolo rufus" not in _norm(v["titulo"])}
+        for vid in feitas:
+            _marcar(vid, "")
+    lista = [v for v in lista if v["video_id"] not in feitas]
+    if not lista:
+        log("Todos os Shorts já têm thumb.")
+        return
     for item in lista:
         r = _melhor(item["titulo"], roteiros)
         if not r:
@@ -140,11 +171,18 @@ def antigas():
             if not thumb:
                 linhas.append(f"- {r['titulo']}: formato real, a thumb depende do clipe; pulei")
                 continue
-            linhas.append(f"- {r['titulo']}: {_explica(definir(item['video_id'], thumb, tok))}")
+            resp = definir(item["video_id"], thumb, tok)
+            if resp.get("_status", 500) < 300:
+                _marcar(item["video_id"], r["titulo"])
+            linhas.append(f"- {r['titulo']}: {_explica(resp)}")
+            if resp.get("_status") == 429:            # limite diário do YouTube: tenta o resto na próxima rodada
+                linhas.append("(limite de thumbs do YouTube; tento de novo em algumas horas)")
+                break
         except Exception as e:
             linhas.append(f"- {r['titulo']}: falhou ({e})")
         log(linhas[-1])
-    telegram.enviar_mensagem(("Thumbs nos Shorts do YouTube:\n" + "\n".join(linhas))[:3800])
+    if any("ok" in l or "recusou" in l for l in linhas) or os.environ.get("GITHUB_EVENT_NAME") != "schedule":
+        telegram.enviar_mensagem(("Thumbs nos Shorts do YouTube:\n" + "\n".join(linhas))[:3800])
 
 
 if __name__ == "__main__":
