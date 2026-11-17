@@ -1,0 +1,166 @@
+{
+  "titulo": "Trancada por Dentro",
+  "serie": "O Guizo na Escada",
+  "parte": 2,
+  "protagonista": "homem",
+  "clima": "suspense",
+  "selo": "EP. 2",
+  "pergunta_thumb": "Você quebraria a parede?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.4,
+  "legenda_post": "No TikTok vocês mandaram subir. No YouTube, fugir. Ele tentou fugir... E agora, A ou B?",
+  "hashtags": [
+    "#gato",
+    "#terror",
+    "#voceescaparia",
+    "#animacao",
+    "#medo"
+  ],
+  "resumo": "Você tenta fugir, mas a porta da frente está trancada por dentro, como a do porão dos Duarte em 1987. O guizo toca lá em cima e um miado fraco vem de dentro da parede: é o Stu de verdade. Você sobe e acha pelo laranja preso no rodapé, enquanto a escada range atrás de você.",
+  "opcao_a": "Quebrar a parede e tirar o Stu.",
+  "opcao_b": "Se trancar no quarto até amanhecer.",
+  "cenas": [
+    {
+      "narracao": "Ele ainda está lá em cima. Sorrindo. Metade de vocês mandou subir... metade mandou fugir.",
+      "cenario": "escada",
+      "personagem": {
+        "pose": "medo",
+        "acao": "tremendo",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "ameaca": {
+        "tipo": "abismo",
+        "acao": "encarando",
+        "posicao": "centro",
+        "tamanho": "longe"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Você corre para a porta da frente.",
+      "cenario": "porta_entrada",
+      "personagem": {
+        "pose": "abrindo_porta",
+        "acao": "correndo",
+        "posicao": "direita",
+        "tamanho": "medio"
+      },
+      "camera": "parada",
+      "efeito": "tremor"
+    },
+    {
+      "narracao": "A maçaneta gira... mas a porta não abre. Trancada. Por dentro.",
+      "cenario": "porta_entrada",
+      "personagem": {
+        "pose": "medo",
+        "acao": "parado",
+        "posicao": "esquerda",
+        "tamanho": "perto"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Igual ao porão dos Duarte, em 1987.",
+      "cenario": "sala",
+      "personagem": null,
+      "objeto": {
+        "tipo": "jornal",
+        "tamanho": "perto",
+        "texto": "FAMÍLIA DUARTE|DESAPARECE"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Lá em cima, o guizo toca. Uma vez.",
+      "cenario": "escada",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {
+        "busca": "small bell jingle",
+        "palavra": "guizo"
+      }
+    },
+    {
+      "narracao": "E um miado fraco, rouco... de dentro da parede.",
+      "cenario": "corredor",
+      "personagem": {
+        "pose": "olhando_tras",
+        "acao": "parado",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in",
+      "som": {
+        "busca": "cat meow",
+        "palavra": "miado"
+      }
+    },
+    {
+      "narracao": "Esse chiado, o Stu tem desde filhote. Ele não sabe imitar isso.",
+      "cenario": "corredor",
+      "personagem": {
+        "pose": "medo",
+        "acao": "parado",
+        "posicao": "centro",
+        "tamanho": "perto"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Então você sobe.",
+      "cenario": "escada",
+      "personagem": {
+        "pose": "costas",
+        "acao": "afastando",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Arranhões pequenos no rodapé. Feitos de dentro para fora.",
+      "cenario": "corredor",
+      "personagem": null,
+      "objeto": {
+        "tipo": "arranhoes",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "E na fresta, pelo laranja.",
+      "cenario": "corredor",
+      "personagem": null,
+      "objeto": {
+        "tipo": "pelo",
+        "tamanho": "perto"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Atrás de você, a escada range.",
+      "cenario": "corredor",
+      "personagem": {
+        "pose": "costas",
+        "acao": "tremendo",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
+      "ameaca": {
+        "tipo": "abismo",
+        "acao": "espiando",
+        "posicao": "direita",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in",
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "A: quebrar a parede e tirar o Stu. B: se trancar no quarto até amanhecer. Comente A ou B.",
+      "cenario": "quarto",
+      "personagem": null,
+      "camera": "zoom_in"
+    }
+  ]
+}
