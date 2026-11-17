@@ -1,0 +1,13 @@
+{
+ "data": "2026-11-17",
+ "titulo": "Trancada por Dentro",
+ "tema": "Mistério do sumiço do Stu",
+ "protagonista": "homem",
+ "serie": "O Guizo na Escada",
+ "parte": 2,
+ "resumo": "Você tenta fugir, mas a porta da frente está trancada por dentro, como a do porão dos Duarte em 1987. O guizo toca lá em cima e um miado fraco vem de dentro da parede: é o Stu de verdade. Você sobe e acha pelo laranja preso no rodapé, enquanto a escada range atrás de você.",
+ "opcao_a": "Quebrar a parede e tirar o Stu.",
+ "opcao_b": "Se trancar no quarto até amanhecer.",
+ "final": false,
+ "episodio_oficial": 2
+}
