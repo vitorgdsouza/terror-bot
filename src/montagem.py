@@ -134,6 +134,15 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
 
 def _escrever_legendas(roteiro: dict, vozes: list, duracoes: list, cfg: dict, destino: Path) -> None:
+    if roteiro.get("formato") == "protocolo":            # o texto já está desenhado no quadro
+        destino.write_text(f"[Script Info]\nScriptType: v4.00+\nPlayResX: {W}\nPlayResY: {H}\n\n[V4+ Styles]\n"
+                           "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, "
+                           "Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, "
+                           "Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
+                           "Style: Default,Arial,40,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,1,0,2,10,10,10,1\n\n"
+                           "[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n",
+                           encoding="utf-8")
+        return
     if cfg["legenda"].get("estilo") == "frase":
         return _legendas_frase(roteiro, vozes, duracoes, cfg, destino)
     leg = cfg["legenda"]
@@ -248,6 +257,11 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
                 continue
             except Exception as e:  # clipe com problema: usa a animação normal nesta cena
                 log(f"  clipe de IA da cena {i} falhou na montagem ({e}); usando a animação normal")
+        if roteiro.get("formato") == "protocolo":
+            from .protocolo import renderizar_cena_protocolo
+            duracoes.append(renderizar_cena_protocolo(cena, voz, destino, pausa, i))
+            cenas.append(destino)
+            continue
         if roteiro.get("formato") == "real":
             from .real import renderizar_cena_real
             duracoes.append(renderizar_cena_real(cena, voz, destino, pausa, i))

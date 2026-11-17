@@ -17,6 +17,8 @@ URL = "https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generate
 MODELOS = ["gemini-2.5-flash-preview-tts", "gemini-2.5-pro-preview-tts", "gemini-2.5-pro-tts", "gemini-2.5-flash-tts"]
 
 ESTILOS = {
+    "alerta": ("Leia em português do Brasil como um comunicado de emergência gravado: voz baixa, fria, monótona e "
+               "controlada, sem emoção, pausas curtas e regulares entre as frases, como uma instrução de segurança"),
     "calma": ("Leia em português do Brasil, como narrador de uma história de terror: voz grave, calma, "
               "baixa e próxima, ritmo tranquilo, com pequenas pausas nas reticências"),
     "suspense": ("Leia em português do Brasil, como narrador de uma história de terror: voz grave e tensa, "
@@ -136,6 +138,8 @@ def alinhar(palavras: list[str], reconhecidas: list[dict], total: float) -> list
 def escolher_estilo(roteiro: dict, cfg_voz: dict) -> str:
     estilos = cfg_voz.get("estilos") or ["calma", "suspense"]
     clima = str(roteiro.get("clima", "")).strip().lower()
+    if clima in ESTILOS and roteiro.get("formato") == "protocolo":
+        return clima
     return clima if clima in estilos else cfg_voz.get("estilo_padrao", estilos[-1])
 
 
