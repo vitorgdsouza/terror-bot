@@ -1,0 +1,19 @@
+{
+  "titulo": "Você Viu Ele?",
+  "protagonista": "homem",
+  "clima": "suspense",
+  "selo": "VOCÊ VIU?",
+  "pergunta_thumb": "Ele passou duas vezes",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.4,
+  "final": true,
+  "legenda_post": "Ele passou duas vezes. Em que segundo? 👇 (a história dele: \"O Guizo na Escada\" no perfil)",
+  "hashtags": ["#terror", "#voceviu", "#gato", "#animacao", "#medo"],
+  "cenas": [
+    {"narracao": "Olha bem esse corredor.", "cenario": "corredor", "personagem": null,
+     "ameaca": {"tipo": "abismo", "acao": "relance", "posicao": "centro", "tamanho": "longe"}, "camera": "zoom_in"},
+    {"narracao": "Nada, né?", "cenario": "escada", "personagem": null,
+     "ameaca": {"tipo": "abismo", "acao": "passando", "posicao": "centro", "tamanho": "longe"}, "camera": "zoom_in"},
+    {"narracao": "Volta o vídeo. Ele passou duas vezes.", "cenario": "corredor", "personagem": null, "camera": "zoom_in", "efeito": "luz_piscando"}
+  ]
+}

@@ -12,6 +12,7 @@ Cena: {"narracao": "...", "quadro": "<tipo>", ...opções}
     rosto     close do seu rosto; "olhos": abertos|fechados|arregalados|apertados, "boca": reta|aberta|tremendo,
               "olhar": -1..1 (para onde as pupilas olham)
     porta     close da porta; "porta", "luz", "pes": true (sombra de pés na luz por baixo), "ondas"
+    portas    três portas numeradas; "pes": 1|2|3 (pés debaixo dessa porta), "entreaberta": 1|2|3
     abismo    close do Abismo: cabeça comprida, olhos brancos de íris vermelha, sorriso enorme; "maos": true
     destaque  uma palavra grande no meio ("destaque": "primeiro")
     preto     tela preta
@@ -336,7 +337,21 @@ def _destaque(img, cena, t, dur, n):
     d.text((x, y), txt, font=_f(px), fill=tuple(int(c * entra) for c in TEXTO))
 
 
-QUADROS = {"rosto": _rosto, "abismo": _abismo, "quarto": _quarto, "porta": _porta_close, "relogio": _relogio,
+def _portas(img, cena, t, dur, n):
+    """Três portas lado a lado, numeradas. "pes": n = sombra de pés debaixo da porta n; "entreaberta": n = a fresta com os olhos."""
+    d = ImageDraw.Draw(img)
+    larg = W * 0.24
+    for k in range(3):
+        x0 = W * 0.06 + k * (larg + W * 0.08)
+        num = k + 1
+        estado = "entreaberta" if cena.get("entreaberta") == num else "fechada"
+        _porta(d, x0, H * 0.36, x0 + larg, HZ, estado, True, cena.get("pes") == num, t, n, t / max(1.0, dur))
+        f = _f(96)
+        d.text((x0 + larg / 2 - f.getlength(str(num)) / 2 + 4, H * 0.25 + 5), str(num), font=f, fill=(30, 0, 2))
+        d.text((x0 + larg / 2 - f.getlength(str(num)) / 2, H * 0.25), str(num), font=f, fill=TEXTO)
+
+
+QUADROS = {"portas": _portas, "rosto": _rosto, "abismo": _abismo, "quarto": _quarto, "porta": _porta_close, "relogio": _relogio,
            "destaque": _destaque}
 
 
@@ -355,7 +370,7 @@ def _aviso(img, txt, t):
 
 def _contador(img, cena, t):
     tempos = cena.get("_batidas_t", [])
-    if not tempos:
+    if not tempos or cena.get("contador") is False:      # contador escondido: o público conta sozinho
         return
     d = ImageDraw.Draw(img)
     n = len(tempos)
@@ -381,7 +396,7 @@ def quadro(cena: dict, t: float, dur: float, n: int) -> Image.Image:
     tipo = cena.get("quadro", "quarto")
     if tipo == "preto":
         return Image.new("RGB", (W, H), (0, 0, 0))
-    img = _fundo("comodo" if tipo in ("quarto", "porta") else "halo").copy()
+    img = _fundo("comodo" if tipo in ("quarto", "porta", "portas") else "halo").copy()
     QUADROS.get(tipo, _quarto)(img, cena, t, dur, n)
     if cena.get("texto"):
         _aviso(img, cena["texto"], t)

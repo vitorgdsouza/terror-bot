@@ -71,4 +71,8 @@ jobs:
           git add data/pendente.json data/previas
           git diff --cached --quiet && exit 0
           git commit -m "Vídeo refeito pronto para postar"
-          git pull --rebase --autostash && git push
+          for tentativa in 1 2 3 4 5; do              # outra execução pode ter salvo ao mesmo tempo: fica com a nossa versão
+            git pull --rebase -X theirs --autostash && git push && exit 0
+            git rebase --abort 2>/dev/null; sleep $((RANDOM % 15 + 5))
+          done
+          exit 1

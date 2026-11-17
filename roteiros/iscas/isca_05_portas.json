@@ -1,0 +1,18 @@
+{
+  "titulo": "Qual Porta Você Abre?",
+  "formato": "sombra",
+  "selo": "ESCOLHA",
+  "pergunta_thumb": "1, 2 ou 3?",
+  "clima": "suspense",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.5,
+  "final": true,
+  "legenda_post": "1, 2 ou 3? Comenta o número. A resposta sai no próximo vídeo 👇",
+  "hashtags": ["#terror", "#escolha", "#creepy", "#horror", "#enigma"],
+  "cenas": [
+    {"narracao": "Três portas. Atrás de uma delas, a sua mãe.", "quadro": "portas", "texto": "qual você abre?", "thumb": true, "ambiente": "nenhum"},
+    {"narracao": "Atrás das outras duas... algo que imita a voz dela.", "quadro": "portas", "texto": "qual você abre?", "ambiente": "nenhum",
+     "som": {"busca": "woman whisper creepy", "palavra": "voz"}},
+    {"narracao": "Olha embaixo das portas. E comenta o número.", "quadro": "portas", "pes": 2, "texto": "1, 2 ou 3?", "ambiente": "nenhum"}
+  ]
+}

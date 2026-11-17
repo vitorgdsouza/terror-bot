@@ -5,6 +5,7 @@ anima, monta e manda no Telegram como "versão ajustada". Não mexe no históric
     python -m src.refazer
 """
 import json
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -47,8 +48,12 @@ def main():
     import subprocess
     previas = RAIZ / "data" / "previas"
     previas.mkdir(parents=True, exist_ok=True)
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(final), "-vf", "fps=1/1.5,scale=150:-1,tile=8x7",
-                    "-frames:v", "1", "-q:v", "4", str(previas / "ultima_folha.jpg")])
+    from .util import duracao
+    passo = 0.5 if duracao(final) < 30 else 1.5          # vídeo curto: mais quadros por segundo na folha
+    nome = Path(os.environ.get("ROTEIRO_ARQ", "")).stem or "ultima_folha"
+    for destino in {previas / "ultima_folha.jpg", previas / f"{nome}.jpg"}:
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(final), "-vf", f"fps=1/{passo},scale=150:-1,tile=8x7",
+                        "-frames:v", "1", "-q:v", "4", str(destino)])
     legenda = next((p.read_text(encoding="utf-8") for p in (RAIZ / "baixado").rglob("legenda_do_post.txt")), None)
     if not legenda:
         tags = " ".join(dict.fromkeys(r.get("hashtags", []) + cfg.get("hashtags_fixas", [])))

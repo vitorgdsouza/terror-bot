@@ -1,0 +1,24 @@
+{
+  "titulo": "Seu Cachorro Abana o Rabo?",
+  "estilo": "vhs",
+  "pixel": 7,
+  "data_fita": "MAR 04 1998",
+  "hora_fita": [3, 2, 10],
+  "protagonista": "policial",
+  "clima": "suspense",
+  "selo": "FITA",
+  "pergunta_thumb": "Confere hoje à noite",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "final": true,
+  "legenda_post": "Confere hoje à noite. O Rufus parou de abanar... a fita 01 está no perfil.",
+  "hashtags": ["#analoghorror", "#vhs", "#cachorro", "#foundfootage", "#terror"],
+  "cenas": [
+    {"narracao": "O seu cachorro abana o rabo quando te vê?", "cenario": "quarto", "personagem": null,
+     "cachorro": {"acao": "deitado", "falso": true, "posicao": "centro", "tamanho": "medio"}, "camera": "zoom_in"},
+    {"narracao": "Confere hoje à noite.", "cenario": "quarto", "personagem": null,
+     "cachorro": {"acao": "levantando_cabeca", "falso": true, "posicao": "centro", "tamanho": "perto"}, "camera": "zoom_in", "efeito": "luz_piscando"},
+    {"narracao": "O Rufus parou de abanar. A fita está no perfil.", "cenario": "corredor", "personagem": null,
+     "cachorro": {"acao": "de_pe", "falso": true, "posicao": "centro", "tamanho": "longe"}, "camera": "zoom_in", "efeito": "tremor"}
+  ]
+}

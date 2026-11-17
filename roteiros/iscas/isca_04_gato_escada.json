@@ -1,0 +1,21 @@
+{
+  "titulo": "Seu Gato Encarou a Escada?",
+  "formato": "protocolo",
+  "rotulo": "PROTOCOLO STU",
+  "selo": "PROTOCOLO",
+  "pergunta_thumb": "Seu gato já fez isso?",
+  "clima": "alerta",
+  "ritmo": 1.05,
+  "final": true,
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.6,
+  "legenda_post": "Seu gato já encarou a escada no escuro? 👇 O que aconteceu com o Stu está no perfil.",
+  "hashtags": ["#gato", "#protocolo", "#analoghorror", "#creepy", "#terror"],
+  "cenas": [
+    {"narracao": "Se o seu gato encarar a escada no escuro...", "icones": ["gato:sentado", "escada"], "ambiente": "nenhum",
+     "som": {"busca": "emergency alert beep", "palavra": "Se"}},
+    {"narracao": "não suba para ver o que ele está olhando.", "destaque": "não suba", "ambiente": "nenhum"},
+    {"narracao": "O Stu encarou. Eu subi. Ele nunca mais desceu.", "icones": ["coleira"], "ambiente": "nenhum",
+     "som": {"busca": "small bell jingle", "palavra": "Stu"}}
+  ]
+}

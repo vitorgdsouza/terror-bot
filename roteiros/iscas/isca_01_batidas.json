@@ -1,0 +1,17 @@
+{
+  "titulo": "Conte as Batidas",
+  "formato": "sombra",
+  "selo": "TESTE",
+  "pergunta_thumb": "Quantas você contou?",
+  "clima": "suspense",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.5,
+  "final": true,
+  "legenda_post": "Quantas batidas você contou? Responde sem voltar o vídeo 👇 (a história completa: \"Se Alguém Te Chamar às 3:17\" no perfil)",
+  "hashtags": ["#terror", "#teste", "#creepy", "#horror", "#regras"],
+  "cenas": [
+    {"narracao": "Três e dezessete. Alguém bate na sua porta. Conte.", "quadro": "porta", "texto": "conte", "batidas": 4, "contador": false, "batidas_apos_voz": true, "ambiente": "nenhum"},
+    {"narracao": "Gente de verdade bate três vezes.", "quadro": "rosto", "olhos": "arregalados", "boca": "aberta", "ambiente": "nenhum"},
+    {"narracao": "Quantas você contou? Responde... antes que ele bata de novo.", "quadro": "porta", "pes": true, "texto": "quantas?", "thumb": true, "ambiente": "nenhum"}
+  ]
+}
