@@ -25,7 +25,7 @@
      "som": {"busca": "cat hiss angry", "palavra": "rosnar"}},
     {"narracao": "E a parte mais importante.", "destaque": "a parte mais importante", "ambiente": "nenhum"},
     {"narracao": "Se você ouvir o seu gato miando do lado de fora do quarto...", "icones": ["som", "porta"], "ambiente": "nenhum",
-     "som": {"busca": "cat meow distant", "palavra": "miando"}},
+     "som": {"busca": "cat meow", "palavra": "miando"}},
     {"narracao": "mas ele estiver deitado aqui, ao seu lado...", "icones": ["cama", "gato:deitado"], "ambiente": "nenhum"},
     {"narracao": "não responda. Permaneça na cama.", "destaque": "permaneça no lugar", "ambiente": "nenhum"},
     {"narracao": "Ele imita a voz de quem você ama.", "icones": ["som"], "ambiente": "nenhum"},
