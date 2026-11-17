@@ -22,6 +22,12 @@ from .util import RAIZ, log
 
 
 
+def _norm(t: str) -> str:
+    t = unicodedata.normalize("NFKD", (t or "").lower())
+    t = "".join(c for c in t if not unicodedata.combining(c))
+    return re.sub(r"[^a-z0-9 ]", " ", t.replace("#shorts", "")).strip()
+
+
 def _videos_do_canal() -> tuple[str, list[dict]]:
     """Lista os vídeos do canal pela API oficial (mesmo acesso do relatório: YT_CLIENT_ID/SECRET/REFRESH_TOKEN)."""
     from .analise import _token, videos
@@ -81,8 +87,9 @@ def definir_depois_de_postar(resp: dict, roteiro: dict, thumb: Path | None = Non
     """Depois do upload, acha o Short no canal pelo título e coloca a thumb (espera o YouTube processar)."""
     time.sleep(90)
     tok, lista = _videos_do_canal()
-    alvo = _norm(roteiro.get("titulo", ""))[:25]
-    item = next((v for v in lista if alvo and alvo in _norm(v["titulo"])), None)
+    roteiro = dict(roteiro)
+    roteiro["_texto"] = _norm(" ".join(str(roteiro.get(k, "")) for k in ("titulo", "legenda_post", "resumo")))
+    item = next((v for v in lista if _melhor(v["titulo"], [roteiro])), None)
     if not item:
         return "thumb no YouTube: não achei o vídeo no canal"
     thumb = thumb or _gerar_thumb(roteiro, RAIZ / "trabalho" / "thumb_yt")
@@ -91,16 +98,31 @@ def definir_depois_de_postar(resp: dict, roteiro: dict, thumb: Path | None = Non
     return f"thumb no YouTube: {_explica(definir(item['video_id'], thumb, tok))}"
 
 
-def _roteiros_conhecidos() -> dict:
-    achados = {}
-    for arq in list((RAIZ / "roteiros").glob("*.json")) + list((RAIZ / "data" / "historico").glob("*.json")):
+def _roteiros_conhecidos() -> list[dict]:
+    achados = []
+    arqs = (list((RAIZ / "roteiros").glob("*.json")) + list((RAIZ / "baixado").rglob("roteiro.json"))
+            + list((RAIZ / "data" / "historico").glob("*.json")))
+    for arq in arqs:
         try:
             r = json.loads(arq.read_text(encoding="utf-8"))
         except Exception:
             continue
-        if r.get("titulo"):
-            achados.setdefault(_norm(r["titulo"]), r)
+        if r.get("titulo") and r.get("cenas"):
+            legenda = arq.parent / "legenda_do_post.txt"
+            extra = legenda.read_text(encoding="utf-8") if legenda.exists() else ""
+            r["_texto"] = _norm(" ".join(str(r.get(k, "")) for k in ("titulo", "legenda_post", "resumo", "pergunta_thumb")) + " " + extra)
+            achados.append(r)
     return achados
+
+
+def _melhor(titulo_yt: str, roteiros: list[dict]):
+    """O título no YouTube costuma ser a legenda do post: acha o roteiro que mais contém as palavras dele."""
+    palavras = [w for w in _norm(titulo_yt).split() if len(w) > 3]
+    if not palavras:
+        return None
+    nota, melhor = max(((sum(w in r["_texto"].split() for w in palavras) / len(palavras), r) for r in roteiros),
+                       key=lambda x: x[0], default=(0, None))
+    return melhor if nota >= 0.6 else None
 
 
 def antigas():
@@ -109,8 +131,7 @@ def antigas():
     linhas = []
     tok, lista = _videos_do_canal()
     for item in lista:
-        nome = _norm(item["titulo"])
-        r = next((r for k, r in roteiros.items() if k and (k in nome or nome.startswith(k[:25]))), None)
+        r = _melhor(item["titulo"], roteiros)
         if not r:
             linhas.append(f"- {item['titulo'][:50]}: sem roteiro aqui, pulei")
             continue

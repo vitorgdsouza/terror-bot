@@ -6,11 +6,15 @@ on:
       acao:
         description: "relatorio = indicadores do canal no Telegram | thumbs = põe a thumb nos Shorts já postados"
         default: relatorio
+      runs:
+        description: "execuções antigas com o roteiro de vídeos que não estão em roteiros/ (separadas por espaço)"
+        default: "43939945243"
   schedule:
     - cron: "17 12 * * 1"     # toda segunda, 9h17 de Brasília: relatório da semana
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   youtube:
@@ -32,6 +36,13 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
       - name: Instalar dependências
         run: pip install -r requirements.txt
+      - name: Baixar roteiros de execuções antigas
+        if: github.event.inputs.acao == 'thumbs'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUNS: ${{ github.event.inputs.runs }}
+        run: |
+          for r in $RUNS; do gh run download "$r" -D "baixado/$r" || echo "sem artefato em $r"; done
       - name: Thumbs nos Shorts já postados
         if: github.event.inputs.acao == 'thumbs'
         run: python -m src.thumb_youtube antigas
