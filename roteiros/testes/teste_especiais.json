@@ -1,0 +1,18 @@
+{
+  "titulo": "Teste: cenas especiais",
+  "protagonista": "homem",
+  "clima": "suspense",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.4,
+  "final": true,
+  "legenda_post": "teste",
+  "hashtags": [],
+  "cenas": [
+    {"narracao": "Você bate na parede até ela ceder.", "cenario": "corredor_velho",
+     "personagem": {"pose": "golpeando", "acao": "parado", "posicao": "esquerda", "tamanho": "medio"}, "camera": "parada"},
+    {"narracao": "Lá no fundo do poço, alguma coisa está rindo de você. E miando... igualzinho ao Stu.", "cenario": "poco_sorriso",
+     "personagem": null, "camera": "zoom_in", "pausa_extra": 1.2},
+    {"narracao": "E no túnel... ele vem. De quatro. Devagar.", "cenario": "tunel_abismo",
+     "personagem": null, "camera": "zoom_in", "efeito": "luz_piscando", "pausa_extra": 1.0}
+  ]
+}

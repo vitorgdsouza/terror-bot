@@ -64,6 +64,10 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   armario (quarto escuro com um guarda-roupa de porta aberta e o vão preto, abajur aceso, cama) |
   corredor_velho (corredor antigo de papel de parede rasgado, arandela acesa, porta aberta para o escuro, escada ao fundo) |
   poco (poço de pedra no quintal dos fundos, tampa de madeira quebrada, corda descendo para o escuro) |
+  poco_sorriso (CENA ESPECIAL, sem personagem: o fundo do poço e, no breu do túnel, só os olhos e o sorriso do Abismo,
+  parados, gargalhando; o som traz a risada e miados imitados. Use uma vez, num momento de susto) |
+  tunel_abismo (CENA ESPECIAL, sem personagem: o Abismo de corpo inteiro rastejando de quatro no túnel, vindo para a
+  câmera, a cabeça estalando de lado; use uma vez, perto do clímax) |
   fundo_poco (fundo do poço seco, lua lá em cima, poças, um túnel baixo aberto na parede) |
   tunel (túnel subterrâneo de terra e tijolo, raízes e vigas, escuridão no fim) |
   parede_dentro (o vão por dentro das paredes da casa, vigas e isolamento, um buraco descendo) |
@@ -84,7 +88,8 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   alcancando (agachado, estica o braço devagar para dentro de um buraco ou fresta) | com_gato (abraçando o Stu no colo:
   só quando ele REALMENTE achar o gato) | silencio (uma mão
   tapando a boca, olhos arregalados: segurando o grito) | caido (caiu sentado no chão, apoiado nas mãos, recuando) |
-  chamando (mãos em volta da boca, chamando o gato) | debrucado (debruçado na borda do poço, braço descendo para o escuro;
+  chamando (mãos em volta da boca, chamando o gato) | golpeando (bate com um martelo: ele encosta sozinho na parede mais
+  perto, esquerda ou direita, e cada golpe solta poeira, abre rachaduras e um buraco) | debrucado (debruçado na borda do poço, braço descendo para o escuro;
   no cenário poco, "alcancando" também vira isso, junto da borda).
   olhando_cima é de costas para a tela (olhando o alto do poço ou da escada).
 
@@ -215,8 +220,6 @@ def normalizar(cena: dict) -> None:
             p["tamanho"] = p.get("tamanho") if p.get("tamanho") in TAMANHOS else "medio"
             if p.get("depois") not in POSES:
                 p.pop("depois", None)
-            if p["pose"] == "golpeando":              # fora de uso (não ficou bom): vira agachado
-                p["pose"] = "agachado"
             if p["pose"] == "engatinhando":
                 p.pop("vista", None)
     else:
@@ -982,6 +985,38 @@ def _desenhar_ameaca(quadro, a, meta, t, dur, escala_tela=1.0, paralaxe=0.0):
     quadro.alpha_composite(img, (cx - img.width // 2, topo))
 
 
+def _mascara_oval(w, h, borda=0.18):
+    m = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(m).ellipse((w * borda / 2, h * borda / 2, w * (1 - borda / 2), h * (1 - borda / 2)), fill=255)
+    return m.filter(ImageFilter.GaussianBlur(max(2, int(min(w, h) * borda / 3))))
+
+
+def _animar_especial(img, an, t, dur):
+    """Cenas especiais desenhadas prontas: a boca gargalha no escuro / a cabeça estala enquanto ele rasteja."""
+    cw, ch = img.size
+    prog = t / dur if dur else 0
+    if an["tipo"] == "gargalhada":
+        x, y, w, h = an["boca"]
+        caixa = (int(x * cw), int((y - h * 0.3) * ch), int((x + w) * cw), int((y + h * 1.4) * ch))
+        bw, bh = caixa[2] - caixa[0], caixa[3] - caixa[1]
+        rindo = 0.3 < prog < 0.9
+        abre = (0.1 + 0.16 * abs(math.sin(t * 9.0))) if rindo else 0.03 * abs(math.sin(t * 1.3))
+        meio = int(bh * 0.45)                          # a mandíbula: a metade de baixo desce e volta, como numa gargalhada
+        queixo = img.crop((caixa[0], caixa[1] + meio, caixa[2], caixa[3]))
+        novo = queixo.resize((bw, int(queixo.height * (1 + abre))), Image.BICUBIC)
+        img.paste(novo, (caixa[0], caixa[1] + meio), _mascara_oval(novo.width, novo.height, 0.35))
+    elif an["tipo"] == "rastejando":
+        x, y, w, h = an["cabeca"]
+        caixa = (int(x * cw), int(y * ch), int((x + w) * cw), int((y + h) * ch))
+        rnd = random.Random(int(t * 1.7))
+        estalo = (t * 1.7) % 1.0 < 0.12                # de tempos em tempos a cabeça estala para o lado
+        ang = (rnd.choice((-1, 1)) * 9 if estalo else 0) + math.sin(t * 0.9) * 3
+        cab = img.crop(caixa)
+        piv = (an["pescoco"][0] * cw - caixa[0], an["pescoco"][1] * ch - caixa[1])
+        girada = cab.rotate(ang, resample=Image.BICUBIC, center=piv, fillcolor=None)
+        img.paste(girada, caixa[:2], _mascara_oval(cab.width, cab.height, 0.3))
+
+
 # ---------------------------------------------------------------- efeitos
 def _ruido(w, h, seed):
     return Image.frombytes("L", (w, h), random.Random(seed).randbytes(w * h)).convert("RGBA")
@@ -1305,6 +1340,8 @@ def _quadro_base(cena: dict, t: float, dur: float, prot: str = "homem", n: int =
     else:
         meta = META[cena["cenario"]]
         img = _cenario_escuro(cena["cenario"]).copy()
+        if meta.get("anima"):                          # cena especial (ilustração pronta): a criatura se mexe
+            _animar_especial(img, meta["anima"], t, dur)
         ef = cena["efeito"]
         if ef == "tv_chiando":      # TV e chuva ficam no cenário, atrás de quem estiver na frente
             _tv(img, meta, t, n)

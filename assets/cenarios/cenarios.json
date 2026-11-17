@@ -511,5 +511,57 @@
    0.45,
    0.82
   ]
+ },
+ "poco_sorriso": {
+  "piso": 0.95,
+  "fundo": [
+   0.5,
+   0.74,
+   0.15
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.2,
+   0.8
+  ],
+  "horizonte": 0.6,
+  "especial": true,
+  "anima": {
+   "tipo": "gargalhada",
+   "boca": [
+    0.455,
+    0.635,
+    0.195,
+    0.07
+   ]
+  }
+ },
+ "tunel_abismo": {
+  "piso": 0.95,
+  "fundo": [
+   0.5,
+   0.64,
+   0.15
+  ],
+  "escala": 0.75,
+  "faixa": [
+   0.3,
+   0.7
+  ],
+  "horizonte": 0.55,
+  "especial": true,
+  "anima": {
+   "tipo": "rastejando",
+   "cabeca": [
+    0.505,
+    0.3,
+    0.215,
+    0.185
+   ],
+   "pescoco": [
+    0.61,
+    0.475
+   ]
+  }
  }
 }
