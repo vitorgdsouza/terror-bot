@@ -64,7 +64,7 @@ ACOES = {
     "aproximando": ("footsteps wooden floor slow", False),
     "correndo": ("running footsteps wooden floor", False),
 }
-POSES = {"abrindo_porta": ("door creak open slow", False), "golpeando": ("hammer hitting wall", False),
+POSES = {"abrindo_porta": ("door creak open slow", False), "golpeando": ("hammer hit wall", False),
          "engatinhando": ("crawling dirt", False), "chamando": ("kitty kitty call whisper", False)}
 GATO = {"miando": ("cat meow", False), "assustado": ("cat hiss angry", False), "correndo": ("cat running paws", False)}
 OBJETOS_SOM = {"coleira": ("small bell jingle", False), "arranhoes": ("scratching wood door", False),
@@ -243,15 +243,15 @@ def montar_trilha_sons(roteiro: dict, duracoes: list, destino: Path) -> Path | N
             usados += 1
         # cenas especiais (ilustrações prontas com o Abismo)
         if cena.get("cenario") == "tunel_abismo":      # arrastando-se pela terra, vindo
-            if arq := baixar("creature crawling scraping", False):
+            if arq := baixar("crawling", False):
                 mesa.uma_vez(arq, ini + 0.2, VOLUMES["susto"] * 0.8, max_dur=min(dur, 5.0))
             if arq := baixar(AMEACA["loop"], True):
                 mesa.loop(arq, ini, fim, VOLUMES["ameaca"], 0.8)
             usados += 1
         if cena.get("cenario") == "poco_sorriso":      # gargalhada baixa no escuro e miados imitados, debochando
-            if arq := baixar("evil laugh dark low", False):
+            if arq := baixar("sinister laugh", False):
                 mesa.uma_vez(arq, ini + dur * 0.3, VOLUMES["susto"] * 0.9, max_dur=min(dur, 5.0))
-            if arq := baixar("cat meow distorted creepy", False):
+            if arq := baixar("cat meow", False):
                 for k, atraso in enumerate((0.5, 0.78)):
                     mesa.uma_vez(arq, ini + dur * atraso, VOLUMES["acao"] * (1.2 + 0.3 * k), max_dur=1.8)
             usados += 1
