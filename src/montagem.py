@@ -186,9 +186,23 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     destino.write_text(cab + "\n".join(linhas) + "\n", encoding="utf-8")
 
 
-def _trilha(total: float, cfg: dict) -> list:
-    """Devolve (entradas extras do ffmpeg, filtro da trilha). Usa uma música de assets/musica
-    se existir; senão gera um ambiente sombrio (zumbido grave + vento), livre de direitos."""
+def _trilha(total: float, cfg: dict, roteiro: dict | None = None) -> list:
+    """Devolve (entradas extras do ffmpeg, filtro da trilha). Se o roteiro pedir "trilha" (busca no Freesound),
+    usa esse ambiente sombrio do começo ao fim; senão uma música de assets/musica; senão um drone gerado."""
+    busca = (roteiro or {}).get("trilha")
+    if busca:
+        try:
+            from .sons import baixar
+            arq = baixar(str(busca), True)
+        except Exception as e:  # noqa: BLE001
+            arq = None
+            log(f"Trilha '{busca}' falhou ({e})")
+        if arq:
+            vol = float((roteiro or {}).get("trilha_volume", 0.55))
+            log(f"Trilha sombria: {busca}")
+            return (["-stream_loop", "-1", "-i", str(arq)],
+                    f"[1:a]aformat=channel_layouts=stereo,volume={vol},afade=t=in:d=2,"
+                    f"afade=t=out:st={max(total - 2.5, 0):.2f}:d=2.5[bg]")
     musicas = sorted(list(MUSICA.glob("*.mp3")) + list(MUSICA.glob("*.m4a")) + list(MUSICA.glob("*.wav")))
     if musicas:
         escolhida = random.choice(musicas)
@@ -249,7 +263,7 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
 
     total = duracao(juntos)
     _escrever_legendas(roteiro, vozes, duracoes, cfg, pasta / "legendas.ass")
-    extras, filtro_bg = _trilha(total, cfg)
+    extras, filtro_bg = _trilha(total, cfg, roteiro)
     final = pasta / "video_final.mp4"
     # sons ambientes e efeitos de cada cena (Freesound); abaixam sozinhos quando o narrador fala
     sons = None
@@ -261,11 +275,13 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
     if sons:
         idx = 1 + (1 if extras else 0)
         extras = [*extras, "-i", sons.name]
-        mistura = (f"[0:a]asplit=2[voz][chave];[{idx}:a]aformat=channel_layouts=stereo[sfx];"
+        mistura = (f"[0:a]asplit=3[voz][chave][chave2];[{idx}:a]aformat=channel_layouts=stereo[sfx];"
                    "[sfx][chave]sidechaincompress=threshold=0.04:ratio=3:attack=30:release=400[sfxd];"
-                   "[voz][bg][sfxd]amix=inputs=3:duration=first:normalize=0[a]")
+                   "[bg][chave2]sidechaincompress=threshold=0.05:ratio=2.5:attack=40:release=600[bgd];"
+                   "[voz][bgd][sfxd]amix=inputs=3:duration=first:normalize=0[a]")
     else:
-        mistura = "[0:a][bg]amix=inputs=2:duration=first:normalize=0[a]"
+        mistura = ("[0:a]asplit=2[voz][chave];[bg][chave]sidechaincompress=threshold=0.05:ratio=2.5:attack=40:"
+                   "release=600[bgd];[voz][bgd]amix=inputs=2:duration=first:normalize=0[a]")
 
     def codificar(crf: int) -> None:
         rodar(["ffmpeg", "-y", "-i", "juntos.mp4", *extras,
