@@ -82,13 +82,12 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   no chão) | olhando_tras (de lado, virando o rosto para trás) | engatinhando (de quatro; com acao "andando" vai devagar:
   túnel, vão da parede, debaixo da cama) | olhando_cima (olhos arregalados para o alto: fundo do poço, topo da escada) |
   alcancando (agachado, estica o braço devagar para dentro de um buraco ou fresta) | com_gato (abraçando o Stu no colo:
-  só quando ele REALMENTE achar o gato) | golpeando (bate com um martelo: quebrar parede ou cadeado) | silencio (uma mão
+  só quando ele REALMENTE achar o gato) | silencio (uma mão
   tapando a boca, olhos arregalados: segurando o grito) | caido (caiu sentado no chão, apoiado nas mãos, recuando) |
   chamando (mãos em volta da boca, chamando o gato) | debrucado (debruçado na borda do poço, braço descendo para o escuro;
   no cenário poco, "alcancando" também vira isso, junto da borda).
-  "vista" (opcional, nas poses novas): "costas" ou "frente". olhando_cima já é de costas por padrão (olhando o alto do poço);
-  engatinhando com "vista" frente/costas = de quatro vindo para a câmera (acao aproximando) ou indo para o fundo (afastando).
-  golpeando: ele encosta sozinho na parede mais perto (esquerda/direita) e o martelo abre rachaduras e um buraco.
+  olhando_cima é de costas para a tela (olhando o alto do poço ou da escada).
+
   acao: parado | andando (anda de lado e para) | correndo | entrando (entra pelo lado e para) | saindo (sai pelo lado) |
   afastando (de costas, andando para o fundo da cena) | aproximando (de frente, andando para a câmera) | tremendo | virando
   (estava de costas e vira). Ao parar, ele fica na pose escolhida.
@@ -105,11 +104,7 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   só em sala, quarto, cozinha, janela e casa_fora) | relance (aparece por um piscar de olhos e some). tamanho "perto" = clímax: ele de corpo inteiro, grande, encarando
   com a cara bizarra (cabeça tombando, sorriso rasgando). encarando = parado, imóvel, encarando com a cara bizarra
   (ótimo "longe" no alto da escada, com o personagem embaixo paralisado de medo). teto = pendurado de cabeça para baixo
-  no teto, balançando devagar (use posicao esquerda/direita, com o personagem sem perceber: o público vê, ele não) |
-  rastejando = de quatro, de frente, braços compridos abertos no chão, vem do fundo até perto, devagar (túnel, corredor,
-  porão) | sorriso_escuro = a tela escurece e, parados no breu da passagem (o túnel do fundo do poço, a abertura da câmara,
-  uma porta), só os olhos arregalados e um sorriso de dentes demais, sem rosto; a boca treme numa gargalhada e o som traz
-  uma risada baixa e miados imitados, debochando (o Abismo imitando o Stu).
+  no teto, balançando devagar (use posicao esquerda/direita, com o personagem sem perceber: o público vê, ele não).
 - "objeto": null, uma pista ou uma lista com até 2: {"tipo": coleira | tigela | pelo | novelo | ratinho | pegadas |
   arranhoes | marcas_mao | arma | caixa_arma, "posicao": esquerda|centro|direita, "tamanho": medio | perto}. perto = close da pista no chão
   com a luz da lanterna (use sem personagem ou com o personagem "perto"). pegadas = trilha de patinhas de poeira indo
@@ -220,6 +215,10 @@ def normalizar(cena: dict) -> None:
             p["tamanho"] = p.get("tamanho") if p.get("tamanho") in TAMANHOS else "medio"
             if p.get("depois") not in POSES:
                 p.pop("depois", None)
+            if p["pose"] == "golpeando":              # fora de uso (não ficou bom): vira agachado
+                p["pose"] = "agachado"
+            if p["pose"] == "engatinhando":
+                p.pop("vista", None)
     else:
         cena["personagem"] = None
     if META.get(cena["cenario"], {}).get("detalhe") and cena["personagem"]:
@@ -229,6 +228,7 @@ def normalizar(cena: dict) -> None:
         a["tipo"] = "abismo"                          # nomes antigos viram O Abismo
     if isinstance(a, dict) and a.get("tipo") in AMEACAS:
         a["acao"] = a.get("acao") if a.get("acao") in ACOES_A else "parada"
+        a["acao"] = {"rastejando": "aproximando", "sorriso_escuro": "encarando"}.get(a["acao"], a["acao"])   # fora de uso
         a["posicao"] = a.get("posicao") if a.get("posicao") in POSICOES else "centro"
         a["tamanho"] = a.get("tamanho") if a.get("tamanho") in TAMANHOS else "longe"
         if a["acao"] == "na_janela" and not META.get(cena["cenario"], {}).get("janela"):
