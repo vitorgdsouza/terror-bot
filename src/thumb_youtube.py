@@ -122,7 +122,7 @@ def definir_depois_de_postar(resp: dict, roteiro: dict, thumb: Path | None = Non
 
 def _roteiros_conhecidos() -> list[dict]:
     achados = []
-    arqs = (list((RAIZ / "roteiros").glob("*.json")) + list((RAIZ / "baixado").rglob("roteiro.json"))
+    arqs = (list((RAIZ / "roteiros").rglob("*.json")) + list((RAIZ / "baixado").rglob("roteiro.json"))
             + list((RAIZ / "data" / "historico").glob("*.json")))
     for arq in arqs:
         try:
@@ -180,7 +180,6 @@ def antigas():
                 break
         except Exception as e:
             linhas.append(f"- {r['titulo']}: falhou ({e})")
-        log(linhas[-1])
     for l in linhas:
         log(l)
     if any("ok" in l or "recusou" in l for l in linhas) or os.environ.get("GITHUB_EVENT_NAME") != "schedule":
