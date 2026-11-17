@@ -1,0 +1,231 @@
+{
+  "titulo": "O Rufus Não Abana Mais o Rabo",
+  "estilo": "vhs",
+  "pixel": 7,
+  "data_fita": "MAR 03 1998",
+  "hora_fita": [
+    2,
+    58,
+    10
+  ],
+  "protagonista": "policial",
+  "clima": "suspense",
+  "selo": "FITA 01",
+  "pergunta_thumb": "Isso ainda é o Rufus?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "parte": 1,
+  "serie": "Rufus",
+  "legenda_post": "Fita encontrada na casa de uma policial. O cão dela era o melhor farejador da cidade. Até aquela noite. E você, A ou B?",
+  "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#cachorro",
+    "#terror"
+  ],
+  "resumo": "Você é policial e vive com o Rufus, seu cão farejador. Uma noite ele não quis entrar. De manhã, algo deitado ao pé da cama usa a pele dele.",
+  "opcao_a": "Correr até a arma no armário do corredor.",
+  "opcao_b": "Sair pela janela do quarto.",
+  "cenas": [
+    {
+      "narracao": "Você é policial. E todo fim de tarde, quando você chega em casa, o Rufus já está te esperando no quintal.",
+      "cenario": "casa_fora",
+      "personagem": {
+        "pose": "frente",
+        "acao": "entrando",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
+      "cachorro": {
+        "acao": "brincando",
+        "posicao": "direita",
+        "tamanho": "medio"
+      },
+      "camera": "parada"
+    },
+    {
+      "narracao": "Ele é enorme. O melhor cão farejador da cidade.",
+      "cenario": "sala",
+      "personagem": null,
+      "cachorro": {
+        "acao": "sentado",
+        "posicao": "centro",
+        "tamanho": "perto"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Vocês brincam até escurecer. Ele corre, pula, e sempre traz a bolinha de volta.",
+      "cenario": "casa_fora",
+      "personagem": {
+        "pose": "frente",
+        "acao": "parado",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
+      "cachorro": {
+        "acao": "correndo",
+        "posicao": "direita",
+        "tamanho": "medio"
+      },
+      "camera": "pan_direita"
+    },
+    {
+      "narracao": "Naquela noite, ele não quis entrar.",
+      "cenario": "porta_entrada",
+      "personagem": {
+        "pose": "abrindo_porta",
+        "acao": "parado",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Ficou parado no escuro do quintal... olhando para a mata.",
+      "cenario": "casa_fora",
+      "personagem": null,
+      "cachorro": {
+        "acao": "parado",
+        "posicao": "centro",
+        "tamanho": "longe"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Às três da manhã, você ouve unhas arranhando o chão do corredor.",
+      "cenario": "corredor",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {
+        "busca": "dog claws on floor",
+        "palavra": "unhas"
+      }
+    },
+    {
+      "narracao": "Mas o Rufus nunca entrou em casa sozinho.",
+      "cenario": "quarto",
+      "personagem": {
+        "pose": "sentado",
+        "acao": "parado",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "De manhã, ele está deitado ao pé da sua cama.",
+      "cenario": "quarto",
+      "personagem": null,
+      "cachorro": {
+        "acao": "deitado",
+        "falso": true,
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Mas tem algo errado.",
+      "cenario": "quarto",
+      "personagem": {
+        "pose": "medo",
+        "acao": "parado",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
+      "cachorro": {
+        "acao": "deitado",
+        "falso": true,
+        "posicao": "direita",
+        "tamanho": "medio"
+      },
+      "camera": "parada"
+    },
+    {
+      "narracao": "Ele não abana o rabo. As orelhas estão caídas. E o pelo... parece frouxo. Grande demais para o corpo.",
+      "cenario": "quarto",
+      "personagem": null,
+      "cachorro": {
+        "acao": "deitado",
+        "falso": true,
+        "posicao": "centro",
+        "tamanho": "perto"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Você chama baixinho. Rufus?",
+      "cenario": "quarto",
+      "personagem": {
+        "pose": "medo",
+        "acao": "tremendo",
+        "posicao": "esquerda",
+        "tamanho": "perto"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Ele levanta a cabeça devagar. E os olhos... não são olhos de cachorro.",
+      "cenario": "quarto",
+      "personagem": null,
+      "cachorro": {
+        "acao": "levantando_cabeca",
+        "falso": true,
+        "posicao": "centro",
+        "tamanho": "perto"
+      },
+      "camera": "zoom_in",
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "Na pia da cozinha, a coleira dele. Lavada.",
+      "cenario": "pia_detalhe",
+      "personagem": null,
+      "objeto": {
+        "tipo": "coleira",
+        "tamanho": "perto"
+      },
+      "camera": "zoom_in",
+      "som": {
+        "busca": "small bell jingle",
+        "palavra": "coleira"
+      }
+    },
+    {
+      "narracao": "Quando você volta para o corredor... ele está de pé. Em duas pernas.",
+      "cenario": "corredor",
+      "personagem": {
+        "pose": "costas",
+        "acao": "tremendo",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
+      "cachorro": {
+        "acao": "de_pe",
+        "posicao": "centro",
+        "tamanho": "longe"
+      },
+      "camera": "zoom_in",
+      "efeito": "tremor"
+    },
+    {
+      "narracao": "A sua arma está no armário do corredor. Atrás dele.",
+      "cenario": "corredor",
+      "personagem": null,
+      "cachorro": {
+        "acao": "de_pe",
+        "posicao": "centro",
+        "tamanho": "longe"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Opção A: correr até a arma. Opção B: sair pela janela do quarto. Comente A ou B.",
+      "cenario": "janela",
+      "personagem": null,
+      "camera": "zoom_in"
+    }
+  ]
+}

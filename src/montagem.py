@@ -134,7 +134,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
 
 def _escrever_legendas(roteiro: dict, vozes: list, duracoes: list, cfg: dict, destino: Path) -> None:
-    if roteiro.get("formato") == "protocolo":            # o texto já está desenhado no quadro
+    if roteiro.get("formato") == "protocolo" or roteiro.get("estilo") == "vhs":   # o texto já está no quadro
         destino.write_text(f"[Script Info]\nScriptType: v4.00+\nPlayResX: {W}\nPlayResY: {H}\n\n[V4+ Styles]\n"
                            "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, "
                            "Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, "
@@ -234,6 +234,12 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
     from .animacao import marcar_revelacao, renderizar_cena, renderizar_clipe
     pasta.mkdir(parents=True, exist_ok=True)
     marcar_revelacao(roteiro)
+    if roteiro.get("estilo") == "vhs":                    # fita VHS pixelada: relógio da fita corre pelo vídeo
+        t0 = 0.0
+        for c, v in zip(roteiro["cenas"], vozes):
+            c.update(_vhs=True, _t0=t0, _pixel=roteiro.get("pixel", 6), _data=roteiro.get("data_fita", "NOV 16 1997"),
+                     _hora=tuple(roteiro.get("hora_fita", (3, 12, 40))))
+            t0 += v["duracao"] + PAUSA
     prot = roteiro.get("protagonista", "homem")
     cenas, duracoes = [], []
     lista_cenas = roteiro["cenas"]

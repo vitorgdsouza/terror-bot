@@ -37,6 +37,7 @@ except Exception:
     ESTILO_PERSONAGEM = "boneco"
 ACOES_A = ["parada", "aparecendo", "aproximando", "sumindo", "espiando", "passando", "na_janela", "encarando", "relance"]
 AMEACAS = ["abismo", "invasor"]
+CAO_ACOES = ["parado", "andando", "correndo", "brincando", "sentado", "deitado", "levantando_cabeca", "de_pe"]
 GATO_ACOES = ["parado", "andando", "correndo", "sentado", "miando", "deitado", "escondido", "assustado"]
 POSICOES = {"esquerda": 0.28, "centro": 0.5, "direita": 0.72}
 TAMANHOS = {"longe": 0.36, "medio": 0.62, "perto": 1.15}
@@ -97,6 +98,9 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   posicao: esquerda | centro | direita. tamanho: longe | medio | perto (close do gato, só em cena sem o personagem).
   Fica ao lado do personagem, nunca atrás. A ação do gato acompanha o clima da frase: cenas de carinho = sentado,
   deitado ou miando; "assustado" e "escondido" só quando o perigo está perto.
+- "cachorro": null ou o cão (Rufus). acao: parado | andando | correndo | brincando (vai e volta) | sentado | deitado |
+  levantando_cabeca | de_pe (só o falso: em duas pernas). "falso": true = a coisa vestida com a pele dele
+  (pernas compridas demais, mãos humanas, olho humano, sorriso de dentes). posicao e tamanho como no gato.
 - "efeito": nenhum | luz_piscando | tv_chiando (só na sala e no quarto, no monitor) | relampago | chuva | tremor (susto).
 - "camera": zoom_in (aproxima devagar, padrão) | zoom_out | pan_esquerda | pan_direita | parada.
 A animação reage sozinha à narração: palavras de medo e frases com "...", "!" ou "?" dão uma leve aproximação da câmera,
@@ -214,6 +218,16 @@ def normalizar(cena: dict) -> None:
         o["posicao"] = o.get("posicao") if o.get("posicao") in POSICOES else "centro"
         o["tamanho"] = "perto" if o.get("tamanho") == "perto" else "medio"
     cena["objeto"] = objs or None
+    cao = cena.get("cachorro")
+    if isinstance(cao, dict):
+        cao["acao"] = cao.get("acao") if cao.get("acao") in CAO_ACOES else "parado"
+        cao["posicao"] = cao.get("posicao") if cao.get("posicao") in POSICOES else "direita"
+        cao["tamanho"] = cao.get("tamanho") if cao.get("tamanho") in TAMANHOS else "medio"
+        cao["falso"] = bool(cao.get("falso"))
+        if cao["acao"] == "de_pe":
+            cao["falso"] = True
+    else:
+        cena["cachorro"] = None
     g = cena.get("gato")
     if isinstance(g, dict):
         g["acao"] = g.get("acao") if g.get("acao") in GATO_ACOES else "sentado"
@@ -420,6 +434,54 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
     if "lanterna" in info:
         (bx, by), ang = info["lanterna"]
         _feixe(quadro, (ox + bx, oy + by), ang, altura * escala * 0.95)
+
+
+def _desenhar_cachorro(quadro, c, meta, t, dur, paralaxe=0.0, desvio=0.0):
+    """Rufus (ou o falso Rufus): cão grande, de perfil, que corre, senta, deita e, no falso, fica de pé."""
+    from . import cachorro as C
+    cw, ch = quadro.size
+    tam, acao = c["tamanho"], c["acao"]
+    esc_cen = meta.get("escala", 1.0) if tam != "perto" else 1.0
+    base = {"longe": 0.13, "medio": 0.24, "perto": 0.36}[tam] * (2.3 if acao == "de_pe" else 1.0)
+    if acao == "de_pe" and tam == "longe":
+        base = 0.42
+    altura = int(ch * base * esc_cen)
+    piso = meta.get("piso", 0.9)
+    fundo = meta.get("fundo", [0.5, piso, 0.4])
+    if tam == "longe":
+        piso = (fundo[1] + piso) / 2
+    else:
+        piso -= 0.03 if tam == "medio" else 0
+    if tam == "perto":
+        piso = 0.98
+    faixa = meta.get("faixa", [0.22, 0.78])
+    alvo = (min(max(POSICOES[c["posicao"]], faixa[0]), faixa[1]) + desvio) * cw
+    lado = -1 if alvo <= cw / 2 else 1
+    x, sentido = alvo, (1 if alvo < cw / 2 else -1)
+    if acao in ("andando", "correndo", "brincando"):
+        vel = (1.4 if acao != "andando" else 0.5) * altura * (0.6 if c["falso"] else 1)
+        dist = min(0.5 * cw, vel * dur * 0.9)
+        T = dist / vel
+        ida = (t % (2 * T)) if acao == "brincando" else min(t, T)
+        if acao == "brincando" and ida > T:             # vai e volta pelo quintal
+            x = alvo + lado * dist / 2 - lado * (ida - T) * vel
+            sentido = -lado
+        else:
+            x = alvo - lado * dist / 2 + lado * ida * vel
+            sentido = lado
+    if tam == "perto":                                  # close: virado para a direita, com a cabeça no meio da tela
+        sentido = 1
+        x = cw * (0.3 if acao in ("deitado", "levantando_cabeca") else 0.4)
+        if acao in ("deitado", "levantando_cabeca"):
+            piso = 0.86
+    pose = C.animar(acao, t, dur, espelhar=sentido < 0, falso=c["falso"])
+    img, info = C.desenhar(pose, max(30, altura), falso=c["falso"])
+    img = _noite(img, NOITE_BONECO)
+    cx, chao = x + paralaxe * cw, ch * piso
+    if tam != "perto":
+        sb = _sombra_chao(int(img.width * 0.5))
+        quadro.alpha_composite(sb, (int(cx - sb.width / 2), int(chao - sb.height / 2)))
+    quadro.alpha_composite(img, (int(cx - info["pes"][0]), int(chao - info["pes"][1])))
 
 
 def _desenhar_gato(quadro, g, meta, t, dur, escala_tela=1.0, noturno=0.4, paralaxe=0.0, desvio=0.0):
@@ -1019,6 +1081,9 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
     img = _quadro_base(cena, t, dur, prot, n)
     if cena.get("texto_tela"):
         _texto_tela(img, str(cena["texto_tela"]), t)
+    if cena.get("_vhs"):
+        from .vhs import aplicar
+        img = aplicar(img, cena, t, dur, n)
     return img
 
 
@@ -1089,10 +1154,18 @@ def _quadro_base(cena: dict, t: float, dur: float, prot: str = "homem", n: int =
         desvio = 0.0
         if g and p and g["posicao"] == p["posicao"] and p["tamanho"] != "perto":
             desvio = 0.16 if POSICOES[g["posicao"]] <= 0.5 else -0.16    # não fica escondido atrás do personagem
+        cao = cena.get("cachorro")
+        if cao and (cao["tamanho"] == "longe" or not p):
+            _desenhar_cachorro(img, cao, meta, t, dur, paralaxe=paralaxe)
         if g and g["tamanho"] == "longe":
             _desenhar_gato(img, g, meta, t, dur, paralaxe=paralaxe, desvio=desvio)
         if p:
             _desenhar_personagem(img, p, meta, t, dur, prot, paralaxe=paralaxe, tenso=bool(a))
+        if cao and cao["tamanho"] != "longe" and p:
+            dv = 0.0
+            if cao["posicao"] == p["posicao"] and p["tamanho"] != "perto":
+                dv = 0.2 if POSICOES[cao["posicao"]] <= 0.5 else -0.2
+            _desenhar_cachorro(img, cao, meta, t, dur, paralaxe=paralaxe, desvio=dv)
         if g and g["tamanho"] != "longe":
             _desenhar_gato(img, g, meta, t, dur, paralaxe=paralaxe * (1.6 if g["tamanho"] == "perto" else 1.0), desvio=desvio)
         if a and not ameaca_atras:
