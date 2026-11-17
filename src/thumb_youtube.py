@@ -1,4 +1,4 @@
-"""Coloca a nossa thumb (vertical 1080x1920) nos Shorts do YouTube pelo Upload-Post.
+"""Coloca a nossa thumb (vertical 1080x1920) nos Shorts do YouTube pela API oficial (thumbnails.set).
 
 O YouTube só aceita thumb personalizada de canal verificado por telefone (youtube.com/verify). No Short ela aparece
 na página do canal, na busca e nas inscrições (no feed de Shorts aparece o próprio vídeo).
@@ -20,45 +20,14 @@ from PIL import Image
 
 from .util import RAIZ, log
 
-API = "https://api.upload-post.com/api"
 
 
-def _auth():
-    chave = os.environ.get("UPLOAD_POST_API_KEY", "").strip()
-    perfil = os.environ.get("UPLOAD_POST_USER", "").strip()
-    if not chave or not perfil:
-        raise RuntimeError("Faltam os segredos UPLOAD_POST_API_KEY e/ou UPLOAD_POST_USER no GitHub.")
-    return {"Authorization": f"Apikey {chave}"}, perfil
-
-
-def _id_do_link(url: str) -> str:
-    m = re.search(r"(?:shorts/|v=|youtu\.be/)([\w-]{11})", url or "")
-    return m.group(1) if m else ""
-
-
-def _norm(t: str) -> str:
-    t = unicodedata.normalize("NFKD", (t or "").lower())
-    t = "".join(c for c in t if not unicodedata.combining(c))
-    return re.sub(r"[^a-z0-9 ]", "", t.replace("#shorts", "")).strip()
-
-
-def historico_youtube() -> list[dict]:
-    cab, perfil = _auth()
-    r = requests.get(f"{API}/uploadposts/history", headers=cab, timeout=60,
-                     params={"platform": "youtube", "limit": 100, "profile_username": perfil})
-    r.raise_for_status()
-    itens = []
-    for h in r.json().get("history", []):
-        if not h.get("success"):
-            continue
-        pid = h.get("platform_post_id")
-        if isinstance(pid, list):
-            pid = pid[0] if pid else ""
-        vid = _id_do_link(h.get("post_url") or "") or (pid if isinstance(pid, str) and len(pid) == 11 else "")
-        if vid:
-            itens.append({"video_id": vid, "titulo": h.get("post_title") or "", "url": h.get("post_url") or "",
-                          "quando": h.get("upload_timestamp")})
-    return itens
+def _videos_do_canal() -> tuple[str, list[dict]]:
+    """Lista os vídeos do canal pela API oficial (mesmo acesso do relatório: YT_CLIENT_ID/SECRET/REFRESH_TOKEN)."""
+    from .analise import _token, videos
+    tok = _token()
+    lista, _ = videos(tok)
+    return tok, [{"video_id": v["id"], "titulo": v["titulo"], "quando": v["publicado"]} for v in lista]
 
 
 def _jpg(caminho: Path) -> bytes:
@@ -73,11 +42,13 @@ def _jpg(caminho: Path) -> bytes:
     return buf.getvalue()
 
 
-def definir(video_id: str, imagem: Path) -> dict:
-    cab, perfil = _auth()
-    r = requests.post(f"{API}/uploadposts/youtube/thumbnail", headers=cab, timeout=120,
-                      data={"user": perfil, "video_id": video_id},
-                      files={"thumbnail": ("thumb.jpg", _jpg(imagem), "image/jpeg")})
+def definir(video_id: str, imagem: Path, tok: str | None = None) -> dict:
+    if tok is None:
+        from .analise import _token
+        tok = _token()
+    r = requests.post("https://www.googleapis.com/upload/youtube/v3/thumbnails/set", timeout=120,
+                      params={"videoId": video_id, "uploadType": "media"},
+                      headers={"Authorization": f"Bearer {tok}", "Content-Type": "image/jpeg"}, data=_jpg(imagem))
     try:
         resp = r.json()
     except ValueError:
@@ -87,11 +58,14 @@ def definir(video_id: str, imagem: Path) -> dict:
 
 
 def _explica(resp: dict) -> str:
-    if resp.get("_status", 500) < 300 and resp.get("success") is not False:
-        return "na fila (o vídeo ainda está processando)" if resp.get("pending") else "ok"
+    if resp.get("_status", 500) < 300:
+        return "ok ✅"
+    erro = resp.get("error")
+    msg = erro.get("message") if isinstance(erro, dict) else erro
     if resp.get("_status") == 403:
-        return "o YouTube recusou: o canal precisa ser verificado por telefone em youtube.com/verify"
-    return f"erro {resp.get('_status')}: {resp.get('error') or resp.get('message') or json.dumps(resp)[:200]}"
+        return ("o YouTube recusou (403): para Shorts ele só libera thumb própria para alguns canais "
+                f"(verificação por telefone em youtube.com/verify; o resto vem com o Programa de Parcerias). Detalhe: {msg}")
+    return f"erro {resp.get('_status')}: {msg or json.dumps(resp)[:200]}"
 
 
 def _gerar_thumb(roteiro: dict, pasta: Path) -> Path | None:
@@ -104,19 +78,17 @@ def _gerar_thumb(roteiro: dict, pasta: Path) -> Path | None:
 
 
 def definir_depois_de_postar(resp: dict, roteiro: dict, thumb: Path | None = None) -> str:
-    """Acha o id do Short na resposta do upload e coloca a thumb (o Upload-Post espera o processamento)."""
-    texto = json.dumps(resp, ensure_ascii=False)
-    vid = _id_do_link(texto)
-    if not vid:
-        time.sleep(30)
-        recentes = historico_youtube()
-        vid = recentes[0]["video_id"] if recentes and _norm(roteiro.get("titulo", ""))[:20] in _norm(recentes[0]["titulo"]) else ""
-    if not vid:
-        return "thumb no YouTube: não achei o id do vídeo"
+    """Depois do upload, acha o Short no canal pelo título e coloca a thumb (espera o YouTube processar)."""
+    time.sleep(90)
+    tok, lista = _videos_do_canal()
+    alvo = _norm(roteiro.get("titulo", ""))[:25]
+    item = next((v for v in lista if alvo and alvo in _norm(v["titulo"])), None)
+    if not item:
+        return "thumb no YouTube: não achei o vídeo no canal"
     thumb = thumb or _gerar_thumb(roteiro, RAIZ / "trabalho" / "thumb_yt")
     if not thumb:
         return "thumb no YouTube: sem thumb para este formato"
-    return f"thumb no YouTube: {_explica(definir(vid, thumb))}"
+    return f"thumb no YouTube: {_explica(definir(item['video_id'], thumb, tok))}"
 
 
 def _roteiros_conhecidos() -> dict:
@@ -135,7 +107,8 @@ def antigas():
     from . import telegram
     roteiros = _roteiros_conhecidos()
     linhas = []
-    for item in historico_youtube():
+    tok, lista = _videos_do_canal()
+    for item in lista:
         nome = _norm(item["titulo"])
         r = next((r for k, r in roteiros.items() if k and (k in nome or nome.startswith(k[:25]))), None)
         if not r:
@@ -146,7 +119,7 @@ def antigas():
             if not thumb:
                 linhas.append(f"- {r['titulo']}: formato real, a thumb depende do clipe; pulei")
                 continue
-            linhas.append(f"- {r['titulo']}: {_explica(definir(item['video_id'], thumb))}")
+            linhas.append(f"- {r['titulo']}: {_explica(definir(item['video_id'], thumb, tok))}")
         except Exception as e:
             linhas.append(f"- {r['titulo']}: falhou ({e})")
         log(linhas[-1])
