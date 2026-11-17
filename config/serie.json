@@ -93,21 +93,25 @@
   "abismo_lore": {
     "ligado": true,
     "verdades": [
-      "A casa foi construída em cima de um poço antigo que foi aterrado. Os vizinhos chamavam o lugar de 'o abismo'. De madrugada, dá para ouvir algo respirando pelo ralo do porão.",
-      "Em 1987, a família Duarte, que morava na casa, sumiu numa noite. Só o carro ficou na garagem. A porta do porão estava trancada por dentro.",
-      "A filha dos Duarte, Lívia, desenhava 'o moço do sorriso' e dizia que ele morava dentro das paredes.",
+      "A casa foi construída em cima de um poço antigo, no quintal dos fundos. Os vizinhos chamavam o lugar de 'o abismo'. De madrugada, dá para ouvir algo respirando pelo ralo do porão.",
+      "Em 1987, os Duarte que moravam na casa, os bisavós do Lucas, sumiram numa noite. Só o carro ficou na garagem. A porta do porão estava trancada por dentro.",
+      "A bisavó do Lucas, desde menina, via um homem sorrindo nos cantos escuros e o desenhava sem parar. Ela dizia que ele morava dentro das paredes e que crescia toda vez que alguém o desenhava.",
+      "O Abismo nasceu dos desenhos dela: quanto mais ela o desenhava, mais real ele ficava. Ele é a criação dela, e por isso está preso à casa e à família Duarte.",
       "Ele imita a voz e os sons de quem você ama para te atrair. Por isso imita o miado do Stu.",
       "Ele não suporta luz direta: a lanterna o faz recuar e a cabeça estalar, mas só por alguns segundos.",
       "Gatos o enxergam antes das pessoas. Ele pega os bichos primeiro, para que os donos venham atrás.",
-      "Ele guarda coisas de cada um que levou (coleiras, brinquedos, fotos) num lugar escuro debaixo da casa.",
-      "Ele não consegue sair pela porta da frente: só existe dentro da casa e no que está ligado a ela."
+      "Ele guarda coisas de cada um que levou (coleiras, brinquedos, fotos, os desenhos da bisavó) num lugar escuro debaixo da casa, ligado ao poço por túneis.",
+      "Ele não consegue sair pela porta da frente: só existe dentro da casa, no poço e no que está ligado a eles.",
+      "Ele esperou um Duarte voltar para a casa. A volta do Lucas o acordou."
     ],
-    "paradeiro_do_gato": "O Stu está vivo, escondido nos espaços entre as paredes e no fundo do porão. O Abismo o usa como isca. Às vezes ele aparece na câmera de segurança ou o miado vem de dentro da parede."
+    "paradeiro_do_gato": "O Stu está vivo. O Abismo o levou para o poço do quintal e o esconde nos túneis debaixo da casa, usando-o como isca para fazer o Lucas descer. Às vezes o miado vem de dentro da parede, ou o Abismo imita o miado dele.",
+    "protagonista": "O protagonista é Lucas Duarte. Ele mora sozinho com o gato Stu na casa que era dos bisavós dele. Nos episódios a narração fala com \"você\", mas o nome dele (Lucas) e o sobrenome Duarte podem aparecer em pistas (um bilhete, uma foto, uma voz chamando o nome inteiro)."
   },
   "postagem": {
     "plataformas": [
       "youtube"
     ],
     "marcar_ia": true
-  }
+  },
+  "protagonista_nome": "Lucas Duarte"
 }

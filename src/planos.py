@@ -112,7 +112,9 @@ def regras_lore(cfg: dict, historico: list | None = None) -> str:
     for h in [h for h in (historico or []) if not h.get("fora_da_serie")][-6:]:
         usadas += [int(x) for x in (h.get("lore") or []) if str(x).isdigit()]
     verdades = "\n".join(f"  {i}. {v}{'  (já insinuada recentemente)' if i in usadas else ''}" for i, v in enumerate(L["verdades"]))
+    prot = L.get("protagonista", "")
     return f"""O MISTÉRIO DA SÉRIE (cânone secreto, NUNCA conte tudo de uma vez):
+{prot}
 Verdades sobre a origem do Abismo:
 {verdades}
 Paradeiro do gato (o público não sabe): {L.get("paradeiro_do_gato", "")}
@@ -125,6 +127,8 @@ Como usar:
   câmera mostra o gato num cômodo onde você acabou de olhar; a coleira está quente). Nunca resolva antes do final.
 - Esconda um detalhe para quem presta atenção: numa cena, o gato aparece pequeno ao fundo ("gato" com tamanho
   "longe") sem a narração mencionar.
+- As verdades 3 e 9 (o Abismo é criação da bisavó; ele esperou um Duarte voltar) são o grande segredo: só insinue
+  de leve (um desenho antigo assinado, um sobrenome), nunca revele antes do final da temporada.
 - Preencha "lore": [números das verdades que este episódio insinua] no roteiro.json.
 - A "legenda_post" termina com uma pergunta que puxa teorias nos comentários (ex.: "Onde você acha que o Stu está?"),
   além de "E você, A ou B?"."""

@@ -74,7 +74,7 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   porao_duarte (o porão antigo dos Duarte, lençóis sobre caixas, fornalha, porta trancada com ferrolho por dentro) |
   camara (a câmara do Abismo debaixo da casa: paredes arranhadas, fotos de crianças, desenhos, uma coleira num prego, uma abertura escura) |
   escritorio (estantes de livros, mesa de madeira com abajur aceso, poltrona de couro, janela) |
-  quarto_crianca (o antigo quarto da Lívia: cama com ursinho, berço, móbile de luas e estrelas, abajur de lua, baú de brinquedos) |
+  quarto_crianca (o antigo quarto de criança da casa, onde a bisavó dormia quando menina: cama com ursinho, berço, móbile de luas e estrelas, abajur de lua, baú de brinquedos) |
   planta_andar (o andar visto de cima, como uma planta: escritório e quarto lado a lado, o guarda-roupa aberto e escuro;
   só o lugar, sem personagem: ótimo para abrir a história ou mostrar a casa em silêncio) |
   casa_fora (a casa vista da calçada à noite, uma janela acesa) | rua (rua de bairro vista do alto, poste aceso, carros) | celular_cftv (close das mãos segurando o celular; na tela, a câmera de segurança mostrando outro cenário)
