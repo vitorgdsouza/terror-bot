@@ -181,6 +181,8 @@ def antigas():
         except Exception as e:
             linhas.append(f"- {r['titulo']}: falhou ({e})")
         log(linhas[-1])
+    for l in linhas:
+        log(l)
     if any("ok" in l or "recusou" in l for l in linhas) or os.environ.get("GITHUB_EVENT_NAME") != "schedule":
         telegram.enviar_mensagem(("Thumbs nos Shorts do YouTube:\n" + "\n".join(linhas))[:3800])
 
