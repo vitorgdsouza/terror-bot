@@ -53,10 +53,12 @@ def gerar_falas(textos: list, pasta: Path) -> dict:
 def _teste():
     from . import telegram
     pasta = RAIZ / "trabalho" / "teste_voz"
+    FATO = ("Canadá, 1987. Kenneth Parks se levanta da cama, pega o carro e dirige cerca de vinte e três quilômetros "
+            "até a casa dos sogros. Os médicos examinaram o sono dele. O júri concluiu que ele estava sonâmbulo.")
     textos = [
-        {"id": "1_calma", "texto": AMOSTRA, "exagero": 0.35, "cfg": 0.5},
-        {"id": "2_suspense", "texto": AMOSTRA, "exagero": 0.55, "cfg": 0.35},
-        {"id": "3_dramatica", "texto": AMOSTRA, "exagero": 0.8, "cfg": 0.3},
+        {"id": "1_serena", "texto": FATO, "exagero": 0.25, "cfg": 0.3, "temperatura": 0.55},
+        {"id": "2_documental", "texto": FATO, "exagero": 0.3, "cfg": 0.5, "temperatura": 0.5},
+        {"id": "3_grave_lenta", "texto": FATO, "exagero": 0.2, "cfg": 0.25, "temperatura": 0.5},
     ]
     telegram.enviar_mensagem("Teste da voz do canal começou (sua voz clonada com Chatterbox, na GPU do Kaggle). "
                              "Leva uns 10 a 20 minutos.")
@@ -67,10 +69,14 @@ def _teste():
         raise
     telegram.enviar_mensagem((f"Amostras da voz prontas. GPU: {rel.get('gpu')}, tempo: {rel.get('minutos_total')} min."
                               + ("\nErros:\n" + "\n".join(rel["erros"]) if rel.get("erros") else "")
-                              + "\nOuça as 3 e me diga qual estilo prefere: 1 calma, 2 suspense, 3 dramática.")[:3800])
+                              + "\nOuça as 3 e me diga qual prefere: 1 serena, 2 documental, 3 grave e lenta.")[:3800])
+    from .voz import EFEITOS_VOZ
     for aid, arq in sorted(rel.get("arquivos", {}).items()):
         mp3 = Path(arq).with_suffix(".mp3")
-        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", arq, "-b:a", "160k", str(mp3)], check=False)
+        filtro = "silenceremove=stop_periods=-1:stop_duration=0.7:stop_threshold=-45dB," + EFEITOS_VOZ["narrador_serio"]
+        if aid.startswith("3"):
+            filtro = "asetrate=44100*0.96,aresample=44100,atempo=0.98," + filtro
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", arq, "-af", filtro, "-b:a", "160k", str(mp3)], check=False)
         telegram.enviar_audio(mp3 if mp3.exists() else arq, f"Voz do canal — {aid}")
     print(json.dumps(rel, ensure_ascii=False, indent=2))
 
