@@ -71,6 +71,22 @@ def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
         png = pasta / "quadro.png"
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "1.0", "-i", str(clip), "-frames:v", "1", str(png)], check=True)
         cena = ImageEnhance.Brightness(Image.open(png).convert("RGB")).enhance(1.15)
+    elif r.get("formato") == "protocolo":             # o pictograma vermelho mais forte do vídeo, sem o texto
+        from .protocolo import quadro as quadro_prot
+        c = next((c for c in r["cenas"] if c.get("thumb")), None) or next(
+            (c for c in r["cenas"] if any(i.startswith(("falso:", "gato:")) for i in c.get("icones", []))), r["cenas"][0])
+        c = dict(c, narracao="", _palavras=[], _rotulo=r.get("rotulo", "PROTOCOLO STU"), _sombra=r.get("sombra", "abismo"))
+        cena = ImageEnhance.Brightness(quadro_prot(c, 1.0, 3.0, 7)).enhance(1.15)
+        from .protocolo import icone, VERM, VERM_ESC       # pictogramas grandes embaixo do título (o meio fica pro texto)
+        nomes = (c.get("icones") or ["alerta"])[:2]
+        tam = 560 if len(nomes) == 1 else 470
+        for k, nome in enumerate(nomes):
+            ic = icone(nome).resize((tam, tam))
+            x = (cena.width - tam) // 2 + (0 if len(nomes) == 1 else (-245 if k == 0 else 245))
+            y = int(cena.height * 0.62)
+            brilho = ic.filter(ImageFilter.GaussianBlur(16)).point(lambda v: int(v * 0.7))
+            cena.paste(Image.new("RGB", (tam, tam), VERM_ESC), (x, y), brilho)
+            cena.paste(Image.new("RGB", (tam, tam), VERM), (x, y), ic)
     elif r.get("formato") == "sombra":                 # a cena marcada com "thumb" (ou o close do Abismo)
         from .sombra import quadro as quadro_sombra
         c = next((c for c in r["cenas"] if c.get("thumb")), None) or next(c for c in reversed(r["cenas"]) if c.get("quadro") == "abismo")
