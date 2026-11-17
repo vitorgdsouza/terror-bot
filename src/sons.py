@@ -64,7 +64,8 @@ ACOES = {
     "aproximando": ("footsteps wooden floor slow", False),
     "correndo": ("running footsteps wooden floor", False),
 }
-POSES = {"abrindo_porta": ("door creak open slow", False)}
+POSES = {"abrindo_porta": ("door creak open slow", False), "golpeando": ("hammer hitting wall", False),
+         "engatinhando": ("crawling dirt", False), "chamando": ("kitty kitty call whisper", False)}
 GATO = {"miando": ("cat meow", False), "assustado": ("cat hiss angry", False), "correndo": ("cat running paws", False)}
 OBJETOS_SOM = {"coleira": ("small bell jingle", False), "arranhoes": ("scratching wood door", False),
                "tigela": ("metal bowl drop floor", False), "novelo": ("cat toy bell roll", False)}
@@ -239,6 +240,12 @@ def montar_trilha_sons(roteiro: dict, duracoes: list, destino: Path) -> Path | N
                 mesa.loop(arq, ini, fim, VOLUMES["ameaca"], 0.8)
             if a.get("acao") in ("aparecendo", "aproximando") and (arq := baixar(AMEACA["susto"], False)):
                 mesa.uma_vez(arq, ini + 0.3, VOLUMES["susto"])
+            if a.get("acao") == "sorriso_escuro":     # gargalhada baixa no escuro e miados imitados, debochando
+                if arq := baixar("evil laugh dark low", False):
+                    mesa.uma_vez(arq, ini + 0.4, VOLUMES["susto"] * 0.9, max_dur=min(dur, 5.0))
+                if arq := baixar("cat meow distorted creepy", False):
+                    for k, atraso in enumerate((0.45, 0.75)):
+                        mesa.uma_vez(arq, ini + dur * atraso, VOLUMES["acao"] * (1.2 + 0.3 * k), max_dur=1.8)
             usados += 1
         # o gato: mia, rosna quando se assusta
         g = cena.get("gato") or {}

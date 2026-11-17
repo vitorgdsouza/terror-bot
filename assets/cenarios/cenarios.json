@@ -397,6 +397,11 @@
   "objeto_perto": [
    0.4,
    0.78
+  ],
+  "debrucar": [
+   0.41,
+   0.645,
+   0.4
   ]
  },
  "fundo_poco": {

@@ -30,8 +30,9 @@ META = json.loads((PASTA_CEN / "cenarios.json").read_text(encoding="utf-8"))
 CENARIOS = list(META) + ["celular_cftv"]
 POSES = ["frente", "medo", "gritando", "encolhida", "costas", "celular", "lanterna",
          "sentado", "abrindo_porta", "agachado", "olhando_tras",
-         "engatinhando", "olhando_cima", "alcancando", "com_gato", "golpeando", "silencio", "caido", "chamando"]
-POSES_NOVAS = ["engatinhando", "olhando_cima", "alcancando", "com_gato", "golpeando", "silencio", "caido", "chamando"]
+         "engatinhando", "olhando_cima", "alcancando", "com_gato", "golpeando", "silencio", "caido", "chamando", "debrucado"]
+POSES_NOVAS = ["engatinhando", "olhando_cima", "alcancando", "com_gato", "golpeando", "silencio", "caido", "chamando",
+               "debrucado"]
 ACOES_P = ["parado", "andando", "correndo", "entrando", "saindo", "afastando", "aproximando", "tremendo", "virando"]
 try:
     ESTILO_PERSONAGEM = json.loads((RAIZ / "config" / "serie.json").read_text(encoding="utf-8")).get("personagem_estilo", "boneco")
@@ -83,7 +84,11 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   alcancando (agachado, estica o braço devagar para dentro de um buraco ou fresta) | com_gato (abraçando o Stu no colo:
   só quando ele REALMENTE achar o gato) | golpeando (bate com um martelo: quebrar parede ou cadeado) | silencio (uma mão
   tapando a boca, olhos arregalados: segurando o grito) | caido (caiu sentado no chão, apoiado nas mãos, recuando) |
-  chamando (mãos em volta da boca, chamando o gato).
+  chamando (mãos em volta da boca, chamando o gato) | debrucado (debruçado na borda do poço, braço descendo para o escuro;
+  no cenário poco, "alcancando" também vira isso, junto da borda).
+  "vista" (opcional, nas poses novas): "costas" ou "frente". olhando_cima já é de costas por padrão (olhando o alto do poço);
+  engatinhando com "vista" frente/costas = de quatro vindo para a câmera (acao aproximando) ou indo para o fundo (afastando).
+  golpeando: ele encosta sozinho na parede mais perto (esquerda/direita) e o martelo abre rachaduras e um buraco.
   acao: parado | andando (anda de lado e para) | correndo | entrando (entra pelo lado e para) | saindo (sai pelo lado) |
   afastando (de costas, andando para o fundo da cena) | aproximando (de frente, andando para a câmera) | tremendo | virando
   (estava de costas e vira). Ao parar, ele fica na pose escolhida.
@@ -101,8 +106,10 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   com a cara bizarra (cabeça tombando, sorriso rasgando). encarando = parado, imóvel, encarando com a cara bizarra
   (ótimo "longe" no alto da escada, com o personagem embaixo paralisado de medo). teto = pendurado de cabeça para baixo
   no teto, balançando devagar (use posicao esquerda/direita, com o personagem sem perceber: o público vê, ele não) |
-  rastejando = de quatro, vem do fundo do cenário até perto, devagar (túnel, corredor, porão) | sorriso_escuro = a tela
-  escurece e só os olhos e o sorriso dele aparecem no breu, abrindo devagar (ótimo no fim do túnel, na câmara, no poço).
+  rastejando = de quatro, de frente, braços compridos abertos no chão, vem do fundo até perto, devagar (túnel, corredor,
+  porão) | sorriso_escuro = a tela escurece e, parados no breu da passagem (o túnel do fundo do poço, a abertura da câmara,
+  uma porta), só os olhos arregalados e um sorriso de dentes demais, sem rosto; a boca treme numa gargalhada e o som traz
+  uma risada baixa e miados imitados, debochando (o Abismo imitando o Stu).
 - "objeto": null, uma pista ou uma lista com até 2: {"tipo": coleira | tigela | pelo | novelo | ratinho | pegadas |
   arranhoes | marcas_mao | arma | caixa_arma, "posicao": esquerda|centro|direita, "tamanho": medio | perto}. perto = close da pista no chão
   com a luz da lanterna (use sem personagem ou com o personagem "perto"). pegadas = trilha de patinhas de poeira indo
@@ -424,6 +431,8 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
                    "abrindo_porta": "abrindo_porta", "agachado": "agachado", "olhando_tras": "olhando_tras",
                    **{k: k for k in POSES_NOVAS}}.get(pose, "parado")
     espelhar_parado = x > cw / 2
+    if pose == "golpeando":                            # vira para a parede mais perto (a borda da tela)
+        espelhar_parado = x < cw / 2
     if acao in ("afastando", "aproximando"):
         pose_b = B.animar(acao, t, dur, medo, expressao)
     elif movendo:
@@ -440,7 +449,31 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
                              troca_em=p.get("troca_em", dur * 0.5) if depois else None)
     if p.get("_no_assento") and pose_b.get("sentado"):    # no sofá/cama: sem cadeira, mãos no colo
         pose_b = {**pose_b, "cadeira": False, "ombro_e": 6, "cotovelo_e": 58, "ombro_d": 4, "cotovelo_d": 62, "tronco": 2}
+    if pose in ("alcancando", "debrucado") and meta.get("debrucar") and not movendo:
+        bx, bpiso, bfrac = meta["debrucar"]           # junto da borda do poço, debruçado para dentro
+        pose_b = B.animar("debrucado", t, dur, medo, expressao, espelhar=bx > 0.5)
+        x, chao_fix, altura = bx * cw, bpiso, int(ch * bfrac)
+        escala, piso_mov = 1.0, bpiso
+    if pose == "golpeando" and not movendo:          # encosta na parede: o martelo bate nela, não no ar
+        alcance = 0.07 * cw + altura * escala * 0.36
+        x = alcance if x < cw / 2 else cw - alcance
+    vista_pedida = p.get("vista") or ("costas" if pose == "olhando_cima" else None)
+    de_quatro_frente = pose == "engatinhando" and vista_pedida in ("frente", "costas")
+    if vista_pedida in ("frente", "costas") and pose in POSES_NOVAS:
+        if de_quatro_frente:                           # de quatro visto de frente/de costas: braços abertos até o chão
+            passo = math.sin(t * 2 * math.pi / 1.3)
+            pose_b = {**pose_b, "vista": vista_pedida, "y": 0.0, "tronco": 0.0, "quadril_e": 0, "quadril_d": 0,
+                      "joelho_e": 0, "joelho_d": 0, "ombro_e": 44 + 8 * passo, "cotovelo_e": 4,
+                      "ombro_d": 44 - 8 * passo, "cotovelo_d": 4, "cab_inc": 8}
+        else:
+            pose_b = {**pose_b, "vista": vista_pedida}
     img, info = B.desenhar(pose_b, max(40, int(altura * escala)), prot)
+    if de_quatro_frente:                               # esconde as pernas atrás do tronco e apoia as mãos no chão
+        alt_b = max(40, int(altura * escala))
+        px, py = info["pes"]
+        ImageDraw.Draw(img).rectangle((px - alt_b * 0.075, py - alt_b * 0.38, px + alt_b * 0.075, img.height), fill=(0, 0, 0, 0))
+        img = img.crop((0, 0, img.width, int(py - alt_b * 0.3)))
+        info = {**info, "pes": (px, py - alt_b * 0.34 - abs(math.sin(t * 4.8)) * alt_b * 0.01)}
     img = _noite(img, NOITE_BONECO if noturno >= 0.35 else noturno)
     pes_x, pes_y = info["pes"]
     cx = x + paralaxe * cw
@@ -457,6 +490,41 @@ def _desenhar_boneco(quadro, p, meta, t, dur, prot, escala_tela=1.0, noturno=0.4
     if "lanterna" in info:
         (bx, by), ang = info["lanterna"]
         _feixe(quadro, (ox + bx, oy + by), ang, altura * escala * 0.95)
+    if pose == "golpeando" and not movendo:
+        _rachaduras(quadro, cx + (-1 if espelhar_parado else 1) * altura * escala * 0.36, chao - altura * escala * 0.66,
+                    altura * escala, t)
+
+
+def _rachaduras(quadro, ix, iy, alt, t):
+    """Onde o martelo bate: rachaduras que crescem a cada golpe, um buraco escuro abrindo e poeira no impacto."""
+    golpes = max(0, int((t - 0.24) / 0.8) + 1) if t >= 0.24 else 0
+    if not golpes:
+        return
+    d = ImageDraw.Draw(quadro)
+    rnd = random.Random(7)
+    larg = max(2, int(alt * 0.012))
+    for g in range(min(golpes, 6)):
+        for _ in range(3):
+            ang = rnd.uniform(0, 2 * math.pi)
+            comp = alt * rnd.uniform(0.05, 0.11) * (1 + g * 0.25)
+            pts, px, py = [(ix, iy)], ix, iy
+            for _ in range(3):
+                ang += rnd.uniform(-0.6, 0.6)
+                px, py = px + math.cos(ang) * comp / 3, py + math.sin(ang) * comp / 3
+                pts.append((px, py))
+            d.line(pts, fill=(18, 14, 12, 255), width=larg)
+    if golpes >= 3:                                    # a parede cede: um buraco escuro abrindo
+        r = alt * min(0.09, 0.025 * (golpes - 2))
+        d.ellipse((ix - r * 1.1, iy - r, ix + r * 1.1, iy + r), fill=(6, 5, 5, 255))
+    fase = (t - 0.24) % 0.8
+    if fase < 0.18:                                    # poeira no momento do golpe
+        k = fase / 0.18
+        for j in range(9):
+            a = rnd.uniform(0, 2 * math.pi)
+            dist = alt * 0.08 * k * rnd.uniform(0.5, 1.2)
+            r = alt * 0.008 * (1 - k * 0.5)
+            px, py = ix + math.cos(a) * dist, iy + math.sin(a) * dist + k * alt * 0.03
+            d.ellipse((px - r, py - r, px + r, py + r), fill=(170, 160, 145, int(220 * (1 - k))))
 
 
 def _desenhar_cachorro(quadro, c, meta, t, dur, paralaxe=0.0, desvio=0.0):
@@ -686,34 +754,59 @@ def _abismo_animado(quadro, a, meta, t, dur, escala_tela, paralaxe, x, piso, fra
         _aura(quadro, cx, topo + (bb[1] + bb[3]) / 2, (bb[2] - bb[0]) * 2.0, (bb[3] - bb[1]) * 1.3, alfa)
         quadro.alpha_composite(img, (int(cx - info["pes"][0]), int(topo)))
         return
-    if acao == "sorriso_escuro":                        # no breu, só os olhos e o sorriso aparecem, abrindo devagar
-        escuro = Image.new("RGBA", quadro.size, (0, 0, 0, int(150 * alfa)))
+    if acao == "sorriso_escuro":                        # no breu da passagem: só olhos e dentes, parados, sem rosto
+        escuro = Image.new("RGBA", quadro.size, (0, 0, 0, int(120 * alfa)))
         quadro.alpha_composite(escuro)
-        pose = AB.animar("bizarro", t, dur)
-        alt = int(ch * (0.22 if tam == "longe" else 0.36 if tam == "medio" else 0.6) * escala_tela)
-        img, info = AB.desenhar_rosto(pose, alt)
-        surge = _suave(prog / 0.6)
-        img = _com_alfa(img, alfa * surge)
-        cy = ch * (meta.get("fundo", [0.5, 0.6])[1] - 0.12 if tam == "longe" else 0.45)
-        cx = cw * x + paralaxe * cw * 0.4
-        quadro.alpha_composite(img, (int(cx - img.width / 2), int(cy - img.height / 2)))
+        reg = meta.get("porta")
+        if reg and tam != "perto":
+            cx, cy = (reg[0] + reg[2] / 2) * cw, (reg[1] + reg[3] * 0.45) * ch
+            larg = reg[2] * cw * (1.1 if tam == "medio" else 0.7)
+        else:
+            cx, cy = cw * x, ch * 0.45
+            larg = cw * (0.3 if tam == "longe" else 0.5 if tam == "medio" else 0.8)
+        cx += paralaxe * cw * 0.4
+        surge = _suave(prog / 0.35)
+        camada = Image.new("RGBA", quadro.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(camada)
+        tranco = (int(t * 24) % 37) in (0, 1)           # de vez em quando a imagem dá um tranco, como se estalasse
+        jx = (larg * 0.04 if tranco else 0)
+        ro = larg * 0.11
+        for lado_ in (-1, 1):                           # olhos arregalados, pupilas minúsculas, um maior que o outro
+            ex, ey = cx + lado_ * larg * 0.24 + jx, cy - larg * 0.08 + (lado_ * larg * 0.02)
+            r = ro * (1.15 if lado_ > 0 else 0.92)
+            d.ellipse((ex - r, ey - r, ex + r, ey + r), fill=(236, 232, 222, 255))
+            d.ellipse((ex - r * 0.16, ey - r * 0.16, ex + r * 0.16, ey + r * 0.16), fill=(8, 8, 8, 255))
+        gargalha = 0.55 + 0.45 * abs(math.sin(t * 7.5)) if 0.35 < prog < 0.85 else 0.35   # a boca treme gargalhando
+        gy, gw, gh = cy + larg * 0.22, larg * 0.62, larg * 0.16 * gargalha
+        d.chord((cx - gw + jx, gy - gh, cx + gw + jx, gy + gh * 1.6), 0, 180, fill=(236, 232, 222, 255))
+        d.chord((cx - gw * 0.86 + jx, gy - gh * 0.3, cx + gw * 0.86 + jx, gy + gh * 1.25), 0, 180, fill=(30, 6, 8, 255))
+        for k in range(1, 26):                           # dentes demais
+            tx = cx - gw + jx + k * (2 * gw / 26)
+            d.line((tx, gy, tx, gy + gh * 1.5 * math.sin(math.pi * k / 26)), fill=(150, 140, 130, 255), width=max(2, int(larg * 0.008)))
+        d.line((cx - gw + jx, gy, cx + gw + jx, gy), fill=(150, 140, 130, 255), width=max(2, int(larg * 0.008)))
+        brilho = _luz(int(larg * 1.8), int(larg * 1.2), (200, 210, 255), int(28 * surge * alfa), 30)
+        quadro.alpha_composite(brilho, (int(cx - brilho.width / 2), int(cy - brilho.height / 2)))
+        quadro.alpha_composite(_com_alfa(camada, alfa * surge * (0.8 if tranco else 1.0)))
         return
-    if acao == "rastejando":                            # de quatro, vem do fundo devagar, cada vez mais perto
+    if acao == "rastejando":                            # de quatro, de frente, vem do fundo devagar, cada vez mais perto
         fundo = meta.get("fundo", [0.5, meta.get("piso", 0.9), 0.3])
         k = _suave(prog)
-        pose = AB.animar("observando", t * 1.6, dur)
+        pose = AB.animar("parado", t, dur)
+        passo = math.sin(t * 3.4)
+        pose.update(vista="frente", ombro_e=42 + 12 * passo, cotovelo_e=-14, ombro_d=42 - 12 * passo, cotovelo_d=-14,
+                    cab_inc=pose.get("cab_inc", 0) * 1.4 + 14, dedos=1.0)
         pose["silhueta"] = a.get("_silhueta", False)
-        pose["ombro_d"] = 70 + 25 * math.sin(t * 3.1)
-        pose["ombro_e"] = 40 - 25 * math.sin(t * 3.1)
-        alt = int(ch * (fundo[2] * 1.1 + (0.5 - fundo[2] * 1.1) * k) * escala_tela)
-        chao = ch * (fundo[1] + (min(meta.get("piso", 0.9), 0.97) - fundo[1]) * k)
+        alt = int(ch * (fundo[2] * 1.3 + (0.62 - fundo[2] * 1.3) * k) * escala_tela)
+        chao = ch * (fundo[1] + (min(meta.get("piso", 0.9), 0.98) - fundo[1]) * k)
         img, info = AB.desenhar(pose, alt)
+        px, py = info["pes"]                              # esconde as pernas (ficam atrás do tronco, de quatro)
+        quadril = int(py - alt * 0.46)
+        ImageDraw.Draw(img).rectangle((px - alt * 0.11, quadril, px + alt * 0.11, img.height), fill=(0, 0, 0, 0))
+        img = img.crop((0, 0, img.width, int(py - alt * 0.27)))
         img = _com_alfa(_noite(img, 0.25), alfa)
-        if x > 0.5:
-            img = img.transpose(Image.FLIP_LEFT_RIGHT)
-            info = {**info, "pes": (img.width - info["pes"][0], info["pes"][1])}
         cx = cw * (fundo[0] + (x - fundo[0]) * k) + paralaxe * cw * 0.4
-        ox, oy = int(cx - info["pes"][0]), int(chao - info["pes"][1] + math.sin(t * 6.2) * alt * 0.01)
+        ox = int(cx - px)
+        oy = int(chao - (py - alt * 0.33) + abs(passo) * alt * 0.015)   # as mãos apoiadas no chão
         bb = img.getbbox() or (0, 0, img.width, img.height)
         _aura(quadro, ox + (bb[0] + bb[2]) / 2, oy + (bb[1] + bb[3]) / 2, (bb[2] - bb[0]) * 2.0, (bb[3] - bb[1]) * 1.4, alfa)
         quadro.alpha_composite(img, (ox, oy))

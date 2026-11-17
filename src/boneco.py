@@ -474,7 +474,8 @@ EXPRESSOES = {
 
 ACOES = ["parado", "andando", "correndo", "afastando", "aproximando", "olhando_tras", "celular", "lanterna",
          "sentado", "abrindo_porta", "agachado", "escondido", "costas", "virando",
-         "engatinhando", "olhando_cima", "alcancando", "com_gato", "golpeando", "silencio", "caido", "chamando"]
+         "engatinhando", "olhando_cima", "alcancando", "com_gato", "golpeando", "silencio", "caido", "chamando",
+         "debrucado"]
 
 
 def animar(acao: str, t: float, dur: float = 4.0, medo: float = 0.0, expressao: str | None = None,
@@ -548,6 +549,12 @@ def animar(acao: str, t: float, dur: float = 4.0, medo: float = 0.0, expressao: 
         k = k * k * (3 - 2 * k)
         pose.update(vista="lado", y=-0.13, quadril_e=78, joelho_e=140, quadril_d=62, joelho_d=125, tronco=24,
                     ombro_d=40 + 52 * k, cotovelo_d=40 - 36 * k, ombro_e=20, cotovelo_e=40, cab_inc=4)
+    elif acao == "debrucado":                    # debruçado na borda (do poço), o braço descendo para o escuro
+        k = min(1.0, t / max(1.0, dur * 0.6))
+        k = k * k * (3 - 2 * k)
+        pose.update(vista="lado", tronco=26 + 20 * k, quadril_e=-6, quadril_d=4, joelho_e=4, joelho_d=8,
+                    ombro_d=92 - 22 * k + math.sin(t * 1.3) * 4, cotovelo_d=10, ombro_e=40 - 10 * k, cotovelo_e=30,
+                    cab_inc=10 + 8 * k, olhos="arregalados" if medo > 0.5 else "normal")
     elif acao == "com_gato":                     # abraçando o Stu no colo
         pose.update(vista="frente", com_gato=True, ombro_e=-10, cotovelo_e=-112, ombro_d=-10, cotovelo_d=-112,
                     cab_inc=6 + math.sin(t * 0.7) * 2, olhar=0.0)
