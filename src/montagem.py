@@ -265,6 +265,8 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
                 log(f"  clipe de IA da cena {i} falhou na montagem ({e}); usando a animação normal")
         if roteiro.get("formato") == "protocolo":
             from .protocolo import renderizar_cena_protocolo
+            cena.setdefault("_rotulo", roteiro.get("rotulo", "PROTOCOLO STU"))
+            cena.setdefault("_sombra", roteiro.get("sombra", "abismo"))
             duracoes.append(renderizar_cena_protocolo(cena, voz, destino, pausa, i))
             cenas.append(destino)
             continue

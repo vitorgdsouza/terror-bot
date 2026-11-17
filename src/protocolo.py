@@ -56,6 +56,12 @@ def _ic_pessoa(pose):
     return _silhueta(B.desenhar(B.animar(acao, 1.0, 4, 0.0, None), 380)[0])
 
 
+def _ic_cachorro(acao, falso=False):
+    from . import cachorro as C
+    acao = acao or ("de_pe" if falso else "sentado")
+    return _silhueta(C.desenhar(C.animar(acao, 0.6, 4.0, falso=falso), 360, falso=falso)[0])
+
+
 def _ic_cama():
     img, d = _tela()
     d.rectangle((40, 210, 360, 250), fill=255)
@@ -189,14 +195,16 @@ def icone(nome: str) -> Image.Image:
             _cache[nome] = _ic_gato(arg)
         elif base == "pessoa":
             _cache[nome] = _ic_pessoa(arg)
+        elif base in ("cachorro", "falso"):                 # o cão, ou o falso (a coisa vestida com a pele dele)
+            _cache[nome] = _ic_cachorro(arg, falso=base == "falso")
         else:
             _cache[nome] = ICONES.get(base, _ic_alerta)()
     return _cache[nome]
 
 
 # ---------------------------------------------------------------- composição
-def _fundo() -> Image.Image:
-    if "fundo" not in _cache:
+def _fundo(sombra: str = "abismo") -> Image.Image:
+    if ("fundo", sombra) not in _cache:
         img = Image.new("RGB", (W, H), (0, 0, 0))
         d = ImageDraw.Draw(img)
         d.rectangle((0, Y0, W, Y1), fill=FAIXA)
@@ -209,13 +217,16 @@ def _fundo() -> Image.Image:
             ic = icone(nome).resize((n, n))
             img.paste(Image.new("RGB", (n, n), (58, 8, 10)), (int(W * x - n / 2), int(H * y - n / 2)), ic)
         # silhueta enorme e apagada no meio (o Abismo observando, sempre presente)
-        from . import abismo_anim as AB
-        p = AB.animar("parado", 1.0, 4)
-        p["silhueta"] = True
-        ab = _silhueta(AB.desenhar(p, 900)[0], 700)
+        if sombra == "falso":                               # o falso Rufus de pé, enorme e apagado
+            ab = _ic_cachorro("de_pe", True).resize((700, 700))
+        else:
+            from . import abismo_anim as AB
+            p = AB.animar("parado", 1.0, 4)
+            p["silhueta"] = True
+            ab = _silhueta(AB.desenhar(p, 900)[0], 700)
         img.paste(Image.new("RGB", (700, 700), (44, 5, 7)), (cx - 350, cy - 350), ab)
-        _cache["fundo"] = img
-    return _cache["fundo"]
+        _cache[("fundo", sombra)] = img
+    return _cache[("fundo", sombra)]
 
 
 def _linhas_tv(img: Image.Image, n: int) -> Image.Image:
@@ -260,7 +271,7 @@ def _texto(d: ImageDraw.ImageDraw, palavras: list, t: float, frase: str) -> None
 
 
 def quadro(cena: dict, t: float, dur: float, n: int) -> Image.Image:
-    img = _fundo().copy()
+    img = _fundo(cena.get("_sombra", "abismo")).copy()
     d = ImageDraw.Draw(img)
     cx, cy = W // 2, (Y0 + Y1) // 2 - 40
     entra = min(1.0, t / 0.25)
@@ -291,7 +302,7 @@ def quadro(cena: dict, t: float, dur: float, n: int) -> Image.Image:
     _texto(d, cena.get("_palavras") or [], t, cena["narracao"])
     # selo do canal (canto) e "sinal"
     fp = ImageFont.truetype(MONO, 28)
-    d.text((40, Y0 - 50), "PROTOCOLO STU", font=fp, fill=(150, 20, 24))
+    d.text((40, Y0 - 50), cena.get("_rotulo", "PROTOCOLO STU"), font=fp, fill=(150, 20, 24))
     if (n // 12) % 2 == 0:
         d.ellipse((W - 70, Y0 - 46, W - 46, Y0 - 22), fill=(200, 20, 24))
     if random.Random(n // 3).random() < 0.08 or t < 0.12:
