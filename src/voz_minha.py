@@ -16,7 +16,8 @@ def narrar_roteiro_minha(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
     conf = {"exagero": 0.45, "cfg": 0.45, **(cfg["voz"].get("minha") or {})}
     pasta.mkdir(parents=True, exist_ok=True)
     cenas = [c["narracao"].strip() for c in roteiro["cenas"]]
-    textos = [{"id": f"c{i:02d}", "texto": t, "exagero": conf["exagero"], "cfg": conf["cfg"]} for i, t in enumerate(cenas)]
+    textos = [{"id": f"c{i:02d}", "texto": t, "exagero": conf["exagero"], "cfg": conf["cfg"],
+               "temperatura": conf.get("temperatura", 0.5)} for i, t in enumerate(cenas)]
     log(f"Narração com a sua voz (Kaggle): {len(textos)} falas")
     rel = gerar_falas(textos, pasta / "kaggle")
     arquivos = rel.get("arquivos", {})
@@ -38,9 +39,39 @@ def narrar_roteiro_minha(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
         destino = pasta / f"voz_{i:02d}.mp3"
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(limpo), "-b:a", "160k", str(destino)], check=True)
         _tratar(destino, cfg["voz"].get("minha_efeito", "normalizar"))
-        total = duracao(destino)
         palavras_txt = texto.split()
-        tempos = alinhar(palavras_txt, _tempos_whisper(limpo), total)
+        trat = pasta / f"voz_{i:02d}_trat.wav"
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(destino), str(trat)], check=True)
+        tempos = alinhar(palavras_txt, _tempos_whisper(trat), duracao(trat))
+        # ritmo metódico: uma pausa a mais depois de cada frase (ponto, interrogação, reticências)
+        pausa = float(conf.get("pausa_frase", 0.4))
+        if pausa > 0:
+            cortes = [tempos[k][1] for k, p in enumerate(palavras_txt[:-1]) if p.rstrip("\"”'").endswith((".", "?", "!", "…"))]
+            if cortes:
+                partes, ini, desloc, novos = [], 0.0, 0.0, []
+                for k, c in enumerate(cortes + [None]):
+                    seg = pasta / f"seg_{i:02d}_{k}.wav"
+                    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(trat), "-ss", f"{ini:.3f}"]
+                    if c is not None:
+                        cmd += ["-to", f"{c + 0.05:.3f}"]
+                    subprocess.run(cmd + ["-ar", "44100", "-ac", "1", str(seg)], check=True)
+                    partes.append(seg)
+                    if c is not None:
+                        sil = pasta / f"sil_{i:02d}_{k}.wav"
+                        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i",
+                                        f"anullsrc=r=44100:cl=mono", "-t", f"{pausa:.3f}", str(sil)], check=True)
+                        partes.append(sil)
+                        ini = c + 0.05
+                lista = pasta / f"lista_{i:02d}.txt"
+                lista.write_text("".join(f"file '{p.name}'\n" for p in partes))
+                junto = pasta / f"voz_{i:02d}_pausas.wav"
+                subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lista),
+                                "-c", "copy", str(junto)], check=True)
+                subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(junto), "-b:a", "160k", str(destino)], check=True)
+                fronteiras = cortes
+                tempos = [(a + pausa * sum(1 for c in fronteiras if a > c + 0.01),
+                           b + pausa * sum(1 for c in fronteiras if a > c + 0.01)) for a, b in tempos]
+        total = duracao(destino)
         resultado.append({"arquivo": destino, "duracao": total,
                           "palavras": [{"texto": p, "inicio": a, "fim": b} for p, (a, b) in zip(palavras_txt, tempos)]})
     roteiro["_voz"] = "sua voz (clonada)"

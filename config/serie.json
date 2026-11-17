@@ -38,10 +38,13 @@
     "efeito": "narrador_serio",
     "real": "minha",
     "minha": {
-      "exagero": 0.45,
-      "cfg": 0.45,
-      "ritmo": 1.0
-    }
+      "exagero": 0.3,
+      "cfg": 0.5,
+      "temperatura": 0.5,
+      "ritmo": 1.0,
+      "pausa_frase": 0.4
+    },
+    "minha_efeito": "minha_sombria"
   },
   "legenda": {
     "estilo": "frase",

@@ -24,6 +24,12 @@ EFEITOS_VOZ = {
                        "aecho=0.85:0.4:28:0.06,loudnorm=I=-16:TP=-1.5:LRA=8,aresample=44100"),
     # "normalizar": só limpa e iguala o volume (para vozes que já vêm boas, como as do Gemini)
     "normalizar": "aresample=44100,highpass=f=60,loudnorm=I=-16:TP=-1.5:LRA=9,aresample=44100",
+    # "minha_sombria": a voz do dono com clima de relato de madrugada: ~6% mais grave e mais lenta (metódica),
+    # graves encorpados, agudos abafados como ligação telefônica antiga, compressão firme e um eco curto de cômodo vazio
+    "minha_sombria": ("aresample=44100,asetrate=44100*0.94,aresample=44100,highpass=f=75,"
+                      "equalizer=f=140:t=q:w=1:g=3.5,equalizer=f=1800:t=q:w=1.2:g=2,lowpass=f=6200,"
+                      "acompressor=threshold=-22dB:ratio=3:attack=10:release=250:makeup=2,"
+                      "aecho=0.85:0.5:55|110:0.14|0.07,loudnorm=I=-16:TP=-1.5:LRA=8,aresample=44100"),
     "nenhum": "",
 }
 
