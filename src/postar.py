@@ -90,7 +90,7 @@ def testar() -> None:
         msg = "Upload-Post: faltam os segredos UPLOAD_POST_API_KEY e/ou UPLOAD_POST_USER."
     else:
         r = requests.get(f"{API}/uploadposts/history", headers={"Authorization": f"Apikey {chave}"},
-                         params={"limit": 5}, timeout=60)
+                         params={"limit": 10}, timeout=60)
         if r.status_code == 401 or r.status_code == 403:
             msg = f"Upload-Post: a chave foi recusada ({r.status_code}). Confira o segredo UPLOAD_POST_API_KEY."
         elif r.status_code >= 400:
