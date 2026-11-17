@@ -117,7 +117,7 @@ def _roteiros_conhecidos() -> list[dict]:
 
 def _melhor(titulo_yt: str, roteiros: list[dict]):
     """O título no YouTube costuma ser a legenda do post: acha o roteiro que mais contém as palavras dele."""
-    palavras = [w for w in _norm(titulo_yt).split() if len(w) > 3]
+    palavras = [w for w in _norm(re.sub(r"#\w+", " ", titulo_yt)).split() if len(w) > 3]
     if not palavras:
         return None
     nota, melhor = max(((sum(w in r["_texto"].split() for w in palavras) / len(palavras), r) for r in roteiros),
