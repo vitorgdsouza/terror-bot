@@ -10,6 +10,7 @@ Comandos:
     /continuar A|B     nova parte da última história, a partir da opção vencedora
     /final A|B         última parte da história, a partir da opção vencedora
     /historia          mostra a última história e as opções dela
+    /relatorio         indicadores do canal do YouTube (views, retenção, quem ficou, compartilhamentos)
     /ajuda             mostra os comandos
 Quando há um /novo, este script escreve o tema na saída do GitHub Actions para o próximo passo gerar o vídeo.
 """
@@ -31,7 +32,8 @@ AJUDA = ("Comandos:\n"
          "/postar - publica o último vídeo no YouTube Shorts\n"
          "/continuar A - nova parte da última história, seguindo a opção A (ou B)\n"
          "/final B - última parte da história, seguindo a opção B (ou A)\n"
-         "/historia - mostra a última história e as opções dela\n\n"
+         "/historia - mostra a última história e as opções dela\n"
+         "/relatorio - indicadores do YouTube (retenção, quem ficou, compartilhamentos)\n\n"
          "Os comandos são lidos a cada 20 minutos, então a resposta pode demorar um pouco.")
 
 
@@ -46,6 +48,7 @@ def main():
     dono = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
     pedido = None
     postar = ""
+    relatorio = False
     for msg in telegram.ler_mensagens_novas():
         chat, texto = msg["chat_id"], msg["texto"]
         if not dono or chat != dono:
@@ -99,6 +102,9 @@ def main():
             else:
                 postar = p["run_id"]
                 telegram.enviar_mensagem(f"Publicando \"{p['titulo']}\" no YouTube Shorts...")
+        elif comando == "/relatorio":
+            relatorio = True
+            telegram.enviar_mensagem("Buscando os números do YouTube...")
         elif comando == "/usar":
             try:
                 lista = json.loads(IDEIAS.read_text(encoding="utf-8"))["ideias"]
@@ -116,6 +122,7 @@ def main():
 
     _saida_actions("gerar", "sim" if pedido is not None else "nao")
     _saida_actions("postar", postar)
+    _saida_actions("relatorio", "sim" if relatorio else "nao")
     _saida_actions("tema", pedido or "")
     log(f"Pedido de vídeo: {pedido!r}" if pedido is not None else "Nenhum pedido novo.")
 

@@ -1,0 +1,51 @@
+name: YouTube (relatório e thumbs)
+
+on:
+  workflow_dispatch:
+    inputs:
+      acao:
+        description: "relatorio = indicadores do canal no Telegram | thumbs = põe a thumb nos Shorts já postados"
+        default: relatorio
+  schedule:
+    - cron: "17 12 * * 1"     # toda segunda, 9h17 de Brasília: relatório da semana
+
+permissions:
+  contents: write
+
+jobs:
+  youtube:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+      UPLOAD_POST_API_KEY: ${{ secrets.UPLOAD_POST_API_KEY }}
+      UPLOAD_POST_USER: ${{ secrets.UPLOAD_POST_USER }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Instalar FFmpeg e fontes
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+      - name: Thumbs nos Shorts já postados
+        if: github.event.inputs.acao == 'thumbs'
+        run: python -m src.thumb_youtube antigas
+      - name: Relatório do canal
+        if: github.event.inputs.acao != 'thumbs'
+        run: python -m src.analise
+      - name: Guardar o relatório
+        if: github.event.inputs.acao != 'thumbs' && success()
+        run: |
+          git config user.name "bot-terror"
+          git config user.email "bot-terror@users.noreply.github.com"
+          git add data/analise
+          git diff --cached --quiet && exit 0
+          git commit -m "Relatório do YouTube"
+          git pull --rebase --autostash && git push

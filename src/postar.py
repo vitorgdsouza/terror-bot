@@ -114,7 +114,14 @@ def main():
     except Exception as e:
         telegram.enviar_mensagem(f"A postagem de \"{titulo}\" falhou: {e}"[:3800])
         raise
-    telegram.enviar_mensagem(f"Postado: \"{titulo}\"\n{_links(resp)}"[:3800])
+    extra = ""
+    if "youtube" in _cfg()["plataformas"]:
+        try:
+            from .thumb_youtube import definir_depois_de_postar
+            extra = "\n" + definir_depois_de_postar(resp, r)
+        except Exception as e:
+            extra = f"\nthumb no YouTube: falhou ({e})"
+    telegram.enviar_mensagem(f"Postado: \"{titulo}\"\n{_links(resp)}{extra}"[:3800])
     if PENDENTE.exists():
         p = json.loads(PENDENTE.read_text(encoding="utf-8"))
         p["postado"] = True
