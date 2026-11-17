@@ -1,0 +1,134 @@
+{
+  "titulo": "O Latido Lá Fora",
+  "estilo": "vhs",
+  "pixel": 7,
+  "data_fita": "MAR 03 1998",
+  "hora_fita": [3, 14, 40],
+  "protagonista": "policial",
+  "clima": "suspense",
+  "selo": "FITA 02",
+  "pergunta_thumb": "Qual deles é o Rufus?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "parte": 2,
+  "serie": "Rufus",
+  "legenda_post": "Fita 02. Vocês escolheram a arma. Mas a arma não estava lá... e o Rufus estava lá fora. E agora, A ou B?",
+  "hashtags": ["#analoghorror", "#vhs", "#foundfootage", "#cachorro", "#terror"],
+  "resumo": "Ela corre até a arma, mas o armário está vazio. Lá fora, o Rufus de verdade late: passou a noite farejando a coisa. De dentro da casa, alguém chama o cão com a voz dela.",
+  "opcao_a": "Abrir a porta dos fundos para o Rufus entrar.",
+  "opcao_b": "Trancar tudo e correr até o rádio da viatura na garagem.",
+  "cenas": [
+    {
+      "narracao": "Você escolheu a arma. Então você corre... e passa colada nele no corredor.",
+      "cenario": "corredor",
+      "personagem": {"pose": "medo", "acao": "correndo", "posicao": "esquerda", "tamanho": "medio"},
+      "cachorro": {"acao": "de_pe", "falso": true, "posicao": "centro", "tamanho": "longe"},
+      "camera": "parada",
+      "efeito": "tremor"
+    },
+    {
+      "narracao": "Ele não te segue. Só vira a cabeça... devagar. Acompanhando você.",
+      "cenario": "corredor",
+      "personagem": null,
+      "cachorro": {"acao": "de_pe", "falso": true, "posicao": "centro", "tamanho": "medio"},
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "O armário está aberto. A caixa da arma... vazia.",
+      "cenario": "corredor",
+      "personagem": {"pose": "agachado", "acao": "parado", "posicao": "direita", "tamanho": "medio"},
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Na porta, marcas de mãos. Compridas demais.",
+      "cenario": "corredor",
+      "personagem": null,
+      "objeto": {"tipo": "marcas_mao", "tamanho": "perto"},
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Quando você se vira... o corredor está vazio.",
+      "cenario": "corredor",
+      "personagem": {"pose": "olhando_tras", "acao": "parado", "posicao": "esquerda", "tamanho": "medio"},
+      "camera": "zoom_in",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Então você ouve um latido. Lá fora.",
+      "cenario": "janela",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {"busca": "dog bark distant", "palavra": "latido"}
+    },
+    {
+      "narracao": "Rouco, curto. Você conhece esse latido. É o Rufus.",
+      "cenario": "casa_fora",
+      "personagem": null,
+      "cachorro": {"acao": "parado", "posicao": "centro", "tamanho": "longe"},
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Ele está no fundo do quintal, perto da mata. Sujo de terra... abanando o rabo.",
+      "cenario": "casa_fora",
+      "personagem": null,
+      "cachorro": {"acao": "sentado", "posicao": "direita", "tamanho": "medio"},
+      "camera": "pan_direita"
+    },
+    {
+      "narracao": "O Rufus passou a noite inteira lá fora. Farejando. Seguindo alguma coisa.",
+      "cenario": "casa_fora",
+      "personagem": null,
+      "objeto": {"tipo": "pegadas", "posicao": "centro", "tamanho": "medio"},
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Mas se ele estava lá fora... o que dormiu ao pé da sua cama?",
+      "cenario": "quarto",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "No lençol, um tufo de pelo caramelo. Ainda morno.",
+      "cenario": "quarto",
+      "personagem": null,
+      "objeto": {"tipo": "pelo", "tamanho": "perto"},
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Aí, de dentro da casa, alguém chama. Com a sua voz.",
+      "cenario": "corredor",
+      "personagem": {"pose": "medo", "acao": "tremendo", "posicao": "esquerda", "tamanho": "perto"},
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Rufus... vem. Vem com a mamãe.",
+      "cenario": "corredor",
+      "personagem": null,
+      "cachorro": {"acao": "de_pe", "falso": true, "posicao": "centro", "tamanho": "longe"},
+      "camera": "zoom_in",
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "Lá fora, as orelhas do Rufus sobem. E ele começa a correr para a casa.",
+      "cenario": "casa_fora",
+      "personagem": null,
+      "cachorro": {"acao": "correndo", "posicao": "direita", "tamanho": "medio"},
+      "camera": "pan_esquerda"
+    },
+    {
+      "narracao": "E, no fim do corredor, você ouve o clique da sua arma sendo engatilhada.",
+      "cenario": "corredor",
+      "personagem": {"pose": "costas", "acao": "tremendo", "posicao": "esquerda", "tamanho": "medio"},
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "som": {"busca": "pistol cocking", "palavra": "clique"}
+    },
+    {
+      "narracao": "Opção A: abrir a porta dos fundos para o Rufus entrar. Opção B: trancar tudo e correr até o rádio da viatura. Comente A ou B.",
+      "cenario": "porta_entrada",
+      "personagem": null,
+      "camera": "zoom_in"
+    }
+  ]
+}
