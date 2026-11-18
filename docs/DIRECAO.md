@@ -85,6 +85,14 @@ Este é o documento que a direção automática diária lê antes de criar qualq
   - Davi e Dona Cida, nas "Férias na Roça", contra A Pisadeira e O Assobiador;
   - Rafa, na "Corrida Noturna", contra O Passageiro do Banco de Trás.
 
+- **No radar (ideia do Vitor, 18/11): isca "versão macabra de personagem famoso".** São curiosidades sombrias com fotos do Pixabay. Só fazer se a análise de tendências mostrar que o formato está em alta. Regras:
+  - **Personagem com dono** (Bob Esponja, Disney etc.): NUNCA usar imagem, desenho, nome no título ou imitação da voz. Isso dá strike de direitos autorais e quebra a regra de arte própria. O máximo permitido é comentar uma lenda ou creepypasta conhecida sobre o desenho ("o episódio perdido que..."), em narração, com imagens genéricas (TV chiando, fita VHS, quarto escuro).
+  - **Caminho livre e mais forte:** personagens de domínio público em versão macabra:
+    - folclore brasileiro: Saci, Curupira, Mula sem Cabeça, Cuca da lenda (não a do Sítio da TV);
+    - contos clássicos: Chapeuzinho, João e Maria, Pinóquio, Branca de Neve dos Grimm;
+    - Mickey de 1928 (Steamboat Willie), só o design original.
+  - **Voz:** a Enceladus muda de estilo conforme o personagem (sussurro infantil, conto de fadas, alerta). Nunca imitar o dublador de um personagem real.
+
 ## 6. Cenários novos
 - **Ilustrações** (cenários e cenas especiais) são geradas pelo Vitor no app do Gemini. A API de imagem não tem cota grátis.
 - **Quando precisar de uma:** mande no aviso o prompt pronto em inglês, com o estilo base. Enquanto não chega, use os cenários que existem.
