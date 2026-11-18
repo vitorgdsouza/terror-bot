@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: write
-  actions: read               # para baixar o vídeo de outra execução no /postar
+  actions: write              # baixar o vídeo de outra execução no /postar e disparar o render no /aprovar
 
 concurrency:
   group: video
@@ -36,6 +36,7 @@ jobs:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       USAR_CLAUDE: ${{ vars.USAR_CLAUDE }}
       CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
 

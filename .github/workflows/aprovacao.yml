@@ -1,0 +1,74 @@
+name: Mesa do gerente (propostas e decisões)
+run-name: "Mesa: ${{ inputs.acao }} ${{ inputs.tipo }} ${{ inputs.id }} ${{ inputs.arquivo }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      acao:
+        description: "propor | decidir | pendentes"
+        default: pendentes
+      tipo:
+        description: "propor: roteiro | video"
+        default: ""
+      agente:
+        description: "propor: Roteirista | Revisor | Publicador | Diretor de Arte | Analista"
+        default: ""
+      arquivo:
+        description: "propor: roteiro do repositório (roteiros/...json)"
+        default: ""
+      run_id:
+        description: "propor video: execução do refazer-video com o vídeo"
+        default: ""
+      resumo:
+        description: "propor: resumo para o Vitor (o que é, por quê, resultado da revisão)"
+        default: ""
+      id:
+        description: "decidir: número do item"
+        default: ""
+      decisao:
+        description: "decidir: aprovar | refazer"
+        default: aprovar
+      motivo:
+        description: "decidir: o que mudar (refazer)"
+        default: ""
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: mesa
+  cancel-in-progress: false
+
+jobs:
+  mesa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      GITHUB_TOKEN: ${{ github.token }}
+      TIPO: ${{ inputs.tipo }}
+      AGENTE: ${{ inputs.agente }}
+      ARQUIVO: ${{ inputs.arquivo }}
+      RUN_ID: ${{ inputs.run_id }}
+      RESUMO: ${{ inputs.resumo }}
+      ID: ${{ inputs.id }}
+      DECISAO: ${{ inputs.decisao }}
+      MOTIVO: ${{ inputs.motivo }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m src.aprovacao ${{ inputs.acao }}
+      - name: Guardar
+        run: |
+          git config user.name "bot-terror"
+          git config user.email "bot-terror@users.noreply.github.com"
+          git add data/aprovacoes.json data/fila.json 2>/dev/null
+          git diff --cached --quiet && exit 0
+          git commit -m "Mesa do gerente: ${{ inputs.acao }}"
+          for t in 1 2 3 4 5; do git pull --rebase --autostash && git push && exit 0; sleep 7; done; exit 1

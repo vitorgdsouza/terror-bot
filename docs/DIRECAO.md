@@ -2,6 +2,28 @@
 
 Este é o documento que a direção automática diária lê antes de criar qualquer coisa. Leia também `docs/PERSONAGENS.md`, com o elenco, os antagonistas e quando estrear cada um, e `docs/PROTOCOLOS.md`, com o que funciona em protocolo e a estrutura dos nossos. O dono do canal (Vitor) supervisiona e posta o TikTok à mão. Tudo aqui foi aprendido com o gosto e as correções dele.
 
+## 0. A equipe e a mesa do gerente (desde 18/11)
+O Vitor é o gerente. A automação é feita por 5 agentes especializados, definidos em `.claude/agents/`:
+- **Analista:** números e tendências. Entrega a pauta do dia em `data/pauta/`.
+- **Roteirista:** escreve os roteiros e manda para aprovação.
+- **Diretor de Arte:** cenários, cenas especiais, traço das séries, prompts de imagem e cadastro das imagens.
+- **Revisor:** confere o vídeo renderizado com olhos de fora e corrige ou refaz.
+- **Publicador:** título, legenda e thumb. Manda o vídeo final para aprovação e cuida da fila.
+
+**Pontos de aprovação do Vitor (obrigatórios):**
+1. **Roteiro**, antes do render.
+2. **Vídeo final**, antes da fila.
+
+**Fluxo:**
+- O Vitor aprova pelo Telegram (`/aprovar N`, `/refazer N o que mudar`, `/pendentes`) ou na conversa com o Claude. O registro fica em `data/aprovacoes.json` e o quadro "Mesa do Gerente" mostra o histórico.
+- Roteiro aprovado → o render começa sozinho. Vídeo aprovado → entra na fila sozinho.
+- **Nenhum agente põe vídeo na fila sem aprovação.**
+- Para propor algo, os agentes usam `gh workflow run aprovacao.yml` (veja cada agente).
+
+**Rodadas da equipe (tarefas agendadas):**
+- **7h23:** Analista → Roteirista (e Diretor de Arte se precisar) → roteiros para aprovação.
+- **10h53 e 15h23:** Revisor confere o que foi renderizado → Publicador manda o vídeo para aprovação. Os roteiros devolvidos com /refazer voltam ao Roteirista.
+
 ## 1. Calendário de postagem (YouTube, fila automática)
 - **11h47:** sempre uma **isca** (12 a 20 s). Gancho e pergunta, para trazer gente nova. Puxa uma série do canal.
 - **18h47:** o **vídeo principal**, alternando por dia:

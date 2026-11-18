@@ -36,6 +36,9 @@ AJUDA = ("Comandos:\n"
          "/final B - última parte da história, seguindo a opção B (ou A)\n"
          "/historia - mostra a última história e as opções dela\n"
          "/relatorio - indicadores do YouTube (retenção, quem ficou, compartilhamentos)\n"
+         "/aprovar 12 - aprova o roteiro ou vídeo #12 da equipe\n"
+         "/refazer 12 o que mudar - devolve o #12 para a equipe\n"
+         "/pendentes - o que está esperando a sua decisão\n"
          "/fila - a fila de postagem automática (11h47 e 18h47)\n"
          "/enfileirar - põe o último vídeo gerado na fila\n\n"
          "Os comandos são lidos a cada 20 minutos, então a resposta pode demorar um pouco.")
@@ -106,6 +109,16 @@ def main():
             else:
                 postar = p["run_id"]
                 telegram.enviar_mensagem(f"Publicando \"{p['titulo']}\" no YouTube Shorts...")
+        elif comando in ("/aprovar", "/refazer"):
+            from .aprovacao import decidir, texto_pendentes
+            num, _, motivo = resto.strip().partition(" ")
+            if not num.lstrip("#").isdigit():
+                telegram.enviar_mensagem("Diga o número: /aprovar 12  ou  /refazer 12 o que mudar\n\n" + texto_pendentes())
+            else:
+                decidir(int(num.lstrip("#")), "aprovar" if comando == "/aprovar" else "refazer", motivo.strip())
+        elif comando == "/pendentes":
+            from .aprovacao import texto_pendentes
+            telegram.enviar_mensagem(texto_pendentes())
         elif comando == "/fila":
             from .fila import mostrar
             mostrar()

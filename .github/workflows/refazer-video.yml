@@ -1,4 +1,5 @@
 name: Refazer vídeo / montar roteiro pronto
+run-name: "Refazer ${{ inputs.roteiro || inputs.run_id }}"
 
 on:
   workflow_dispatch:
@@ -65,10 +66,14 @@ jobs:
 
       - name: Marcar como pronto para postar
         if: success()
+        env:
+          ROTEIRO_ARQ: ${{ inputs.roteiro }}
+          RUN_ID: ${{ github.run_id }}
         run: |
+          [ -n "$ROTEIRO_ARQ" ] && python -m src.aprovacao renderizado || true
           git config user.name "bot-terror"
           git config user.email "bot-terror@users.noreply.github.com"
-          git add data/pendente.json data/previas
+          git add data/pendente.json data/previas; [ -e data/aprovacoes.json ] && git add data/aprovacoes.json
           git diff --cached --quiet && exit 0
           git commit -m "Vídeo refeito pronto para postar"
           for tentativa in 1 2 3 4 5; do              # outra execução pode ter salvo ao mesmo tempo: fica com a nossa versão
