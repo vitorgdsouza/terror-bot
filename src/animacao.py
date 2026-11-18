@@ -128,6 +128,7 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   olho_tiago_celular (Pode Entrar?, mesmo traço, sem personagem: pelo olho mágico, o Tiago encosta o celular no vidro com o app de entrega aberto, mapa e pino, tela sem texto; metade do rosto dele atrás do celular, SEM vapor; a tela fica em ~[0.5, 0.45]) |
   inverno_rua (Pode Entrar?, traço semi-realista: rua de bairro coberta de geada cinza, casas com muro e portão, fios e postes, carro abandonado com a porta aberta no meio da rua, uma única casa ao fundo com janela acesa e fumaça na chaminé, céu baixo) |
   caderno_lurdes (Pode Entrar?, traço semi-realista, sem personagem: close de cima do caderno espiral da Dona Lurdes na mesa de madeira, anotações à mão ilegíveis, desenho do olho mágico e de uma janela embaçada, canto da folha rasgado, vela acesa e óculos ao lado, geada na janela; texto em português só por cima) |
+  esp_tiago_vidro (CENA ESPECIAL, Pode Entrar?, sem personagem: o rosto do Tiago colado no olho mágico, olho de peixe, olhos calmos e parados, boca entreaberta, o vidro limpo SEM embaçar; a cabeça inclina devagar) |
   tv_estatica2 (close na TV de tubo chiando na sala escura) | escola_corredor2 (corredor de escola com luar entrando pelas janelas) |
   banheiro_escola2 (banheiro de escola: cabines verdes, uma porta aberta, pias e espelho manchado) | hospital_quarto2 (quarto de hospital: cama, soro, monitor verde, cortina) |
   escritorio (estantes de livros, mesa de madeira com abajur aceso, poltrona de couro, janela) |
