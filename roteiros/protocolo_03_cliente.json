@@ -44,7 +44,7 @@
       "ambiente": "nenhum"
     },
     {
-      "narracao": "Nunca diga boa noite. Nem pode entrar. Ele só entra se for convidado.",
+      "narracao": "Nunca diga boa noite. Nem diga pode entrar. Ele só entra se for convidado.",
       "icones": [
         "porta",
         "parar"
@@ -65,7 +65,7 @@
       "ambiente": "nenhum",
       "thumb": true,
       "som": {
-        "busca": "shop door bell chime",
+        "busca": "small bell jingle",
         "palavra": "câmera"
       }
     },
@@ -93,11 +93,7 @@
         "som",
         "parar"
       ],
-      "ambiente": "nenhum",
-      "som": {
-        "busca": "whisper",
-        "palavra": "contar"
-      }
+      "ambiente": "nenhum"
     },
     {
       "narracao": "E a parte mais importante.",
@@ -131,7 +127,7 @@
       "pausa_extra": 0.3,
       "ambiente": "fluorescent light buzz",
       "som": {
-        "busca": "shop door bell chime",
+        "busca": "small bell jingle",
         "palavra": "campainha"
       }
     },
