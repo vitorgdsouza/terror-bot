@@ -1,0 +1,41 @@
+name: Gerar ilustração (Gemini)
+
+on:
+  workflow_dispatch:
+    inputs:
+      nome:
+        description: "nome do cenário (vira assets/cenarios/<nome>.png)"
+        required: true
+      descricao:
+        description: "descrição da cena em inglês (o estilo da série é acrescentado sozinho)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  imagem:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Gerar
+        env:
+          NOME: ${{ github.event.inputs.nome }}
+          DESCRICAO: ${{ github.event.inputs.descricao }}
+        run: python -m src.imagem_ia "$NOME" "$DESCRICAO"
+      - name: Guardar
+        run: |
+          git config user.name "bot-terror"
+          git config user.email "bot-terror@users.noreply.github.com"
+          git add assets/cenarios data/previas
+          git diff --cached --quiet && exit 0
+          git commit -m "Ilustração nova: ${{ github.event.inputs.nome }}"
+          for t in 1 2 3; do git pull --rebase -X theirs --autostash && git push && exit 0; sleep 7; done
