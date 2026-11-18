@@ -68,7 +68,7 @@ jobs:
         run: |
           git config user.name "bot-terror"
           git config user.email "bot-terror@users.noreply.github.com"
-          git add data/aprovacoes.json data/fila.json 2>/dev/null
+          for f in data/aprovacoes.json data/fila.json; do [ -e "$f" ] && git add "$f"; done
           git diff --cached --quiet && exit 0
           git commit -m "Mesa do gerente: ${{ inputs.acao }}"
           for t in 1 2 3 4 5; do git pull --rebase --autostash && git push && exit 0; sleep 7; done; exit 1
