@@ -183,9 +183,68 @@ def _ic_escada():
     return img
 
 
+def _ic_sino():
+    """Sininho de porta de loja (a campainha que toca duas vezes)."""
+    img, d = _tela()
+    d.line((200, 30, 200, 80), fill=255, width=12)
+    d.rectangle((120, 30, 280, 44), fill=255)
+    d.pieslice((95, 80, 305, 330), 180, 360, fill=255)
+    d.rectangle((95, 205, 305, 300), fill=255)
+    d.polygon([(70, 300), (330, 300), (305, 260), (95, 260)], fill=255)
+    d.ellipse((175, 300, 225, 350), fill=255)
+    for r in (40, 75):                                  # o som balançando
+        d.arc((200 - 150 - r, 120 - r, 200 - 150 + r, 120 + r), 120, 240, fill=255, width=10)
+        d.arc((200 + 150 - r, 120 - r, 200 + 150 + r, 120 + r), -60, 60, fill=255, width=10)
+    return img
+
+
+def _ic_camera():
+    """Câmera de segurança presa no teto."""
+    img, d = _tela()
+    d.rectangle((40, 60, 120, 90), fill=255)
+    d.line((80, 90, 130, 160), fill=255, width=22)
+    d.polygon([(110, 140), (330, 210), (300, 300), (85, 225)], fill=255)
+    d.ellipse((290, 215, 350, 285), fill=255)
+    d.ellipse((303, 228, 337, 272), fill=0)
+    d.ellipse((150, 175, 175, 200), fill=0)              # luzinha de gravação
+    return img
+
+
+def _ic_celular():
+    img, d = _tela()
+    d.rounded_rectangle((120, 30, 280, 370), radius=26, fill=255)
+    d.rounded_rectangle((138, 70, 262, 320), radius=8, fill=0)
+    d.ellipse((185, 333, 215, 360), fill=0)
+    # tocando
+    for r in (60, 100):
+        d.arc((200 - r - 60, 200 - r, 200 - 60 + r, 200 + r), 150, 210, fill=255, width=10)
+        d.arc((200 + 60 - r, 200 - r, 200 + 60 + r, 200 + r), -30, 30, fill=255, width=10)
+    return img
+
+
+def _ic_cliente():
+    """O Cliente das 3h17: alto e magro, capuz, ombros caídos, braços compridos demais, o rosto escuro com só o sorriso."""
+    img, d = _tela()
+    d.ellipse((158, 14, 242, 118), fill=255)                     # capuz
+    d.polygon([(150, 92), (250, 92), (288, 146), (112, 146)], fill=255)      # ombros caídos
+    d.polygon([(116, 140), (284, 140), (268, 300), (132, 300)], fill=255)    # casaco
+    d.polygon([(118, 148), (102, 152), (76, 388), (92, 390)], fill=255)      # braços que passam do joelho
+    d.polygon([(282, 148), (298, 152), (324, 388), (308, 390)], fill=255)
+    for x in (78, 308):                                          # dedos compridos
+        for k in range(3):
+            d.line((x + 6, 384, x - 4 + k * 8, 398), fill=255, width=4)
+    d.polygon([(150, 296), (178, 296), (172, 396), (154, 396)], fill=255)   # pernas finas
+    d.polygon([(222, 296), (250, 296), (246, 396), (228, 396)], fill=255)
+    d.ellipse((176, 48, 224, 104), fill=0)                       # rosto: um buraco escuro no capuz
+    d.chord((180, 66, 220, 92), 10, 170, fill=255)               # e só o sorriso, largo demais
+    d.line((182, 76, 218, 76), fill=0, width=2)
+    return img
+
+
 ICONES = {"cama": _ic_cama, "janela": _ic_janela, "olho": _ic_olho, "porta": _ic_porta, "porta_aberta": _ic_porta_aberta,
           "alerta": _ic_alerta, "relogio": _ic_relogio, "casa": _ic_casa, "prancheta": _ic_prancheta, "som": _ic_som,
-          "parar": _ic_parar, "coleira": _ic_coleira, "pegadas": _ic_pegadas, "escada": _ic_escada}
+          "parar": _ic_parar, "coleira": _ic_coleira, "pegadas": _ic_pegadas, "escada": _ic_escada,
+          "sino": _ic_sino, "camera": _ic_camera, "celular": _ic_celular, "cliente": _ic_cliente}
 
 
 def icone(nome: str) -> Image.Image:
@@ -219,6 +278,8 @@ def _fundo(sombra: str = "abismo") -> Image.Image:
         # silhueta enorme e apagada no meio (o Abismo observando, sempre presente)
         if sombra == "falso":                               # o falso Rufus de pé, enorme e apagado
             ab = _ic_cachorro("de_pe", True).resize((700, 700))
+        elif sombra == "cliente":                           # o Cliente das 3h17, enorme e apagado
+            ab = _ic_cliente().resize((700, 700))
         else:
             from . import abismo_anim as AB
             p = AB.animar("parado", 1.0, 4)
@@ -333,3 +394,42 @@ def renderizar_cena_protocolo(cena: dict, voz: dict, destino: Path, pausa: float
     if ff.returncode != 0:
         raise RuntimeError(erro[-800:])
     return dur
+
+
+def sobrepor_alerta(img: Image.Image, cena: dict, t: float, n: int) -> Image.Image:
+    """Cena ilustrada (cena especial) dentro de um protocolo: a transmissão continua por cima da imagem.
+    Texto vermelho palavra por palavra no rodapé (longe do rosto), o rótulo no topo e as linhas de TV."""
+    d = ImageDraw.Draw(img)
+    ditas = [p["texto"] for p in (cena.get("_palavras") or []) if p["inicio"] <= t] or []
+    frase = cena["narracao"].lower().split()[:len(ditas)]
+    if frase:
+        f = ImageFont.truetype(MONO, 46)
+        linhas, linha = [], ""
+        for w in frase:
+            if f.getlength((linha + " " + w).strip()) > W * 0.86:
+                linhas.append(linha)
+                linha = w
+            else:
+                linha = (linha + " " + w).strip()
+        linhas.append(linha)
+        linhas = linhas[-2:]
+        y = int(H * 0.90)
+        d.rectangle((0, y - 24, W, y + 60 * len(linhas) + 10), fill=(12, 0, 1))
+        for ln in linhas:
+            x = (W - f.getlength(ln)) / 2
+            d.text((x, y), ln, font=f, fill=(226, 30, 34))
+            y += 60
+    fp = ImageFont.truetype(MONO, 28)
+    d.rectangle((24, 70, 24 + fp.getlength(cena.get("_rotulo", "")) + 32, 120), fill=(12, 0, 1))
+    d.text((40, 78), cena.get("_rotulo", ""), font=fp, fill=(200, 24, 28))
+    if (n // 12) % 2 == 0:
+        d.ellipse((W - 70, 82, W - 46, 106), fill=(220, 20, 24))
+    if random.Random(n // 3).random() < 0.1:
+        a = np.asarray(img).copy()
+        rnd = random.Random(n)
+        for _ in range(rnd.randint(3, 6)):
+            y0 = rnd.randint(0, H - 60)
+            h = rnd.randint(8, 50)
+            a[y0:y0 + h] = np.roll(a[y0:y0 + h], rnd.randint(-70, 70), axis=1)
+        img = Image.fromarray(a)
+    return _linhas_tv(img, n)

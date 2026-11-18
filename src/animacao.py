@@ -1377,6 +1377,9 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
     if cena.get("_vhs"):
         from .vhs import aplicar
         img = aplicar(img, cena, t, dur, n)
+    if cena.get("_alerta"):                            # cena especial dentro de um protocolo: a transmissão por cima
+        from .protocolo import sobrepor_alerta
+        img = sobrepor_alerta(img, cena, t, n)
     return img
 
 
