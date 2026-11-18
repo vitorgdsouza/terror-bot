@@ -98,3 +98,9 @@
 - **Versão SIM:** abre no Tiago dentro de casa, perto da lareira, dividindo a comida. Ele acha o caderno sozinho ("como ele sabia onde estava?"). Página 2 revela a geada. Batida: Lia. Voto: abre para a Lia?
 - **Versão NÃO:** abre com as batidas parando. De manhã não amanhece; pelo olho mágico, a varanda vazia e a bag do Tiago encostada na porta. Batida: Lia, usando o cachecol laranja do Tiago. Voto: abre?
 - Arte a encomendar depois do OK do Vitor: `sala_lareira_tiago`, `caderno_lurdes2`, `olho_bag`, `olho_lia`, `olho_lia_cachecol`, `esp_lia_cilios`.
+
+## 18/11 (noite): o protocolo das 18h47 também não saiu sozinho
+- O agendamento das 18h47 (cron 21:47 UTC) não disparou de novo. É a segunda falha do `schedule` do GitHub no dia.
+- Com o OK do Vitor, o Publicador rodou `fila.yml` com `turno=tarde` às 19h15 (run 44409859984). "Se a Campainha Tocar Duas Vezes" saiu no YouTube pelo Upload-Post (status completed, 22:19 UTC).
+- Fila agora: 3 iscas e **nenhum principal**. É preciso aprovar um principal (história) para 19/11.
+- Sugestão: o `schedule` do GitHub falhou nas duas faixas de hoje. Vale ter um disparo de reserva (por exemplo, uma tarefa agendada que confere e roda a fila uns 20 min depois de cada faixa).
