@@ -55,7 +55,8 @@ Pesquisa de novembro de 2026 sobre o que está em alta no TikTok e no YouTube. A
 - **Bichos de estimação** (é o que já performa): gato, cachorro, papagaio que repete uma voz que ninguém da casa tem, peixe que sempre olha para a porta.
 
 ## Recursos que temos (src/protocolo.py)
-- **Ícones:** cama, janela, olho, porta, porta_aberta, alerta, relogio, casa, prancheta, som, parar, coleira, pegadas, escada, `gato:<acao>`, `cachorro:<acao>`, `falso:<acao>`, `pessoa:<pose>`.
-- **Configuração:** `rotulo` ("PROTOCOLO <NOME>") e `sombra` (abismo | falso) para a silhueta gigante no fundo.
+- **Ícones:** cama, janela, olho, porta, porta_aberta, alerta, relogio, casa, prancheta, som, parar, coleira, pegadas, escada, sino, camera, celular, cliente (o Cliente das 3h17), `gato:<acao>`, `cachorro:<acao>`, `falso:<acao>`, `pessoa:<pose>`.
+- **Cena especial no susto (desde 18/11):** uma cena do protocolo pode ter `cenario` (ex.: `esp_cliente_balcao2`), com `camera`, `efeito` e `corte_preto`. Ela sai ilustrada, com o rótulo, o texto vermelho no rodapé e as linhas de TV por cima. Use uma por protocolo, na virada.
+- **Configuração:** `rotulo` ("PROTOCOLO <NOME>") e `sombra` (abismo | falso | cliente) para a silhueta gigante no fundo.
 - **Criatura nova:** crie o ícone dela em `src/protocolo.py`, uma silhueta desenhada em PIL como as outras. Se fizer sentido, crie também a sombra de fundo dela. Teste com um quadro de prova antes de renderizar.
 - **Variação visual:** use o formato `sombra` (silhuetas pretas no vermelho, quadros relogio, quarto, rosto, porta, portas) para variar entre um protocolo e outro.
