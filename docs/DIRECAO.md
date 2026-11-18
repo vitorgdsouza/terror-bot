@@ -1,6 +1,6 @@
 # Direção criativa: "Você Escaparia?"
 
-Este é o documento que a direção automática diária lê antes de criar qualquer coisa. O dono do canal (Vitor) supervisiona e posta o TikTok à mão. Tudo aqui foi aprendido com o gosto e as correções dele.
+Este é o documento que a direção automática diária lê antes de criar qualquer coisa. Leia também `docs/PERSONAGENS.md`, com o elenco, os antagonistas e quando estrear cada um, e `docs/PROTOCOLOS.md`, com o que funciona em protocolo e a estrutura dos nossos. O dono do canal (Vitor) supervisiona e posta o TikTok à mão. Tudo aqui foi aprendido com o gosto e as correções dele.
 
 ## 1. Calendário de postagem (YouTube, fila automática)
 - **11h47:** sempre uma **isca** (12 a 20 s). Gancho e pergunta, para trazer gente nova. Puxa uma série do canal.
@@ -74,6 +74,11 @@ Este é o documento que a direção automática diária lê antes de criar qualq
 - **Rufus:** policial e o cão farejador. O "falso Rufus" é um homem vestindo a pele do cão. Formato VHS. Fita 01 e Fita 02 já postadas. Fita 02: A abrir a porta / B rádio da viatura.
 - **Protocolo Stu e Protocolo Rufus:** podem ganhar novos protocolos, inclusive de criaturas novas.
 - **Histórias novas são bem-vindas:** personagens, criaturas e lugares novos, com cara de série que pode continuar se for bem. Libere as continuações aos poucos, com base nos números.
+- **Elenco pronto para estrear** (detalhes em `docs/PERSONAGENS.md`):
+  - Bia, no "Turno da Madrugada", contra O Cliente das 3h17;
+  - Seu Joaquim, na "Câmera 4", contra A Moradora do 13º;
+  - Davi e Dona Cida, nas "Férias na Roça", contra A Pisadeira e O Assobiador;
+  - Rafa, na "Corrida Noturna", contra O Passageiro do Banco de Trás.
 
 ## 6. Cenários novos
 - **Ilustrações** (cenários e cenas especiais) são geradas pelo Vitor no app do Gemini. A API de imagem não tem cota grátis.
