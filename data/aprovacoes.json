@@ -1,0 +1,21 @@
+{
+ "proximo": 2,
+ "itens": [
+  {
+   "id": 1,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "O Entregador",
+   "arquivo": "roteiros/pode_entrar_01.json",
+   "run_id": "",
+   "resumo": "Estreia da série Pode Entrar? (Ep. 1 O Entregador): POV no olho mágico, contexto rápido do Inverno Errado e dos Ocos, Tiago pedindo para entrar. Final com voto SIM/NÃO; artes do Diretor de Arte já cadastradas.",
+   "titulo_youtube": "Ele diz que é só um entregador... você abriria a porta? 🚪 #shorts",
+   "legenda": "Pode Entrar? Ep. 1. Faz 19 dias de geada cinza, a sua comida está acabando e o Tiago está na sua porta. Ele treme de frio... mas o vidro não embaçou. Você abre? Comenta SIM ou NÃO 👇 (história de ficção)",
+   "tipo_video": "historia",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-18 21:18",
+   "decidido": ""
+  }
+ ]
+}
