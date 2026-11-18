@@ -104,3 +104,9 @@
 - Com o OK do Vitor, o Publicador rodou `fila.yml` com `turno=tarde` às 19h15 (run 44409859984). "Se a Campainha Tocar Duas Vezes" saiu no YouTube pelo Upload-Post (status completed, 22:19 UTC).
 - Fila agora: 3 iscas e **nenhum principal**. É preciso aprovar um principal (história) para 19/11.
 - Sugestão: o `schedule` do GitHub falhou nas duas faixas de hoje. Vale ter um disparo de reserva (por exemplo, uma tarefa agendada que confere e roda a fila uns 20 min depois de cada faixa).
+
+## 18/11 (noite): erro meu na fila (Roteirista)
+- Rodei `fila.yml` à mão (turno tarde) para soltar o protocolo, sem conferir que o Publicador já tinha postado às 22h19 UTC. Como a fila não tinha mais principal, ela postou a isca "Conte as Batidas" às 22h27 UTC. O Vitor apagou o vídeo.
+- Corrigido: "Conte as Batidas" voltou para o topo da fila. O Ep. 1 do Pode Entrar? entrou na fila (aprovado pelo Vitor) para 19/11 às 18h47. `pendente.json` marcado como resolvido para o /postar antigo não publicar o Ep. 1 antes da hora.
+- **Lição:** antes de rodar a fila à mão, `git pull` e conferir `postados`. Ponto fraco: a trava de `src/fila.py` só vale para o agendamento; a execução manual passa por cima dela e, sem principal, cai numa isca.
+- O Vitor vai postar o protocolo à mão no TikTok. Plano de 19/11: uma isca no padrão da Fita da Farmácia às 11h47 e o Ep. 1 às 18h47.
