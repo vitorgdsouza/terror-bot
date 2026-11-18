@@ -1,0 +1,107 @@
+{
+  "titulo": "O Entregador",
+  "serie": "Pode Entrar?",
+  "parte": 1,
+  "tipo": "historia",
+  "pov": true,
+  "protagonista": null,
+  "clima": "suspense",
+  "selo": "EP. 1",
+  "pergunta_thumb": "Você abriria a porta?",
+  "trilha": "dark ambient drone hum cold wind",
+  "trilha_volume": 0.4,
+  "titulo_youtube": "Ele diz que é só um entregador... você abriria a porta? 🚪 #shorts",
+  "legenda_post": "Pode Entrar? Ep. 1. Faz 19 dias de geada cinza, a sua comida está acabando e o Tiago está na sua porta. Ele treme de frio... mas o vidro não embaçou. Você abre? Comenta SIM ou NÃO 👇 (história de ficção)",
+  "hashtags": ["#terror", "#podeentrar", "#voceescaparia", "#animacao", "#apocalipse"],
+  "resumo": "Há 19 dias cai uma geada cinza no Brasil e quem dorme na rua não amanhece. Com o frio vieram os Ocos, que parecem gente mas são vazios por dentro. O caderno da antiga dona da casa ensina: Ocos não sentem frio e o bafo deles não embaça o vidro. Às 2h, Tiago, um entregador de 19 anos, bate na porta oferecendo comida. Ele treme e tem os lábios roxos, mas quando cola o rosto no olho mágico o vidro não embaça. E o último pedido no celular dele é para o seu endereço, feito há 19 dias.",
+  "opcao_a": "SIM: abrir a porta para o Tiago.",
+  "opcao_b": "NÃO: deixar a porta fechada.",
+  "precisa_arte": [
+    "olho_tiago",
+    "inverno_rua",
+    "caderno_lurdes",
+    "esp_tiago_vidro",
+    "olho_tiago_celular"
+  ],
+  "cenas": [
+    {
+      "narracao": "Duas da manhã. Nove graus negativos. E alguém bate na sua porta.",
+      "cenario": "olho_tiago",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "som": {"busca": "heavy knocking on wooden door", "palavra": "bate"}
+    },
+    {
+      "narracao": "Faz dezenove dias que cai essa geada cinza. Quem dorme lá fora não amanhece. E a sua comida está acabando.",
+      "cenario": "inverno_rua",
+      "personagem": null,
+      "camera": "pan_direita",
+      "som": {"busca": "cold wind howling", "palavra": "geada"}
+    },
+    {
+      "narracao": "Com o frio vieram os Ocos: parecem gente... mas por dentro, não tem ninguém.",
+      "cenario": "inverno_rua",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "O caderno da antiga dona da casa avisa: Ocos não sentem frio. E o bafo deles não embaça o vidro.",
+      "cenario": "caderno_lurdes",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {"busca": "paper page turn", "palavra": "caderno"}
+    },
+    {
+      "narracao": "Você vai até a porta... e olha pelo olho mágico.",
+      "cenario": "porta_entrada",
+      "personagem": null,
+      "foco": [0.3, 0.38, 3.5],
+      "camera": "zoom_in",
+      "som": {"busca": "slow footsteps wooden floor", "palavra": "porta"}
+    },
+    {
+      "narracao": "Um entregador. Tiago, dezenove anos. A moto morreu na esquina.",
+      "cenario": "olho_tiago",
+      "personagem": null,
+      "camera": "parada"
+    },
+    {
+      "narracao": "Ele ergue a bag: tem comida aqui, eu divido. Só me deixa entrar.",
+      "cenario": "olho_tiago",
+      "personagem": null,
+      "foco": [0.5, 0.62, 1.8],
+      "camera": "parada"
+    },
+    {
+      "narracao": "Ele treme. Os lábios estão roxos de frio.",
+      "cenario": "olho_tiago",
+      "personagem": null,
+      "foco": [0.5, 0.42, 2.4],
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Então ele cola o rosto no olho mágico... e o vidro continua limpo.",
+      "cenario": "esp_tiago_vidro",
+      "personagem": null,
+      "camera": "zoom_in",
+      "thumb": true,
+      "pausa_extra": 1.0,
+      "som": {"busca": "low eerie breath silence", "palavra": "limpo"}
+    },
+    {
+      "narracao": "No celular dele, o último pedido é para o seu endereço. Feito há dezenove dias.",
+      "cenario": "olho_tiago_celular",
+      "personagem": null,
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Ele sussurra: por favor. Você abre... ou não abre? Comenta SIM ou NÃO.",
+      "cenario": "olho_tiago",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {"busca": "soft knock on door", "palavra": "favor"}
+    }
+  ]
+}

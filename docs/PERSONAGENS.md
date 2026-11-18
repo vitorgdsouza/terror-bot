@@ -89,6 +89,18 @@ Visuais disponíveis no boneco (`src/boneco.py`): `homem` (o Lucas, menino de mo
 - **Formato:** animação com a tela do app (mapa e mensagens) desenhada no quadro.
 - **Cenários a encomendar:** o interior do carro à noite visto do banco do passageiro; a estrada escura; uma rua sem saída; a frente do cemitério.
 
+### Você (POV) e os visitantes: "Pode Entrar?"
+- **Protagonista:** você, em primeira pessoa, sem rosto. Sozinho numa casa com lareira, comida contada e porta com corrente e olho mágico.
+- **Traço próprio da série:** mais realista que o Guizo, paleta fria (cinza-azulada da geada) com a luz quente da lareira; visitantes vistos pelo olho mágico (leve olho de peixe). Nada que lembre o jogo No, I'm Not a Human.
+- **Os Ocos:** parecem gente e lembram a vida de quem eram, mas são vazios. Não sentem frio; o bafo não embaça o vidro; sabem coisas que não deviam. Nunca aparecem machucados.
+- **Visitante do Ep. 1, Tiago:** entregador de app, 19 anos, jaqueta fina de entregador, bag térmica nas costas, capacete na mão, lábios roxos, tremendo. Simpático, cansado, educado demais.
+- **Cenários a encomendar (Ep. 1):**
+  - `olho_tiago`: vista pelo olho mágico (círculo com olho de peixe, borda preta), varanda com geada cinza, lâmpada fraca, Tiago no centro olhando para a porta;
+  - `inverno_rua`: rua de casas apagadas coberta de geada cinza, céu baixo, um carro abandonado, fumaça de uma chaminé ao longe;
+  - `caderno_lurdes`: close de um caderno escolar aberto à luz da lareira, anotações à mão (texto ilegível/rabiscos; o texto vai por cima no vídeo), página com canto rasgado;
+  - `esp_tiago_vidro` (cena especial): o rosto do Tiago colado no olho mágico, distorcido, a boca aberta respirando perto do vidro e o vidro limpo, sem embaçar; `anima` sugerida: olhos piscando devagar e a cabeça inclinando;
+  - `olho_tiago_celular`: pelo olho mágico, ele encosta o celular no vidro mostrando o app de entrega (tela sem texto legível; o texto vai por cima).
+
 ---
 
 ## Como estrear e soltar continuações

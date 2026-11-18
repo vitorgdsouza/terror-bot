@@ -108,6 +108,13 @@ O Vitor é o gerente. A automação é feita por 5 agentes especializados, defin
 - **Rufus:** policial e o cão farejador. O "falso Rufus" é um homem vestindo a pele do cão. Formato VHS. Fita 01 e Fita 02 já postadas. Fita 02: A abrir a porta / B rádio da viatura.
 - **Protocolo Stu e Protocolo Rufus:** podem ganhar novos protocolos, inclusive de criaturas novas.
 - **Histórias novas são bem-vindas:** personagens, criaturas e lugares novos, com cara de série que pode continuar se for bem. Libere as continuações aos poucos, com base nos números.
+- **Pode Entrar? (aprovada pelo Vitor em 18/11):** série nova, mundo próprio (inspirada só na mecânica de "deixar entrar ou não"; nada do jogo No, I'm Not a Human: história, criaturas, sinais e arte são nossos).
+  - Mundo: o "Inverno Errado". Há 19 dias cai geada cinza no Brasil; quem dorme na rua não amanhece. Vieram os **Ocos**: parecem gente, mas por dentro não tem ninguém. Humanos de verdade também batem, pedindo abrigo.
+  - Regras vêm do **caderno da Dona Lurdes** (antiga dona da casa): Ocos não sentem frio; o bafo não embaça o vidro; sabem o que não deviam; última linha rasgada "nem todo sinal é...".
+  - **Em primeira pessoa (gosto do Vitor):** o POV vai até a porta e, num zoom no olho mágico, passamos a ver só a pessoa do lado de fora. A conversa e a história se desenrolam por ali.
+  - **Abertura com contexto (gosto do Vitor):** todo episódio começa (logo depois do gancho) com 2 ou 3 frases bem curtas situando o universo.
+  - Cada visitante é único (nome, vivência, motivo, algo que oferece ou precisa). Sempre um sinal de humano e um de Oco. Final: "Abre ou não abre? Comenta SIM ou NÃO". O próximo episódio começa pela consequência do voto; quem entrou continua na casa. Consequência ruim só por suspense, sem gore.
+  - Ep. 1 "O Entregador" (Tiago, 19): `roteiros/pode_entrar_01.json`, aguardando a arte para ir à aprovação.
 - **Elenco pronto para estrear** (detalhes em `docs/PERSONAGENS.md`):
   - Bia, no "Turno da Madrugada", contra O Cliente das 3h17;
   - Seu Joaquim, na "Câmera 4", contra A Moradora do 13º;
