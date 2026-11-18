@@ -91,3 +91,10 @@
 - Sinal físico novo proposto: a geada não derrete nos Ocos. Ainda não entra no Ep. 1 (que já está equilibrado em 2 sinais de cada lado); estreia numa página nova do caderno.
 - Ep. 1: a fala do caderno agora avisa "se um entrar... o Primeiro vem buscar você" (aumenta o peso do voto). 153 palavras: o Revisor confere se passa de 60 s.
 - Decisão do Vitor: o Ep. 1 mantém o voto SIM/NÃO, mas o Tiago é humano em qualquer caso (segredo da equipe, explicações em PERSONAGENS). Ep. 1 enviado para aprovação.
+
+## 18/11 (noite): plano do Ep. 2 do "Pode Entrar?" (Roteirista, rascunho, não proposto)
+- Duas versões prontas para quando o Vitor informar o voto. A visitante nova é a mesma nas duas (economiza arte): **Lia, 34, técnica de enfermagem**, com uma maleta de remédios; a sua tosse começou ontem.
+  - Sinal de humano: o bafo dela embaça o vidro. Sinal de Oco: a geada nos cílios não derrete (sinal novo, página 2 do caderno). Mais um: ela sabe o seu nome.
+- **Versão SIM:** abre no Tiago dentro de casa, perto da lareira, dividindo a comida. Ele acha o caderno sozinho ("como ele sabia onde estava?"). Página 2 revela a geada. Batida: Lia. Voto: abre para a Lia?
+- **Versão NÃO:** abre com as batidas parando. De manhã não amanhece; pelo olho mágico, a varanda vazia e a bag do Tiago encostada na porta. Batida: Lia, usando o cachecol laranja do Tiago. Voto: abre?
+- Arte a encomendar depois do OK do Vitor: `sala_lareira_tiago`, `caderno_lurdes2`, `olho_bag`, `olho_lia`, `olho_lia_cachecol`, `esp_lia_cilios`.
