@@ -55,3 +55,10 @@
   - thumb com rosto de criatura > thumb com pictograma ou com o Lucas;
   - linguagem VHS/CFTV segura melhor o início.
 - Comparar a retenção dela com a das outras quando os dados de analytics chegarem.
+
+## 18/11 (15h23): rodada do Revisor e do Publicador
+- `data/aprovacoes.json` ainda não existe: nenhuma aprovação passou pela Mesa. Não há item "renderizado", "renderizando" nem "refazer", então o Revisor e o Roteirista não tiveram o que fazer.
+- Nenhum render novo depois do Protocolo 3h17 revisado (run 44345291582, concluído às 16h19 UTC).
+- **Fila:** o principal das 18h47 de hoje está garantido ("Se a Campainha Tocar Duas Vezes", protocolo). Há 3 iscas na fila (Conte as Batidas, Seu Cachorro Abana o Rabo?, Qual Porta Você Abre?), acima do mínimo de 2. Nada a avisar.
+- **Mesa do Gerente:** já estava certa (nada aguardando, sem decisão nova). Não mexi.
+- **Nota técnica:** nesta sessão o `gh` CLI veio com token inválido. Para disparar workflows, usar as ferramentas do GitHub (MCP) em vez do `gh`.
