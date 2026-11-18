@@ -57,7 +57,7 @@
       "narracao": "Você vai até a porta... e olha pelo olho mágico.",
       "cenario": "porta_entrada",
       "personagem": null,
-      "foco": [0.3, 0.38, 3.5],
+      "foco": [0.3, 0.32, 3.5],
       "camera": "zoom_in",
       "som": {"busca": "slow footsteps wooden floor", "palavra": "porta"}
     },

@@ -91,7 +91,14 @@ Visuais disponíveis no boneco (`src/boneco.py`): `homem` (o Lucas, menino de mo
 
 ### Você (POV) e os visitantes: "Pode Entrar?"
 - **Protagonista:** você, em primeira pessoa, sem rosto. Sozinho numa casa com lareira, comida contada e porta com corrente e olho mágico.
-- **Traço próprio da série:** mais realista que o Guizo, paleta fria (cinza-azulada da geada) com a luz quente da lareira; visitantes vistos pelo olho mágico (leve olho de peixe). Nada que lembre o jogo No, I'm Not a Human.
+- **Traço próprio da série (Diretor de Arte, 18/11; estreia só depois de o Vitor aprovar o 1º quadro, o `olho_tiago`):**
+  - Pintura digital semi-realista e cinematográfica, limpa e nítida: pincelada suave, bordas firmes, anatomia e proporções humanas naturais. Sem granulado, sem ruído, sem VHS/glitch, sem rosto deformado ou derretido. É o oposto do visual sujo e distorcido do jogo No, I'm Not a Human.
+  - Paleta: cinza de geada, azul-ardósia e prata pálido lá fora; o âmbar da lareira é a ÚNICA cor quente. Nas vistas pelo olho mágico, o âmbar aparece só como reflexo no aro de latão (a casa atrás de você).
+  - Olho mágico: círculo com leve olho de peixe, preto em volta (o preto acima e abaixo do círculo recebe texto e legenda). Close no vidro = olho de peixe forte.
+  - O medo vem do que está "certo demais", nunca de rosto monstruoso: os Ocos são gente comum, sem ferida e sem deformação.
+  - Bloco de estilo (colar no fim de todo prompt da série): `semi-realistic cinematic digital painting, clean and sharp image, smooth painterly brushwork with crisp edges, natural human anatomy and proportions, NO film grain, NO noise, NO VHS or glitch effects, NO warped or melted faces, muted cold palette of frost gray, slate blue and pale silver, warm amber firelight as the only warm color, soft volumetric light, quiet tense mood, no text, no letters, no numbers, no logos, vertical 9:16, high detail`
+  - Consistência: gerar primeiro o `olho_tiago` e, nos outros prompts com o visitante, anexar essa imagem no Gemini como referência ("same young man as in the attached image").
+- **Marca visual do Tiago (manter em todo episódio em que ele aparecer):** magro, pele morena clara, cabelo preto curto e cacheado, geada nas sobrancelhas, argola prateada na orelha esquerda, cachecol de tricô laranja desbotado, jaqueta corta-vento verde-petróleo fina com duas faixas refletivas prateadas e sem logo, bag térmica quadrada verde-petróleo, capacete preto pendurado no antebraço. Detalhe escondido para quem revê: em nenhuma imagem sai vapor da boca dele, mesmo a -9 °C.
 - **Os Ocos:** parecem gente e lembram a vida de quem eram, mas são vazios. Não sentem frio; o bafo não embaça o vidro; sabem coisas que não deviam. Nunca aparecem machucados.
 - **Visitante do Ep. 1, Tiago:** entregador de app, 19 anos, jaqueta fina de entregador, bag térmica nas costas, capacete na mão, lábios roxos, tremendo. Simpático, cansado, educado demais.
 - **Cenários a encomendar (Ep. 1):**
