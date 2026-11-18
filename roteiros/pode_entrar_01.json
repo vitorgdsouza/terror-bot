@@ -71,14 +71,14 @@
       "narracao": "Ele ergue a bag: tem comida aqui, eu divido. Só me deixa entrar.",
       "cenario": "olho_tiago",
       "personagem": null,
-      "foco": [0.5, 0.62, 1.8],
+      "foco": [0.5, 0.55, 1.8],
       "camera": "parada"
     },
     {
       "narracao": "Ele treme. Os lábios estão roxos de frio.",
       "cenario": "olho_tiago",
       "personagem": null,
-      "foco": [0.5, 0.42, 2.4],
+      "foco": [0.5, 0.37, 2.6],
       "camera": "zoom_in"
     },
     {
