@@ -13,30 +13,134 @@
   "trilha_volume": 0.6,
   "titulo_youtube": "Se a campainha tocar duas vezes e só uma pessoa entrar... 🔔 Protocolo 3h17 #shorts",
   "legenda_post": "Protocolo 3h17. Pra quem trabalha de madrugada. Quantas vezes a campainha tocou no vídeo? Responde sem voltar 👇 (história de ficção)",
-  "hashtags": ["#analoghorror", "#protocolo", "#terror", "#madrugada", "#farmacia24h"],
+  "hashtags": [
+    "#analoghorror",
+    "#protocolo",
+    "#terror",
+    "#madrugada",
+    "#farmacia24h"
+  ],
   "cenas": [
-    {"narracao": "Se a campainha da porta tocar duas vezes... e só uma pessoa entrar...", "icones": ["sino", "cliente"], "ambiente": "nenhum",
-     "som": {"busca": "emergency alert beep", "palavra": "Se"}},
-    {"narracao": "principalmente às três e dezessete da manhã...", "icones": ["relogio", "sino"], "ambiente": "nenhum",
-     "som": {"busca": "shop door bell chime", "palavra": "três"}},
-    {"narracao": "siga cada passo.", "destaque": "siga cada passo", "ambiente": "nenhum"},
-    {"narracao": "Primeiro.", "destaque": "primeiro", "ambiente": "nenhum"},
-    {"narracao": "Nunca diga boa noite. Nem pode entrar. Ele só passa pela porta se for convidado.", "icones": ["porta", "parar"], "ambiente": "nenhum"},
-    {"narracao": "Segundo.", "destaque": "segundo", "ambiente": "nenhum"},
-    {"narracao": "Olhe o monitor da câmera de segurança.", "icones": ["camera"], "ambiente": "nenhum"},
-    {"narracao": "Se o balcão aparecer vazio na tela... mas tiver alguém parado na sua frente...", "icones": ["camera", "cliente"], "ambiente": "nenhum", "thumb": true},
-    {"narracao": "atenda normalmente. Não deixe ele perceber que você sabe.", "destaque": "não deixe ele perceber", "ambiente": "nenhum"},
-    {"narracao": "Terceiro.", "destaque": "terceiro", "ambiente": "nenhum"},
-    {"narracao": "Ele sempre leva balas de hortelã e um rolo de esparadrapo. Conte o troco baixinho.", "icones": ["cliente", "prancheta"], "ambiente": "nenhum"},
-    {"narracao": "Se ouvir alguém contando junto com você... pare de contar.", "icones": ["som", "parar"], "ambiente": "nenhum",
-     "som": {"busca": "whisper", "palavra": "contando"}},
-    {"narracao": "E a parte mais importante.", "destaque": "a parte mais importante", "ambiente": "nenhum"},
-    {"narracao": "Se às duas da manhã alguém que você ama ligar, pedindo para abrir a porta dos fundos...", "icones": ["celular", "porta_aberta"], "ambiente": "nenhum",
-     "som": {"busca": "phone vibrating", "palavra": "ligar"}},
-    {"narracao": "não abra. Ele aprende a voz de quem você ama.", "destaque": "não abra", "ambiente": "nenhum"},
-    {"narracao": "E se a campainha tocar de novo... ele já está do lado de dentro.", "cenario": "esp_cliente_balcao2", "personagem": null,
-     "camera": "zoom_in", "efeito": "tremor", "corte_preto": true, "pausa_extra": 0.3, "ambiente": "fluorescent light buzz",
-     "som": {"busca": "shop door bell chime", "palavra": "campainha"}},
-    {"narracao": "Quantas vezes a campainha tocou neste vídeo?", "icones": ["sino"], "ambiente": "nenhum"}
+    {
+      "narracao": "Se a campainha tocar duas vezes às três e dezessete... e só uma pessoa entrar...",
+      "icones": [
+        "sino",
+        "cliente"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "emergency alert beep",
+        "palavra": "Se"
+      }
+    },
+    {
+      "narracao": "siga cada passo.",
+      "destaque": "siga cada passo",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Primeiro.",
+      "destaque": "primeiro",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Nunca diga boa noite. Nem pode entrar. Ele só entra se for convidado.",
+      "icones": [
+        "porta",
+        "parar"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Segundo.",
+      "destaque": "segundo",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Se a câmera mostrar o balcão vazio... mas tiver alguém na sua frente...",
+      "icones": [
+        "camera",
+        "cliente"
+      ],
+      "ambiente": "nenhum",
+      "thumb": true,
+      "som": {
+        "busca": "shop door bell chime",
+        "palavra": "câmera"
+      }
+    },
+    {
+      "narracao": "atenda normal. Não deixe ele perceber que você sabe.",
+      "destaque": "não deixe ele perceber",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Terceiro.",
+      "destaque": "terceiro",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Ele leva hortelã e esparadrapo. Conte o troco baixinho.",
+      "icones": [
+        "cliente",
+        "prancheta"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Se alguém contar junto com você... pare.",
+      "icones": [
+        "som",
+        "parar"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "whisper",
+        "palavra": "contar"
+      }
+    },
+    {
+      "narracao": "E a parte mais importante.",
+      "destaque": "a parte mais importante",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Se alguém que você ama ligar pedindo para abrir a porta dos fundos...",
+      "icones": [
+        "celular",
+        "porta_aberta"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "phone vibrating",
+        "palavra": "ligar"
+      }
+    },
+    {
+      "narracao": "não abra. Ele imita quem você ama.",
+      "destaque": "não abra",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "E se a campainha tocar de novo... ele já entrou.",
+      "cenario": "esp_cliente_balcao2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true,
+      "pausa_extra": 0.3,
+      "ambiente": "fluorescent light buzz",
+      "som": {
+        "busca": "shop door bell chime",
+        "palavra": "campainha"
+      }
+    },
+    {
+      "narracao": "Quantas vezes a campainha tocou?",
+      "icones": [
+        "sino"
+      ],
+      "ambiente": "nenhum"
+    }
   ]
 }
