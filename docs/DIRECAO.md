@@ -15,7 +15,7 @@ O Vitor é o gerente. A automação é feita por 5 agentes especializados, defin
 2. **Vídeo final**, antes da fila.
 
 **Fluxo:**
-- O Vitor aprova pelo Telegram (`/aprovar N`, `/refazer N o que mudar`, `/pendentes`) ou na conversa com o Claude. O registro fica em `data/aprovacoes.json` e o quadro "Mesa do Gerente" mostra o histórico.
+- O Vitor aprova pelo Telegram (`/aprovar N`, `/refazer N o que mudar`, `/pendentes`) ou na conversa com o Claude. O registro fica em `data/aprovacoes.json` e o quadro "Mesa do Gerente" (https://claude.ai/artifact/6fLXTMtRQiX4XvTNFcg92f) mostra o histórico.
 - Roteiro aprovado → o render começa sozinho. Vídeo aprovado → entra na fila sozinho.
 - **Nenhum agente põe vídeo na fila sem aprovação.**
 - Para propor algo, os agentes usam `gh workflow run aprovacao.yml` (veja cada agente).
