@@ -125,6 +125,7 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   esp_cliente_balcao / esp_cliente_balcao2 (CENA ESPECIAL, sem personagem: o Cliente das 3h17 debruçado no balcão, sorriso largo, empurrando dinheiro e um rolo de esparadrapo; 2 = no meio das prateleiras) |
   esp_cliente_estoque (CENA ESPECIAL: do balcão, o Cliente parado no fim do corredor de prateleiras, na porta dos fundos) |
   olho_tiago (Pode Entrar?, traço semi-realista, sem personagem: pelo olho mágico com aro de latão, o Tiago entregador na varanda com geada, segurando a bag verde no peito, capacete no braço, cachecol laranja, lábios roxos, SEM vapor saindo da boca; rosto em foco [0.5, 0.37, 2.6], rosto e bag em [0.5, 0.55, 1.8]) |
+  olho_tiago_celular (Pode Entrar?, mesmo traço, sem personagem: pelo olho mágico, o Tiago encosta o celular no vidro com o app de entrega aberto, mapa e pino, tela sem texto; metade do rosto dele atrás do celular, SEM vapor; a tela fica em ~[0.5, 0.45]) |
   tv_estatica2 (close na TV de tubo chiando na sala escura) | escola_corredor2 (corredor de escola com luar entrando pelas janelas) |
   banheiro_escola2 (banheiro de escola: cabines verdes, uma porta aberta, pias e espelho manchado) | hospital_quarto2 (quarto de hospital: cama, soro, monitor verde, cortina) |
   escritorio (estantes de livros, mesa de madeira com abajur aceso, poltrona de couro, janela) |
