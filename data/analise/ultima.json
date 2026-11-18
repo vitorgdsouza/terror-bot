@@ -1,54 +1,75 @@
 {
- "data": "2026-11-17",
+ "data": "2026-11-18",
  "canal": {
   "nome": "Você Escaparia?",
   "viewCount": "0",
-  "subscriberCount": "9",
+  "subscriberCount": "16",
   "hiddenSubscriberCount": false,
-  "videoCount": "6"
+  "videoCount": "9"
  },
  "videos": [
+  {
+   "id": "dghzJDyCFj8",
+   "titulo": "Ele levou meu gato para o poço... (O Guizo na Escada, Ep. 2) #shorts",
+   "publicado": "2026-11-17",
+   "duracao": 74,
+   "views_publicas": 3
+  },
+  {
+   "id": "KxreMBUgcSc",
+   "titulo": "Seu gato já encarou a escada no escuro? 🐈‍⬛ #shorts",
+   "publicado": "2026-11-17",
+   "duracao": 12,
+   "views_publicas": 4
+  },
+  {
+   "id": "6zf5zGE6swk",
+   "titulo": "Protocolo Rufus. Siga cada passo. O seu cachorro já fez alguma dessas coisas à noite? 👇#cachorro",
+   "publicado": "2026-11-17",
+   "duracao": 55,
+   "views_publicas": 2
+  },
   {
    "id": "PVbEYZt_l0g",
    "titulo": "Pessoas batem três vezes. Ele bate quatro. Quantas você contou? 👇#creepy #regras #historiasdeterror",
    "publicado": "2026-11-17",
    "duracao": 77,
-   "views_publicas": 0
+   "views_publicas": 5
   },
   {
    "id": "QLdx_uab2dI",
    "titulo": "Fita 02. Vocês escolheram a arma.. E agora, A ou B?#analoghorror #vhs #foundfootage #cachorro  #medo",
    "publicado": "2026-11-17",
    "duracao": 103,
-   "views_publicas": 4
+   "views_publicas": 6
   },
   {
    "id": "UwCQNLMlT8g",
    "titulo": "O cão dela era o melhor farejador da cidade. Até aquela noite. E você, A ou B?#analoghorror#cachorro",
    "publicado": "2026-11-17",
    "duracao": 99,
-   "views_publicas": 645
+   "views_publicas": 1094
   },
   {
    "id": "1TmVVkrjOFQ",
    "titulo": "Protocolo Stu. Siga cada passo. Seu gato já fez alguma dessas coisas à noite? 👇#gato #analoghorror",
    "publicado": "2026-11-17",
    "duracao": 54,
-   "views_publicas": 367
+   "views_publicas": 965
   },
   {
    "id": "mATUqzs31ao",
    "titulo": "Fatos reais sobre o sono que vão te fazer pensar duas vezes antes de apagar a luz. #medo #fatosreais",
    "publicado": "2026-11-17",
    "duracao": 77,
-   "views_publicas": 162
+   "views_publicas": 281
   },
   {
    "id": "GWXF5BtI0FQ",
    "titulo": "Stu miou lá de cima... mas era ele? E você, A ou B? #gato #terror #voceescaparia #animacao #medo",
    "publicado": "2026-11-16",
    "duracao": 100,
-   "views_publicas": 690
+   "views_publicas": 1088
   }
  ]
 }
