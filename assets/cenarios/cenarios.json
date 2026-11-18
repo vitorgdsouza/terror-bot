@@ -621,5 +621,1000 @@
     }
    ]
   }
+ },
+ "corda_poco": {
+  "piso": 0.95,
+  "porta": [
+   0.43,
+   0.71,
+   0.15,
+   0.07
+  ],
+  "escuro": [
+   0.44,
+   0.72,
+   0.12,
+   0.05
+  ],
+  "fundo": [
+   0.5,
+   0.8,
+   0.15
+  ],
+  "escala": 0.8,
+  "faixa": [
+   0.25,
+   0.75
+  ],
+  "horizonte": 0.6,
+  "objeto_perto": [
+   0.5,
+   0.86
+  ]
+ },
+ "telefone_casa": {
+  "piso": 0.97,
+  "detalhe": true,
+  "janela": [
+   0.0,
+   0.0,
+   0.18,
+   0.55
+  ],
+  "fundo": [
+   0.5,
+   0.85,
+   0.3
+  ]
+ },
+ "tunel_bifurcacao": {
+  "piso": 0.95,
+  "porta": [
+   0.12,
+   0.3,
+   0.15,
+   0.22
+  ],
+  "escuro": [
+   0.14,
+   0.34,
+   0.1,
+   0.14
+  ],
+  "fundo": [
+   0.5,
+   0.68,
+   0.2
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.25,
+   0.75
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.45,
+   0.82
+  ]
+ },
+ "sotao_bisavo": {
+  "piso": 0.95,
+  "janela": [
+   0.6,
+   0.26,
+   0.13,
+   0.08
+  ],
+  "fundo": [
+   0.5,
+   0.72,
+   0.25
+  ],
+  "escala": 0.95,
+  "faixa": [
+   0.3,
+   0.75
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.82
+  ]
+ },
+ "desenhos_parede": {
+  "piso": 0.97,
+  "detalhe": true,
+  "fundo": [
+   0.5,
+   0.85,
+   0.3
+  ]
+ },
+ "quintal_canil": {
+  "piso": 0.95,
+  "porta": [
+   0.17,
+   0.54,
+   0.07,
+   0.06
+  ],
+  "escuro": [
+   0.17,
+   0.54,
+   0.07,
+   0.06
+  ],
+  "fundo": [
+   0.6,
+   0.72,
+   0.2
+  ],
+  "escala": 0.8,
+  "faixa": [
+   0.3,
+   0.8
+  ],
+  "horizonte": 0.55,
+  "objeto_perto": [
+   0.45,
+   0.78
+  ]
+ },
+ "garagem_viatura": {
+  "piso": 0.95,
+  "porta": [
+   0.48,
+   0.25,
+   0.5,
+   0.35
+  ],
+  "escuro": [
+   0.5,
+   0.3,
+   0.45,
+   0.25
+  ],
+  "fundo": [
+   0.55,
+   0.78,
+   0.25
+  ],
+  "escala": 0.9,
+  "faixa": [
+   0.35,
+   0.85
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.86
+  ]
+ },
+ "farmacia_balcao": {
+  "piso": 0.97,
+  "porta": [
+   0.28,
+   0.3,
+   0.17,
+   0.25
+  ],
+  "escuro": [
+   0.0,
+   0.3,
+   0.6,
+   0.2
+  ],
+  "fundo": [
+   0.7,
+   0.8,
+   0.25
+  ],
+  "escala": 0.9,
+  "faixa": [
+   0.55,
+   0.9
+  ],
+  "horizonte": 0.45
+ },
+ "farmacia_balcao_escuro": {
+  "piso": 0.97,
+  "porta": [
+   0.28,
+   0.3,
+   0.17,
+   0.25
+  ],
+  "escuro": [
+   0.0,
+   0.3,
+   0.6,
+   0.2
+  ],
+  "fundo": [
+   0.7,
+   0.8,
+   0.25
+  ],
+  "escala": 0.9,
+  "faixa": [
+   0.55,
+   0.9
+  ],
+  "horizonte": 0.45
+ },
+ "farmacia_corredor": {
+  "piso": 0.95,
+  "porta": [
+   0.4,
+   0.3,
+   0.2,
+   0.3
+  ],
+  "escuro": [
+   0.42,
+   0.34,
+   0.16,
+   0.22
+  ],
+  "fundo": [
+   0.5,
+   0.72,
+   0.15
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.35,
+   0.65
+  ],
+  "horizonte": 0.45,
+  "objeto_perto": [
+   0.5,
+   0.85
+  ]
+ },
+ "farmacia_cftv": {
+  "piso": 0.97,
+  "detalhe": true,
+  "fundo": [
+   0.5,
+   0.8,
+   0.3
+  ]
+ },
+ "farmacia_deposito": {
+  "piso": 0.95,
+  "porta": [
+   0.36,
+   0.3,
+   0.24,
+   0.37
+  ],
+  "escuro": [
+   0.45,
+   0.32,
+   0.13,
+   0.33
+  ],
+  "fundo": [
+   0.55,
+   0.75,
+   0.2
+  ],
+  "escala": 0.95,
+  "faixa": [
+   0.3,
+   0.7
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.85
+  ]
+ },
+ "farmacia_fora": {
+  "piso": 0.96,
+  "porta": [
+   0.55,
+   0.43,
+   0.1,
+   0.09
+  ],
+  "janela": [
+   0.05,
+   0.43,
+   0.65,
+   0.09
+  ],
+  "fundo": [
+   0.5,
+   0.7,
+   0.15
+  ],
+  "escala": 0.6,
+  "faixa": [
+   0.2,
+   0.8
+  ],
+  "horizonte": 0.55
+ },
+ "terreiro_noite": {
+  "piso": 0.95,
+  "porta": [
+   0.0,
+   0.33,
+   0.06,
+   0.2
+  ],
+  "janela": [
+   0.16,
+   0.35,
+   0.1,
+   0.12
+  ],
+  "fundo": [
+   0.55,
+   0.72,
+   0.2
+  ],
+  "escala": 0.8,
+  "faixa": [
+   0.25,
+   0.85
+  ],
+  "horizonte": 0.55,
+  "objeto_perto": [
+   0.6,
+   0.78
+  ]
+ },
+ "porteira_estrada": {
+  "piso": 0.95,
+  "escuro": [
+   0.4,
+   0.3,
+   0.25,
+   0.15
+  ],
+  "fundo": [
+   0.55,
+   0.75,
+   0.2
+  ],
+  "escala": 0.75,
+  "faixa": [
+   0.3,
+   0.75
+  ],
+  "horizonte": 0.55,
+  "objeto_perto": [
+   0.5,
+   0.82
+  ]
+ },
+ "mato_trilha": {
+  "piso": 0.95,
+  "escuro": [
+   0.42,
+   0.3,
+   0.16,
+   0.14
+  ],
+  "fundo": [
+   0.5,
+   0.72,
+   0.18
+  ],
+  "escala": 0.8,
+  "faixa": [
+   0.3,
+   0.7
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.85
+  ]
+ },
+ "esp_stu_tunel": {
+  "piso": 0.95,
+  "fundo": [
+   0.5,
+   0.7,
+   0.2
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.25,
+   0.75
+  ],
+  "horizonte": 0.55,
+  "especial": true,
+  "anima": {
+   "tipo": "partes",
+   "partes": [
+    {
+     "regiao": [
+      0.35,
+      0.47,
+      0.36,
+      0.15
+     ],
+     "pivo": [
+      0.52,
+      0.62
+     ],
+     "modo": "tremor"
+    }
+   ]
+  }
+ },
+ "esp_abismo_teto": {
+  "piso": 0.95,
+  "fundo": [
+   0.5,
+   0.72,
+   0.2
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.25,
+   0.75
+  ],
+  "horizonte": 0.5,
+  "especial": true,
+  "anima": {
+   "tipo": "partes",
+   "partes": [
+    {
+     "regiao": [
+      0.38,
+      0.15,
+      0.27,
+      0.5
+     ],
+     "pivo": [
+      0.5,
+      0.17
+     ],
+     "modo": "balanco"
+    },
+    {
+     "regiao": [
+      0.47,
+      0.25,
+      0.12,
+      0.09
+     ],
+     "pivo": [
+      0.53,
+      0.33
+     ],
+     "modo": "estalo"
+    }
+   ]
+  }
+ },
+ "esp_pele_corredor": {
+  "piso": 0.95,
+  "fundo": [
+   0.5,
+   0.75,
+   0.2
+  ],
+  "escala": 0.9,
+  "faixa": [
+   0.3,
+   0.7
+  ],
+  "horizonte": 0.5,
+  "especial": true,
+  "anima": {
+   "tipo": "partes",
+   "partes": [
+    {
+     "regiao": [
+      0.25,
+      0.08,
+      0.42,
+      0.22
+     ],
+     "pivo": [
+      0.45,
+      0.3
+     ],
+     "modo": "estalo"
+    }
+   ]
+  }
+ },
+ "esp_cliente_porta": {
+  "piso": 0.97,
+  "porta": [
+   0.28,
+   0.3,
+   0.17,
+   0.25
+  ],
+  "fundo": [
+   0.7,
+   0.8,
+   0.25
+  ],
+  "escala": 0.9,
+  "faixa": [
+   0.55,
+   0.9
+  ],
+  "horizonte": 0.45,
+  "especial": true,
+  "anima": {
+   "tipo": "partes",
+   "partes": [
+    {
+     "regiao": [
+      0.32,
+      0.32,
+      0.12,
+      0.19
+     ],
+     "pivo": [
+      0.38,
+      0.5
+     ],
+     "modo": "estalo"
+    }
+   ]
+  }
+ },
+ "carro_dentro": {
+  "piso": 0.97,
+  "detalhe": true,
+  "janela": [
+   0.05,
+   0.15,
+   0.9,
+   0.22
+  ],
+  "fundo": [
+   0.5,
+   0.8,
+   0.3
+  ]
+ },
+ "carro_banco_tras": {
+  "piso": 0.97,
+  "detalhe": true,
+  "janela": [
+   0.15,
+   0.15,
+   0.7,
+   0.14
+  ],
+  "escuro": [
+   0.3,
+   0.3,
+   0.4,
+   0.25
+  ],
+  "fundo": [
+   0.5,
+   0.8,
+   0.3
+  ]
+ },
+ "estrada_noite": {
+  "piso": 0.97,
+  "detalhe": true,
+  "janela": [
+   0.0,
+   0.0,
+   1.0,
+   0.55
+  ],
+  "escuro": [
+   0.4,
+   0.25,
+   0.2,
+   0.15
+  ],
+  "fundo": [
+   0.5,
+   0.45,
+   0.15
+  ]
+ },
+ "rua_sem_saida": {
+  "piso": 0.95,
+  "porta": [
+   0.08,
+   0.4,
+   0.06,
+   0.13
+  ],
+  "escuro": [
+   0.7,
+   0.45,
+   0.05,
+   0.1
+  ],
+  "fundo": [
+   0.5,
+   0.62,
+   0.15
+  ],
+  "escala": 0.7,
+  "faixa": [
+   0.25,
+   0.75
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.8
+  ]
+ },
+ "cemiterio_portao": {
+  "piso": 0.95,
+  "porta": [
+   0.12,
+   0.33,
+   0.48,
+   0.32
+  ],
+  "escuro": [
+   0.15,
+   0.36,
+   0.42,
+   0.25
+  ],
+  "fundo": [
+   0.5,
+   0.78,
+   0.2
+  ],
+  "escala": 0.8,
+  "faixa": [
+   0.2,
+   0.8
+  ],
+  "horizonte": 0.6,
+  "objeto_perto": [
+   0.5,
+   0.85
+  ]
+ },
+ "tv_estatica": {
+  "piso": 0.95,
+  "tv": [
+   0.58,
+   0.415,
+   0.2,
+   0.1
+  ],
+  "janela": [
+   0.22,
+   0.22,
+   0.27,
+   0.22
+  ],
+  "fundo": [
+   0.35,
+   0.65,
+   0.25
+  ],
+  "escala": 0.95,
+  "faixa": [
+   0.2,
+   0.8
+  ],
+  "assento": [
+   0.25,
+   0.62
+  ],
+  "horizonte": 0.5
+ },
+ "escola_corredor": {
+  "piso": 0.95,
+  "porta": [
+   0.45,
+   0.38,
+   0.1,
+   0.15
+  ],
+  "escuro": [
+   0.45,
+   0.4,
+   0.1,
+   0.12
+  ],
+  "fundo": [
+   0.5,
+   0.72,
+   0.15
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.3,
+   0.7
+  ],
+  "horizonte": 0.45,
+  "objeto_perto": [
+   0.5,
+   0.85
+  ]
+ },
+ "banheiro_escola": {
+  "piso": 0.95,
+  "espelho": [
+   0.0,
+   0.19,
+   0.29,
+   0.17
+  ],
+  "porta": [
+   0.94,
+   0.3,
+   0.06,
+   0.37
+  ],
+  "escuro": [
+   0.94,
+   0.32,
+   0.06,
+   0.33
+  ],
+  "fundo": [
+   0.55,
+   0.75,
+   0.2
+  ],
+  "escala": 0.9,
+  "faixa": [
+   0.25,
+   0.8
+  ],
+  "horizonte": 0.5
+ },
+ "hospital_quarto": {
+  "piso": 0.95,
+  "porta": [
+   0.17,
+   0.16,
+   0.3,
+   0.27
+  ],
+  "fundo": [
+   0.5,
+   0.78,
+   0.25
+  ],
+  "escala": 0.95,
+  "faixa": [
+   0.25,
+   0.8
+  ],
+  "assento": [
+   0.35,
+   0.55
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.85
+  ]
+ },
+ "onibus_vazio": {
+  "piso": 0.95,
+  "janela": [
+   0.33,
+   0.28,
+   0.35,
+   0.12
+  ],
+  "escuro": [
+   0.4,
+   0.3,
+   0.1,
+   0.15
+  ],
+  "fundo": [
+   0.5,
+   0.8,
+   0.15
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.35,
+   0.65
+  ],
+  "horizonte": 0.45
+ },
+ "onibus_vazio2": {
+  "piso": 0.95,
+  "janela": [
+   0.33,
+   0.3,
+   0.35,
+   0.1
+  ],
+  "escuro": [
+   0.33,
+   0.32,
+   0.1,
+   0.12
+  ],
+  "fundo": [
+   0.5,
+   0.8,
+   0.15
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.35,
+   0.65
+  ],
+  "horizonte": 0.45
+ },
+ "ponto_onibus": {
+  "piso": 0.95,
+  "fundo": [
+   0.55,
+   0.72,
+   0.2
+  ],
+  "escala": 0.85,
+  "faixa": [
+   0.15,
+   0.6
+  ],
+  "assento": [
+   0.25,
+   0.52
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.82
+  ]
+ },
+ "floresta_noite": {
+  "piso": 0.95,
+  "escuro": [
+   0.35,
+   0.33,
+   0.35,
+   0.15
+  ],
+  "fundo": [
+   0.5,
+   0.72,
+   0.2
+  ],
+  "escala": 0.8,
+  "faixa": [
+   0.25,
+   0.75
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.85
+  ]
+ },
+ "floresta_noite2": {
+  "piso": 0.95,
+  "escuro": [
+   0.35,
+   0.3,
+   0.3,
+   0.18
+  ],
+  "fundo": [
+   0.5,
+   0.72,
+   0.2
+  ],
+  "escala": 0.8,
+  "faixa": [
+   0.25,
+   0.75
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.85
+  ]
+ },
+ "quarto_porta_fechada": {
+  "piso": 0.97,
+  "porta": [
+   0.36,
+   0.2,
+   0.27,
+   0.34
+  ],
+  "janela": [
+   0.86,
+   0.18,
+   0.14,
+   0.2
+  ],
+  "fundo": [
+   0.5,
+   0.75,
+   0.3
+  ],
+  "escala": 1.0,
+  "faixa": [
+   0.3,
+   0.75
+  ],
+  "horizonte": 0.5,
+  "objeto_perto": [
+   0.5,
+   0.8
+  ],
+  "detalhe": true
+ },
+ "esp_pisadeira": {
+  "piso": 0.95,
+  "fundo": [
+   0.5,
+   0.85,
+   0.2
+  ],
+  "escala": 0.8,
+  "faixa": [
+   0.2,
+   0.8
+  ],
+  "horizonte": 0.5,
+  "especial": true,
+  "anima": {
+   "tipo": "partes",
+   "partes": [
+    {
+     "regiao": [
+      0.42,
+      0.21,
+      0.27,
+      0.17
+     ],
+     "pivo": [
+      0.56,
+      0.38
+     ],
+     "modo": "estalo"
+    }
+   ]
+  }
+ },
+ "esp_passageiro": {
+  "piso": 0.97,
+  "fundo": [
+   0.5,
+   0.85,
+   0.2
+  ],
+  "especial": true,
+  "detalhe": true,
+  "anima": {
+   "tipo": "partes",
+   "partes": [
+    {
+     "regiao": [
+      0.55,
+      0.25,
+      0.18,
+      0.14
+     ],
+     "pivo": [
+      0.64,
+      0.39
+     ],
+     "modo": "estalo"
+    }
+   ]
+  }
  }
 }

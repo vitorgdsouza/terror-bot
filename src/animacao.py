@@ -75,6 +75,41 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   parede_dentro (o vão por dentro das paredes da casa, vigas e isolamento, um buraco descendo) |
   porao_duarte (o porão antigo dos Duarte, lençóis sobre caixas, fornalha, porta trancada com ferrolho por dentro) |
   camara (a câmara do Abismo debaixo da casa: paredes arranhadas, fotos de crianças, desenhos, uma coleira num prego, uma abertura escura) |
+  corda_poco (dentro do poço olhando para cima: a lua na boca do poço, a corda descendo, um túnel baixo aberto no fundo) |
+  telefone_casa (close no telefone de parede da cozinha com fio enrolado e um bilhete colado: só personagem "perto") |
+  tunel_bifurcacao (o túnel se divide em dois: à esquerda galeria de vigas com pegadas de gato, à direita arco de tijolo com uma luzinha no fim) |
+  sotao_bisavo (o sótão da bisavó: cavalete com o desenho do homem sorrindo, lamparina, pilhas de desenhos, janela redonda) |
+  desenhos_parede (close numa parede de terra coberta de desenhos infantis do homem sorrindo junto da casa e do gato; no meio, um desenho novo de um menino de moletom verde: só personagem "perto") |
+  esp_stu_tunel (CENA ESPECIAL, sem personagem: o Stu encolhido e tremendo num nicho do túnel, vivo, olhos arregalados) |
+  esp_abismo_teto (CENA ESPECIAL, sem personagem: o Abismo pendurado de cabeça para baixo do teto do túnel, braços compridos balançando, a cabeça estala) |
+  quintal_canil (quintal dos fundos à noite: casinha de cachorro vazia, corrente solta no chão, pote, varal, mata atrás da cerca) |
+  garagem_viatura (garagem com uma viatura de polícia de porta aberta, rádio aceso, portão aberto para o escuro) |
+  esp_pele_corredor (CENA ESPECIAL, sem personagem: O Pele no corredor, magro e alto, vestindo o couro do Rufus nas costas, um olho humano espiando; a cabeça estala) |
+  farmacia_balcao (farmácia 24h vista de trás do balcão: caixa registradora, livro aberto, abajur; a porta de vidro dá para a noite) |
+  farmacia_balcao_escuro (o mesmo balcão, rua lá fora mais escura: use antes de esp_cliente_porta para o susto) |
+  esp_cliente_porta (CENA ESPECIAL: o mesmo balcão, e lá fora, parado na porta de vidro sob o poste, o Cliente das 3h17 olhando para dentro) |
+  farmacia_corredor (corredor entre prateleiras de remédios, câmera no teto, escuro no fundo) |
+  farmacia_cftv (a farmácia vista pela câmera de segurança, imagem esverdeada e curva: só o lugar) |
+  farmacia_fora (a farmácia 24h vista de fora, cruz verde acesa, estrada vazia, poste) |
+  farmacia_deposito (depósito dos fundos: caixas empilhadas, lâmpada pendurada, porta de saída de emergência entreaberta para o escuro) |
+  terreiro_noite (terreiro de casa de roça à noite: árvore grande, banco, janela acesa, poço de balde, lua cheia, mata atrás) |
+  porteira_estrada (porteira de madeira fechada numa estrada de terra, cerca de arame, vaga-lumes, uma lamparina na mata, névoa) |
+  mato_trilha (trilha estreita entrando na mata fechada, galhos formando um túnel escuro) |
+  esp_pisadeira (CENA ESPECIAL, sem personagem: a Pisadeira agachada no telhado, olhos arregalados, dedos compridos nas telhas, espiando a janela acesa embaixo; a cabeça estala) |
+  carro_dentro (de dentro do carro, do banco do motorista: volante, celular aceso no painel, terço no retrovisor, estrada escura: só o lugar) |
+  carro_banco_tras (vista do banco de trás vazio, cinto atravessado, cheirinho balançando: só o lugar; use antes do passageiro aparecer) |
+  estrada_noite (pelo para-brisa: estrada na mata, névoa, placa em branco, faróis: só o lugar) |
+  esp_passageiro (CENA ESPECIAL, sem personagem: pelo retrovisor, o Passageiro do Banco de Trás sentado, sorrindo, segurando um lírio; a cabeça estala) |
+  rua_sem_saida (rua sem saída abandonada, casas de janelas quebradas, muro de trepadeiras, poste aceso, poças) |
+  cemiterio_portao (portão de ferro fechado de um cemitério, anjos e cruzes atrás, lampião no muro, névoa no chão) |
+  tv_estatica (sala escura com poltrona e uma TV de tubo chiando, cortinas, janela) |
+  escola_corredor (corredor de escola à noite, armários, portas de sala, piso vermelho, escuro no fim) |
+  banheiro_escola (banheiro de escola velho: pias pingando, espelho comprido, cabines, a última porta aberta para o escuro) |
+  hospital_quarto (quarto de hospital à noite: cama vazia, monitor verde, soro, cortina, porta com visor) |
+  onibus_vazio / onibus_vazio2 (ônibus vazio rodando de noite, alças balançando, motorista no escuro lá na frente) |
+  ponto_onibus (ponto de ônibus vazio numa rua de lojas fechadas, poste aceso, chão molhado, névoa no fim da rua) |
+  floresta_noite / floresta_noite2 (floresta fechada à noite, névoa no chão, olhinhos brilhando entre as árvores) |
+  quarto_porta_fechada (quarto de adolescente de noite visto da cama, só personagem "perto": porta fechada com a luz do corredor por baixo e a sombra de dois pés parados; desenhos estranhos na parede, celular aceso na mesa) |
   escritorio (estantes de livros, mesa de madeira com abajur aceso, poltrona de couro, janela) |
   quarto_crianca (o antigo quarto de criança da casa, onde a bisavó dormia quando menina: cama com ursinho, berço, móbile de luas e estrelas, abajur de lua, baú de brinquedos) |
   planta_andar (o andar visto de cima, como uma planta: escritório e quarto lado a lado, o guarda-roupa aberto e escuro;
@@ -1022,6 +1057,8 @@ def _animar_especial(img, an, t, dur):
                 if (t * 1.5) % 1.0 >= 0.12:              # só no estalo (2 ou 3 quadros): parece a imagem "pular"
                     continue
                 ang = rnd.choice((-1, 1)) * 8
+            elif parte["modo"] == "tremor":              # tremendo de medo (o Stu encolhido no túnel)
+                ang = math.sin(t * 23.0) * 0.9 + math.sin(t * 2.1) * 0.6
             else:                                        # balanço de algo pendurado (o Stu se debatendo)
                 ang = math.sin(t * 2.6) * 3.2 + math.sin(t * 7.1) * 0.8
             peca = img.crop(caixa)
