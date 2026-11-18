@@ -20,14 +20,19 @@ API = "https://api.upload-post.com/api"
 PENDENTE = RAIZ / "data" / "pendente.json"
 
 
-def marcar_pendente(titulo: str) -> None:
-    """Chamado quando um vídeo é enviado ao Telegram: guarda onde ele está para o /postar achar depois."""
+def marcar_pendente(titulo: str, roteiro: dict | None = None) -> None:
+    """Chamado quando um vídeo é enviado ao Telegram: guarda onde ele está para o /postar (e o /enfileirar) achar."""
     run = os.environ.get("GITHUB_RUN_ID")
     if not run:
         return
+    r = roteiro or {}
+    arq = os.environ.get("ROTEIRO_ARQ", "")
+    tipo = r.get("tipo") or ("isca" if "/iscas/" in arq else "protocolo" if r.get("formato") in ("protocolo", "sombra")
+                             else "historia")
     PENDENTE.parent.mkdir(parents=True, exist_ok=True)
     PENDENTE.write_text(json.dumps({"run_id": run, "titulo": titulo, "quando": time.strftime("%Y-%m-%d %H:%M"),
-                                    "postado": False}, ensure_ascii=False, indent=2), encoding="utf-8")
+                                    "postado": False, "tipo": tipo, "titulo_youtube": r.get("titulo_youtube", ""),
+                                    "legenda": r.get("legenda_post", "")}, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def _cfg() -> dict:

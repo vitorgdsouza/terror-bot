@@ -40,12 +40,25 @@ def _saida(chave: str, valor: str) -> None:
 def _lista(f: dict) -> str:
     if not f["itens"]:
         return "A fila está vazia."
-    return "\n".join(f"{i + 1}. {it.get('titulo_youtube') or it['titulo']}" for i, it in enumerate(f["itens"]))
+    rot = {"isca": "isca, 11h47", "protocolo": "protocolo, 18h47", "historia": "história, 18h47"}
+    return "\n".join(f"{i + 1}. [{rot.get(it.get('tipo', 'isca'), it.get('tipo'))}] {it.get('titulo_youtube') or it['titulo']}"
+                     for i, it in enumerate(f["itens"]))
+
+
+def _do_turno(f: dict, turno: str) -> int | None:
+    """11h47 = isca; 18h47 = o vídeo principal (protocolo ou história). Se a faixa estiver vazia, usa o que houver."""
+    quer_isca = turno == "manha"
+    for i, it in enumerate(f["itens"]):
+        if (it.get("tipo", "isca") == "isca") == quer_isca:
+            return i
+    return 0 if f["itens"] else None
 
 
 def proximo() -> None:
     f = carregar()
-    it = f["itens"][0] if f["itens"] else {}
+    i = _do_turno(f, os.environ.get("TURNO", "manha"))
+    it = f["itens"][i] if i is not None else {}
+    _saida("indice", "" if i is None else str(i))
     _saida("run_id", it.get("run_id", ""))
     _saida("titulo_youtube", it.get("titulo_youtube", ""))
     _saida("legenda", it.get("legenda", ""))
@@ -57,7 +70,8 @@ def feito() -> None:
     f = carregar()
     if not f["itens"]:
         return
-    it = f["itens"].pop(0)
+    i = int(os.environ.get("INDICE") or 0)
+    it = f["itens"].pop(i if i < len(f["itens"]) else 0)
     it["postado_em"] = time.strftime("%Y-%m-%d %H:%M")
     f["postados"].append(it)
     salvar(f)
@@ -65,6 +79,14 @@ def feito() -> None:
     aviso = (f"Na fila: {restam} vídeo(s). Próximo: {f['itens'][0].get('titulo_youtube') or f['itens'][0]['titulo']}"
              if restam else "A fila acabou: mande /enfileirar depois de gerar o próximo vídeo.")
     telegram.enviar_mensagem(aviso)
+
+
+def aviso() -> None:
+    """Manda no Telegram a mensagem da variável AVISO (a direção automática usa para falar com você)."""
+    from . import telegram
+    texto = os.environ.get("AVISO", "").strip()
+    for k in range(0, len(texto), 3800):
+        telegram.enviar_mensagem(texto[k:k + 3800])
 
 
 def mostrar() -> None:
@@ -83,10 +105,11 @@ def enfileirar() -> None:
         telegram.enviar_mensagem(f"\"{p['titulo']}\" já está na fila (ou já foi postado).")
         return
     f["itens"].append({"run_id": p["run_id"], "titulo": p["titulo"], "titulo_youtube": p.get("titulo_youtube", ""),
+                       "tipo": p.get("tipo", "historia"), "legenda": p.get("legenda", ""),
                        "adicionado": time.strftime("%Y-%m-%d %H:%M")})
     salvar(f)
     telegram.enviar_mensagem(f"Na fila ✅ \"{p['titulo']}\" (posição {len(f['itens'])}).\n{_lista(f)}")
 
 
 if __name__ == "__main__":
-    {"proximo": proximo, "feito": feito, "mostrar": mostrar, "enfileirar": enfileirar}[sys.argv[1]]()
+    {"proximo": proximo, "feito": feito, "mostrar": mostrar, "enfileirar": enfileirar, "aviso": aviso}[sys.argv[1]]()

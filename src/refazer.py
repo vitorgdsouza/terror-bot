@@ -64,7 +64,7 @@ def main():
     from .thumb import enviar_thumbs
     enviar_thumbs(r, TRAB / "thumbs")
     from .postar import marcar_pendente
-    marcar_pendente(r["titulo"])
+    marcar_pendente(r["titulo"], r)
     telegram.enviar_mensagem("Gostou? Mande /postar para publicar esta versão no YouTube Shorts.")
 
 

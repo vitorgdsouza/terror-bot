@@ -2,8 +2,18 @@ name: Fila de postagem (YouTube)
 
 on:
   schedule:
-    - cron: "47 14,21 * * *"    # 11h47 e 18h47 de Brasília
+    - cron: "47 14,21 * * *"    # 11h47 (isca) e 18h47 (protocolo ou história) de Brasília
   workflow_dispatch:
+    inputs:
+      acao:
+        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram)"
+        default: postar
+      turno:
+        description: "postar: manha (isca) ou tarde (principal)"
+        default: manha
+      texto:
+        description: "aviso: o texto"
+        default: ""
 
 permissions:
   contents: write
@@ -35,9 +45,23 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
       - name: Instalar dependências
         run: pip install -r requirements.txt
+      - name: Aviso no Telegram
+        if: github.event.inputs.acao == 'aviso'
+        env:
+          AVISO: ${{ github.event.inputs.texto }}
+        run: python -m src.fila aviso
       - name: Qual é o próximo
         id: prox
-        run: python -m src.fila proximo
+        if: github.event.inputs.acao != 'aviso'
+        env:
+          TURNO: ${{ github.event.inputs.turno }}
+        run: |
+          H=$(date -u +%H)
+          if [ -z "${{ github.event.inputs.turno }}" ]; then
+            if [ "$H" -lt 19 ]; then export TURNO=manha; else export TURNO=tarde; fi
+          fi
+          echo "turno: $TURNO"
+          python -m src.fila proximo
       - name: Baixar o vídeo
         if: steps.prox.outputs.run_id != ''
         env:
@@ -52,6 +76,8 @@ jobs:
         run: python -m src.postar
       - name: Tirar da fila
         if: steps.prox.outputs.run_id != '' && success()
+        env:
+          INDICE: ${{ steps.prox.outputs.indice }}
         run: python -m src.fila feito
       - name: Guardar a fila
         if: always()
