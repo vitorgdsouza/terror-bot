@@ -4,7 +4,11 @@
   "estilo": "vhs",
   "pixel": 6,
   "data_fita": "NOV 18 2003",
-  "hora_fita": [3, 16, 2],
+  "hora_fita": [
+    3,
+    16,
+    44
+  ],
   "protagonista": "homem",
   "clima": "suspense",
   "selo": "FITA",
@@ -13,18 +17,57 @@
   "trilha_volume": 0.45,
   "final": true,
   "titulo_youtube": "Câmera da farmácia 24h às 3h17... ele sempre volta 📼 #shorts",
-  "legenda_post": "Toda noite, 3h17, ele volta. E sempre pede a mesma coisa. O que você acha que ele pede? 👇 #analoghorror #vhs",
-  "hashtags": ["#analoghorror", "#vhs", "#foundfootage", "#terror", "#farmacia"],
+  "legenda_post": "Toda noite, 3h17, ele volta e pede o de sempre. O que você acha que ele pede? 👇 #analoghorror #vhs",
+  "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#terror",
+    "#farmacia"
+  ],
   "cenas": [
-    {"narracao": "Câmera dois. Farmácia vinte e quatro horas... três e dezesseis da manhã.", "cenario": "farmacia_cftv",
-     "personagem": null, "camera": "parada", "texto_tela": "CAM 02 | 03:16", "som": {"busca": "fluorescent light buzz", "palavra": "Câmera"}},
-    {"narracao": "A atendente jurou que ninguém entrou a noite toda...", "cenario": "farmacia_balcao_escuro",
-     "personagem": null, "camera": "zoom_in"},
-    {"narracao": "Então quem é esse... parado na porta de vidro?", "cenario": "esp_cliente_porta",
-     "personagem": null, "camera": "zoom_in", "efeito": "luz_piscando", "som": {"busca": "knock on glass", "palavra": "porta"}},
-    {"narracao": "Ela piscou. Ele não estava mais lá.", "cenario": "farmacia_balcao",
-     "personagem": null, "camera": "parada", "pausa_extra": 0.4},
-    {"narracao": "Três e dezessete. Ele já estava no balcão... sorrindo. E pediu a mesma coisa de toda noite.", "cenario": "esp_cliente_balcao",
-     "personagem": null, "camera": "zoom_in", "efeito": "tremor", "texto_tela": "O QUE ELE PEDE? | COMENTA v", "corte_preto": true}
+    {
+      "narracao": "Câmera dois. Três e dezesseis da manhã.",
+      "cenario": "farmacia_cftv",
+      "personagem": null,
+      "camera": "parada",
+      "texto_tela": "CAM 02",
+      "som": {
+        "busca": "fluorescent light buzz",
+        "palavra": "Câmera"
+      }
+    },
+    {
+      "narracao": "Ninguém entrou a noite toda...",
+      "cenario": "farmacia_balcao_escuro",
+      "personagem": null,
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Então quem está parado... na porta?",
+      "cenario": "esp_cliente_porta",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "som": {
+        "busca": "knock on glass",
+        "palavra": "porta"
+      }
+    },
+    {
+      "narracao": "Ela piscou. Ele sumiu.",
+      "cenario": "farmacia_balcao",
+      "personagem": null,
+      "camera": "parada",
+      "pausa_extra": 0.4
+    },
+    {
+      "narracao": "Três e dezessete. Ele estava no balcão... e pediu o de sempre.",
+      "cenario": "esp_cliente_balcao",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true
+    }
   ]
 }
