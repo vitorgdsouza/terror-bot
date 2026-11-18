@@ -2260,5 +2260,14 @@
    0.8
   ],
   "horizonte": 0.57
+ },
+ "caderno_lurdes": {
+  "piso": 0.95,
+  "detalhe": true,
+  "fundo": [
+   0.45,
+   0.5,
+   0.2
+  ]
  }
 }
