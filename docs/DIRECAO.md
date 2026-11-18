@@ -8,6 +8,13 @@ Este é o documento que a direção automática diária lê antes de criar qualq
   - **Dia de protocolo:** analog horror no estilo protocolo, com o alerta vermelho e pictogramas (40 a 55 s), ou o formato sombra, com silhuetas no vermelho.
   - **Dia de história:** animação narrada com personagens e cenários (55 a 70 s). Pode ser episódio de série (Guizo/Abismo, Rufus) ou uma história nova, avulsa ou começando uma série nova.
 - **Para saber que dia é:** veja o `tipo` do último principal em `data/fila.json` (itens e postados). Se foi `protocolo`, hoje é `historia`, e vice-versa.
+- **Padrão das iscas (correção do Vitor, 18/11):** isca curta NÃO pode ser simples. "Você Viu Ele?" foi reprovada por ser fraca e não deve ser usada nem refeita. Cada isca precisa de:
+  - uma linguagem forte: fita VHS encontrada, câmera de segurança (texto_tela "CAM 02 | 03:16"), alerta de emergência, mini-protocolo ou corte para o preto;
+  - uma cena especial (ilustração com a criatura) no susto;
+  - uma pequena virada no fim;
+  - uma pergunta que puxe comentário.
+
+  Use as iscas para apresentar as séries novas. Modelo: `roteiros/iscas/isca_06_farmacia.json`.
 - **Sempre manter pelo menos 2 iscas na fila.** Se tiver menos, faça uma isca nova no dia.
 - **No máximo 2 posts por dia.** Postar demais derruba a distribuição de cada vídeo.
 
