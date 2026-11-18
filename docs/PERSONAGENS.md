@@ -102,6 +102,10 @@ Visuais disponíveis no boneco (`src/boneco.py`): `homem` (o Lucas, menino de mo
 - **Os Ocos:** parecem gente e lembram a vida de quem eram, mas são vazios. Não sentem frio; o bafo não embaça o vidro; sabem coisas que não deviam; a geada não derrete neles (cabelo, cílios, pele). Nunca aparecem machucados.
 - **O Primeiro (líder dos Ocos):** criatura humanoide com partes do corpo distorcidas. Só aparece quando um Oco fica sozinho com você na casa: é o fim do protagonista. Design próprio a criar pelo Diretor de Arte (nada do jogo); aparição por suspense, sem gore. Ainda não encomendado.
 - **Visitante do Ep. 1, Tiago:** entregador de app, 19 anos, jaqueta fina de entregador, bag térmica nas costas, capacete na mão, lábios roxos, tremendo. Simpático, cansado, educado demais.
+- **SEGREDO DA EQUIPE (decidido pelo Vitor em 18/11): o Tiago é humano.** O público não pode saber; nada em título, legenda, thumb ou comentário fixado entrega isso. Os dois sinais de Oco têm explicação para revelar mais tarde:
+  - o vidro não embaçou porque ele **prendeu a respiração** quando viu o olho mágico escurecer (medo de você ouvir que ele estava chorando);
+  - o pedido de 19 dias atrás é real: ele **entregou um pedido nesta casa para a Dona Lurdes** na véspera da geada e voltou porque lembrava da lareira.
+  - Se o voto for NÃO, ele continua vivo lá fora e pode voltar num episódio futuro.
 - **Cenários a encomendar (Ep. 1):**
   - `olho_tiago`: vista pelo olho mágico (círculo com olho de peixe, borda preta), varanda com geada cinza, lâmpada fraca, Tiago no centro olhando para a porta;
   - `inverno_rua`: rua de casas apagadas coberta de geada cinza, céu baixo, um carro abandonado, fumaça de uma chaminé ao longe;

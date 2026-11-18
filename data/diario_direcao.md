@@ -90,3 +90,4 @@
 - Regra do Vitor: Oco + só você na casa → você morre pelo Primeiro (líder dos Ocos, humanoide distorcido). Oco + 2 humanos (fora você) → o Oco leva um humano. O protagonista testa quem está dentro para expulsar o Oco. Registrado em DIRECAO §5 e PERSONAGENS.
 - Sinal físico novo proposto: a geada não derrete nos Ocos. Ainda não entra no Ep. 1 (que já está equilibrado em 2 sinais de cada lado); estreia numa página nova do caderno.
 - Ep. 1: a fala do caderno agora avisa "se um entrar... o Primeiro vem buscar você" (aumenta o peso do voto). 153 palavras: o Revisor confere se passa de 60 s.
+- Decisão do Vitor: o Ep. 1 mantém o voto SIM/NÃO, mas o Tiago é humano em qualquer caso (segredo da equipe, explicações em PERSONAGENS). Ep. 1 enviado para aprovação.
