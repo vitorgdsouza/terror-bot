@@ -113,6 +113,16 @@ O Vitor é o gerente. A automação é feita por 5 agentes especializados, defin
   - Regras vêm do **caderno da Dona Lurdes** (antiga dona da casa): Ocos não sentem frio; o bafo não embaça o vidro; sabem o que não deviam; última linha rasgada "nem todo sinal é...".
   - **Em primeira pessoa (gosto do Vitor):** o POV vai até a porta e, num zoom no olho mágico, passamos a ver só a pessoa do lado de fora. A conversa e a história se desenrolam por ali.
   - **Abertura com contexto (gosto do Vitor):** todo episódio começa (logo depois do gancho) com 2 ou 3 frases bem curtas situando o universo.
+  - **Regra base (definida pelo Vitor em 18/11):**
+    - Se um Oco entra e na casa estão só você e ele, **você morre**, levado pelo **Primeiro**, o líder dos Ocos: criatura humanoide com partes do corpo distorcidas (design próprio, nada do jogo). Morte só por suspense, sem gore.
+    - Se há um Oco e dois humanos comuns (sem contar você), **o Oco leva um dos humanos**.
+    - Por isso, além de decidir quem entra, o protagonista **faz testes de sinais em quem já está na casa** para achar e expulsar o possível Oco. Esses testes viram episódios e votos ("quem você testa?", "expulsa ou não?").
+  - **Sinais dos Ocos** (o caderno revela aos poucos, uma página nova por episódio quando fizer sentido):
+    1. não sentem frio;
+    2. o bafo não embaça o vidro;
+    3. sabem coisas que não deviam;
+    4. **físico, novo:** a geada não derrete neles. No cabelo, nos cílios e na pele de um humano a geada vira gota em minutos perto da lareira; num Oco ela fica intacta. Dá para ver pelo olho mágico e testar dentro de casa (gelo na palma da mão).
+    - Todo sinal pode ter explicação falsa (ex.: quem ficou horas no frio também demora a derreter), para nunca ficar fácil.
   - Cada visitante é único (nome, vivência, motivo, algo que oferece ou precisa). Sempre um sinal de humano e um de Oco. Final: "Abre ou não abre? Comenta SIM ou NÃO". O próximo episódio começa pela consequência do voto; quem entrou continua na casa. Consequência ruim só por suspense, sem gore.
   - Ep. 1 "O Entregador" (Tiago, 19): `roteiros/pode_entrar_01.json`, aguardando a arte para ir à aprovação.
 - **Elenco pronto para estrear** (detalhes em `docs/PERSONAGENS.md`):

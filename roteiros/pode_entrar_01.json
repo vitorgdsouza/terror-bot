@@ -12,8 +12,14 @@
   "trilha_volume": 0.4,
   "titulo_youtube": "Ele diz que é só um entregador... você abriria a porta? 🚪 #shorts",
   "legenda_post": "Pode Entrar? Ep. 1. Faz 19 dias de geada cinza, a sua comida está acabando e o Tiago está na sua porta. Ele treme de frio... mas o vidro não embaçou. Você abre? Comenta SIM ou NÃO 👇 (história de ficção)",
-  "hashtags": ["#terror", "#podeentrar", "#voceescaparia", "#animacao", "#apocalipse"],
-  "resumo": "Há 19 dias cai uma geada cinza no Brasil e quem dorme na rua não amanhece. Com o frio vieram os Ocos, que parecem gente mas são vazios por dentro. O caderno da antiga dona da casa ensina: Ocos não sentem frio e o bafo deles não embaça o vidro. Às 2h, Tiago, um entregador de 19 anos, bate na porta oferecendo comida. Ele treme e tem os lábios roxos, mas quando cola o rosto no olho mágico o vidro não embaça. E o último pedido no celular dele é para o seu endereço, feito há 19 dias.",
+  "hashtags": [
+    "#terror",
+    "#podeentrar",
+    "#voceescaparia",
+    "#animacao",
+    "#apocalipse"
+  ],
+  "resumo": "Há 19 dias cai uma geada cinza no Brasil e quem dorme na rua não amanhece. Com o frio vieram os Ocos, que parecem gente mas são vazios por dentro. O caderno da antiga dona da casa ensina: Ocos não sentem frio e o bafo deles não embaça o vidro, e se um Oco entrar, o Primeiro (o líder deles) vem buscar quem mora ali. Às 2h, Tiago, um entregador de 19 anos, bate na porta oferecendo comida. Ele treme e tem os lábios roxos, mas quando cola o rosto no olho mágico o vidro não embaça. E o último pedido no celular dele é para o seu endereço, feito há 19 dias.",
   "opcao_a": "SIM: abrir a porta para o Tiago.",
   "opcao_b": "NÃO: deixar a porta fechada.",
   "precisa_arte": [
@@ -30,14 +36,20 @@
       "personagem": null,
       "camera": "zoom_in",
       "efeito": "tremor",
-      "som": {"busca": "heavy knocking on wooden door", "palavra": "bate"}
+      "som": {
+        "busca": "heavy knocking on wooden door",
+        "palavra": "bate"
+      }
     },
     {
       "narracao": "Faz dezenove dias que cai essa geada cinza. Quem dorme lá fora não amanhece. E a sua comida está acabando.",
       "cenario": "inverno_rua",
       "personagem": null,
       "camera": "pan_direita",
-      "som": {"busca": "cold wind howling", "palavra": "geada"}
+      "som": {
+        "busca": "cold wind howling",
+        "palavra": "geada"
+      }
     },
     {
       "narracao": "Com o frio vieram os Ocos: parecem gente... mas por dentro, não tem ninguém.",
@@ -47,19 +59,29 @@
       "efeito": "luz_piscando"
     },
     {
-      "narracao": "O caderno da antiga dona da casa avisa: Ocos não sentem frio. E o bafo deles não embaça o vidro.",
+      "narracao": "O caderno da antiga dona avisa: Ocos não sentem frio. O bafo deles não embaça o vidro. E se um entrar... o Primeiro vem buscar você.",
       "cenario": "caderno_lurdes",
       "personagem": null,
       "camera": "zoom_in",
-      "som": {"busca": "paper page turn", "palavra": "caderno"}
+      "som": {
+        "busca": "paper page turn",
+        "palavra": "caderno"
+      }
     },
     {
       "narracao": "Você vai até a porta... e olha pelo olho mágico.",
       "cenario": "porta_inverno",
       "personagem": null,
-      "foco": [0.55, 0.265, 2.4],
+      "foco": [
+        0.55,
+        0.265,
+        2.4
+      ],
       "camera": "zoom_in",
-      "som": {"busca": "slow footsteps wooden floor", "palavra": "porta"}
+      "som": {
+        "busca": "slow footsteps wooden floor",
+        "palavra": "porta"
+      }
     },
     {
       "narracao": "Um entregador. Tiago, dezenove anos. A moto morreu na esquina.",
@@ -71,14 +93,22 @@
       "narracao": "Ele ergue a bag: tem comida aqui, eu divido. Só me deixa entrar.",
       "cenario": "olho_tiago",
       "personagem": null,
-      "foco": [0.5, 0.55, 1.8],
+      "foco": [
+        0.5,
+        0.55,
+        1.8
+      ],
       "camera": "parada"
     },
     {
       "narracao": "Ele treme. Os lábios estão roxos de frio.",
       "cenario": "olho_tiago",
       "personagem": null,
-      "foco": [0.5, 0.37, 2.6],
+      "foco": [
+        0.5,
+        0.37,
+        2.6
+      ],
       "camera": "zoom_in"
     },
     {
@@ -88,7 +118,10 @@
       "camera": "zoom_in",
       "thumb": true,
       "pausa_extra": 1.0,
-      "som": {"busca": "low eerie breath silence", "palavra": "limpo"}
+      "som": {
+        "busca": "low eerie breath silence",
+        "palavra": "limpo"
+      }
     },
     {
       "narracao": "No celular dele, o último pedido é para o seu endereço. Feito há dezenove dias.",
@@ -97,11 +130,14 @@
       "camera": "zoom_in"
     },
     {
-      "narracao": "Ele sussurra: por favor. Você abre... ou não abre? Comenta SIM ou NÃO.",
+      "narracao": "Ele sussurra: por favor. Abre... ou não abre? Comenta SIM ou NÃO.",
       "cenario": "olho_tiago",
       "personagem": null,
       "camera": "zoom_in",
-      "som": {"busca": "soft knock on door", "palavra": "favor"}
+      "som": {
+        "busca": "soft knock on door",
+        "palavra": "favor"
+      }
     }
   ]
 }
