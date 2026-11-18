@@ -11,6 +11,8 @@ Comandos:
     /final A|B         última parte da história, a partir da opção vencedora
     /historia          mostra a última história e as opções dela
     /relatorio         indicadores do canal do YouTube (views, retenção, quem ficou, compartilhamentos)
+    /fila              mostra a fila de postagem automática do YouTube (11h47 e 18h47)
+    /enfileirar        põe o último vídeo gerado no fim da fila
     /ajuda             mostra os comandos
 Quando há um /novo, este script escreve o tema na saída do GitHub Actions para o próximo passo gerar o vídeo.
 """
@@ -33,7 +35,9 @@ AJUDA = ("Comandos:\n"
          "/continuar A - nova parte da última história, seguindo a opção A (ou B)\n"
          "/final B - última parte da história, seguindo a opção B (ou A)\n"
          "/historia - mostra a última história e as opções dela\n"
-         "/relatorio - indicadores do YouTube (retenção, quem ficou, compartilhamentos)\n\n"
+         "/relatorio - indicadores do YouTube (retenção, quem ficou, compartilhamentos)\n"
+         "/fila - a fila de postagem automática (11h47 e 18h47)\n"
+         "/enfileirar - põe o último vídeo gerado na fila\n\n"
          "Os comandos são lidos a cada 20 minutos, então a resposta pode demorar um pouco.")
 
 
@@ -102,6 +106,12 @@ def main():
             else:
                 postar = p["run_id"]
                 telegram.enviar_mensagem(f"Publicando \"{p['titulo']}\" no YouTube Shorts...")
+        elif comando == "/fila":
+            from .fila import mostrar
+            mostrar()
+        elif comando == "/enfileirar":
+            from .fila import enfileirar
+            enfileirar()
         elif comando == "/relatorio":
             relatorio = True
             telegram.enviar_mensagem("Buscando os números do YouTube...")

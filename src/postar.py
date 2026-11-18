@@ -129,6 +129,8 @@ def main():
     r = json.loads(roteiros[0].read_text(encoding="utf-8")) if roteiros else {}
     titulo = r.get("titulo", "Você escaparia?")
     legenda = os.environ.get("LEGENDA_POST", "").strip() or r.get("legenda_post", "")
+    if os.environ.get("TITULO_YOUTUBE", "").strip():     # veio da fila: ajuda a achar o vídeo na hora da thumb
+        r["titulo_youtube"] = os.environ["TITULO_YOUTUBE"].strip()
     if r.get("titulo_youtube"):                          # título pensado para busca, definido no roteiro
         os.environ["_TITULO_YT_ROTEIRO"] = r["titulo_youtube"]
     cfg = carregar_config()
@@ -146,7 +148,7 @@ def main():
         except Exception as e:
             extra = f"\nthumb no YouTube: falhou ({e})"
     telegram.enviar_mensagem(f"Postado: \"{titulo}\"\n{_links(resp)}{extra}"[:3800])
-    if PENDENTE.exists():
+    if PENDENTE.exists() and not os.environ.get("DA_FILA"):
         p = json.loads(PENDENTE.read_text(encoding="utf-8"))
         p["postado"] = True
         PENDENTE.write_text(json.dumps(p, ensure_ascii=False, indent=2), encoding="utf-8")
