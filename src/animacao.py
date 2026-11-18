@@ -110,6 +110,22 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   ponto_onibus (ponto de ônibus vazio numa rua de lojas fechadas, poste aceso, chão molhado, névoa no fim da rua) |
   floresta_noite / floresta_noite2 (floresta fechada à noite, névoa no chão, olhinhos brilhando entre as árvores) |
   quarto_porta_fechada (quarto de adolescente de noite visto da cama, só personagem "perto": porta fechada com a luz do corredor por baixo e a sombra de dois pés parados; desenhos estranhos na parede, celular aceso na mesa) |
+  portaria (portaria de prédio antigo à noite: parede de monitores do CFTV, mesa com garrafa térmica, rádio e abajur, porta de vidro da rua) |
+  corredor_camera4 (corredor comprido de andar de prédio, portas numeradas, tapete, plafons, escuro no fim) |
+  elevador_dentro (dentro do elevador velho de madeira: painel de botões, espelho embaçado, lâmpada) |
+  elevador_porta (hall do andar com a porta do elevador entreaberta para o escuro e a luz vermelha acesa em cima) |
+  garagem_predio / garagem_predio2 (garagem subterrânea do prédio: pilares, carros cobertos com lona, porta com saída verde) |
+  esp_moradora (CENA ESPECIAL, sem personagem: A Moradora do 13º, de camisola e cabelo no rosto, parada no meio do corredor; a cabeça estala) |
+  quarto_roca (quarto da casa de roça: cama de ferro com colcha de retalhos, janela de madeira aberta para a noite, lamparina) |
+  cozinha_fogao / cozinha_fogao2 / cozinha_fogao3 (cozinha da roça: fogão a lenha aceso, filtro de barro, canecas, mesa com toalha, janela para a mata; 3 = janela clareada) |
+  esp_assobiador (CENA ESPECIAL, sem personagem: O Assobiador, alto e escuro, espiando de trás de uma árvore na mata, olhos claros; a cabeça estala) |
+  farmacia_balcao2 (outro ângulo do balcão da farmácia: caixa, abajur, livro, porta de vidro ao fundo) |
+  farmacia_balcao_luz (o balcão com a lâmpada do teto acesa e o poste lá fora) |
+  farmacia_corredor2 / farmacia_cftv2 / farmacia_fora2 (outras versões do corredor, da câmera e da fachada) |
+  esp_cliente_balcao / esp_cliente_balcao2 (CENA ESPECIAL, sem personagem: o Cliente das 3h17 debruçado no balcão, sorriso largo, empurrando dinheiro e um rolo de esparadrapo; 2 = no meio das prateleiras) |
+  esp_cliente_estoque (CENA ESPECIAL: do balcão, o Cliente parado no fim do corredor de prateleiras, na porta dos fundos) |
+  tv_estatica2 (close na TV de tubo chiando na sala escura) | escola_corredor2 (corredor de escola com luar entrando pelas janelas) |
+  banheiro_escola2 (banheiro de escola: cabines verdes, uma porta aberta, pias e espelho manchado) | hospital_quarto2 (quarto de hospital: cama, soro, monitor verde, cortina) |
   escritorio (estantes de livros, mesa de madeira com abajur aceso, poltrona de couro, janela) |
   quarto_crianca (o antigo quarto de criança da casa, onde a bisavó dormia quando menina: cama com ursinho, berço, móbile de luas e estrelas, abajur de lua, baú de brinquedos) |
   planta_andar (o andar visto de cima, como uma planta: escritório e quarto lado a lado, o guarda-roupa aberto e escuro;
