@@ -35,6 +35,11 @@ Este é o documento que a direção automática diária lê antes de criar qualq
 - **Lógica da história:** cada cena tem que fazer sentido para quem assiste. Exemplos: os olhos no escuro ficam DENTRO do buraco escuro, e ele vê pela janela antes de ir até o lugar.
 - **Continuidade:** o episódio novo começa exatamente onde o anterior parou.
 - **Voto dividido entre redes:** a história honra as duas escolhas, sem "quebrar parede" forçado.
+- **Traço livre por série (autorizado pelo Vitor em 18/11):** as histórias novas (Turno da Madrugada, Câmera 4, Férias na Roça, Corrida Noturna e as que vierem) podem ter um estilo de traço próprio para os personagens, diferente do boneco do Guizo. Exemplos: proporções mais realistas, outra paleta, contorno mais grosso ou mais fino. Exigências:
+  - cada protagonista e cada antagonista tem que ser único e reconhecível;
+  - o estilo tem que combinar com os cenários da série;
+  - a qualidade não pode cair: proporção, ação perto do objeto, expressões legíveis.
+  - O Guizo mantém o traço atual, que é a marca do canal.
 - **Arte própria:** inspiração em criadores é permitida, cópia de personagem, arte ou história não.
 
 ## 4. Formatos e como fazer (repo vitorgdsouza/terror-bot)
