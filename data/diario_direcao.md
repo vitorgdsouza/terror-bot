@@ -42,3 +42,16 @@
 - Com o OK do Vitor, rodei a fila à mão às 12h28 (turno manhã): a Fita da Farmácia 03:17 saiu no YouTube pelo Upload-Post.
 - Trava nova em `src/fila.py`: um agendamento que chegue atrasado não posta se a faixa dele já saiu no dia, nem se já houver 2 posts no dia.
 - O protocolo das 18h47 continua dependendo do agendamento. Se não sair até umas 19h15, rodar `fila.yml` com `turno=tarde`.
+
+## 18/11 (tarde): primeiro sinal de recuperação
+- A "Fita da Farmácia 03:17", isca no padrão novo, tinha **192 views 4 h depois de sair**. Os vídeos do dia 17 estavam parados em 4 a 8.
+- **O que ela tinha de diferente:**
+  - VHS de câmera de segurança, com o relógio virando 03:17 no susto;
+  - cena especial com o rosto do Cliente;
+  - thumb com o rosto da criatura em close;
+  - pergunta aberta na legenda;
+  - personagem novo (série nova).
+- **Hipóteses para testar:**
+  - thumb com rosto de criatura > thumb com pictograma ou com o Lucas;
+  - linguagem VHS/CFTV segura melhor o início.
+- Comparar a retenção dela com a das outras quando os dados de analytics chegarem.
