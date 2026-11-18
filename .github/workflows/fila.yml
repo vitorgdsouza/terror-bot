@@ -55,6 +55,7 @@ jobs:
         if: github.event.inputs.acao != 'aviso'
         env:
           TURNO: ${{ github.event.inputs.turno }}
+          AGENDADO: ${{ github.event_name == 'schedule' && '1' || '0' }}
         run: |
           H=$(date -u +%H)
           if [ -z "${{ github.event.inputs.turno }}" ]; then

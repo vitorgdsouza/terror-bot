@@ -54,9 +54,28 @@ def _do_turno(f: dict, turno: str) -> int | None:
     return 0 if f["itens"] else None
 
 
+def _ja_postou(f: dict, turno: str) -> str:
+    """Trava contra post duplicado: agendamento do GitHub atrasado depois de um post manual, ou mais de 2 no dia."""
+    hoje = time.strftime("%Y-%m-%d")
+    do_dia = [it for it in f["postados"] if str(it.get("postado_em", "")).startswith(hoje)]
+    if len(do_dia) >= 2:
+        return "já saíram 2 posts hoje"
+    quer_isca = turno == "manha"
+    if any((it.get("tipo", "isca") == "isca") == quer_isca for it in do_dia):
+        return f"a faixa da {'isca' if quer_isca else 'principal'} já foi postada hoje"
+    return ""
+
+
 def proximo() -> None:
     f = carregar()
-    i = _do_turno(f, os.environ.get("TURNO", "manha"))
+    turno = os.environ.get("TURNO", "manha")
+    motivo = _ja_postou(f, turno)
+    if motivo and os.environ.get("AGENDADO") == "1":
+        log(f"Pulando o agendamento: {motivo}")
+        for k in ("indice", "run_id", "titulo_youtube", "legenda"):
+            _saida(k, "")
+        return
+    i = _do_turno(f, turno)
     it = f["itens"][i] if i is not None else {}
     _saida("indice", "" if i is None else str(i))
     _saida("run_id", it.get("run_id", ""))
