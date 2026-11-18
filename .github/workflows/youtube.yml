@@ -51,7 +51,7 @@ jobs:
       - name: O que fazer
         id: acao
         run: |
-          if [ "${{ github.event.inputs.acao }}" = "uploadpost" ] || [ "${{ github.event.inputs.acao }}" = "postar" ] || [ "${{ github.event.inputs.acao }}" = "votos" ]; then
+          if [ "${{ github.event.inputs.acao }}" = "uploadpost" ] || [ "${{ github.event.inputs.acao }}" = "postar" ] || [ "${{ github.event.inputs.acao }}" = "votos" ] || [ "${{ github.event.inputs.acao }}" = "diagnostico" ]; then
             echo "acao=${{ github.event.inputs.acao }}" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.event.schedule }}" = "41 */6 * * *" ] || [ "${{ github.event.inputs.acao }}" = "thumbs" ]; then
             echo "acao=thumbs" >> "$GITHUB_OUTPUT"; else echo "acao=relatorio" >> "$GITHUB_OUTPUT"; fi
@@ -83,6 +83,9 @@ jobs:
       - name: Testar o Upload-Post
         if: steps.acao.outputs.acao == 'uploadpost'
         run: python -m src.postar testar
+      - name: Diagnóstico dos vídeos
+        if: steps.acao.outputs.acao == 'diagnostico'
+        run: python -m src.diagnostico
       - name: Relatório do canal
         if: steps.acao.outputs.acao == 'relatorio'
         run: python -m src.analise
