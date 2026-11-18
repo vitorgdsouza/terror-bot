@@ -84,6 +84,7 @@ Este é o documento que a direção automática diária lê antes de criar qualq
 - **Ilustrações** (cenários e cenas especiais) são geradas pelo Vitor no app do Gemini. A API de imagem não tem cota grátis.
 - **Quando precisar de uma:** mande no aviso o prompt pronto em inglês, com o estilo base. Enquanto não chega, use os cenários que existem.
 - **Estilo base dos prompts:** "2D cartoon illustration, clean dark outlines, flat colors with soft shading, night time, dark navy and blue palette with one warm light source, eerie and quiet mood, eye-level camera, empty scene with NO people, NO animals, NO text, open floor area in the lower third for characters to stand, vertical 9:16".
+- **Catálogo de cenários encomendados:** https://claude.ai/artifact/2jdhgLeWWzYFesAaVMRzKj tem o nome, o uso e o prompt de cada um. Quando o Vitor mandar uma imagem com esse nome, cadastre com o mesmo nome. Os que começam com `esp_` são cenas especiais (configure `anima`). Antes de pedir um cenário novo, veja se ele já está no catálogo.
 - **Ao receber a imagem:** redimensione para 1188x2112 em `assets/cenarios/` e cadastre em `cenarios.json` (piso, fundo, escala, faixa, horizonte, porta e escuro quando houver). Teste a escala com um quadro de prova.
 
 ## 7. Limites
