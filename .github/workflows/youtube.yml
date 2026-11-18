@@ -4,13 +4,16 @@ on:
   workflow_dispatch:
     inputs:
       acao:
-        description: "relatorio | thumbs | uploadpost (testa a conexão) | postar (publica o vídeo pendente)"
+        description: "relatorio | thumbs | uploadpost (testa a conexão) | postar (publica o vídeo pendente) | votos"
         default: relatorio
       titulo_youtube:
         description: "postar: título no YouTube (vazio = título do roteiro)"
         default: ""
       legenda:
         description: "postar: legenda/descrição (vazio = a do roteiro)"
+        default: ""
+      alvo:
+        description: "votos: trecho do título ou id do vídeo"
         default: ""
       runs:
         description: "execuções antigas com o roteiro de vídeos que não estão em roteiros/ (separadas por espaço)"
@@ -48,7 +51,7 @@ jobs:
       - name: O que fazer
         id: acao
         run: |
-          if [ "${{ github.event.inputs.acao }}" = "uploadpost" ] || [ "${{ github.event.inputs.acao }}" = "postar" ]; then
+          if [ "${{ github.event.inputs.acao }}" = "uploadpost" ] || [ "${{ github.event.inputs.acao }}" = "postar" ] || [ "${{ github.event.inputs.acao }}" = "votos" ]; then
             echo "acao=${{ github.event.inputs.acao }}" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.event.schedule }}" = "41 */6 * * *" ] || [ "${{ github.event.inputs.acao }}" = "thumbs" ]; then
             echo "acao=thumbs" >> "$GITHUB_OUTPUT"; else echo "acao=relatorio" >> "$GITHUB_OUTPUT"; fi
@@ -72,6 +75,11 @@ jobs:
           RUN=$(python -c "import json;print(json.load(open('data/pendente.json'))['run_id'])")
           gh run download "$RUN" -D baixado
           python -m src.postar
+      - name: Contar votos A/B
+        if: steps.acao.outputs.acao == 'votos'
+        env:
+          ALVO: ${{ github.event.inputs.alvo }}
+        run: python -m src.votos "$ALVO"
       - name: Testar o Upload-Post
         if: steps.acao.outputs.acao == 'uploadpost'
         run: python -m src.postar testar
