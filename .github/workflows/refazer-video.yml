@@ -17,6 +17,11 @@ permissions:
   contents: write
   actions: read
 
+
+concurrency:                 # um render por vez: em paralelo estoura a cota da voz e cai na voz reserva
+  group: video
+  cancel-in-progress: false
+
 jobs:
   refazer:
     runs-on: ubuntu-latest
