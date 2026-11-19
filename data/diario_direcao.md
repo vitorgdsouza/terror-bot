@@ -219,3 +219,8 @@
 - **Fila:** o principal das 18h47 de hoje está coberto ("O Entregador", Pode Entrar? Ep. 1). Iscas aprovadas na fila: 0. Esperam o Vitor: nº 5 (Campainha, 20/11 11h47) e nº 6 (roteiro do Protocolo Geada, 20/11 18h47; aprovar depois de ~05h por causa da cota do Gemini).
 - **Mesa do Gerente:** "Aguardando" segue com nº 6 e nº 5; o histórico ganhou o nº 7.
 - **Aviso no Telegram:** não mandado; não há decisão nova (nº 5 e nº 6 já foram avisados).
+
+## 19/11 (19h23): O Entregador postado à mão (Publicador)
+- O agendamento das 18h47 falhou de novo (3ª vez em 2 dias). Rodei `fila.yml` turno=tarde (run 44626363969): Upload-Post completed, vídeo lAaMldaxFs4. A thumb entrou logo depois do post (marcada em `thumbs_feitas.json`).
+- Lembrete: no feed de Shorts o YouTube mostra o próprio vídeo, não a thumb; ela aparece na página do canal, na busca e nas inscrições.
+- Fila vazia. Para 20/11: a Câmera da Campainha (nº 5) e o Protocolo Geada (nº 6) esperam o Vitor.
