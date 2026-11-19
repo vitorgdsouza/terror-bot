@@ -157,7 +157,11 @@ def antigas():
         feitas = {v["video_id"]: {} for v in lista if v["quando"] <= "2026-11-17" and "protocolo rufus" not in _norm(v["titulo"])}
         for vid in feitas:
             _marcar(vid, "")
-    lista = [v for v in lista if v["video_id"] not in feitas]
+    trocar = _norm(os.environ.get("TROCAR", ""))
+    if trocar:                                        # troca a thumb de um vídeo que já tem (pedido do Vitor)
+        lista = [v for v in lista if trocar in _norm(v["titulo"])]
+    else:
+        lista = [v for v in lista if v["video_id"] not in feitas]
     if not lista:
         log("Todos os Shorts já têm thumb.")
         return

@@ -179,5 +179,12 @@
       "camera": "zoom_in"
     }
   ],
-  "titulo_youtube": "Ele levou meu gato para o poço... (O Guizo na Escada, Ep. 2) #shorts"
+  "titulo_youtube": "Ele levou meu gato para o poço... (O Guizo na Escada, Ep. 2) #shorts",
+  "thumb_cenario": "janela_poco",
+  "thumb_foco": [
+    0.6,
+    0.45,
+    1.25
+  ],
+  "thumb_texto_y": 0.66
 }

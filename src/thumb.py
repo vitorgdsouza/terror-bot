@@ -91,9 +91,19 @@ def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
         from .sombra import quadro as quadro_sombra
         c = next((c for c in r["cenas"] if c.get("thumb")), None) or next(c for c in reversed(r["cenas"]) if c.get("quadro") == "abismo")
         cena = quadro_sombra(dict(c, texto=None), 3.0, 3.2, 1)
+    elif r.get("thumb_cenario"):                       # ilustração pronta (cena especial) escolhida para a thumb
+        cena = Image.open(RAIZ / "assets" / "cenarios" / f"{r['thumb_cenario']}.png").convert("RGB")
+        fx, fy, z = r.get("thumb_foco") or [0.5, 0.5, 1.0]
+        if z > 1:                                       # aproxima no ponto [fx, fy], mantendo 9:16
+            w, h = cena.width / z, cena.height / z
+            x0 = min(max(0, cena.width * fx - w / 2), cena.width - w)
+            y0 = min(max(0, cena.height * fy - h / 2), cena.height - h)
+            cena = cena.crop((int(x0), int(y0), int(x0 + w), int(y0 + h))).resize((1188, 2112), Image.LANCZOS)
+        cena = ImageEnhance.Brightness(cena).enhance(1.12)
     else:
         cena = ImageEnhance.Brightness(quadro(_cena_chave(r), 2.2, 4.0, prot).convert("RGB")).enhance(1.25)
     W, H = cena.size
+    ty = r.get("thumb_texto_y", 0.38)                   # altura do bloco de título (fração da altura)
     l1, l2 = _linhas(r.get("titulo", "Você escaparia?"))
     pergunta = _pergunta(r)
     selo = r.get("selo") or ("FINAL" if r.get("final") else f"EP. {r.get('parte') or 1}")
@@ -101,10 +111,10 @@ def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
     # ---------------- vertical
     v = cena.convert("RGBA")
     faixa = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    ImageDraw.Draw(faixa).rectangle((0, H * 0.36, W, H * 0.6), fill=(3, 4, 12, 130))
+    ImageDraw.Draw(faixa).rectangle((0, H * (ty - 0.02), W, H * (ty + 0.22)), fill=(3, 4, 12, 130))
     v.alpha_composite(faixa.filter(ImageFilter.GaussianBlur(50)))
     d = ImageDraw.Draw(v)
-    y = H * 0.38
+    y = H * ty
     for txt, cx in ((l1, None), (l2, ROXO)):
         if not txt:
             continue

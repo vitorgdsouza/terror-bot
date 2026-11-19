@@ -13,7 +13,7 @@ on:
         description: "postar: legenda/descrição (vazio = a do roteiro)"
         default: ""
       alvo:
-        description: "votos: trecho do título ou id do vídeo"
+        description: "votos: trecho do título ou id do vídeo | thumbs: trecho do título do vídeo para TROCAR a thumb"
         default: ""
       runs:
         description: "execuções antigas com o roteiro de vídeos que não estão em roteiros/ (separadas por espaço)"
@@ -64,6 +64,8 @@ jobs:
           for r in $RUNS; do gh run download "$r" -D "baixado/$r" || echo "sem artefato em $r"; done
       - name: Thumbs nos Shorts já postados
         if: steps.acao.outputs.acao == 'thumbs'
+        env:
+          TROCAR: ${{ github.event.inputs.alvo }}
         run: python -m src.thumb_youtube antigas
       - name: Postar o vídeo pendente
         if: steps.acao.outputs.acao == 'postar'
