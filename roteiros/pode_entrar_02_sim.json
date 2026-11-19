@@ -31,7 +31,7 @@
   ],
   "cenas": [
     {
-      "narracao": "Você deixou o Tiago entrar. Faz uma hora. E a geada no cabelo dele... ainda não derreteu.",
+      "narracao": "Você deixou o Tiago entrar. Faz uma hora. E ainda tem geada no cabelo dele.",
       "cenario": "sala_lareira_tiago",
       "personagem": null,
       "camera": "zoom_in",
