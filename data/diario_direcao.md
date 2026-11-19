@@ -165,3 +165,10 @@
 ## 19/11 (00h50): agenda nova do Vitor (Roteirista)
 - Rufus descansa por enquanto (já tem 2 eps e protocolo). "Seu Cachorro Abana o Rabo?" saiu da fila.
 - Agenda: 19/11 11h47 Fita da Farmácia 02 (`roteiros/iscas/isca_08_farmacia2.json`, só com artes que já existem: a mãe liga pedindo para abrir a porta dos fundos, o Cliente no fim do corredor); 19/11 18h47 Pode Entrar? Ep. 1; 20/11 11h47 Câmera da Campainha.
+
+## 19/11 (01h40): Fita da Farmácia 02 reprovada pelo Revisor (Publicador)
+- Render da aprovação nº 3 (run 44456653956): voz Enceladus em 91%, sem palavras bugadas, mas o vídeo tem ~32 s (o alvo da isca é de 12 a 20 s).
+- Lógica/cânone: a fala diz "a câmera não mostra ele" e a tela mostra o Cliente com o REC por cima; ele aparece DENTRO do estoque (só entra se convidado); falta telefone no balcão; hortelã e esparadrapo não aparecem.
+- O Publicador já trocou o título ("A mãe dela ligou às 3h17... 📼 #shorts") e a legenda (a pergunta logo antes das hashtags).
+- Para o Roteirista: cortar a narração para 25 a 30 palavras, abrir com o telefone, resolver a cena do susto (ele do lado de fora, ou a cena sem o REC). Depois disso, o render volta a pedir a aprovação do Vitor.
+- Render da Câmera da Campainha (nº 2) rodando (run 44459126756).
