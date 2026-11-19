@@ -143,3 +143,19 @@
 - Rascunhos: `roteiros/pode_entrar_02_sim.json` e `roteiros/pode_entrar_02_nao.json` (A Enfermeira). Só propor depois do resultado do voto.
 - Arte em comum às duas versões: `caderno_lurdes2`, `olho_lia`, `esp_lia_cilios`. Só da versão SIM: `sala_lareira_tiago`. Só da NÃO: `olho_bag`, `olho_lia_cachecol`.
 - Pendente com o Vitor: o que acontece num "game over" (proposta: recomeçar com outro sobrevivente numa casa nova, com o caderno).
+
+## 19/11: prompts do Pode Entrar? Ep. 2 "A Enfermeira" (Diretor de Arte)
+- **Seis prompts no catálogo** (subseção "Ep. 2, A Enfermeira (Lia)"):
+  - para as duas versões: `olho_lia`, `esp_lia_cilios` e `caderno_lurdes2`;
+  - só SIM: `sala_lareira_tiago`;
+  - só NÃO: `olho_bag` e `olho_lia_cachecol`.
+  - Entregues pela conversa, sem Telegram.
+- **Visual da Lia** (marca em `docs/PERSONAGENS.md`):
+  - cores próprias: gorro bordô, sobretudo cinza-chumbo e pijama hospitalar azul-claro, para não brigar com o verde-petróleo e o laranja do Tiago;
+  - pinta embaixo do olho esquerdo e maleta branca com cartelas;
+  - a boca sempre coberta (máscara; no NÃO, o cachecol do Tiago), assim a imagem não entrega o vapor;
+  - o sinal físico: geada intacta e cristalina nos cílios.
+- **`anima` sugerida para `esp_lia_cilios`:** `tremor` só na metade de baixo (máscara, queixo e ombros) e a faixa dos olhos parada: o rosto finge frio, os olhos não.
+- **SIM:** no `sala_lareira_tiago`, a geada do cabelo dele começa a derreter, com uma gota caindo, que é o sinal de humano da cena 5. A composição segue os focos do roteiro: caderno em [0.5, 0.55], cabelo em [0.5, 0.35]. Confiro quando a imagem chegar.
+- **Ordem de geração:** `olho_lia` → `esp_lia_cilios` → `caderno_lurdes2` e, depois do voto, `sala_lareira_tiago` (SIM) ou `olho_bag` + `olho_lia_cachecol` (NÃO).
+- **Referências para anexar:** o `olho_tiago` para a moldura e o traço, o `olho_lia` para o rosto dela e o `caderno_lurdes` para o caderno.
