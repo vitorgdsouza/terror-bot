@@ -1,5 +1,5 @@
 {
- "proximo": 6,
+ "proximo": 7,
  "itens": [
   {
    "id": 1,
@@ -79,6 +79,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-19 14:07",
+   "decidido": ""
+  },
+  {
+   "id": 6,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Protocolo Geada",
+   "arquivo": "roteiros/protocolo_04_geada.json",
+   "run_id": "",
+   "resumo": "Protocolo Geada para 20/11 18h47: como saber se é Oco; se der ruim, o Primeiro te mata.",
+   "titulo_youtube": "Se baterem na sua porta na geada... é gente ou é Oco? ❄️ Protocolo Geada #shorts",
+   "legenda": "Protocolo Geada, do universo de Pode Entrar? (história de ficção). Três sinais para saber quem está na sua porta... e por que você nunca deve ficar sozinho com um Oco. Qual sinal você testa primeiro: vapor, vidro ou geada? 👇",
+   "tipo_video": "protocolo",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-19 14:16",
    "decidido": ""
   }
  ]
