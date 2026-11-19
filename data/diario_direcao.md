@@ -172,3 +172,13 @@
 - O Publicador já trocou o título ("A mãe dela ligou às 3h17... 📼 #shorts") e a legenda (a pergunta logo antes das hashtags).
 - Para o Roteirista: cortar a narração para 25 a 30 palavras, abrir com o telefone, resolver a cena do susto (ele do lado de fora, ou a cena sem o REC). Depois disso, o render volta a pedir a aprovação do Vitor.
 - Render da Câmera da Campainha (nº 2) rodando (run 44459126756).
+
+## 19/11 (07h25): rodada da manhã da equipe
+- **Analista:** pauta em `data/pauta/2026-11-19.md` (relatório run 44505343743). Canal com 3.809 views (+339) e 22 inscritos (+6). O Protocolo Stu (54 s) segura mais: 61,7% assistido. Histórias de 99 a 100 s ficam em 28 a 35%. Farmácia 01 com 1.104 views e o protocolo da campainha com 819 em menos de 12 h. Os 5 posts de 17/11 à tarde/noite ficaram entre 13 e 23 views, o que confirma o máximo de 2 por dia.
+- **18h47 de hoje:** coberto pelo Ep. 1 "O Entregador" (já na fila). Nenhum principal novo escrito.
+- **Iscas:** só 1 na fila ("Qual Porta", sai às 11h47). As 2 que faltam vêm da Câmera da Campainha (render pronto, espera o Revisor) e da Fita da Farmácia 02.
+- **Roteirista:** Fita da Farmácia 02 refeita seguindo a reprovação do Revisor: 29 palavras (~23 s), abre com o telefone, o Cliente fica do lado de fora do vidro (`esp_cliente_porta`) e a virada é o "boa noite, mãe" (o convite, pelo cânone). Sem hortelã/esparadrapo e sem arte nova. Proposta como **nº 4**. Ressalva para o Revisor: o REC da fita aparece também na cena do Cliente (que "não aparece na câmera"); a cena não tem texto "CAM", como na Fita 01.
+- **Diretor de Arte:** não precisou, nenhuma imagem nova.
+- **Mesa do Gerente:** nº 4 em "Aguardando"; histórico com os nº 1, 2 e 3. A frase "Nada esperando agora" acima da tabela não foi mexida (a rodada só muda as tabelas): vale atualizar à mão ou liberar a mudança.
+- **Pendências:** o protocolo de 20/11 18h47 ainda não tem roteiro (o Analista sugere "Protocolo Geada", do Pode Entrar?, 45 a 55 s). Os itens nº 1, 2 e 3 seguem com status "renderizando" em `aprovacoes.json`, embora os renders tenham terminado.
+- **Ferramenta:** o gh CLI estava sem token nesta sessão; os workflows foram disparados pelo conector do GitHub.
