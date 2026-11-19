@@ -116,3 +116,9 @@
 - O Vitor tirou "Conte as Batidas" da fila (removida).
 - Isca nova "Câmera da Campainha 01:58" (`roteiros/iscas/isca_07_campainha.json`), no padrão da Farmácia: VHS da campainha, o Tiago 2 min parado antes de bater, sem vapor na boca a -9 °C. Pergunta: "O que tem de errado nele?". Decisão do Vitor: sai DEPOIS do Ep. 1 (que vai em 19/11 18h47) para puxar o público até ele, então mira 20/11 11h47.
 - Pedido de arte: `campainha_cftv` e `esp_tiago_campainha`. Propor para aprovação quando as imagens estiverem cadastradas.
+
+## 19/11: arte da isca "Câmera da Campainha 01:58" (Diretor de Arte)
+- **O pedido:** prompts de `campainha_cftv` e `esp_tiago_campainha` para `roteiros/iscas/isca_07_campainha.json`, que vai ao ar em 20/11 como trailer do Pode Entrar? Ep. 1. Os dois estão no catálogo de cenários, na subseção da isca dentro de "Pode Entrar?", e foram entregues ao Vitor pela conversa, sem Telegram.
+- **Traço:** o mesmo da série, com o `olho_tiago` anexado como referência. A imagem sai limpa: o VHS (`pixel` 6), o carimbo e o `texto_tela` entram por cima, no vídeo. O `campainha_cftv` deixa livre o quinto de cima para o `texto_tela` e põe o Tiago um pouco abaixo do centro, longe da legenda.
+- **`anima` sugerida para `esp_tiago_campainha`:** `partes` com o rosto em `tremor` e o pivô no pescoço. É um tremor de frio humano, coerente com o segredo da equipe. Não usar `estalo`, para ele não parecer monstro. As regiões são medidas quando a imagem chegar.
+- **Ordem de geração:** `olho_tiago` → `campainha_cftv` → `esp_tiago_campainha`. Se o `olho_tiago` não chegar antes, o `campainha_cftv` vira a referência do rosto.
