@@ -1,0 +1,79 @@
+{
+  "tipo": "isca",
+  "estilo": "vhs",
+  "pixel": 6,
+  "protagonista": "homem",
+  "clima": "suspense",
+  "selo": "FITA 02",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "final": true,
+  "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#terror",
+    "#farmacia"
+  ],
+  "titulo": "Fita da Farmácia 03:17 (Fita 02)",
+  "data_fita": "NOV 19 2003",
+  "hora_fita": [
+    3,
+    16,
+    38
+  ],
+  "pergunta_thumb": "Quem ligou às 3h17?",
+  "titulo_youtube": "Fita 02: às 3h17 a mãe dela ligou pedindo para abrir a porta dos fundos 📼 #shorts",
+  "legenda_post": "Fita 02. A mãe dela ligou às 3h17 pedindo para abrir a porta dos fundos. O que você responderia? 👇 (história de ficção) #analoghorror #vhs",
+  "cenas": [
+    {
+      "narracao": "Câmera um. Três e dezesseis. A farmacêutica está sozinha.",
+      "cenario": "farmacia_cftv2",
+      "personagem": null,
+      "camera": "parada",
+      "texto_tela": "CAM 01",
+      "som": {
+        "busca": "fluorescent light buzz",
+        "palavra": "Câmera"
+      }
+    },
+    {
+      "narracao": "O telefone toca. É a mãe dela: filha, abre a porta dos fundos. Tô com frio.",
+      "cenario": "farmacia_balcao",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {
+        "busca": "old telephone ringing",
+        "palavra": "telefone"
+      }
+    },
+    {
+      "narracao": "A câmera dos fundos mostra o depósito vazio.",
+      "cenario": "farmacia_deposito",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "CAM 03"
+    },
+    {
+      "narracao": "Mas a câmera não mostra ele.",
+      "cenario": "esp_cliente_estoque",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "thumb": true,
+      "pausa_extra": 1.0,
+      "som": {
+        "busca": "low eerie drone hit",
+        "palavra": "ele"
+      }
+    },
+    {
+      "narracao": "Três e dezessete. Ele só espera ela dizer: pode entrar. O que você responderia?",
+      "cenario": "farmacia_balcao_escuro",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true
+    }
+  ]
+}

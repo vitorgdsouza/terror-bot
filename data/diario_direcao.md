@@ -161,3 +161,7 @@
 - **Referências para anexar:** o `olho_tiago` para a moldura e o traço, o `olho_lia` para o rosto dela e o `caderno_lurdes` para o caderno.
 - Correção do Vitor: Oco sozinho com você não mata. Você só morre se o Primeiro vier à porta e sentir que você está sozinho em casa (derruba a porta). Game over = requel com outro sobrevivente no mesmo universo. Em aberto: o Oco dentro de casa conta como "companhia" para o Primeiro?
 - Fechado com o Vitor: Oco não conta como companhia. O Primeiro chega em noites aleatórias; se encontrar só você e um Oco, derruba a porta. Ep. 2 NÃO ganhou a fala "quem passa a noite sozinho... o Primeiro sente".
+
+## 19/11 (00h50): agenda nova do Vitor (Roteirista)
+- Rufus descansa por enquanto (já tem 2 eps e protocolo). "Seu Cachorro Abana o Rabo?" saiu da fila.
+- Agenda: 19/11 11h47 Fita da Farmácia 02 (`roteiros/iscas/isca_08_farmacia2.json`, só com artes que já existem: a mãe liga pedindo para abrir a porta dos fundos, o Cliente no fim do corredor); 19/11 18h47 Pode Entrar? Ep. 1; 20/11 11h47 Câmera da Campainha.
