@@ -1,5 +1,5 @@
 {
- "proximo": 3,
+ "proximo": 4,
  "itens": [
   {
    "id": 1,
@@ -31,6 +31,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-19 03:18",
+   "decidido": ""
+  },
+  {
+   "id": 3,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Fita da Farmácia 03:17 (Fita 02)",
+   "arquivo": "roteiros/iscas/isca_08_farmacia2.json",
+   "run_id": "",
+   "resumo": "Fita da Farmácia 02 (VHS, ~22 s): a mãe liga às 3h17 pedindo para abrir a porta dos fundos; a câmera mostra o depósito vazio, mas o Cliente está no fim do corredor. Para hoje 11h47; só artes que já existem.",
+   "titulo_youtube": "Fita 02: às 3h17 a mãe dela ligou pedindo para abrir a porta dos fundos 📼 #shorts",
+   "legenda": "Fita 02. A mãe dela ligou às 3h17 pedindo para abrir a porta dos fundos. O que você responderia? 👇 (história de ficção) #analoghorror #vhs",
+   "tipo_video": "isca",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-19 04:06",
    "decidido": ""
   }
  ]
