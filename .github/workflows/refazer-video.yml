@@ -70,9 +70,10 @@ jobs:
           ROTEIRO_ARQ: ${{ inputs.roteiro }}
           RUN_ID: ${{ github.run_id }}
         run: |
-          [ -n "$ROTEIRO_ARQ" ] && python -m src.aprovacao renderizado || true
           git config user.name "bot-terror"
           git config user.email "bot-terror@users.noreply.github.com"
+          git pull -q --rebase --autostash || true   # a Mesa salva o "renderizando" depois de disparar o render
+          [ -n "$ROTEIRO_ARQ" ] && python -m src.aprovacao renderizado || true
           git add data/pendente.json data/previas; [ -e data/aprovacoes.json ] && git add data/aprovacoes.json
           git diff --cached --quiet && exit 0
           git commit -m "Vídeo refeito pronto para postar"

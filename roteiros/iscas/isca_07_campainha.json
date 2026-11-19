@@ -32,18 +32,18 @@
   ],
   "cenas": [
     {
-      "narracao": "Câmera da campainha. Uma e cinquenta e oito. Nove graus negativos.",
+      "narracao": "Uma e cinquenta e oito. Nove graus negativos.",
       "cenario": "campainha_cftv",
       "personagem": null,
       "camera": "parada",
       "texto_tela": "CAM PORTA  -9°C",
       "som": {
         "busca": "cold wind howling",
-        "palavra": "Câmera"
+        "palavra": "Uma"
       }
     },
     {
-      "narracao": "Ele ficou dois minutos parado na porta. Sem bater.",
+      "narracao": "Dois minutos parado ali. Sem bater.",
       "cenario": "campainha_cftv",
       "personagem": null,
       "camera": "zoom_in"
@@ -62,7 +62,7 @@
       }
     },
     {
-      "narracao": "Às duas em ponto, ele bateu. Você abriria?",
+      "narracao": "Então ele bateu. Você abriria?",
       "cenario": "campainha_cftv",
       "personagem": null,
       "camera": "zoom_in",
