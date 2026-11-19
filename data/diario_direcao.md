@@ -159,3 +159,4 @@
 - **SIM:** no `sala_lareira_tiago`, a geada do cabelo dele começa a derreter, com uma gota caindo, que é o sinal de humano da cena 5. A composição segue os focos do roteiro: caderno em [0.5, 0.55], cabelo em [0.5, 0.35]. Confiro quando a imagem chegar.
 - **Ordem de geração:** `olho_lia` → `esp_lia_cilios` → `caderno_lurdes2` e, depois do voto, `sala_lareira_tiago` (SIM) ou `olho_bag` + `olho_lia_cachecol` (NÃO).
 - **Referências para anexar:** o `olho_tiago` para a moldura e o traço, o `olho_lia` para o rosto dela e o `caderno_lurdes` para o caderno.
+- Correção do Vitor: Oco sozinho com você não mata. Você só morre se o Primeiro vier à porta e sentir que você está sozinho em casa (derruba a porta). Game over = requel com outro sobrevivente no mesmo universo. Em aberto: o Oco dentro de casa conta como "companhia" para o Primeiro?
