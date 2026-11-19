@@ -110,3 +110,9 @@
 - Corrigido: "Conte as Batidas" voltou para o topo da fila. O Ep. 1 do Pode Entrar? entrou na fila (aprovado pelo Vitor) para 19/11 às 18h47. `pendente.json` marcado como resolvido para o /postar antigo não publicar o Ep. 1 antes da hora.
 - **Lição:** antes de rodar a fila à mão, `git pull` e conferir `postados`. Ponto fraco: a trava de `src/fila.py` só vale para o agendamento; a execução manual passa por cima dela e, sem principal, cai numa isca.
 - O Vitor vai postar o protocolo à mão no TikTok. Plano de 19/11: uma isca no padrão da Fita da Farmácia às 11h47 e o Ep. 1 às 18h47.
+
+## 19/11 (madrugada): isca da campainha (Roteirista)
+- Print do Vitor às 23h52: protocolo da campainha 597 views em ~4 h, Farmácia 961, Poço do Quintal (thumb do Lucas) 18. Reforça: thumb com rosto de criatura ou pictograma + pergunta.
+- O Vitor tirou "Conte as Batidas" da fila (removida).
+- Isca nova "Câmera da Campainha 01:58" (`roteiros/iscas/isca_07_campainha.json`), no padrão da Farmácia: VHS da campainha, o Tiago 2 min parado antes de bater, sem vapor na boca a -9 °C. Pergunta: "O que tem de errado nele?". Decisão do Vitor: sai DEPOIS do Ep. 1 (que vai em 19/11 18h47) para puxar o público até ele, então mira 20/11 11h47.
+- Pedido de arte: `campainha_cftv` e `esp_tiago_campainha`. Propor para aprovação quando as imagens estiverem cadastradas.

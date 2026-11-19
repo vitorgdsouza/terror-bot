@@ -1,0 +1,77 @@
+{
+  "titulo": "Câmera da Campainha 01:58",
+  "tipo": "isca",
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "NOV 19 2026",
+  "hora_fita": [
+    1,
+    58,
+    10
+  ],
+  "protagonista": null,
+  "clima": "suspense",
+  "selo": "FITA",
+  "pergunta_thumb": "O que tem de errado nele?",
+  "trilha": "dark ambient drone hum cold wind",
+  "trilha_volume": 0.45,
+  "final": true,
+  "serie": "Pode Entrar?",
+  "titulo_youtube": "Câmera da campainha, 1h58, -9°C... repara na boca dele 📼 #shorts",
+  "legenda_post": "Ele ficou dois minutos parado antes de bater. O que tem de errado nele? Responde sem voltar o vídeo 👇 (o que aconteceu depois: \"Pode Entrar? Ep. 1\" no perfil) #analoghorror #vhs",
+  "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#terror",
+    "#podeentrar"
+  ],
+  "precisa_arte": [
+    "campainha_cftv",
+    "esp_tiago_campainha"
+  ],
+  "cenas": [
+    {
+      "narracao": "Câmera da campainha. Uma e cinquenta e oito. Nove graus negativos.",
+      "cenario": "campainha_cftv",
+      "personagem": null,
+      "camera": "parada",
+      "texto_tela": "CAM PORTA  -9°C",
+      "som": {
+        "busca": "cold wind howling",
+        "palavra": "Câmera"
+      }
+    },
+    {
+      "narracao": "Ele ficou dois minutos parado na porta. Sem bater.",
+      "cenario": "campainha_cftv",
+      "personagem": null,
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Repara na boca dele.",
+      "cenario": "esp_tiago_campainha",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "thumb": true,
+      "pausa_extra": 1.2,
+      "som": {
+        "busca": "low eerie drone hit",
+        "palavra": "boca"
+      }
+    },
+    {
+      "narracao": "Às duas em ponto, ele bateu. Você abriria?",
+      "cenario": "campainha_cftv",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true,
+      "som": {
+        "busca": "heavy knocking on wooden door",
+        "palavra": "bateu"
+      }
+    }
+  ]
+}
