@@ -115,7 +115,10 @@ O Vitor é o gerente. A automação é feita por 5 agentes especializados, defin
   - **Abertura com contexto (gosto do Vitor):** todo episódio começa (logo depois do gancho) com 2 ou 3 frases bem curtas situando o universo.
   - **Regra base (definida pelo Vitor em 18/11):**
     - Se um Oco entra e na casa estão só você e ele, **você morre**, levado pelo **Primeiro**, o líder dos Ocos: criatura humanoide com partes do corpo distorcidas (design próprio, nada do jogo). Morte só por suspense, sem gore.
-    - Se há um Oco e dois humanos comuns (sem contar você), **o Oco leva um dos humanos**.
+    - Oco + você + 1 humano: **o Oco não age**, porque ficaria óbvio que foi ele. Espera.
+    - Oco + **mais de 2 humanos hóspedes** (sem contar você): **o Oco leva um dos humanos** (atualizado pelo Vitor em 19/11).
+    - **O Censo** (nome provisório): a organização que luta contra os Ocos e o Inverno passa e **leva um hóspede aleatório** para fazer testes. Isso impede a casa de lotar e mantém o risco de derrota. Pode levar um humano e deixar o Oco.
+    - Moral da série: deixar gente entrar protege você de ficar a sós com um Oco... mas a que custo?
     - Por isso, além de decidir quem entra, o protagonista **faz testes de sinais em quem já está na casa** para achar e expulsar o possível Oco. Esses testes viram episódios e votos ("quem você testa?", "expulsa ou não?").
   - **Sinais dos Ocos** (o caderno revela aos poucos, uma página nova por episódio quando fizer sentido):
     1. não sentem frio;

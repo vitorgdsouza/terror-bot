@@ -122,3 +122,6 @@
 - **Traço:** o mesmo da série, com o `olho_tiago` anexado como referência. A imagem sai limpa: o VHS (`pixel` 6), o carimbo e o `texto_tela` entram por cima, no vídeo. O `campainha_cftv` deixa livre o quinto de cima para o `texto_tela` e põe o Tiago um pouco abaixo do centro, longe da legenda.
 - **`anima` sugerida para `esp_tiago_campainha`:** `partes` com o rosto em `tremor` e o pivô no pescoço. É um tremor de frio humano, coerente com o segredo da equipe. Não usar `estalo`, para ele não parecer monstro. As regiões são medidas quando a imagem chegar.
 - **Ordem de geração:** `olho_tiago` → `campainha_cftv` → `esp_tiago_campainha`. Se o `olho_tiago` não chegar antes, o `campainha_cftv` vira a referência do rosto.
+
+## 19/11: regras do Vitor para o Pode Entrar? (Roteirista)
+- Oco + você + 1 humano: o Oco espera (seria óbvio). Só mata com mais de 2 humanos hóspedes. A organização (O Censo, nome provisório) leva um hóspede aleatório para testes, para a casa não lotar. Registrado em DIRECAO §5.
