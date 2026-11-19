@@ -241,10 +241,100 @@ def _ic_cliente():
     return img
 
 
+# ---- Pode Entrar? (Protocolo Geada): os sinais dos Ocos e o Primeiro
+def _ic_vapor():
+    """Cabeça de perfil soltando vapor pela boca (o humano no frio)."""
+    img, d = _tela()
+    d.ellipse((40, 70, 210, 250), fill=255)                         # cabeça
+    d.polygon([(190, 170), (226, 196), (196, 206)], fill=255)        # nariz
+    d.rectangle((90, 230, 160, 330), fill=255)                       # pescoço
+    d.pieslice((20, 300, 230, 470), 180, 360, fill=255)              # ombros
+    d.line((188, 222, 212, 222), fill=0, width=8)                    # boca
+    for x, y, r in ((248, 222, 22), (292, 206, 30), (342, 184, 38)):  # o bafo subindo
+        d.ellipse((x - r, y - r, x + r, y + r), outline=255, width=9)
+    return img
+
+
+def _ic_olho_magico():
+    """Olho mágico da porta: vidro redondo, limpo, com um reflexo."""
+    img, d = _tela()
+    d.ellipse((60, 60, 340, 340), outline=255, width=26)
+    d.ellipse((96, 96, 304, 304), outline=255, width=6)
+    d.arc((130, 130, 270, 270), 200, 250, fill=255, width=14)        # reflexo
+    return img
+
+
+def _ic_vidro_embacado():
+    """O mesmo olho mágico, embaçado por um bafo quente (o humano): o vidro cheio de névoa ondulada."""
+    img = _ic_olho_magico()
+    d = ImageDraw.Draw(img)
+    d.ellipse((104, 104, 296, 296), fill=0)
+    for k, y in enumerate((150, 192, 234, 270)):                     # névoa (ondas, como o ícone de neblina)
+        larg = 150 if k in (0, 3) else 176
+        pts = [(200 - larg / 2 + t * larg / 24, y + 9 * math.sin(t * math.pi / 4 + k)) for t in range(25)]
+        d.line(pts, fill=255, width=14, joint="curve")
+    return img
+
+
+def _ic_geada():
+    """Cristal de geada (seis braços com ramos)."""
+    img, d = _tela()
+    c = 200
+    for k in range(6):
+        a = math.radians(90 + k * 60)
+        x, y = c + 165 * math.cos(a), c - 165 * math.sin(a)
+        d.line((c, c, x, y), fill=255, width=16)
+        for f in (0.45, 0.72):
+            bx, by = c + 165 * f * math.cos(a), c - 165 * f * math.sin(a)
+            for s in (-1, 1):
+                b = a + s * math.radians(45)
+                d.line((bx, by, bx + 52 * math.cos(b), by - 52 * math.sin(b)), fill=255, width=11)
+    d.ellipse((c - 24, c - 24, c + 24, c + 24), fill=255)
+    return img
+
+
+def _ic_oco():
+    """Um Oco: parece gente, mas por dentro não tem ninguém (só o contorno de uma pessoa)."""
+    cheio = _ic_pessoa("parado")
+    miolo = cheio.filter(ImageFilter.MinFilter(23))
+    return Image.fromarray(np.where(np.asarray(miolo) > 0, 0, np.asarray(cheio)).astype(np.uint8))
+
+
+def _ic_primeiro():
+    """O Primeiro, líder dos Ocos: alto demais e curvado, a cabeça pequena tombada quase no ombro, braços
+    finos que passam dos joelhos, um deles com um cotovelo a mais. Só a silhueta (o design é do Diretor de Arte)."""
+    img, d = _tela()
+    d.ellipse((96, 58, 146, 112), fill=255)                          # cabeça pequena, caída para o lado
+    d.line((128, 104, 160, 92, 186, 70), fill=255, width=14, joint="curve")   # pescoço comprido e dobrado
+    d.polygon([(166, 60), (238, 54), (246, 92), (232, 240), (186, 240), (170, 96)], fill=255)  # tronco fino e curvado
+    d.line((172, 76, 146, 170, 132, 262, 120, 360), fill=255, width=11, joint="curve")        # braço que passa do joelho
+    d.line((238, 66, 276, 150, 248, 214, 290, 300, 284, 372), fill=255, width=11, joint="curve")  # cotovelo a mais
+    for x0, y0 in ((120, 356), (284, 368)):                          # dedos compridos demais
+        for k in range(4):
+            d.line((x0, y0, x0 - 18 + k * 12, y0 + 34), fill=255, width=4)
+    d.line((194, 236, 178, 316, 196, 396), fill=255, width=13, joint="curve")   # pernas finas, joelho ao contrário
+    d.line((226, 236, 246, 312, 232, 396), fill=255, width=13, joint="curve")
+    return img
+
+
+def _ic_porta_derrubada():
+    """O batente vazio e a porta caída no chão, rachada."""
+    img, d = _tela()
+    d.line([(110, 380), (110, 40), (290, 40), (290, 380)], fill=255, width=14)   # batente vazio
+    d.polygon([(40, 330), (300, 268), (330, 318), (70, 384)], fill=255)          # a porta no chão
+    d.line((150, 324, 186, 300, 176, 342, 214, 318), fill=0, width=6)           # rachadura
+    d.ellipse((268, 286, 286, 302), fill=0)                                       # maçaneta
+    for x, y in ((150, 150), (240, 110), (200, 210)):                           # lascas no ar
+        d.polygon([(x, y), (x + 18, y + 6), (x + 6, y + 20)], fill=255)
+    return img
+
+
 ICONES = {"cama": _ic_cama, "janela": _ic_janela, "olho": _ic_olho, "porta": _ic_porta, "porta_aberta": _ic_porta_aberta,
           "alerta": _ic_alerta, "relogio": _ic_relogio, "casa": _ic_casa, "prancheta": _ic_prancheta, "som": _ic_som,
           "parar": _ic_parar, "coleira": _ic_coleira, "pegadas": _ic_pegadas, "escada": _ic_escada,
-          "sino": _ic_sino, "camera": _ic_camera, "celular": _ic_celular, "cliente": _ic_cliente}
+          "sino": _ic_sino, "camera": _ic_camera, "celular": _ic_celular, "cliente": _ic_cliente,
+          "vapor": _ic_vapor, "olho_magico": _ic_olho_magico, "vidro_embacado": _ic_vidro_embacado,
+          "geada": _ic_geada, "oco": _ic_oco, "primeiro": _ic_primeiro, "porta_derrubada": _ic_porta_derrubada}
 
 
 def icone(nome: str) -> Image.Image:
@@ -280,6 +370,8 @@ def _fundo(sombra: str = "abismo") -> Image.Image:
             ab = _ic_cachorro("de_pe", True).resize((700, 700))
         elif sombra == "cliente":                           # o Cliente das 3h17, enorme e apagado
             ab = _ic_cliente().resize((700, 700))
+        elif sombra == "primeiro":                          # o Primeiro (Pode Entrar?), enorme e apagado
+            ab = _ic_primeiro().resize((700, 700))
         else:
             from . import abismo_anim as AB
             p = AB.animar("parado", 1.0, 4)

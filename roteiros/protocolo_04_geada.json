@@ -1,0 +1,178 @@
+{
+  "titulo": "Protocolo Geada",
+  "tipo": "protocolo",
+  "formato": "protocolo",
+  "serie": "Pode Entrar?",
+  "rotulo": "PROTOCOLO GEADA",
+  "sombra": "primeiro",
+  "selo": "PROTOCOLO",
+  "pergunta_thumb": "É gente ou é Oco?",
+  "clima": "alerta",
+  "ritmo": 1.1,
+  "final": true,
+  "trilha": "dark ambient drone hum cold wind",
+  "trilha_volume": 0.6,
+  "titulo_youtube": "Se baterem na sua porta na geada... é gente ou é Oco? ❄️ Protocolo Geada #shorts",
+  "legenda_post": "Protocolo Geada, do universo de Pode Entrar? (história de ficção). Três sinais para saber quem está na sua porta... e por que você nunca deve ficar sozinho com um Oco. Qual sinal você testa primeiro: vapor, vidro ou geada? 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#protocolo",
+    "#terror",
+    "#podeentrar",
+    "#geada"
+  ],
+  "resumo": "Protocolo do universo Pode Entrar?: três sinais físicos do cânone para saber se quem bate é humano ou Oco (vapor na boca, o vidro do olho mágico que embaça, a geada que vira gota). A virada: Oco não conta como companhia; se ficarem só você e ele, o Primeiro sente, derruba a porta (corte para o preto, sem gore). Não cita a Lia, nem tremor/cílios/saber o nome, para não entregar o segredo dela.",
+  "cenas": [
+    {
+      "narracao": "Se baterem na sua porta durante a geada... pode não ser gente.",
+      "icones": [
+        "porta",
+        "oco"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "emergency alert beep",
+        "palavra": "Se"
+      }
+    },
+    {
+      "narracao": "Você está sozinho. Siga cada passo.",
+      "destaque": "siga cada passo",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Primeiro.",
+      "destaque": "primeiro",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Olhe a boca. A nove graus negativos, gente solta vapor.",
+      "icones": [
+        "olho",
+        "vapor"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "cold wind howling",
+        "palavra": "vapor"
+      }
+    },
+    {
+      "narracao": "Se não sair nada... não abra.",
+      "icones": [
+        "vapor",
+        "parar"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Segundo.",
+      "destaque": "segundo",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Peça para ele chegar perto do olho mágico. Conte até cinco.",
+      "icones": [
+        "olho_magico",
+        "relogio"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "clock ticking",
+        "palavra": "conte"
+      }
+    },
+    {
+      "narracao": "Gente embaça o vidro.",
+      "icones": [
+        "vidro_embacado"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Oco deixa o vidro limpo.",
+      "icones": [
+        "olho_magico",
+        "oco"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Terceiro.",
+      "destaque": "terceiro",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Olhe a geada no cabelo dele. Num humano, ela vira gota.",
+      "icones": [
+        "geada",
+        "pessoa:parado"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "No Oco... ela nunca derrete.",
+      "icones": [
+        "geada",
+        "oco"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Não deixe ele perceber que você está olhando.",
+      "destaque": "não deixe ele perceber",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "E a parte mais importante.",
+      "destaque": "a parte mais importante",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Oco não conta como companhia.",
+      "icones": [
+        "casa",
+        "oco"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Se ficarem só você e ele... o Primeiro sente.",
+      "icones": [
+        "primeiro"
+      ],
+      "thumb": true,
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "low eerie drone hit",
+        "palavra": "Primeiro"
+      }
+    },
+    {
+      "narracao": "Ele não bate. Ele derruba a porta.",
+      "cenario": "porta_inverno",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true,
+      "pausa_extra": 0.5,
+      "ambiente": "cold wind howling",
+      "som": {
+        "busca": "wooden door crash break",
+        "palavra": "derruba"
+      }
+    },
+    {
+      "narracao": "Qual sinal você testa primeiro? Vapor, vidro... ou geada?",
+      "icones": [
+        "porta_derrubada",
+        "alerta"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "emergency alert beep",
+        "palavra": "Qual"
+      }
+    }
+  ]
+}
