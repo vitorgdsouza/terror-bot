@@ -206,3 +206,8 @@
   - `refazer-video.yml`: o "renderizado" nunca gravava porque o render começa antes de a Mesa salvar o "renderizando". Agora o workflow traz só o `data/aprovacoes.json` do main antes de marcar. A 1ª versão (git pull com autostash) deixou marcas de conflito no `pendente.json` no render da Fita 02. Isso foi consertado e trocado por um checkout só desse arquivo.
 - **Mesa do Gerente:** "Aguardando" com os nº 6 e 5. O histórico ganhou o nº 4 e a saída da Qual Porta.
 - **Ferramenta:** o gh CLI seguiu sem token, então tudo foi feito pelo conector do GitHub. Nesta rodada não usei subagentes: segui os arquivos do Revisor, do Publicador e do Roteirista um de cada vez. Não havia nada com status "refazer".
+
+## 19/11 (12h31): Fita da Farmácia 02 postada (Publicador)
+- O Roteirista refez a Fita 02 (29 palavras, o Cliente do lado de fora do vidro, a virada "boa noite é convite"). Render 44542181080: Enceladus 93%, 19 s, revisado e aprovado pelo Revisor.
+- O Vitor aprovou na conversa com o Publicador ("passe a correção e depois publique"). Aprovação nº 7 → fila → postada à mão no turno da manhã (run 44555530468, Upload-Post completed).
+- Hoje: 1 post. Às 18h47 sai O Entregador (Pode Entrar? Ep. 1). Fila de iscas vazia depois disso; a Câmera da Campainha (nº 5) espera o Vitor para 20/11 11h47.
