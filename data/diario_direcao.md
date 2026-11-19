@@ -190,3 +190,19 @@
 - **Pictogramas novos em `src/protocolo.py`** (testados com quadro de prova): `vapor`, `olho_magico`, `vidro_embacado`, `geada`, `oco` (contorno de pessoa vazio por dentro), `primeiro` e `porta_derrubada`, mais a sombra de fundo `primeiro`. Thumb: o pictograma do Primeiro, com "É gente ou é Oco?".
 - **Para o Diretor de Arte:** o pictograma do Primeiro é só uma silhueta provisória (alto, curvado, cabeça tombada, um braço com cotovelo a mais). Quando o design oficial for encomendado, dá para alinhar o ícone a ele.
 - Proposto para aprovação; o render só começa quando o Vitor aprovar.
+
+## 19/11 (11h20): rodada do Revisor e do Publicador
+- **Câmera da Campainha (nº 2): aprovada pelo Revisor depois de 2 refações.**
+  - Render das 04h44 (run 44459126756) reprovado: 28 s (alvo da isca até 25 s) e uma só tomada com 78% (a cota do Gemini deu 429). A fala "às duas em ponto" brigava com o relógio da fita, que mostrava 01:58.
+  - Refação 1 (run 44538486327): narração de 32 para 23 palavras ("Uma e cinquenta e oito. Nove graus negativos. / Dois minutos parado ali. Sem bater. / Repara na boca dele. / Então ele bateu. Você abriria?"). Saiu com 18 s e 100%, mas sem som de batida: o Freesound não acha "heavy knocking on wooden door", e o "vento" era o som de um carro passando.
+  - Refação 2 (run 44539327937): buscas trocadas para "door knock", "wind howling" e "horror stinger hit". Ficou com Enceladus/Gemini, 100% na 2ª tomada, 19 s, batida na porta com som e a legenda abaixo da boca no close.
+  - **Publicador:** legenda termina na pergunta, com "(história de ficção)" e #podeentrar. Mandado ao Vitor como **nº 5** (vídeo), para sair 20/11 às 11h47.
+- **Fita da Farmácia 02 (nº 4):** o Vitor aprovou às 11h02, no lugar da Qual Porta, que ele tirou da fila. O render (run 44539513525) ficou **sem a voz Enceladus**: a cota diária do Gemini TTS acabou, a voz reserva entrou e também falhou ("No audio"). **Reprovado.** Renderizar de novo depois que a cota voltar (~05h). O Vitor foi avisado para não postar o vídeo que chegou no Telegram.
+  - Causa provável: 3 renders entre 10h56 e 11h17 (as 2 refações da Campainha mais a Fita 02, esta começando em paralelo com a 2ª refação). Lição: com cota curta, refação de detalhe (som) espera a rodada seguinte.
+- **Fila:** só "O Entregador" (hoje 18h47). **A faixa das 11h47 de hoje fica vazia.** Iscas aprovadas na fila: 0 (o mínimo é 2). A Campainha (nº 5) e a Fita 02 cobrem 20/11 e 21/11 se forem aprovadas.
+- **Protocolo Geada (nº 6):** o Roteirista o propôs às 11h16 para 20/11 18h47. Se for aprovado hoje, o render cai sem voz; o aviso pediu para aprovar depois das ~05h.
+- **Correções de sistema:**
+  - `aprovacoes.json`: nº 1 → na_fila (run 44400389600), nº 2 com o run, nº 3 → "substituido" (status novo, some de /pendentes).
+  - `refazer-video.yml`: o "renderizado" nunca gravava porque o render começa antes de a Mesa salvar o "renderizando". Agora o workflow traz só o `data/aprovacoes.json` do main antes de marcar. A 1ª versão (git pull com autostash) deixou marcas de conflito no `pendente.json` no render da Fita 02. Isso foi consertado e trocado por um checkout só desse arquivo.
+- **Mesa do Gerente:** "Aguardando" com os nº 6 e 5. O histórico ganhou o nº 4 e a saída da Qual Porta.
+- **Ferramenta:** o gh CLI seguiu sem token, então tudo foi feito pelo conector do GitHub. Nesta rodada não usei subagentes: segui os arquivos do Revisor, do Publicador e do Roteirista um de cada vez. Não havia nada com status "refazer".
