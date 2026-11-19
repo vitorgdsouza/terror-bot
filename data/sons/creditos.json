@@ -198,5 +198,29 @@
     "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
     "url": "https://freesound.org/people/Azrael1905/sounds/652415/",
     "id": 652415
+  },
+  "dark_ambient_drone_hum.mp3": {
+    "busca": "dark ambient drone hum",
+    "nome": "Dark hum",
+    "autor": "moogsy",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/moogsy/sounds/647643/",
+    "id": 647643
+  },
+  "old_telephone_ringing.mp3": {
+    "busca": "old telephone ringing",
+    "nome": "Telephone Ring (old German W48)",
+    "autor": "meisterleise",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/meisterleise/sounds/332073/",
+    "id": 332073
+  },
+  "knock_on_glass.mp3": {
+    "busca": "knock on glass",
+    "nome": "Knocking On Screen, 02.wav",
+    "autor": "LilMati",
+    "licenca": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://freesound.org/people/LilMati/sounds/368682/",
+    "id": 368682
   }
 }
