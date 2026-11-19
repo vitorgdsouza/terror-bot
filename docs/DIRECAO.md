@@ -115,6 +115,7 @@ O Vitor é o gerente. A automação é feita por 5 agentes especializados, defin
   - **Abertura com contexto (gosto do Vitor):** todo episódio começa (logo depois do gancho) com 2 ou 3 frases bem curtas situando o universo.
   - **Regra base (definida pelo Vitor em 18/11):**
     - **Como você morre (corrigido pelo Vitor em 19/11):** só quando **o Primeiro**, o líder dos Ocos (criatura humanoide com partes do corpo distorcidas, design próprio, nada do jogo), vem até a sua porta e **sente que você está sozinho em casa**. Aí ele derruba a porta e te leva. Morte só por suspense, sem gore. Um Oco comum dentro de casa não te mata sozinho. Por isso ter hóspedes protege você.
+    - **Oco não conta como companhia (Vitor, 19/11):** o Primeiro chega à porta em noites aleatórias. Se dentro estiverem só você e um Oco, ele vê que lá dentro está "um deles", derruba a porta e te mata. Só humanos protegem você.
     - **Game over vira "requel":** se o protagonista morrer, a série recomeça no mesmo universo com outro sobrevivente, numa casa nova (aprovado pelo Vitor).
     - Oco + você + 1 humano: **o Oco não age**, porque ficaria óbvio que foi ele. Espera.
     - Oco + **mais de 2 humanos hóspedes** (sem contar você): **o Oco leva um dos humanos** (atualizado pelo Vitor em 19/11).

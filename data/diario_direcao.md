@@ -160,3 +160,4 @@
 - **Ordem de geração:** `olho_lia` → `esp_lia_cilios` → `caderno_lurdes2` e, depois do voto, `sala_lareira_tiago` (SIM) ou `olho_bag` + `olho_lia_cachecol` (NÃO).
 - **Referências para anexar:** o `olho_tiago` para a moldura e o traço, o `olho_lia` para o rosto dela e o `caderno_lurdes` para o caderno.
 - Correção do Vitor: Oco sozinho com você não mata. Você só morre se o Primeiro vier à porta e sentir que você está sozinho em casa (derruba a porta). Game over = requel com outro sobrevivente no mesmo universo. Em aberto: o Oco dentro de casa conta como "companhia" para o Primeiro?
+- Fechado com o Vitor: Oco não conta como companhia. O Primeiro chega em noites aleatórias; se encontrar só você e um Oco, derruba a porta. Ep. 2 NÃO ganhou a fala "quem passa a noite sozinho... o Primeiro sente".
