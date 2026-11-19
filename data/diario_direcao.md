@@ -137,3 +137,9 @@
   - Não precisou mexer em foco nem no texto da isca.
 - **Focos de referência para usos futuros:** rosto no `campainha_cftv` = [0.5, 0.33, 2.6]; boca no `esp_tiago_campainha` = [0.5, 0.58, 2.2].
 - **Continuidade das argolas:** o `olho_tiago` já mostra argolinhas nas DUAS orelhas, então o close bate com ele. O que estava errado era a ficha, que dizia só na esquerda. `docs/PERSONAGENS.md` foi corrigido.
+
+## 19/11: Ep. 2 do Pode Entrar? em rascunho (Roteirista)
+- O Vitor decidiu: a Lia é Oca (segredo em PERSONAGENS). A isca da campainha sai DEPOIS do Ep. 1 (20/11 11h47), para levar público ao episódio.
+- Rascunhos: `roteiros/pode_entrar_02_sim.json` e `roteiros/pode_entrar_02_nao.json` (A Enfermeira). Só propor depois do resultado do voto.
+- Arte em comum às duas versões: `caderno_lurdes2`, `olho_lia`, `esp_lia_cilios`. Só da versão SIM: `sala_lareira_tiago`. Só da NÃO: `olho_bag`, `olho_lia_cachecol`.
+- Pendente com o Vitor: o que acontece num "game over" (proposta: recomeçar com outro sobrevivente numa casa nova, com o caderno).

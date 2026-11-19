@@ -106,6 +106,8 @@ Visuais disponíveis no boneco (`src/boneco.py`): `homem` (o Lucas, menino de mo
   - o vidro não embaçou porque ele **prendeu a respiração** quando viu o olho mágico escurecer (medo de você ouvir que ele estava chorando);
   - o pedido de 19 dias atrás é real: ele **entregou um pedido nesta casa para a Dona Lurdes** na véspera da geada e voltou porque lembrava da lareira.
   - Se o voto for NÃO, ele continua vivo lá fora e pode voltar num episódio futuro.
+- **SEGREDO DA EQUIPE (Vitor, 19/11): a Lia é Oca.** Lia, 34, técnica de enfermagem, maleta de remédios. O tremor e as mãos esfregando são encenação (comportamento se finge); a geada nos cílios não derrete (físico não se finge). Ela sabe o seu nome porque "lembra" de quem era: o Oco dela atendeu você no posto de saúde antes da geada.
+- **Regra dos sinais:** um Oco SEMPRE falha nos sinais físicos (bafo, geada). Um humano às vezes também parece falhar, mas com explicação (prendeu a respiração, ficou horas no frio). Comportamento (tremer, chorar, pedir) pode ser fingido pelos Ocos.
 - **Cenários a encomendar (Ep. 1):**
   - `olho_tiago`: vista pelo olho mágico (círculo com olho de peixe, borda preta), varanda com geada cinza, lâmpada fraca, Tiago no centro olhando para a porta;
   - `inverno_rua`: rua de casas apagadas coberta de geada cinza, céu baixo, um carro abandonado, fumaça de uma chaminé ao longe;

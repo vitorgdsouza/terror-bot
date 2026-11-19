@@ -1,0 +1,132 @@
+{
+  "serie": "Pode Entrar?",
+  "tipo": "historia",
+  "pov": true,
+  "protagonista": null,
+  "clima": "suspense",
+  "trilha": "dark ambient drone hum cold wind",
+  "trilha_volume": 0.4,
+  "hashtags": [
+    "#terror",
+    "#podeentrar",
+    "#voceescaparia",
+    "#animacao",
+    "#apocalipse"
+  ],
+  "titulo": "A Enfermeira",
+  "parte": 2,
+  "selo": "EP. 2",
+  "pergunta_thumb": "Você abriria para ela?",
+  "titulo_youtube": "Ela tem remédio para a sua tosse... e sabe o seu nome. Você abriria? 🚪 #shorts",
+  "legenda_post": "Pode Entrar? Ep. 2. Vocês abriram para o Tiago... e agora a Lia está na porta, com remédio para a sua tosse. Ela sabe o seu nome. Abre? SIM ou NÃO 👇 (história de ficção)",
+  "resumo": "Uma hora depois de entrar, a geada no cabelo do Tiago ainda não derreteu, e ele achou sozinho o caderno da Dona Lurdes. A página nova diz que a geada não derrete num Oco; então pinga uma gota do cabelo dele. Batem: Lia, técnica de enfermagem com remédios para a sua tosse. Ela treme, mas a geada nos cílios dela não derrete, e ela sabe o seu nome.",
+  "opcao_a": "SIM: abrir a porta para a Lia.",
+  "opcao_b": "NÃO: deixar a porta fechada.",
+  "rascunho": "versão SIM do voto do Ep. 1; só propor depois do resultado informado pelo Vitor",
+  "precisa_arte": [
+    "sala_lareira_tiago",
+    "caderno_lurdes2",
+    "olho_lia",
+    "esp_lia_cilios"
+  ],
+  "cenas": [
+    {
+      "narracao": "Você deixou o Tiago entrar. Faz uma hora. E a geada no cabelo dele... ainda não derreteu.",
+      "cenario": "sala_lareira_tiago",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor"
+    },
+    {
+      "narracao": "Dezenove dias de geada cinza. Lá fora, os Ocos: parecem gente... mas por dentro, não tem ninguém.",
+      "cenario": "inverno_rua",
+      "personagem": null,
+      "camera": "pan_direita",
+      "som": {
+        "busca": "cold wind howling",
+        "palavra": "geada"
+      }
+    },
+    {
+      "narracao": "Ele está lendo o caderno da Dona Lurdes. Você nunca disse onde ele estava.",
+      "cenario": "sala_lareira_tiago",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.55,
+        1.8
+      ]
+    },
+    {
+      "narracao": "Página nova: a geada não derrete num Oco. Nunca.",
+      "cenario": "caderno_lurdes2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {
+        "busca": "paper page turn",
+        "palavra": "Página"
+      }
+    },
+    {
+      "narracao": "Ele passa a mão no cabelo... e uma gota pinga no chão.",
+      "cenario": "sala_lareira_tiago",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.35,
+        2.2
+      ]
+    },
+    {
+      "narracao": "Toc, toc. Você vai até o olho mágico.",
+      "cenario": "porta_inverno",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.55,
+        0.265,
+        2.4
+      ],
+      "som": {
+        "busca": "heavy knocking on wooden door",
+        "palavra": "Toc"
+      }
+    },
+    {
+      "narracao": "Uma mulher. Lia, técnica de enfermagem, com uma maleta de remédios. E você tosse desde ontem.",
+      "cenario": "olho_lia",
+      "personagem": null,
+      "camera": "parada"
+    },
+    {
+      "narracao": "Ela treme. Esfrega as mãos.",
+      "cenario": "olho_lia",
+      "personagem": null,
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Mas a geada nos cílios dela... não derrete.",
+      "cenario": "esp_lia_cilios",
+      "personagem": null,
+      "camera": "zoom_in",
+      "thumb": true,
+      "pausa_extra": 1.0,
+      "som": {
+        "busca": "low eerie drone hit",
+        "palavra": "derrete"
+      }
+    },
+    {
+      "narracao": "Ela diz o seu nome. Você nunca disse o seu nome. Abre ou não abre? Comenta SIM ou NÃO.",
+      "cenario": "olho_lia",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {
+        "busca": "soft knock on door",
+        "palavra": "nome"
+      }
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "serie": "Pode Entrar?",
+  "tipo": "historia",
+  "pov": true,
+  "protagonista": null,
+  "clima": "suspense",
+  "trilha": "dark ambient drone hum cold wind",
+  "trilha_volume": 0.4,
+  "hashtags": [
+    "#terror",
+    "#podeentrar",
+    "#voceescaparia",
+    "#animacao",
+    "#apocalipse"
+  ],
+  "titulo": "A Enfermeira",
+  "parte": 2,
+  "selo": "EP. 2",
+  "pergunta_thumb": "Você abriria para ela?",
+  "titulo_youtube": "Ela está usando o cachecol dele... e sabe o seu nome. Você abriria? 🚪 #shorts",
+  "legenda_post": "Pode Entrar? Ep. 2. Vocês não abriram para o Tiago... e a Lia apareceu com o cachecol dele. Ela sabe o seu nome. Abre? SIM ou NÃO 👇 (história de ficção)",
+  "resumo": "Você não abriu: as batidas pararam e a bag do Tiago ficou na porta, cheia de comida. A página nova do caderno diz que a geada não derrete num Oco. Batem: Lia, técnica de enfermagem, usando o cachecol do Tiago. Diz que achou na esquina e oferece remédio para a sua tosse. Ela treme, mas a geada nos cílios não derrete, e ela sabe o seu nome.",
+  "opcao_a": "SIM: abrir a porta para a Lia.",
+  "opcao_b": "NÃO: deixar a porta fechada.",
+  "rascunho": "versão NAO do voto do Ep. 1; só propor depois do resultado informado pelo Vitor",
+  "precisa_arte": [
+    "olho_bag",
+    "caderno_lurdes2",
+    "olho_lia_cachecol",
+    "esp_lia_cilios"
+  ],
+  "cenas": [
+    {
+      "narracao": "Você não abriu. As batidas pararam. E a bag do Tiago ficou encostada na sua porta.",
+      "cenario": "olho_bag",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor"
+    },
+    {
+      "narracao": "Dezenove dias de geada cinza. Lá fora, os Ocos: parecem gente... mas por dentro, não tem ninguém.",
+      "cenario": "inverno_rua",
+      "personagem": null,
+      "camera": "pan_direita",
+      "som": {
+        "busca": "cold wind howling",
+        "palavra": "geada"
+      }
+    },
+    {
+      "narracao": "Comida. A sua está acabando. Mas abrir a porta agora...",
+      "cenario": "olho_bag",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.6,
+        1.8
+      ]
+    },
+    {
+      "narracao": "Página nova do caderno: a geada não derrete num Oco. Nunca.",
+      "cenario": "caderno_lurdes2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {
+        "busca": "paper page turn",
+        "palavra": "Página"
+      }
+    },
+    {
+      "narracao": "Toc, toc. Você vai até o olho mágico.",
+      "cenario": "porta_inverno",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.55,
+        0.265,
+        2.4
+      ],
+      "som": {
+        "busca": "heavy knocking on wooden door",
+        "palavra": "Toc"
+      }
+    },
+    {
+      "narracao": "Uma mulher. Lia, técnica de enfermagem. E ela está usando o cachecol do Tiago.",
+      "cenario": "olho_lia_cachecol",
+      "personagem": null,
+      "camera": "parada"
+    },
+    {
+      "narracao": "Ela diz que achou na esquina. Que não tinha ninguém lá. E que tem remédio para a sua tosse.",
+      "cenario": "olho_lia_cachecol",
+      "personagem": null,
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Ela treme. Esfrega as mãos.",
+      "cenario": "olho_lia_cachecol",
+      "personagem": null,
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Mas a geada nos cílios dela... não derrete.",
+      "cenario": "esp_lia_cilios",
+      "personagem": null,
+      "camera": "zoom_in",
+      "thumb": true,
+      "pausa_extra": 1.0,
+      "som": {
+        "busca": "low eerie drone hit",
+        "palavra": "derrete"
+      }
+    },
+    {
+      "narracao": "Ela diz o seu nome. Você nunca disse o seu nome. Abre ou não abre? Comenta SIM ou NÃO.",
+      "cenario": "olho_lia_cachecol",
+      "personagem": null,
+      "camera": "zoom_in",
+      "som": {
+        "busca": "soft knock on door",
+        "palavra": "nome"
+      }
+    }
+  ]
+}
