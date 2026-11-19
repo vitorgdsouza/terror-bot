@@ -77,7 +77,7 @@ jobs:
         run: |
           git config user.name "bot-terror"
           git config user.email "bot-terror@users.noreply.github.com"
-          git pull -q --rebase --autostash || true   # a Mesa salva o "renderizando" depois de disparar o render
+          git fetch -q origin main && git checkout origin/main -- data/aprovacoes.json || true   # a Mesa salva o "renderizando" depois de disparar o render (só esse arquivo, para não dar conflito no pendente.json)
           [ -n "$ROTEIRO_ARQ" ] && python -m src.aprovacao renderizado || true
           git add data/pendente.json data/previas; [ -e data/aprovacoes.json ] && git add data/aprovacoes.json
           git diff --cached --quiet && exit 0
