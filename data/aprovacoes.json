@@ -1,5 +1,5 @@
 {
- "proximo": 5,
+ "proximo": 6,
  "itens": [
   {
    "id": 1,
@@ -64,6 +64,22 @@
    "motivo": "Vitor pediu isca VHS no lugar da Qual Porta (19/11 11h01)",
    "criado": "2026-11-19 10:34",
    "decidido": "2026-11-19 14:02"
+  },
+  {
+   "id": 5,
+   "tipo": "video",
+   "agente": "Publicador",
+   "titulo": "Câmera da Campainha 01:58",
+   "arquivo": "roteiros/iscas/isca_07_campainha.json",
+   "run_id": "44539327937",
+   "resumo": "Revisor: refeito 2x. 1º render tinha 28 s e nota 78% (cota do Gemini); narração cortada para 23 palavras e o relógio da fita não briga mais com 'às duas'. Agora: Enceladus/Gemini 100%, 19 s, batida na porta com som, legenda não tapa a boca. Sai 20/11 às 11h47, depois do Ep. 1.",
+   "titulo_youtube": "Câmera da campainha, 1h58, -9°C... repara na boca dele 📼 #shorts",
+   "legenda": "Câmera da campainha, 1h58, -9°C. Ele ficou dois minutos parado antes de bater (história de ficção; o que aconteceu depois está no \"Pode Entrar? Ep. 1\", no perfil). O que tem de errado nele? Responde sem voltar o vídeo 👇 #analoghorror #vhs #podeentrar",
+   "tipo_video": "isca",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-19 14:07",
+   "decidido": ""
   }
  ]
 }
