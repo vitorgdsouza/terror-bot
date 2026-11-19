@@ -46,12 +46,12 @@ def _lista(f: dict) -> str:
 
 
 def _do_turno(f: dict, turno: str) -> int | None:
-    """11h47 = isca; 18h47 = o vídeo principal (protocolo ou história). Se a faixa estiver vazia, usa o que houver."""
+    """11h47 = isca; 18h47 = o vídeo principal (protocolo ou história). Faixa vazia = não posta (nunca adianta o principal)."""
     quer_isca = turno == "manha"
     for i, it in enumerate(f["itens"]):
         if (it.get("tipo", "isca") == "isca") == quer_isca:
             return i
-    return 0 if f["itens"] else None
+    return None
 
 
 def _ja_postou(f: dict, turno: str) -> str:
