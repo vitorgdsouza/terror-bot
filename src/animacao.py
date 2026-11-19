@@ -130,6 +130,10 @@ GUIA_CENAS = """Cada cena é um quadro de desenho animado montado com peças fix
   caderno_lurdes (Pode Entrar?, traço semi-realista, sem personagem: close de cima do caderno espiral da Dona Lurdes na mesa de madeira, anotações à mão ilegíveis, desenho do olho mágico e de uma janela embaçada, canto da folha rasgado, vela acesa e óculos ao lado, geada na janela; texto em português só por cima) |
   esp_tiago_vidro (CENA ESPECIAL, Pode Entrar?, sem personagem: o rosto do Tiago colado no olho mágico, olho de peixe, olhos calmos e parados, boca entreaberta, o vidro limpo SEM embaçar; a cabeça inclina devagar) |
   porta_inverno (Pode Entrar?, traço semi-realista: o hall por dentro, porta de madeira com corrente e olho mágico, cadeira encostada, geada entrando por baixo, casaco no gancho, latas de comida contadas na prateleira, a lareira acesa no cômodo ao lado; olho mágico em foco [0.55, 0.265, 2.4]) |
+  campainha_cftv (Pode Entrar?, traço semi-realista, sem personagem: a câmera da campainha vista de cima com olho de peixe largo, a varanda com geada e
+  lâmpada no teto, o Tiago parado de frente para a porta com a bag nas costas e o capacete na mão, SEM vapor; rosto em foco [0.5, 0.33, 2.6]; ideal com "estilo": "vhs") |
+  esp_tiago_campainha (CENA ESPECIAL, Pode Entrar?, sem personagem: close do rosto do Tiago olhando para cima, direto na lente da campainha, lábios
+  roxos entreabertos e SEM vapor, geada caindo; a cabeça treme de frio; boca em foco [0.5, 0.58, 2.2]; também serve de thumb) |
   tv_estatica2 (close na TV de tubo chiando na sala escura) | escola_corredor2 (corredor de escola com luar entrando pelas janelas) |
   banheiro_escola2 (banheiro de escola: cabines verdes, uma porta aberta, pias e espelho manchado) | hospital_quarto2 (quarto de hospital: cama, soro, monitor verde, cortina) |
   escritorio (estantes de livros, mesa de madeira com abajur aceso, poltrona de couro, janela) |

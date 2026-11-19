@@ -2311,5 +2311,42 @@
    0.66,
    0.35
   ]
+ },
+ "campainha_cftv": {
+  "piso": 0.97,
+  "detalhe": true,
+  "fundo": [
+   0.5,
+   0.62,
+   0.2
+  ]
+ },
+ "esp_tiago_campainha": {
+  "piso": 0.97,
+  "detalhe": true,
+  "especial": true,
+  "fundo": [
+   0.5,
+   0.5,
+   0.2
+  ],
+  "anima": {
+   "tipo": "partes",
+   "partes": [
+    {
+     "regiao": [
+      0.18,
+      0.17,
+      0.62,
+      0.4
+     ],
+     "pivo": [
+      0.48,
+      0.56
+     ],
+     "modo": "tremor"
+    }
+   ]
+  }
  }
 }

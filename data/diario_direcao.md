@@ -125,3 +125,15 @@
 
 ## 19/11: regras do Vitor para o Pode Entrar? (Roteirista)
 - Oco + você + 1 humano: o Oco espera (seria óbvio). Só mata com mais de 2 humanos hóspedes. A organização (O Censo, nome provisório) leva um hóspede aleatório para testes, para a casa não lotar. Registrado em DIRECAO §5.
+
+## 19/11: imagens da isca "Câmera da Campainha 01:58" cadastradas (Diretor de Arte)
+- **Formato:** `campainha_cftv` e `esp_tiago_campainha` chegaram em 896x1200 (3:4). O corte de cobertura para 1188x2112 tira cerca de 12% de cada lado. Nada importante se perdeu: o Tiago, a porta, o guarda-corpo e o rosto inteiro ficaram no quadro.
+- **Cadastro:** as duas estão em `cenarios.json` e no guia de `src/animacao.py`. A `anima` do `esp_tiago_campainha` é `partes` com `tremor` na cabeça (região [0.18, 0.17, 0.62, 0.4], pivô no pescoço [0.48, 0.56]): um tremor de frio humano.
+- **Quadro de prova** (VHS com `pixel` 6, as 4 cenas da isca):
+  - o "CAM PORTA -9°C" cai no teto da varanda sem tapar nada;
+  - a legenda da fita, a 70% da altura, pega só os pés e o capacete na câmera de cima, e só o cachecol no close;
+  - a boca roxa fica legível logo acima da legenda, no "Repara na boca dele";
+  - o REC, a data e a hora ficam livres.
+  - Não precisou mexer em foco nem no texto da isca.
+- **Focos de referência para usos futuros:** rosto no `campainha_cftv` = [0.5, 0.33, 2.6]; boca no `esp_tiago_campainha` = [0.5, 0.58, 2.2].
+- **Continuidade das argolas:** o `olho_tiago` já mostra argolinhas nas DUAS orelhas, então o close bate com ele. O que estava errado era a ficha, que dizia só na esquerda. `docs/PERSONAGENS.md` foi corrigido.
