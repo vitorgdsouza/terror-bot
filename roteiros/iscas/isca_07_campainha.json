@@ -38,7 +38,7 @@
       "camera": "parada",
       "texto_tela": "CAM PORTA  -9°C",
       "som": {
-        "busca": "cold wind howling",
+        "busca": "wind howling",
         "palavra": "Uma"
       }
     },
@@ -57,7 +57,7 @@
       "thumb": true,
       "pausa_extra": 1.2,
       "som": {
-        "busca": "low eerie drone hit",
+        "busca": "horror stinger hit",
         "palavra": "boca"
       }
     },
@@ -69,7 +69,7 @@
       "efeito": "tremor",
       "corte_preto": true,
       "som": {
-        "busca": "heavy knocking on wooden door",
+        "busca": "door knock",
         "palavra": "bateu"
       }
     }
