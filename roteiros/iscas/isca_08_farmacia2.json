@@ -19,61 +19,50 @@
   "data_fita": "NOV 19 2003",
   "hora_fita": [
     3,
-    16,
-    38
+    17,
+    2
   ],
   "pergunta_thumb": "Quem ligou às 3h17?",
   "titulo_youtube": "A mãe dela ligou às 3h17... 📼 #shorts",
   "legenda_post": "Fita 02 (história de ficção). A mãe dela ligou às 3h17 pedindo para abrir a porta dos fundos. O que você responderia? 👇",
   "cenas": [
     {
-      "narracao": "Câmera um. Três e dezesseis. A farmacêutica está sozinha.",
+      "narracao": "Três e dezessete. A mãe dela liga.",
       "cenario": "farmacia_cftv2",
       "personagem": null,
       "camera": "parada",
-      "texto_tela": "CAM 01",
-      "som": {
-        "busca": "fluorescent light buzz",
-        "palavra": "Câmera"
-      }
-    },
-    {
-      "narracao": "O telefone toca. É a mãe dela: filha, abre a porta dos fundos. Tô com frio.",
-      "cenario": "farmacia_balcao",
-      "personagem": null,
-      "camera": "zoom_in",
+      "texto_tela": "CAM 01 | 03:17",
       "som": {
         "busca": "old telephone ringing",
-        "palavra": "telefone"
+        "palavra": "Três"
       }
     },
     {
-      "narracao": "A câmera dos fundos mostra o depósito vazio.",
-      "cenario": "farmacia_deposito",
+      "narracao": "Filha, abre a porta dos fundos. Tô com frio.",
+      "cenario": "farmacia_corredor2",
       "personagem": null,
       "camera": "zoom_in",
-      "texto_tela": "CAM 03"
+      "texto_tela": "CAM 02 | FUNDOS"
     },
     {
-      "narracao": "Mas a câmera não mostra ele.",
-      "cenario": "esp_cliente_estoque",
+      "narracao": "Ela desliga: boa noite, mãe.",
+      "cenario": "farmacia_balcao_escuro",
+      "personagem": null,
+      "camera": "parada",
+      "pausa_extra": 0.4
+    },
+    {
+      "narracao": "Boa noite é convite. O que você responderia?",
+      "cenario": "esp_cliente_porta",
       "personagem": null,
       "camera": "zoom_in",
       "efeito": "luz_piscando",
       "thumb": true,
-      "pausa_extra": 1.0,
+      "corte_preto": true,
       "som": {
-        "busca": "low eerie drone hit",
-        "palavra": "ele"
+        "busca": "knock on glass",
+        "palavra": "convite"
       }
-    },
-    {
-      "narracao": "Três e dezessete. Ele só espera ela dizer: pode entrar. O que você responderia?",
-      "cenario": "farmacia_balcao_escuro",
-      "personagem": null,
-      "camera": "zoom_in",
-      "efeito": "tremor",
-      "corte_preto": true
     }
   ]
 }
