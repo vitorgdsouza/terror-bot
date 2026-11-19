@@ -1,5 +1,5 @@
 {
- "proximo": 2,
+ "proximo": 3,
  "itens": [
   {
    "id": 1,
@@ -16,6 +16,22 @@
    "motivo": "",
    "criado": "2026-11-18 21:18",
    "decidido": "2026-11-18 21:20"
+  },
+  {
+   "id": 2,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Câmera da Campainha 01:58",
+   "arquivo": "roteiros/iscas/isca_07_campainha.json",
+   "run_id": "",
+   "resumo": "Isca VHS no padrão da Farmácia: câmera da campainha mostra o Tiago 2 min antes de bater, sem vapor na boca a -9°C. Trailer do Pode Entrar? Ep. 1; mira 20/11 11h47 (na frente das outras iscas).",
+   "titulo_youtube": "Câmera da campainha, 1h58, -9°C... repara na boca dele 📼 #shorts",
+   "legenda": "Ele ficou dois minutos parado antes de bater. O que tem de errado nele? Responde sem voltar o vídeo 👇 (o que aconteceu depois: \"Pode Entrar? Ep. 1\" no perfil) #analoghorror #vhs",
+   "tipo_video": "isca",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-19 03:18",
+   "decidido": ""
   }
  ]
 }
