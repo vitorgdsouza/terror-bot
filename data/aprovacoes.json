@@ -28,8 +28,8 @@
    "titulo_youtube": "Câmera da campainha, 1h58, -9°C... repara na boca dele 📼 #shorts",
    "legenda": "Ele ficou dois minutos parado antes de bater. O que tem de errado nele? Responde sem voltar o vídeo 👇 (o que aconteceu depois: \"Pode Entrar? Ep. 1\" no perfil) #analoghorror #vhs",
    "tipo_video": "isca",
-   "status": "renderizado",
-   "motivo": "",
+   "status": "revisado",
+   "motivo": "aprovado pelo Revisor (run 44539327937); vídeo mandado ao Vitor como nº 5",
    "criado": "2026-11-19 03:18",
    "decidido": "2026-11-19 04:33"
   },
@@ -60,8 +60,8 @@
    "titulo_youtube": "A mãe dela ligou às 3h17... 📼 #shorts",
    "legenda": "Fita 02 (história de ficção). A mãe dela ligou às 3h17 pedindo para abrir a porta dos fundos. O que você responderia? 👇",
    "tipo_video": "isca",
-   "status": "renderizado",
-   "motivo": "Vitor pediu isca VHS no lugar da Qual Porta (19/11 11h01) | Revisor 19/11 11h20: render 44539513525 reprovado, a cota do Gemini acabou e a voz reserva também falhou (sem Enceladus). Renderizar de novo depois que a cota voltar (~05h).",
+   "status": "na_fila",
+   "motivo": "Vitor pediu isca VHS no lugar da Qual Porta (19/11 11h01) | Revisor 19/11 11h20: render 44539513525 reprovado, a cota do Gemini acabou e a voz reserva também falhou (sem Enceladus). Renderizar de novo depois que a cota voltar (~05h). | Render 44542181080 aprovado pelo Revisor e pelo Vitor (nº 7); postado 19/11 12h33",
    "criado": "2026-11-19 10:34",
    "decidido": "2026-11-19 14:02"
   },

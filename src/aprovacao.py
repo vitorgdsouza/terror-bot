@@ -6,7 +6,7 @@ Os pontos de aprovação são dois:
 
     data/aprovacoes.json = {"proximo": N, "itens": [{id, tipo, agente, titulo, arquivo, run_id, resumo,
                             titulo_youtube, legenda, tipo_video, status, motivo, criado, decidido}]}
-    status: pendente | aprovado | renderizando | renderizado | refazer | na_fila
+    status: pendente | aprovado | renderizando | renderizado | revisado | refazer | na_fila | substituido
 
 Uso:
     python -m src.aprovacao propor     (env: TIPO, AGENTE, ARQUIVO, RUN_ID, RESUMO)

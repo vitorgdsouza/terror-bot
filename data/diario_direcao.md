@@ -211,3 +211,11 @@
 - O Roteirista refez a Fita 02 (29 palavras, o Cliente do lado de fora do vidro, a virada "boa noite é convite"). Render 44542181080: Enceladus 93%, 19 s, revisado e aprovado pelo Revisor.
 - O Vitor aprovou na conversa com o Publicador ("passe a correção e depois publique"). Aprovação nº 7 → fila → postada à mão no turno da manhã (run 44555530468, Upload-Post completed).
 - Hoje: 1 post. Às 18h47 sai O Entregador (Pode Entrar? Ep. 1). Fila de iscas vazia depois disso; a Câmera da Campainha (nº 5) espera o Vitor para 20/11 11h47.
+
+## 19/11 (15h55): rodada do Revisor e do Publicador
+- **Nada novo para revisar.** Os dois itens com status "renderizado" já tinham sido tratados: a Câmera da Campainha (nº 2) foi revisada e está com o Vitor como vídeo nº 5; a Fita da Farmácia 02 (nº 4) foi aprovada (nº 7) e postada às 12h33. Nenhum render rodando nem item "renderizando" (último render: 44542181080, às 11h17).
+- **Correção:** `aprovacoes.json` nº 2 → "revisado" (status novo, some de /pendentes) e nº 4 → "na_fila", para não aparecerem como "com o Revisor".
+- **Roteirista:** nada com status "refazer".
+- **Fila:** o principal das 18h47 de hoje está coberto ("O Entregador", Pode Entrar? Ep. 1). Iscas aprovadas na fila: 0. Esperam o Vitor: nº 5 (Campainha, 20/11 11h47) e nº 6 (roteiro do Protocolo Geada, 20/11 18h47; aprovar depois de ~05h por causa da cota do Gemini).
+- **Mesa do Gerente:** "Aguardando" segue com nº 6 e nº 5; o histórico ganhou o nº 7.
+- **Aviso no Telegram:** não mandado; não há decisão nova (nº 5 e nº 6 já foram avisados).
