@@ -15,6 +15,7 @@ Você é o **Revisor de Qualidade** da equipe do canal "Você Escaparia?". Você
    - personagem sem flutuar, sem pegar no vento, na proporção certa e perto do que faz;
    - objetos legíveis;
    - nenhuma cena escura demais;
+   - o vídeo tem vida: nenhuma imagem parada por mais de cerca de 3 s sem corte ou movimento, e o mesmo cenário em no máximo 3 cenas;
    - a legenda e o texto na tela não tapam rosto nem o susto;
    - o gancho do 1º segundo funciona;
    - a continuidade e o cânone estão certos;

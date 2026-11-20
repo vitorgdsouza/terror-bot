@@ -1373,6 +1373,14 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
     if cena.get("corte_preto") and t >= cena.get("_fim_voz", dur):   # corte seco para o preto (susto no silêncio)
         return Image.new("RGB", (W, H), (0, 0, 0))
     img = _quadro_base(cena, t, dur, prot, n)
+    plano = _plano_atual(cena, t, dur)
+    if plano:                                          # cena longa: corta para outro plano (rosto, criatura, detalhe)
+        fx, fy, fz, t0, t1 = plano
+        z = fz * (1 + 0.06 * _suave((t - t0) / max(0.1, t1 - t0)))
+        cw_, ch_ = img.width / z, img.height / z
+        x0 = min(max(0.0, fx * img.width - cw_ / 2), img.width - cw_)
+        y0 = min(max(0.0, fy * img.height - ch_ / 2), img.height - ch_)
+        img = img.resize(img.size, Image.LANCZOS, box=(x0, y0, x0 + cw_, y0 + ch_))
     if cena.get("foco"):                               # close num detalhe do cenário (ex.: a maçaneta), aproximando devagar
         fx, fy, fz = cena["foco"]
         z = fz * (1 + 0.08 * _suave(t / dur if dur else 0))
@@ -1391,6 +1399,60 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
         from .protocolo import sobrepor_alerta
         img = sobrepor_alerta(img, cena, t, n)
     return img
+
+
+PLANO_SEG = 2.6          # duração alvo de cada plano: imagem parada por muito tempo mata a retenção (lição do Pode Entrar? Ep. 1)
+
+
+def _centro(r):
+    return (r[0] + r[2] / 2, r[1] + r[3] / 2)
+
+
+def _plano_atual(cena: dict, t: float, dur: float):
+    """Cenas longas viram vários planos de ~2,6 s, como numa montagem de verdade.
+
+    O primeiro plano é o geral. Os outros alternam o personagem (rosto e tronco), a criatura das cenas
+    especiais e os pontos de interesse do cenário (porta, escuro, janela, TV). Use "plano_unico": true
+    para manter uma imagem só, por exemplo quando a tensão vem justamente de não cortar."""
+    if cena.get("foco") or cena.get("plano_unico") or cena.get("_img") or dur < PLANO_SEG * 1.35:
+        return None
+    meta = META.get(cena.get("cenario"), {})
+    if not meta or cena.get("cenario") == "celular_cftv":
+        return None
+    pts = []
+    an = meta.get("anima") or {}
+    for parte in an.get("partes", []):
+        cx, cy = _centro(parte["regiao"])
+        pts.append((cx, cy + 0.04, 1.55))
+    if an.get("regiao"):
+        cx, cy = _centro(an["regiao"])
+        pts.append((cx, cy, 1.5))
+    p = cena.get("personagem")
+    if p and p.get("tamanho") != "perto" and not meta.get("detalhe"):
+        esc = meta.get("escala", 1.0) * (0.55 if p.get("tamanho") == "longe" else 1.0)
+        pts.append((POSICOES.get(p.get("posicao"), 0.5), meta.get("piso", 0.95) - 0.24 * esc, 1.5))
+    a = cena.get("ameaca")
+    if a and a.get("tamanho") != "perto":
+        pts.append((POSICOES.get(a.get("posicao"), 0.5), meta.get("piso", 0.95) - 0.3, 1.45))
+    for chave in ("escuro", "porta", "janela", "tv", "espelho"):
+        if meta.get(chave):
+            cx, cy = _centro(meta[chave])
+            pts.append((cx, cy, 1.4))
+    if not pts:
+        pts = [(0.5, 0.42, 1.25), (0.5, 0.62, 1.25)]
+    uniq = []
+    for q in pts:                                      # tira pontos quase iguais
+        if all(abs(q[0] - u[0]) + abs(q[1] - u[1]) > 0.12 for u in uniq):
+            uniq.append(q)
+    n = max(2, round(dur / PLANO_SEG))
+    lado = dur / n
+    i = min(int(t / lado), n - 1)
+    if i == 0:
+        return None                                    # o primeiro plano é o geral
+    fx, fy, fz = uniq[(i - 1 + cena.get("_indice", 0)) % len(uniq)]
+    if i % 3 == 0 and n > 3:                           # de vez em quando volta ao geral, para o olho respirar
+        return None
+    return (fx, fy, fz, i * lado, (i + 1) * lado)
 
 
 def _texto_tela(img: Image.Image, texto: str, t: float) -> None:

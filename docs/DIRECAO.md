@@ -57,6 +57,12 @@ O Vitor é o gerente. A automação é feita por 5 agentes especializados, defin
   - Proporções certas com o cenário.
   - Ações que **NÃO** ficaram boas e não devem ser usadas: engatinhar de frente ou de costas, o Abismo rastejando procedural, o sorriso no escuro procedural.
   - Ações aprovadas: debruçado no poço, olhando para cima de costas, golpeando (martelo na parede), e todas as básicas.
+- **Vídeo com vida (lição do Pode Entrar? Ep. 1, 20/11):** o Ep. 1 foi mal porque ficou estático: muita fala em cima de uma imagem só (a mesma imagem 5 vezes, cerca de 14 palavras por cena). A Fita da Farmácia 01 (1.104 views) funcionou porque troca de imagem a cada 4 a 5 s e tem movimento o tempo todo: VHS, relógio, estática, corte seco. Regras:
+  - **Uma imagem aguenta no máximo cerca de 3 s ou 8 palavras.** Fala mais longa vira várias cenas.
+  - **O mesmo cenário aparece no máximo 2 vezes seguidas e 3 vezes no vídeo.** Fora isso, use outros ângulos, o close de um detalhe (`foco`), uma cena especial ou outro lugar.
+  - **O motor corta sozinho:** cena com mais de cerca de 3,5 s vira planos de 2,6 s (geral → rosto do personagem → criatura → porta/escuro/janela). É uma rede de segurança e não substitui pensar os planos no roteiro. Use `"plano_unico": true` só quando a tensão vier de NÃO cortar.
+  - **Em todo plano algo se mexe:** câmera, criatura animada, luz piscando, texto na tela, estática ou relógio da fita. Som pontuando os cortes.
+  - **Os formatos VHS/CFTV** são a linguagem que mais vive no canal hoje. Prefira essa linguagem nas iscas e use trechos de fita dentro das histórias.
 - **Momentos de impacto com a criatura:** usar **cenas especiais**, que são ilustrações prontas e animadas por regiões (`anima` no `cenarios.json`). Exemplos: `poco_sorriso`, `tunel_abismo`, `janela_poco`. Uma por vídeo, no susto.
 - **Mistério:**
   - Pistas e objetos que contam a história, como o jornal **nas mãos** (`"nas_maos": true`, depois de uma cena dele procurando).

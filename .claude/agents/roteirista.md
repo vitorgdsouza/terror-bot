@@ -17,6 +17,7 @@ Carregue a skill "protocolo-analog-horror" antes de um protocolo e "video-making
 
 **Regras do roteiro:**
 - **Gancho:** no 1º segundo, com a imagem mais forte e a primeira frase.
+- **Vídeo com vida:** no máximo cerca de 8 palavras (≈3 s) por cena. O mesmo cenário aparece no máximo 2 vezes seguidas e 3 vezes no vídeo. Varie com `foco` em detalhes, cenas especiais e trechos VHS/CFTV. Uma história de 50 a 60 s tem de 15 a 22 cenas. Veja "Vídeo com vida" na DIRECAO.
 - **Lógica clara cena a cena:** personagem sempre perto do que faz, nada no vento.
 - **Susto:** uma cena especial (`esp_`) no susto.
 - **Final:** puxa rever ou comentar.
