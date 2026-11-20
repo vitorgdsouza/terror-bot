@@ -1,5 +1,5 @@
 {
- "proximo": 10,
+ "proximo": 11,
  "itens": [
   {
    "id": 1,
@@ -144,6 +144,22 @@
    "motivo": "Vitor aprovou CAM 04 (20/11 11h17)",
    "criado": "2026-11-20 10:34",
    "decidido": "2026-11-20 14:18"
+  },
+  {
+   "id": 10,
+   "tipo": "video",
+   "agente": "Publicador",
+   "titulo": "Protocolo Geada",
+   "arquivo": "roteiros/protocolo_04_geada.json",
+   "run_id": "44816462692",
+   "resumo": "Protocolo Geada já renderizado (substitui o roteiro nº 6), com 'Sinal um/dois/três' no lugar de 'Primeiro/Segundo/Terceiro'. Voz Enceladus 93%, 57 s, porta derrubada com corte para o preto, sem gore. Faixa: sáb 21/11, 18h47.",
+   "titulo_youtube": "Se baterem na sua porta na geada... é gente ou é Oco? ❄️ Protocolo Geada #shorts",
+   "legenda": "Protocolo Geada, do universo de Pode Entrar? (história de ficção). Três sinais para saber quem está na sua porta... e por que você nunca deve ficar sozinho com um Oco. Qual sinal você testa primeiro: vapor, vidro ou geada? 👇",
+   "tipo_video": "protocolo",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-20 21:19",
+   "decidido": ""
   }
  ]
 }
