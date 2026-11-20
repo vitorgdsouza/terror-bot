@@ -248,3 +248,13 @@
 - **Mesa do Gerente:** sem mudança. "Aguardando" já tem só os nº 9, 8, 6 e 5; nenhuma decisão nova do Vitor para o histórico.
 - **Aviso no Telegram:** não mandado (nada novo desde a rodada da manhã).
 - **Ferramenta:** gh CLI segue com token inválido; consultas pelo conector do GitHub. Sem subagentes nesta rodada (não havia trabalho para eles).
+
+## 20/11 (15h55): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item "renderizado" ou "renderizando" em `aprovacoes.json`. O único render de `refazer-video.yml` rodando agora (44796429840) é do E Se Fosse Real? (`esfr_02`), que não é da equipe do terror.
+- **Publicador:** nenhum vídeo novo para mandar. Desde a rodada das 10h55 o Vitor aprovou (11h17) a CAM 04 (nº 9, fila 21/11 11h47), a Dashcam (nº 8, fila 22/11 11h47) e os pilotos do formato Você ("Pode Entrar? versão Você" postado às 14h38; "Grupo do Prédio (Parte 1)" na fila).
+- **Fila:** o principal das 18h47 de hoje está coberto pelo Grupo do Prédio (história). Iscas na fila: 2 (mínimo atendido). Hoje: 2 posts no máximo (Pode Entrar? Você + Grupo do Prédio).
+- **Esperam o Vitor:** nº 5 (vídeo final da Câmera da Campainha; a faixa de 20/11 11h47 passou, próxima livre 23/11 11h47) e nº 6 (roteiro do Protocolo Geada; o 18h47 de hoje ficou com o Grupo do Prédio, então vai para o próximo dia de protocolo).
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** "Aguardando" ficou só com nº 6 e nº 5 (textos de data atualizados); o histórico ganhou nº 8, nº 9 e os pilotos do formato Você.
+- **Aviso no Telegram:** não mandado (nada novo para decidir; nº 5 e nº 6 já foram avisados).
+- **Ferramenta:** gh CLI segue com token inválido; consultas pelo conector do GitHub. Sem subagentes (não havia trabalho para eles).
