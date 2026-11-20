@@ -1380,7 +1380,7 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
         cw_, ch_ = img.width / z, img.height / z
         x0 = min(max(0.0, fx * img.width - cw_ / 2), img.width - cw_)
         y0 = min(max(0.0, fy * img.height - ch_ / 2), img.height - ch_)
-        img = img.resize(img.size, Image.LANCZOS, box=(x0, y0, x0 + cw_, y0 + ch_))
+        img = img.resize(img.size, Image.LANCZOS, box=(x0, y0, min(img.width, x0 + cw_), min(img.height, y0 + ch_)))
     if cena.get("foco"):                               # close num detalhe do cenário (ex.: a maçaneta), aproximando devagar
         fx, fy, fz = cena["foco"]
         z = fz * (1 + 0.08 * _suave(t / dur if dur else 0))
