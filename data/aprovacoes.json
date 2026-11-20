@@ -1,5 +1,5 @@
 {
- "proximo": 8,
+ "proximo": 9,
  "itens": [
   {
    "id": 1,
@@ -112,6 +112,22 @@
    "motivo": "",
    "criado": "2026-11-19 14:23",
    "decidido": "2026-11-19 15:29"
+  },
+  {
+   "id": 8,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Dashcam 04:02",
+   "arquivo": "roteiros/iscas/isca_10_dashcam.json",
+   "run_id": "",
+   "resumo": "Isca VHS 'Dashcam 04:02' (32 palavras, ~20 s, 7 cenas): estreia da Corrida Noturna (Rafa x Passageiro), cinto clica com banco vazio, susto esp_passageiro, virada: destino é o cemitério e o cinto continua afivelado.\nPauta 20/11: 0 iscas na fila e CFTV/fita é o que mais rende (Farmácia 1.254 e 654 views); só arte existente. Sugestão: postar antes da CAM 04 (prédio, perto do piloto Grupo do Prédio).",
+   "titulo_youtube": "4h02: o cinto de trás clicou sozinho... o banco estava vazio 🚗 #shorts",
+   "legenda": "Dashcam, 4h02. O Rafa dirigia sozinho quando o cinto de trás clicou e o carro ficou com cheiro de flor de velório (história de ficção). Você olharia no retrovisor? 👇",
+   "tipo_video": "isca",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-20 10:33",
+   "decidido": ""
   }
  ]
 }
