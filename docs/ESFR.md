@@ -10,7 +10,7 @@
 
 ## Onde fica cada coisa
 - **Roteiros:** `roteiros/esfr/`
-- **Fila:** `data/fila_esfr.json`, postada às 12h17 e 20h17 por `.github/workflows/fila-esfr.yml` (segredos `YT_REFRESH_TOKEN_ESE` e `UPLOAD_POST_USER_ESE`)
+- **Fila:** `data/fila_esfr.json`, postada às 12h17, 16h17 e 20h17 (até 3 por dia, 2 h de intervalo) por `.github/workflows/fila-esfr.yml` (segredos `YT_REFRESH_TOKEN_ESE` e `UPLOAD_POST_USER_ESE`)
 - **Diário:** `data/esfr/diario.md`
 
 ## Regras de conteúdo

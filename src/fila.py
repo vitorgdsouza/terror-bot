@@ -16,7 +16,7 @@ from .util import RAIZ, log
 CANAL = os.environ.get("CANAL", "").strip()          # vazio = Você Escaparia? (terror); "esfr" = E Se Fosse Real?
 FILA = RAIZ / "data" / (f"fila_{CANAL}.json" if CANAL else "fila.json")
 PENDENTE = RAIZ / "data" / "pendente.json"
-HORARIOS = "12h17 e 20h17" if CANAL else "11h47 e 18h47"
+HORARIOS = "12h17, 16h17 e 20h17" if CANAL else "11h47 e 18h47"
 
 
 def carregar() -> dict:
@@ -61,6 +61,18 @@ def _ja_postou(f: dict, turno: str) -> str:
     """Trava contra post duplicado: agendamento do GitHub atrasado depois de um post manual, ou mais de 2 no dia."""
     hoje = time.strftime("%Y-%m-%d")
     do_dia = [it for it in f["postados"] if str(it.get("postado_em", "")).startswith(hoje)]
+    if CANAL:                                           # canal 2: até 3 por dia, com pelo menos 2 h entre um e outro
+        if len(do_dia) >= 3:
+            return "já saíram 3 posts hoje"
+        agora = time.time()
+        for it in do_dia:
+            try:
+                quando = time.mktime(time.strptime(str(it["postado_em"])[:16], "%Y-%m-%d %H:%M"))
+            except Exception:
+                continue
+            if agora - quando < 2 * 3600:
+                return "saiu um post há menos de 2 h"
+        return ""
     if len(do_dia) >= 2:
         return "já saíram 2 posts hoje"
     quer_isca = turno == "manha"

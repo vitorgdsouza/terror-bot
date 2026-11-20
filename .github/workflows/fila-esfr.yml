@@ -2,7 +2,7 @@ name: Fila E Se Fosse Real? (YouTube)
 
 on:
   schedule:
-    - cron: "17 15,23 * * *"    # 12h17 e 20h17 de Brasília
+    - cron: "17 15,19,23 * * *"    # 12h17, 16h17 e 20h17 de Brasília
   workflow_dispatch:
     inputs:
       acao:
