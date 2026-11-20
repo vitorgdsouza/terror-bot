@@ -7,3 +7,8 @@ Automação de Shorts de terror em português. O dono é o Vitor, que é o geren
 - **Aprovações:** ficam em `data/aprovacoes.json`. A Mesa do Gerente está em https://claude.ai/artifact/6fLXTMtRQiX4XvTNFcg92f. Nada entra em `data/fila.json` sem a aprovação do Vitor.
 - **Renders:** são feitos pelo GitHub Actions (`refazer-video.yml`), um de cada vez.
 - **Segredos:** só no GitHub Secrets. Nunca em arquivos ou mensagens.
+
+## Dois canais, separados
+- **Você Escaparia? (terror):** `docs/DIRECAO.md`, `data/fila.json`, a equipe de agentes e a Mesa.
+- **E Se Fosse Real? (ciência):** `docs/ESFR.md`, `roteiros/esfr/`, `data/fila_esfr.json`, `data/esfr/`. Roteiros com `"canal": "esfr"`.
+- **Um não influencia o outro:** regras, números, filas, voz e identidade separados. Ao trabalhar em um, não mexa nos arquivos do outro.

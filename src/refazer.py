@@ -59,10 +59,14 @@ def main():
         tags = " ".join(dict.fromkeys(r.get("hashtags", []) + cfg.get("hashtags_fixas", [])))
         legenda = f"{r['titulo']}\n\n{r.get('legenda_post', '')}\n\n{tags}"
     import time
-    telegram.enviar_video(final, f"{r['titulo']} ({'versão ajustada ' if not arq else ''}{time.strftime('%H:%M', time.localtime(time.time() - 3 * 3600))})")
-    telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
+    canal = {"esfr": "[E Se Fosse Real?] "}.get(r.get("canal", ""), "")
+    telegram.enviar_video(final, f"{canal}{r['titulo']} ({'versão ajustada ' if not arq else ''}{time.strftime('%H:%M', time.localtime(time.time() - 3 * 3600))})")
+    telegram.enviar_mensagem(f"{canal}Legenda para copiar e colar:\n\n{legenda}")
     from .thumb import enviar_thumbs
     enviar_thumbs(r, TRAB / "thumbs")
+    if canal:                                           # o canal 2 é separado: nunca vira o "pendente" do /postar do terror
+        telegram.enviar_mensagem(f"{canal}Este vídeo é do canal E Se Fosse Real? e sai pela fila dele (12h17 e 20h17).")
+        return
     from .postar import marcar_pendente
     marcar_pendente(r["titulo"], r)
     telegram.enviar_mensagem("Gostou? Mande /postar para publicar esta versão no YouTube Shorts.")

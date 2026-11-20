@@ -129,6 +129,8 @@ def _roteiros_conhecidos() -> list[dict]:
             r = json.loads(arq.read_text(encoding="utf-8"))
         except Exception:
             continue
+        if r.get("canal", "") != os.environ.get("CANAL", "").strip():   # cada canal só enxerga os seus roteiros
+            continue
         if r.get("titulo") and r.get("cenas"):
             legenda = arq.parent / "legenda_do_post.txt"
             extra = legenda.read_text(encoding="utf-8") if legenda.exists() else ""

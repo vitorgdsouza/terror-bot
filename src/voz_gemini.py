@@ -178,6 +178,9 @@ def narrar_roteiro(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
     from .util import duracao
     cfg_voz = cfg["voz"]
     voz = roteiro.get("voz") or cfg_voz.get("gemini_voz", "Enceladus")   # cada canal pode ter a sua voz
+    import os
+    if roteiro.get("canal") == "esfr" and os.environ.get("GEMINI_API_KEY_ESE", "").strip():
+        os.environ["GEMINI_API_KEY"] = os.environ["GEMINI_API_KEY_ESE"]     # cota de voz separada do canal de terror
     estilo = escolher_estilo(roteiro, cfg_voz)
     roteiro["_voz"] = f"{voz} ({estilo})"
     pasta.mkdir(parents=True, exist_ok=True)

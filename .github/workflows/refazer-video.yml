@@ -46,6 +46,7 @@ jobs:
       - name: Refazer e mandar no Telegram
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_ESE: ${{ secrets.GEMINI_API_KEY_ESE }}
           FREESOUND_API_KEY: ${{ secrets.FREESOUND_API_KEY }}
           VOZ_CHAVE: ${{ secrets.VOZ_CHAVE }}
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
