@@ -150,39 +150,39 @@ def _ligacao(img, cena, t, dur, n, p):
 
 def _chat(img, cena, t, dur, n, p):
     d = ImageDraw.Draw(img)
-    cx, cy, w, h = W / 2, H * 0.47, 760, 1260
+    cx, cy, w, h = W / 2, H * 0.43, 880, 1180
     _celular(d, cx, cy, w, h, p)
-    _centro_texto(d, cx, cy - h / 2 + 95, cena.get("nome", "DESCONHECIDO"), _f(44), p["fig"])
+    _centro_texto(d, cx, cy - h / 2 + 95, cena.get("nome", "DESCONHECIDO"), _f(50), p["fig"])
     d.line((cx - w / 2 + 30, cy - h / 2 + 140, cx + w / 2 - 30, cy - h / 2 + 140), fill=p["apagado"], width=3)
     msgs = cena.get("msgs") or []
     passo = max(0.5, dur * 0.75 / max(1, len(msgs)))
     y = cy - h / 2 + 180
-    fonte = _f(40)
+    fonte = _f(56)
     for i, (lado, txt) in enumerate(msgs):
         if t < 0.2 + i * passo:
             if t > 0.2 + i * passo - 0.5:                 # "digitando..."
                 pts = "•" * (1 + int(t * 4) % 3)
                 x0 = cx - w / 2 + 50 if lado != "voce" else cx + w / 2 - 170
-                d.rounded_rectangle((x0, y, x0 + 120, y + 70), radius=30, fill=p["apagado"])
+                d.rounded_rectangle((x0, y, x0 + 140, y + 84), radius=36, fill=p["apagado"])
                 d.text((x0 + 26, y + 6), pts, font=fonte, fill=p["fig"])
             break
         linhas, atual = [], ""
         for pal in str(txt).split():
             teste = (atual + " " + pal).strip()
-            if d.textlength(teste, font=fonte) > w * 0.62:
+            if d.textlength(teste, font=fonte) > w * 0.68:
                 linhas.append(atual)
                 atual = pal
             else:
                 atual = teste
         linhas.append(atual)
         bw = max(d.textlength(lin, font=fonte) for lin in linhas) + 60
-        bh = 58 * len(linhas) + 30
+        bh = 76 * len(linhas) + 34
         meu = lado == "voce"
         x0 = cx + w / 2 - 50 - bw if meu else cx - w / 2 + 50
         cor = p["acento"] if lado in ("ele", "oco") else (p["apagado"] if not meu else p["fig"])
         d.rounded_rectangle((x0, y, x0 + bw, y + bh), radius=32, fill=cor)
         for k, lin in enumerate(linhas):
-            d.text((x0 + 30, y + 14 + 58 * k), lin, font=fonte, fill=p["fundo"] if meu else p["fig"])
+            d.text((x0 + 30, y + 12 + 76 * k), lin, font=fonte, fill=p["fundo"] if meu else p["fig"])
         y += bh + 30
 
 
@@ -274,7 +274,7 @@ def _porta(img, cena, t, dur, n, p):
         fase = t % 1.1
         if fase < 0.45 and int(fase / 0.15) % 2 == 0:
             sx = 7
-    x0, y0, x1, y1 = W * 0.27 + sx, H * 0.18, W * 0.73 + sx, H * 0.78
+    x0, y0, x1, y1 = W * 0.29 + sx, H * 0.16, W * 0.71 + sx, H * 0.7
     d.rectangle((x0 - 26, y0 - 26, x1 + 26, y1), fill=p["apagado"])
     if cena.get("aberta"):
         d.rectangle((x0, y0, x1, y1), fill=(0, 0, 0))
