@@ -1,0 +1,177 @@
+{
+ "titulo": "Pode Entrar? (versão Você)",
+ "serie": "Pode Entrar?",
+ "formato": "voce",
+ "paleta": "noite",
+ "hora": "01:59",
+ "parte": "EP. 1",
+ "tipo": "historia",
+ "clima": "suspense",
+ "trilha": "dark ambient drone hum cold wind",
+ "trilha_volume": 0.4,
+ "titulo_youtube": "Ele diz que é só um entregador... você abriria a porta? 🚪 #shorts",
+ "legenda_post": "Pode Entrar? Ep. 1. 19 dias de geada, comida acabando e um entregador na sua porta. Ele treme... mas o vidro não embaçou. Você abre? Comenta SIM ou NÃO 👇 (história de ficção) #terror #podeentrar #voceescaparia",
+ "cenas": [
+  {
+   "narracao": "Duas da manhã. Nove graus negativos.",
+   "quadro": "relogio",
+   "hora": "01:59",
+   "vira": "02:00"
+  },
+  {
+   "narracao": "E alguém bate na sua porta.",
+   "quadro": "porta",
+   "batendo": true,
+   "luz": true,
+   "som": {
+    "busca": "door knock",
+    "palavra": "bate"
+   }
+  },
+  {
+   "narracao": "Faz dezenove dias que cai a geada cinza.",
+   "quadro": "texto",
+   "texto": "19 DIAS|DE GEADA"
+  },
+  {
+   "narracao": "Quem dorme lá fora... não amanhece.",
+   "quadro": "silhueta",
+   "acao": "tremendo",
+   "fortes": [
+    "amanhece"
+   ]
+  },
+  {
+   "narracao": "Com o frio, vieram os Ocos.",
+   "quadro": "olho_magico",
+   "figura": "oco",
+   "geada": true,
+   "fortes": [
+    "ocos"
+   ]
+  },
+  {
+   "narracao": "Parecem gente. Mas por dentro, não tem ninguém.",
+   "quadro": "silhueta",
+   "acao": "parado",
+   "outra": true
+  },
+  {
+   "narracao": "Regra um: Oco não sente frio.",
+   "quadro": "regra",
+   "n": 1,
+   "texto": "oco não|sente frio",
+   "fortes": [
+    "frio"
+   ]
+  },
+  {
+   "narracao": "Regra dois: o bafo dele não embaça o vidro.",
+   "quadro": "regra",
+   "n": 2,
+   "texto": "o bafo não|embaça o vidro",
+   "fortes": [
+    "vidro"
+   ]
+  },
+  {
+   "narracao": "Regra três: se um entrar... o Primeiro vem buscar você.",
+   "quadro": "regra",
+   "n": 3,
+   "texto": "se um entrar...|o primeiro vem",
+   "fortes": [
+    "primeiro"
+   ],
+   "alerta": true
+  },
+  {
+   "narracao": "Você vai até a porta.",
+   "quadro": "silhueta",
+   "acao": "andando"
+  },
+  {
+   "narracao": "Um entregador. Tiago, dezenove anos.",
+   "quadro": "olho_magico",
+   "figura": "pessoa",
+   "texto_topo": "tiago, 19"
+  },
+  {
+   "narracao": "Ele ergue a bag: tem comida aqui. Eu divido.",
+   "quadro": "chat",
+   "nome": "TIAGO (NA PORTA)",
+   "msgs": [
+    [
+     "ele",
+     "tem comida aqui"
+    ],
+    [
+     "ele",
+     "eu divido"
+    ],
+    [
+     "ele",
+     "só me deixa entrar"
+    ]
+   ]
+  },
+  {
+   "narracao": "Ele treme. Os lábios estão roxos.",
+   "quadro": "olho_magico",
+   "figura": "pessoa",
+   "geada": true
+  },
+  {
+   "narracao": "Então ele cola o rosto no vidro...",
+   "quadro": "olho_magico",
+   "figura": "pessoa",
+   "susto": true
+  },
+  {
+   "narracao": "E o vidro continua limpo.",
+   "quadro": "olho_magico",
+   "figura": "pessoa",
+   "alerta": true,
+   "fortes": [
+    "limpo"
+   ]
+  },
+  {
+   "narracao": "No celular dele, um pedido para o seu endereço.",
+   "quadro": "chat",
+   "nome": "APP DE ENTREGA",
+   "msgs": [
+    [
+     "ele",
+     "pedido entregue"
+    ],
+    [
+     "ele",
+     "endereço: a sua casa"
+    ]
+   ],
+   "fortes": [
+    "endereço"
+   ]
+  },
+  {
+   "narracao": "Feito há dezenove dias.",
+   "quadro": "texto",
+   "texto": "HÁ 19|DIAS"
+  },
+  {
+   "narracao": "Ele sussurra: por favor.",
+   "quadro": "porta",
+   "luz": true,
+   "pes": true
+  },
+  {
+   "narracao": "Abre... ou não abre? Comenta sim ou não.",
+   "quadro": "texto",
+   "texto": "ABRE|OU NÃO?",
+   "fortes": [
+    "sim",
+    "não"
+   ]
+  }
+ ]
+}

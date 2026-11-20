@@ -1,0 +1,203 @@
+{
+ "titulo": "Grupo do Prédio",
+ "serie": "Grupo do Prédio",
+ "formato": "voce",
+ "paleta": "papel",
+ "hora": "03:14",
+ "parte": "PARTE 1",
+ "tipo": "historia",
+ "clima": "suspense",
+ "trilha": "dark ambient drone hum",
+ "trilha_volume": 0.4,
+ "titulo_youtube": "3h14 no grupo do prédio: \"tem um homem parado na frente do 702\"... o 702 é o seu 😨 #shorts",
+ "legenda_post": "Grupo do Prédio, parte 1. Às 3h14 alguém avisa no grupo que tem um homem parado na frente do seu apartamento. Você abriria? Comenta 👇 (história de ficção) #terror #historiasdeterror #voceescaparia",
+ "cenas": [
+  {
+   "narracao": "Três e catorze. O grupo do prédio apita.",
+   "quadro": "chat",
+   "nome": "GRUPO DO PRÉDIO",
+   "msgs": [
+    [
+     "ele",
+     "alguém acordado?"
+    ]
+   ]
+  },
+  {
+   "narracao": "Tem um homem parado no sétimo andar.",
+   "quadro": "chat",
+   "nome": "GRUPO DO PRÉDIO",
+   "msgs": [
+    [
+     "ele",
+     "alguém acordado?"
+    ],
+    [
+     "ele",
+     "tem um homem parado no 7º andar"
+    ]
+   ],
+   "fortes": [
+    "homem"
+   ]
+  },
+  {
+   "narracao": "Você mora no sétimo.",
+   "quadro": "andares",
+   "andares": 10,
+   "voce": 7,
+   "de": 1,
+   "ate": 7
+  },
+  {
+   "narracao": "Ele está na frente do setecentos e dois.",
+   "quadro": "chat",
+   "nome": "GRUPO DO PRÉDIO",
+   "msgs": [
+    [
+     "ele",
+     "na frente do 702"
+    ],
+    [
+     "ele",
+     "parado"
+    ],
+    [
+     "ele",
+     "faz 10 minutos"
+    ]
+   ]
+  },
+  {
+   "narracao": "O setecentos e dois é o seu.",
+   "quadro": "texto",
+   "texto": "702|É O SEU"
+  },
+  {
+   "narracao": "Tem sombra de pés debaixo da sua porta.",
+   "quadro": "porta",
+   "luz": true,
+   "pes": true,
+   "fortes": [
+    "pés"
+   ]
+  },
+  {
+   "narracao": "Você olha pelo olho mágico. Ninguém.",
+   "quadro": "olho_magico",
+   "figura": "ninguem"
+  },
+  {
+   "narracao": "Mensagem nova: ele está olhando pro olho mágico.",
+   "quadro": "chat",
+   "nome": "GRUPO DO PRÉDIO",
+   "msgs": [
+    [
+     "ele",
+     "ele tá olhando pro olho mágico"
+    ],
+    [
+     "ele",
+     "agora"
+    ]
+   ],
+   "alerta": true
+  },
+  {
+   "narracao": "Do seu lado, o vidro embaça.",
+   "quadro": "olho_magico",
+   "figura": "ninguem",
+   "embaca": true,
+   "fortes": [
+    "embaça"
+   ]
+  },
+  {
+   "narracao": "Três batidas.",
+   "quadro": "porta",
+   "batendo": true,
+   "luz": true,
+   "pes": true,
+   "som": {
+    "busca": "door knock",
+    "palavra": "batidas"
+   }
+  },
+  {
+   "narracao": "Abre. Sou eu, a dona Célia do setecentos e um.",
+   "quadro": "texto",
+   "texto": "ABRE.|SOU EU"
+  },
+  {
+   "narracao": "Mas a dona Célia acabou de mandar mensagem.",
+   "quadro": "chat",
+   "nome": "DONA CÉLIA 701",
+   "msgs": [
+    [
+     "ele",
+     "não abre"
+    ]
+   ]
+  },
+  {
+   "narracao": "Não abre. Eu tô trancada aqui no setecentos e um.",
+   "quadro": "chat",
+   "nome": "DONA CÉLIA 701",
+   "msgs": [
+    [
+     "ele",
+     "não abre"
+    ],
+    [
+     "ele",
+     "eu tô trancada aqui no 701"
+    ]
+   ],
+   "fortes": [
+    "trancada"
+   ]
+  },
+  {
+   "narracao": "Ele está imitando a minha voz.",
+   "quadro": "chat",
+   "nome": "DONA CÉLIA 701",
+   "msgs": [
+    [
+     "ele",
+     "não abre"
+    ],
+    [
+     "ele",
+     "eu tô trancada aqui no 701"
+    ],
+    [
+     "ele",
+     "ele tá imitando a minha voz"
+    ]
+   ],
+   "alerta": true
+  },
+  {
+   "narracao": "A batida para.",
+   "quadro": "porta",
+   "luz": true
+  },
+  {
+   "narracao": "E alguém sussurra, colado na porta:",
+   "quadro": "olho_magico",
+   "figura": "oco",
+   "susto": true
+  },
+  {
+   "narracao": "eu sei que você leu a mensagem.",
+   "quadro": "texto",
+   "texto": "EU SEI QUE|VOCÊ LEU",
+   "alerta": true
+  },
+  {
+   "narracao": "Você abriria? Comenta. Parte dois em breve.",
+   "quadro": "texto",
+   "texto": "CONTINUA...|PARTE 2"
+  }
+ ]
+}

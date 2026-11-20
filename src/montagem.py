@@ -133,7 +133,60 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     destino.write_text(cab + "\n".join(linhas) + "\n", encoding="utf-8")
 
 
+def _legendas_voce(roteiro: dict, vozes: list, duracoes: list, destino: Path) -> None:
+    """Formato "voce": 1 a 3 palavras grandes por vez, no terço de baixo; a palavra forte em cor de destaque
+    (as PALAVRAS_FORTES, números e as que a cena listar em "fortes")."""
+    from .animacao import PALAVRAS_FORTES
+    from .voce import PALETAS
+    pal = PALETAS.get(roteiro.get("paleta", "noite"), PALETAS["noite"])
+    cor = "&H00%02X%02X%02X" % tuple(reversed(pal["acento2"] if roteiro.get("paleta", "noite") != "noite" else pal["acento"]))
+    cab = f"""[Script Info]
+ScriptType: v4.00+
+PlayResX: {W}
+PlayResY: {H}
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Fala,Poppins,92,&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,-1,0,0,0,100,100,1,0,1,7,3,2,80,80,{int(H * 0.2)},1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+"""
+    linhas, deslocamento = [], 0.0
+    for voz, dur, cena in zip(vozes, duracoes, roteiro["cenas"]):
+        palavras = voz["palavras"]
+        fichas = _fichas_alinhadas(cena.get("narracao", ""), palavras)
+        fortes = {x.lower() for x in cena.get("fortes", [])}
+        blocos, atual = [], []
+        for j in range(len(palavras)):
+            atual.append(j)
+            if len(atual) >= 3 or fichas[j].rstrip("\"'”").endswith((".", "!", "?", "…", ",", ":")):
+                blocos.append(atual)
+                atual = []
+        if atual:
+            blocos.append(atual)
+        for b, bloco in enumerate(blocos):
+            ini = deslocamento + palavras[bloco[0]]["inicio"]
+            fim = deslocamento + (palavras[blocos[b + 1][0]]["inicio"] if b + 1 < len(blocos)
+                                  else min(dur, palavras[bloco[-1]]["fim"] + 0.4))
+            if fim <= ini:
+                continue
+            textos = []
+            for j in bloco:
+                bruto = fichas[j].lower().strip(".,;:!?…\"'“”")
+                txt = _limpar(fichas[j]).rstrip(".,;:…").lstrip("\"'“") or _limpar(fichas[j])
+                forte = bruto in PALAVRAS_FORTES or bruto in fortes or any(ch.isdigit() for ch in bruto)
+                textos.append(f"{{\\c{cor}&}}{txt}{{\\c&H00FFFFFF&}}" if forte else txt)
+            pop = "{\\fscx86\\fscy86\\t(0,90,\\fscx100\\fscy100)}"
+            linhas.append(f"Dialogue: 0,{_tempo_ass(ini)},{_tempo_ass(fim)},Fala,,0,0,0,,{pop}{' '.join(textos)}")
+        deslocamento += dur
+    destino.write_text(cab + "\n".join(linhas) + "\n", encoding="utf-8")
+
+
 def _escrever_legendas(roteiro: dict, vozes: list, duracoes: list, cfg: dict, destino: Path) -> None:
+    if roteiro.get("formato") == "voce":
+        return _legendas_voce(roteiro, vozes, duracoes, destino)
     if roteiro.get("formato") in ("protocolo", "sombra") or roteiro.get("estilo") == "vhs":   # o texto já está no quadro
         destino.write_text(f"[Script Info]\nScriptType: v4.00+\nPlayResX: {W}\nPlayResY: {H}\n\n[V4+ Styles]\n"
                            "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, "
@@ -272,6 +325,13 @@ def montar_video(roteiro: dict, vozes: list, cfg: dict, pasta: Path) -> Path:
                 duracoes.append(renderizar_cena(cena, voz, destino, prot, pausa))
             else:
                 duracoes.append(renderizar_cena_protocolo(cena, voz, destino, pausa, i))
+            cenas.append(destino)
+            continue
+        if roteiro.get("formato") == "voce":
+            from .voce import renderizar_cena_voce
+            cena.update(_paleta=roteiro.get("paleta", "noite"), _hora=roteiro.get("hora"), _parte=roteiro.get("parte"),
+                        _t0=sum(duracoes))
+            duracoes.append(renderizar_cena_voce(cena, voz, destino, pausa, i))
             cenas.append(destino)
             continue
         if roteiro.get("formato") == "sombra":
