@@ -462,14 +462,32 @@ def _espaco(img, cena, t, dur, n, p):
         x, y = rnd.random() * W, rnd.random() * H
         d.ellipse((x - 2, y - 2, x + 2, y + 2), fill=(200, 205, 220))
     _globo(d, W * 0.8, H * 0.95, 520, t * 0.3)
-    ax, ay = W / 2 + math.sin(t * 0.8) * 40, H * 0.42 + math.cos(t * 0.6) * 30
-    ang = t * 0.4
-    tam = 240
-    d.rounded_rectangle((ax - tam * 0.35, ay - tam * 0.2, ax + tam * 0.35, ay + tam * 0.75), radius=50, fill=p["fig"])
-    d.ellipse((ax - tam * 0.42, ay - tam * 0.75, ax + tam * 0.42, ay + tam * 0.05), fill=p["fig"])
-    if not cena.get("sem_capacete"):
-        d.ellipse((ax - tam * 0.3, ay - tam * 0.6, ax + tam * 0.3, ay - tam * 0.1), fill=p["fundo2"])
-        d.ellipse((ax - tam * 0.18, ay - tam * 0.52, ax - tam * 0.05, ay - tam * 0.42), fill=p["acento2"])
+    ax, ay = W / 2 + math.sin(t * 0.8) * 40, H * 0.44 + math.cos(t * 0.6) * 30
+    branco, cinza, sombra = (240, 243, 250), (190, 198, 214), (150, 158, 178)
+    braco = math.sin(t * 1.4) * 18
+    d.rounded_rectangle((ax - 150, ay - 40, ax - 70, ay + 150), radius=30, fill=cinza)          # mochila
+    d.rounded_rectangle((ax - 110, ay - 30, ax + 110, ay + 210), radius=70, fill=branco)        # corpo
+    d.rounded_rectangle((ax - 60, ay + 40, ax + 60, ay + 110), radius=14, fill=sombra)           # painel
+    for k, cor in enumerate(((232, 44, 56), (86, 214, 255), (255, 196, 36))):
+        d.ellipse((ax - 40 + k * 30, ay + 62, ax - 22 + k * 30, ay + 80), fill=cor)
+    d.rounded_rectangle((ax - 175, ay - 10 + braco, ax - 95, ay + 150 + braco), radius=40, fill=branco)  # braços
+    d.rounded_rectangle((ax + 95, ay - 10 - braco, ax + 175, ay + 150 - braco), radius=40, fill=branco)
+    d.rounded_rectangle((ax - 95, ay + 180, ax - 15, ay + 330), radius=40, fill=branco)         # pernas
+    d.rounded_rectangle((ax + 15, ay + 180, ax + 95, ay + 330), radius=40, fill=branco)
+    d.rounded_rectangle((ax - 100, ay + 300, ax - 10, ay + 345), radius=20, fill=cinza)
+    d.rounded_rectangle((ax + 10, ay + 300, ax + 100, ay + 345), radius=20, fill=cinza)
+    hx, hy, hr = ax, ay - 120, 125
+    if cena.get("sem_capacete"):                                                                # rosto à mostra
+        d.ellipse((hx - hr * 0.78, hy - hr * 0.8, hx + hr * 0.78, hy + hr * 0.8), fill=(240, 200, 170))
+        d.pieslice((hx - hr * 0.82, hy - hr * 0.88, hx + hr * 0.82, hy + hr * 0.5), 180, 360, fill=(70, 45, 30))
+        for s_ in (-1, 1):
+            d.ellipse((hx + s_ * 32 - 14, hy - 4, hx + s_ * 32 + 14, hy + 30), fill=(255, 255, 255))
+            d.ellipse((hx + s_ * 32 - 7, hy + 6, hx + s_ * 32 + 7, hy + 22), fill=(20, 20, 30))
+        d.ellipse((hx - 22, hy + 48, hx + 22, hy + 80), fill=(120, 40, 40))                       # boca aberta
+    else:
+        d.ellipse((hx - hr, hy - hr, hx + hr, hy + hr), fill=branco)
+        d.rounded_rectangle((hx - hr * 0.72, hy - hr * 0.5, hx + hr * 0.72, hy + hr * 0.5), radius=60, fill=p["fundo2"])
+        d.ellipse((hx - hr * 0.5, hy - hr * 0.35, hx - hr * 0.2, hy - hr * 0.1), fill=p["acento2"])
     if cena.get("segundos"):
         resto = max(0, int(cena["segundos"]) - int(t * 3))
         _centro_texto(d, W / 2, H * 0.2, f"{resto:02d}s", _f(130, True), p["acento"])

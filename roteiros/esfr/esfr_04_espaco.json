@@ -51,12 +51,11 @@
   },
   {
    "narracao": "Em mil novecentos e sessenta e cinco, isso aconteceu de verdade.",
-   "quadro": "numero",
-   "de": 1900,
-   "ate": 1965,
-   "unidade": "NASA",
-   "rotulo": "caso real",
-   "ano": true
+   "quadro": "texto",
+   "texto": "1965|CASO REAL",
+   "fortes": [
+    "verdade"
+   ]
   },
   {
    "narracao": "O traje de um técnico vazou numa câmara de vácuo.",
