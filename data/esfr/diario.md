@@ -13,3 +13,7 @@
 - 20/11, 17h: o Vitor entregou o comando do canal ("é você que comanda, dispare quantos achar melhor"). Ritmo: até 3 por dia (12h17, 16h17, 20h17). Arte do canal entregue (perfil refeito a pedido do Vitor, que achou simples demais). Criada a tarefa de produção diária às 9h41.
 - Fila: buraco, Terra parando, Lua, espaço sem traje, todo mundo pulando.
 - **Para melhorar:** o quadro "multidao" ficou fraco (fileira pequena de bonecos) e houve cenas demais só de texto no vídeo do pulo. Preferir quadros com desenho e criar novos quando o assunto pedir.
+
+## 20/11 (20h55): piloto postado à mão
+- O agendamento das 20h17 não disparou. Com o OK do Vitor, rodei `fila-esfr.yml` à mão (run 44839969400): "E se você pulasse num buraco que atravessa a Terra?" saiu no YouTube (Upload-Post completed). Ficam 4 na fila.
+- Criada a tarefa de reserva (12h37, 16h37, 20h37): se o agendado falhar, ela posta à mão o próximo da fila e avisa o Vitor.
