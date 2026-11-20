@@ -13,9 +13,10 @@ import time
 
 from .util import RAIZ, log
 
-FILA = RAIZ / "data" / "fila.json"
+CANAL = os.environ.get("CANAL", "").strip()          # vazio = Você Escaparia? (terror); "esfr" = E Se Fosse Real?
+FILA = RAIZ / "data" / (f"fila_{CANAL}.json" if CANAL else "fila.json")
 PENDENTE = RAIZ / "data" / "pendente.json"
-HORARIOS = "11h47 e 18h47"
+HORARIOS = "12h17 e 20h17" if CANAL else "11h47 e 18h47"
 
 
 def carregar() -> dict:
@@ -47,6 +48,8 @@ def _lista(f: dict) -> str:
 
 def _do_turno(f: dict, turno: str) -> int | None:
     """11h47 = isca; 18h47 = o vídeo principal (protocolo ou história). Faixa vazia = não posta (nunca adianta o principal)."""
+    if CANAL:                                           # canais novos não têm faixa de isca: sai o próximo
+        return 0 if f["itens"] else None
     quer_isca = turno == "manha"
     for i, it in enumerate(f["itens"]):
         if (it.get("tipo", "isca") == "isca") == quer_isca:

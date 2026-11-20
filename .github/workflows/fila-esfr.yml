@@ -1,0 +1,92 @@
+name: Fila E Se Fosse Real? (YouTube)
+
+on:
+  schedule:
+    - cron: "17 15,23 * * *"    # 12h17 e 20h17 de Brasília
+  workflow_dispatch:
+    inputs:
+      acao:
+        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram)"
+        default: postar
+      turno:
+        description: "postar: manha (isca) ou tarde (principal)"
+        default: manha
+      texto:
+        description: "aviso: o texto"
+        default: ""
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fila-esfr
+  cancel-in-progress: false
+
+jobs:
+  postar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      UPLOAD_POST_API_KEY: ${{ secrets.UPLOAD_POST_API_KEY }}
+      UPLOAD_POST_USER: ${{ secrets.UPLOAD_POST_USER_ESE }}
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN_ESE }}
+      CANAL: esfr
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Instalar FFmpeg e fontes
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+      - name: Aviso no Telegram
+        if: github.event.inputs.acao == 'aviso'
+        env:
+          AVISO: ${{ github.event.inputs.texto }}
+        run: python -m src.fila aviso
+      - name: Qual é o próximo
+        id: prox
+        if: github.event.inputs.acao != 'aviso'
+        env:
+          TURNO: ${{ github.event.inputs.turno }}
+          AGENDADO: ${{ github.event_name == 'schedule' && '1' || '0' }}
+        run: |
+          H=$(date -u +%H)
+          if [ -z "${{ github.event.inputs.turno }}" ]; then
+            if [ "$H" -lt 19 ]; then export TURNO=manha; else export TURNO=tarde; fi
+          fi
+          echo "turno: $TURNO"
+          python -m src.fila proximo
+      - name: Baixar o vídeo
+        if: steps.prox.outputs.run_id != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh run download "${{ steps.prox.outputs.run_id }}" -D baixado
+      - name: Postar
+        if: steps.prox.outputs.run_id != ''
+        env:
+          DA_FILA: "1"
+          TITULO_YOUTUBE: ${{ steps.prox.outputs.titulo_youtube }}
+          LEGENDA_POST: ${{ steps.prox.outputs.legenda }}
+        run: python -m src.postar
+      - name: Tirar da fila
+        if: steps.prox.outputs.run_id != '' && success()
+        env:
+          INDICE: ${{ steps.prox.outputs.indice }}
+        run: python -m src.fila feito
+      - name: Guardar a fila
+        if: always()
+        run: |
+          git config user.name "bot-terror"
+          git config user.email "bot-terror@users.noreply.github.com"
+          for f in data/fila_esfr.json data/thumbs_feitas.json; do [ -e "$f" ] && git add "$f"; done
+          git diff --cached --quiet && exit 0
+          git commit -m "Fila: postado"
+          for t in 1 2 3; do git pull --rebase -X theirs --autostash && git push && exit 0; sleep 7; done
