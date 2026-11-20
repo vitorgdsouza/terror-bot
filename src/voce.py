@@ -431,7 +431,7 @@ def _planeta(img, cena, t, dur, n, p):
             x = (t * 900 + k * 170) % (W + 400) - 200
             d.line((x, y, x + 160, y), fill=p["acento2"], width=8)
     if cena.get("rotulo"):
-        _centro_texto(d, W / 2, H * 0.78, str(cena["rotulo"]).upper(), _f(60), p["acento"])
+        _centro_texto(d, W / 2, H * 0.16, str(cena["rotulo"]).upper(), _f(60), p["acento"])
 
 
 def _terra_corte(img, cena, t, dur, n, p):
