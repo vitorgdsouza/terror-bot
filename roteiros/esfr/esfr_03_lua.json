@@ -56,7 +56,8 @@
    "narracao": "Mas o pior efeito é lento.",
    "quadro": "planeta",
    "lua": false,
-   "alerta": true
+   "alerta": true,
+   "eixo": true
   },
   {
    "narracao": "A Lua segura a inclinação da Terra em vinte e três graus e meio.",
@@ -70,7 +71,8 @@
    "narracao": "Sem ela, com o tempo, a Terra começaria a balançar.",
    "quadro": "planeta",
    "lua": false,
-   "rotulo": "balançando"
+   "rotulo": "balançando",
+   "balanca": true
   },
   {
    "narracao": "E as estações do ano virariam uma bagunça.",

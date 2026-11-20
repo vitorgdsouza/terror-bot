@@ -21,10 +21,10 @@ Cena: {"narracao": "...", "quadro": "<tipo>", ...}
   texto        palavras grandes no meio, escrita de máquina; "texto": "NÃO ATENDA" ("|" quebra a linha)
   preto        tela preta
 Ciência (paleta "ciencia", canal E Se Fosse Real?):
-  planeta      a Terra girando no espaço; "lua": false, "some_lua": true, "para": true (rotação freia), "vento": true, "rotulo"
+  planeta      a Terra girando no espaço; "eixo": true (mostra o eixo), "balanca": true (eixo bamboleando), "lua": false, "some_lua": true, "para": true (rotação freia), "vento": true, "rotulo"
   terra_corte  a Terra em corte com o buraco; "de"/"ate" (0 a 1: posição de quem cai), "rotulo" (ex.: "5.400 °C")
   espaco       astronauta flutuando; "sem_capacete": true, "segundos": 15 (contagem regressiva)
-  numero       número grande contando; "de", "ate", "unidade" (km/h), "rotulo"
+  numero       número grande contando; "de", "ate", "ano": true (sem ponto de milhar), "unidade" (km/h), "rotulo"
   comparar     barras crescendo; "itens": [["Furacão", 300], ["Sem rotação", 1670]], "unidade": "km/h"
   multidao     muita gente pulando; "rotulo"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
@@ -425,6 +425,10 @@ def _planeta(img, cena, t, dur, n, p):
             alfa = int(255 * max(0.0, 1 - t / max(0.1, dur * 0.6)))
         if alfa > 5:
             d.ellipse((lx - 60, ly - 60, lx + 60, ly + 60), fill=(220, 220, 228, alfa))
+    if cena.get("balanca") or cena.get("eixo"):         # eixo da Terra; "balanca": true faz ele bambolear
+        ang = math.radians(23.5 + (math.sin(t * 2.2) * 18 if cena.get("balanca") else 0))
+        dx, dy = math.sin(ang) * r * 1.35, math.cos(ang) * r * 1.35
+        d.line((cx - dx, cy + dy, cx + dx, cy - dy), fill=p["acento"], width=10)
     if cena.get("vento"):                               # linhas de vento varrendo para leste
         for k in range(10):
             y = cy - r * 0.8 + k * r * 0.18
@@ -475,7 +479,8 @@ def _numero(img, cena, t, dur, n, p):
     d = ImageDraw.Draw(img)
     de, ate = float(cena.get("de", 0)), float(cena.get("ate", 100))
     v = de + (ate - de) * _suave(t / max(0.1, dur * 0.7))
-    txt = f"{v:,.0f}".replace(",", ".") if abs(ate) >= 10 else f"{v:.1f}".replace(".", ",")
+    inteiro = float(ate).is_integer() and float(de).is_integer()
+    txt = f"{v:.0f}" if cena.get("ano") else f"{v:,.0f}".replace(",", ".") if inteiro else f"{v:,.1f}".replace(",", "#").replace(".", ",").replace("#", ".")
     _centro_texto(d, W / 2, H * 0.38, txt, _f(230, True), p["acento"])
     if cena.get("unidade"):
         _centro_texto(d, W / 2, H * 0.49, str(cena["unidade"]).upper(), _f(70), p["fig"])

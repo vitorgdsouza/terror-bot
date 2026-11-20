@@ -55,7 +55,8 @@
    "de": 1900,
    "ate": 1965,
    "unidade": "NASA",
-   "rotulo": "caso real"
+   "rotulo": "caso real",
+   "ano": true
   },
   {
    "narracao": "O traje de um técnico vazou numa câmara de vácuo.",
