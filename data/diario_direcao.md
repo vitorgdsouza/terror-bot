@@ -239,3 +239,12 @@
 - **Refazer:** nada com status "refazer" em `aprovacoes.json`.
 - **Mesa do Gerente:** "Aguardando" com nº 9, 8, 6 e 5 (o texto do nº 6 agora diz que a cota já voltou). Histórico sem decisões novas desde o nº 7 (19/11).
 - **Ferramenta:** gh CLI segue sem token; workflows pelo conector do GitHub. Analista e Roteirista rodaram como subagentes.
+
+## 20/11 (10h55): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item com status "renderizado" ou "renderizando" em `aprovacoes.json`, e nenhum render de `refazer-video.yml` rodando (os últimos foram os pilotos do formato voce, às 04h08–04h25, que estão em `pendente.json` e não passam pela Mesa).
+- **Publicador:** nenhum vídeo novo para mandar. Continua com o Vitor o nº 5 (Câmera da Campainha, vídeo final): se não for aprovado até ~11h40, a faixa das 11h47 de hoje fica vazia e ela passa para a próxima faixa de isca.
+- **Fila:** 0 itens. O principal das 18h47 de hoje é o nº 6 (roteiro do Protocolo Geada), ainda esperando o Vitor (aprovar até ~14h). Como há item esperando aprovação, não mandei aviso novo. Iscas aprovadas na fila: 0 (o mínimo é 2); os nº 8 (Dashcam) e nº 9 (CAM 04) esperam o Vitor.
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** sem mudança. "Aguardando" já tem só os nº 9, 8, 6 e 5; nenhuma decisão nova do Vitor para o histórico.
+- **Aviso no Telegram:** não mandado (nada novo desde a rodada da manhã).
+- **Ferramenta:** gh CLI segue com token inválido; consultas pelo conector do GitHub. Sem subagentes nesta rodada (não havia trabalho para eles).
