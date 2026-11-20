@@ -80,7 +80,7 @@ jobs:
           git config user.email "bot-terror@users.noreply.github.com"
           git fetch -q origin main && git checkout origin/main -- data/aprovacoes.json || true   # a Mesa salva o "renderizando" depois de disparar o render (só esse arquivo, para não dar conflito no pendente.json)
           [ -n "$ROTEIRO_ARQ" ] && python -m src.aprovacao renderizado || true
-          git add data/pendente.json data/previas; [ -e data/aprovacoes.json ] && git add data/aprovacoes.json
+          for f in data/pendente.json data/previas data/aprovacoes.json; do [ -e "$f" ] && git add "$f"; done
           git diff --cached --quiet && exit 0
           git commit -m "Vídeo refeito pronto para postar"
           for tentativa in 1 2 3 4 5; do              # outra execução pode ter salvo ao mesmo tempo: fica com a nossa versão
