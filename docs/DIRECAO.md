@@ -47,7 +47,7 @@ Também não usa os números do canal 2 nas decisões do terror. O contrário ta
   - uma pergunta que puxe comentário.
 
   Use as iscas para apresentar as séries novas. Modelo: `roteiros/iscas/isca_06_farmacia.json`.
-- **Sempre manter pelo menos 2 iscas na fila.** Se tiver menos, faça uma isca nova no dia.
+- **Constância (ordem do Vitor, 20/11): 2 posts TODO dia, sem faixa vazia.** A fila aprovada precisa cobrir os **próximos 3 dias**: 3 iscas e 3 principais. A equipe trabalha 3 dias à frente. Se faltar, a pauta do dia é fechar o buraco antes de qualquer outra coisa: o Roteirista entrega roteiros a mais e o Revisor/Publicador manda os vídeos ao Vitor com a data da faixa. Volume não justifica queda de qualidade: as regras da seção 3 continuam valendo.
 - **No máximo 2 posts por dia.** Postar demais derruba a distribuição de cada vídeo.
 
 ## 2. O que funciona (dados do canal até 17/11/2026)
