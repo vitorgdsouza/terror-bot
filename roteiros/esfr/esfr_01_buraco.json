@@ -1,0 +1,130 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.3,
+ "titulo": "E se você pulasse num buraco que atravessa a Terra?",
+ "titulo_youtube": "E se você pulasse num buraco que atravessa a Terra? 🌍 #shorts",
+ "legenda_post": "E se existisse um túnel até o outro lado do planeta? A queda leva uns 38 minutos... e o final é o pior. Você pularia? 👇\n\nFontes: Klotz, \"The Gravity Tunnel in a Non-Uniform Earth\" (Am. J. Phys., 2015); Live Science.\n#ciencia #curiosidades #ese #fisica",
+ "cenas": [
+  {
+   "narracao": "E se você pulasse num buraco que atravessa a Terra?",
+   "quadro": "terra_corte",
+   "de": 0,
+   "ate": 0.02
+  },
+  {
+   "narracao": "São doze mil e setecentos quilômetros de queda.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 12742,
+   "unidade": "km",
+   "rotulo": "de um lado ao outro"
+  },
+  {
+   "narracao": "No começo, você cai cada vez mais rápido.",
+   "quadro": "terra_corte",
+   "de": 0.02,
+   "ate": 0.3
+  },
+  {
+   "narracao": "No centro, passa de vinte e oito mil quilômetros por hora.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 28000,
+   "unidade": "km/h",
+   "rotulo": "no centro da Terra",
+   "fortes": [
+    "mil"
+   ]
+  },
+  {
+   "narracao": "Na vida real, o núcleo passa de cinco mil graus.",
+   "quadro": "terra_corte",
+   "de": 0.45,
+   "ate": 0.5,
+   "rotulo": "+5.000 °C"
+  },
+  {
+   "narracao": "Mas vamos fingir que você aguenta.",
+   "quadro": "texto",
+   "texto": "VAMOS FINGIR|QUE VOCÊ AGUENTA"
+  },
+  {
+   "narracao": "Depois do centro, a gravidade vira contra você.",
+   "quadro": "terra_corte",
+   "de": 0.5,
+   "ate": 0.75,
+   "fortes": [
+    "contra"
+   ]
+  },
+  {
+   "narracao": "Você vai freando... até a borda do outro lado.",
+   "quadro": "terra_corte",
+   "de": 0.75,
+   "ate": 0.99
+  },
+  {
+   "narracao": "A viagem toda leva uns trinta e oito minutos.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 38,
+   "unidade": "minutos",
+   "rotulo": "de queda"
+  },
+  {
+   "narracao": "Os livros diziam quarenta e dois. Com a Terra de verdade, trinta e oito.",
+   "quadro": "comparar",
+   "itens": [
+    [
+     "Terra igual por dentro",
+     42
+    ],
+    [
+     "Terra de verdade",
+     38
+    ]
+   ],
+   "unidade": "min"
+  },
+  {
+   "narracao": "E aí vem o problema.",
+   "quadro": "terra_corte",
+   "de": 0.99,
+   "ate": 1.0,
+   "alerta": true
+  },
+  {
+   "narracao": "Se você não se agarrar na borda...",
+   "quadro": "texto",
+   "texto": "SE AGARRA|NA BORDA!"
+  },
+  {
+   "narracao": "você cai de volta. Como um pêndulo.",
+   "quadro": "terra_corte",
+   "de": 1.0,
+   "ate": 0.0,
+   "fortes": [
+    "pêndulo"
+   ]
+  },
+  {
+   "narracao": "E com ar no túnel, você terminaria parado... no centro da Terra.",
+   "quadro": "terra_corte",
+   "de": 0.4,
+   "ate": 0.5,
+   "rotulo": "preso no centro"
+  },
+  {
+   "narracao": "Você pularia? Comenta.",
+   "quadro": "texto",
+   "texto": "VOCÊ|PULARIA?"
+  }
+ ]
+}

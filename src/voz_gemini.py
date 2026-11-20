@@ -24,6 +24,9 @@ ESTILOS = {
               "baixa e próxima, ritmo tranquilo, com pequenas pausas nas reticências"),
     "suspense": ("Leia em português do Brasil, como narrador de uma história de terror: voz grave e tensa, "
                  "quase sussurrada nos momentos de medo, criando suspense, ritmo pausado"),
+    "curioso": ("Leia em português do Brasil como um apresentador jovem de vídeos de ciência e curiosidades: "
+                "voz animada, curiosa e clara, ritmo rápido e envolvente, com ênfase nas palavras e números surpreendentes, "
+                "pausas curtas só nas reticências"),
     "dramatica": ("Leia em português do Brasil, como narrador de uma história de terror: voz grave, intensa e "
                   "dramática, aumentando a tensão a cada frase e enfatizando as palavras fortes"),
 }
@@ -164,7 +167,7 @@ def alinhar(palavras: list[str], reconhecidas: list[dict], total: float) -> list
 def escolher_estilo(roteiro: dict, cfg_voz: dict) -> str:
     estilos = cfg_voz.get("estilos") or ["calma", "suspense"]
     clima = str(roteiro.get("clima", "")).strip().lower()
-    if clima in ESTILOS and roteiro.get("formato") == "protocolo":
+    if clima in ESTILOS and (roteiro.get("formato") == "protocolo" or clima == "curioso"):
         return clima
     return clima if clima in estilos else cfg_voz.get("estilo_padrao", estilos[-1])
 
@@ -174,7 +177,7 @@ def narrar_roteiro(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
     from .voz import _tratar
     from .util import duracao
     cfg_voz = cfg["voz"]
-    voz = cfg_voz.get("gemini_voz", "Enceladus")
+    voz = roteiro.get("voz") or cfg_voz.get("gemini_voz", "Enceladus")   # cada canal pode ter a sua voz
     estilo = escolher_estilo(roteiro, cfg_voz)
     roteiro["_voz"] = f"{voz} ({estilo})"
     pasta.mkdir(parents=True, exist_ok=True)

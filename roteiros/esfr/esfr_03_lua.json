@@ -1,0 +1,86 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.3,
+ "titulo": "E se a Lua sumisse hoje à noite?",
+ "titulo_youtube": "E se a Lua sumisse hoje à noite? 🌕 #shorts",
+ "legenda_post": "Pouca gente imagina o que a Lua faz pela Terra. Sem ela, as marés encolhem, bichos se perdem e o planeta começa a balançar. Você ia sentir falta? 👇\n\nFontes: Astronomy, Live Science, ZME Science.\n#ciencia #curiosidades #ese #lua",
+ "cenas": [
+  {
+   "narracao": "E se a Lua sumisse hoje à noite?",
+   "quadro": "planeta",
+   "some_lua": true
+  },
+  {
+   "narracao": "Primeiro: a noite fica muito mais escura.",
+   "quadro": "texto",
+   "texto": "NOITE|MAIS ESCURA"
+  },
+  {
+   "narracao": "As marés encolhem para menos da metade.",
+   "quadro": "comparar",
+   "itens": [
+    [
+     "Maré com a Lua",
+     100
+    ],
+    [
+     "Maré sem a Lua",
+     45
+    ]
+   ],
+   "unidade": "%"
+  },
+  {
+   "narracao": "Só o Sol continuaria puxando o mar.",
+   "quadro": "texto",
+   "texto": "SÓ O SOL|PUXA O MAR"
+  },
+  {
+   "narracao": "Tartarugas recém-nascidas usam a luz da Lua para achar o mar.",
+   "quadro": "texto",
+   "texto": "TARTARUGAS|PERDIDAS"
+  },
+  {
+   "narracao": "Sem ela, muitas se perderiam na praia.",
+   "quadro": "texto",
+   "texto": "SEM LUZ|SEM CAMINHO"
+  },
+  {
+   "narracao": "Mas o pior efeito é lento.",
+   "quadro": "planeta",
+   "lua": false,
+   "alerta": true
+  },
+  {
+   "narracao": "A Lua segura a inclinação da Terra em vinte e três graus e meio.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 23.5,
+   "unidade": "graus",
+   "rotulo": "inclinação da Terra"
+  },
+  {
+   "narracao": "Sem ela, com o tempo, a Terra começaria a balançar.",
+   "quadro": "planeta",
+   "lua": false,
+   "rotulo": "balançando"
+  },
+  {
+   "narracao": "E as estações do ano virariam uma bagunça.",
+   "quadro": "texto",
+   "texto": "ESTAÇÕES|BAGUNÇADAS"
+  },
+  {
+   "narracao": "Você ia sentir falta dela? Comenta.",
+   "quadro": "texto",
+   "texto": "VOCÊ IA|SENTIR FALTA?"
+  }
+ ]
+}

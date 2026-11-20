@@ -1,0 +1,78 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.3,
+ "titulo": "E se todo mundo pulasse ao mesmo tempo?",
+ "titulo_youtube": "E se TODO MUNDO pulasse ao mesmo tempo? 🌍 #shorts",
+ "legenda_post": "Oito bilhões de pessoas, um pulo só. A Terra se mexe? Sim... mas o problema de verdade vem depois. Você pularia? 👇\n\nFontes: HowStuffWorks, Science ABC, xkcd What If #8.\n#ciencia #curiosidades #ese #fisica",
+ "cenas": [
+  {
+   "narracao": "E se todo mundo no planeta pulasse ao mesmo tempo?",
+   "quadro": "multidao"
+  },
+  {
+   "narracao": "São mais de oito bilhões de pessoas.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 8,
+   "unidade": "bilhões",
+   "rotulo": "de pessoas"
+  },
+  {
+   "narracao": "Bem juntinhas, todo mundo cabe numa cidade grande.",
+   "quadro": "multidao",
+   "pulando": false,
+   "rotulo": "uma cidade só"
+  },
+  {
+   "narracao": "Um, dois, três... todo mundo pula!",
+   "quadro": "multidao",
+   "rotulo": "PULA!"
+  },
+  {
+   "narracao": "A Terra se mexe?",
+   "quadro": "planeta",
+   "lua": false
+  },
+  {
+   "narracao": "Se mexe, sim: menos que a largura de um átomo.",
+   "quadro": "texto",
+   "texto": "MENOS QUE|UM ÁTOMO"
+  },
+  {
+   "narracao": "A Terra pesa trilhões de vezes mais que todos nós juntos.",
+   "quadro": "texto",
+   "texto": "TRILHÕES DE|VEZES MAIS",
+   "fortes": [
+    "trilhões"
+   ]
+  },
+  {
+   "narracao": "O problema de verdade vem depois do pulo.",
+   "quadro": "texto",
+   "texto": "O PROBLEMA|É DEPOIS"
+  },
+  {
+   "narracao": "Oito bilhões de pessoas tentando voltar pra casa ao mesmo tempo.",
+   "quadro": "multidao",
+   "pulando": false,
+   "alerta": true
+  },
+  {
+   "narracao": "O maior engarrafamento da história.",
+   "quadro": "texto",
+   "texto": "O MAIOR|ENGARRAFAMENTO"
+  },
+  {
+   "narracao": "Você pularia? Comenta.",
+   "quadro": "texto",
+   "texto": "VOCÊ|PULARIA?"
+  }
+ ]
+}

@@ -20,6 +20,13 @@ Cena: {"narracao": "...", "quadro": "<tipo>", ...}
   silhueta     você no cômodo; "acao": parado | andando | tremendo | escondido, "outra": true (outra figura no canto)
   texto        palavras grandes no meio, escrita de máquina; "texto": "NÃO ATENDA" ("|" quebra a linha)
   preto        tela preta
+Ciência (paleta "ciencia", canal E Se Fosse Real?):
+  planeta      a Terra girando no espaço; "lua": false, "some_lua": true, "para": true (rotação freia), "vento": true, "rotulo"
+  terra_corte  a Terra em corte com o buraco; "de"/"ate" (0 a 1: posição de quem cai), "rotulo" (ex.: "5.400 °C")
+  espaco       astronauta flutuando; "sem_capacete": true, "segundos": 15 (contagem regressiva)
+  numero       número grande contando; "de", "ate", "unidade" (km/h), "rotulo"
+  comparar     barras crescendo; "itens": [["Furacão", 300], ["Sem rotação", 1670]], "unidade": "km/h"
+  multidao     muita gente pulando; "rotulo"
 Em qualquer cena: "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
 import math
@@ -38,6 +45,8 @@ PALETAS = {
               "acento2": (255, 199, 64), "apagado": (70, 84, 128)},
     "sangue": {"fundo": (128, 8, 18), "fundo2": (60, 2, 8), "fig": (12, 5, 8), "acento": (250, 245, 240),
                "acento2": (255, 210, 90), "apagado": (90, 10, 18)},
+    "ciencia": {"fundo": (8, 18, 46), "fundo2": (22, 50, 104), "fig": (245, 247, 252), "acento": (255, 196, 36),
+                "acento2": (86, 214, 255), "apagado": (66, 96, 150)},
     "papel": {"fundo": (8, 8, 10), "fundo2": (26, 26, 30), "fig": (236, 236, 236), "acento": (230, 40, 46),
               "acento2": (255, 199, 64), "apagado": (70, 70, 78)},
 }
@@ -368,6 +377,144 @@ def _texto(img, cena, t, dur, n, p):
 
 QUADROS = {"ligacao": _ligacao, "chat": _chat, "relogio": _relogio, "andares": _andares, "mapa": _mapa,
            "regra": _regra, "porta": _porta, "olho_magico": _olho_magico, "silhueta": _silhueta, "texto": _texto}
+
+
+# ---------------------------------------------------------------- quadros de ciência (canal E Se Fosse Real?)
+OCEANO, TERRA_COR = (38, 112, 206), (72, 170, 96)
+
+
+def _globo(d, cx, cy, r, t, gira=1.0):
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=OCEANO)
+    for k in range(5):                                  # continentes simples andando com a rotação
+        rnd = random.Random(k * 7)
+        lat = (rnd.random() - 0.5) * 1.4
+        lon = (rnd.random() * 2 * math.pi + t * 0.6 * gira) % (2 * math.pi)
+        if math.cos(lon) < 0:
+            continue
+        x = cx + r * math.sin(lon) * math.cos(lat)
+        y = cy - r * math.sin(lat)
+        tam = r * (0.18 + rnd.random() * 0.14) * (0.4 + 0.6 * math.cos(lon))
+        d.ellipse((x - tam, y - tam * 0.7, x + tam, y + tam * 0.7), fill=TERRA_COR)
+    for k in range(1, 4):                               # paralelos
+        yy = cy - r + k * r / 2
+        meia = math.sqrt(max(0, r * r - (yy - cy) ** 2))
+        d.line((cx - meia, yy, cx + meia, yy), fill=(255, 255, 255, 60), width=2)
+
+
+def _planeta(img, cena, t, dur, n, p):
+    d = ImageDraw.Draw(img, "RGBA")
+    for k in range(90):                                 # estrelas
+        rnd = random.Random(k)
+        x, y = rnd.random() * W, rnd.random() * H
+        b = 120 + int(120 * abs(math.sin(t * 2 + k)))
+        d.ellipse((x - 2, y - 2, x + 2, y + 2), fill=(b, b, b))
+    cx, cy, r = W / 2, H * 0.45, 330
+    gira = 1.0
+    if cena.get("para"):                                # a rotação freia até parar
+        gira = max(0.0, 1 - t / max(0.1, dur * 0.6))
+    _globo(d, cx, cy, r, t if not cena.get("para") else min(t, dur * 0.6) * 0.5, gira)
+    if cena.get("lua", True) is not False and not cena.get("sem_terra_lua"):
+        a = t * 0.5
+        lx, ly = cx + math.cos(a) * 470, cy + math.sin(a) * 160
+        alfa = 255
+        if cena.get("some_lua"):
+            alfa = int(255 * max(0.0, 1 - t / max(0.1, dur * 0.6)))
+        if alfa > 5:
+            d.ellipse((lx - 60, ly - 60, lx + 60, ly + 60), fill=(220, 220, 228, alfa))
+    if cena.get("vento"):                               # linhas de vento varrendo para leste
+        for k in range(10):
+            y = cy - r * 0.8 + k * r * 0.18
+            x = (t * 900 + k * 170) % (W + 400) - 200
+            d.line((x, y, x + 160, y), fill=p["acento2"], width=8)
+    if cena.get("rotulo"):
+        _centro_texto(d, W / 2, H * 0.78, str(cena["rotulo"]).upper(), _f(60), p["acento"])
+
+
+def _terra_corte(img, cena, t, dur, n, p):
+    d = ImageDraw.Draw(img)
+    cx, cy, r = W / 2, H * 0.46, 470
+    camadas = [(1.0, (150, 96, 60)), (0.97, (205, 90, 40)), (0.55, (240, 150, 40)), (0.19, (255, 230, 120))]
+    for f, cor in camadas:
+        d.ellipse((cx - r * f, cy - r * f, cx + r * f, cy + r * f), fill=cor)
+    if cena.get("buraco", True):
+        d.rectangle((cx - 22, cy - r - 30, cx + 22, cy + r + 30), fill=(10, 10, 14))
+        prog = cena.get("de", 0.0) + (cena.get("ate", 1.0) - cena.get("de", 0.0)) * _suave(t / max(0.1, dur * 0.9))
+        y = cy - r + prog * 2 * r
+        d.ellipse((cx - 18, y - 18, cx + 18, y + 18), fill=p["fig"])
+        d.ellipse((cx - 7, y - 30, cx + 7, y - 16), fill=p["fig"])
+    if cena.get("rotulo"):
+        _centro_texto(d, W / 2, H * 0.83, str(cena["rotulo"]).upper(), _f(64), p["acento"])
+
+
+def _espaco(img, cena, t, dur, n, p):
+    d = ImageDraw.Draw(img)
+    for k in range(120):
+        rnd = random.Random(k)
+        x, y = rnd.random() * W, rnd.random() * H
+        d.ellipse((x - 2, y - 2, x + 2, y + 2), fill=(200, 205, 220))
+    _globo(d, W * 0.8, H * 0.95, 520, t * 0.3)
+    ax, ay = W / 2 + math.sin(t * 0.8) * 40, H * 0.42 + math.cos(t * 0.6) * 30
+    ang = t * 0.4
+    tam = 240
+    d.rounded_rectangle((ax - tam * 0.35, ay - tam * 0.2, ax + tam * 0.35, ay + tam * 0.75), radius=50, fill=p["fig"])
+    d.ellipse((ax - tam * 0.42, ay - tam * 0.75, ax + tam * 0.42, ay + tam * 0.05), fill=p["fig"])
+    if not cena.get("sem_capacete"):
+        d.ellipse((ax - tam * 0.3, ay - tam * 0.6, ax + tam * 0.3, ay - tam * 0.1), fill=p["fundo2"])
+        d.ellipse((ax - tam * 0.18, ay - tam * 0.52, ax - tam * 0.05, ay - tam * 0.42), fill=p["acento2"])
+    if cena.get("segundos"):
+        resto = max(0, int(cena["segundos"]) - int(t * 3))
+        _centro_texto(d, W / 2, H * 0.2, f"{resto:02d}s", _f(130, True), p["acento"])
+
+
+def _numero(img, cena, t, dur, n, p):
+    d = ImageDraw.Draw(img)
+    de, ate = float(cena.get("de", 0)), float(cena.get("ate", 100))
+    v = de + (ate - de) * _suave(t / max(0.1, dur * 0.7))
+    txt = f"{v:,.0f}".replace(",", ".") if abs(ate) >= 10 else f"{v:.1f}".replace(".", ",")
+    _centro_texto(d, W / 2, H * 0.38, txt, _f(230, True), p["acento"])
+    if cena.get("unidade"):
+        _centro_texto(d, W / 2, H * 0.49, str(cena["unidade"]).upper(), _f(70), p["fig"])
+    if cena.get("rotulo"):
+        _centro_texto(d, W / 2, H * 0.58, str(cena["rotulo"]).upper(), _f(48), p["acento2"])
+
+
+def _comparar(img, cena, t, dur, n, p):
+    d = ImageDraw.Draw(img)
+    itens = cena.get("itens") or []
+    if not itens:
+        return
+    maior = max(float(v) for _, v in itens)
+    x0, larg = W * 0.12, W * 0.76
+    y = H * 0.3
+    for k, (nome, v) in enumerate(itens):
+        cresce = _suave((t - k * 0.35) / max(0.2, dur * 0.5))
+        w = larg * float(v) / maior * cresce
+        cor = p["acento"] if k == len(itens) - 1 else p["apagado"]
+        d.text((x0, y), str(nome).upper(), font=_f(46), fill=p["fig"])
+        d.rounded_rectangle((x0, y + 70, x0 + max(20, w), y + 160), radius=20, fill=cor)
+        num = f"{float(v) * cresce:,.0f}".replace(",", ".") + " " + str(cena.get("unidade", ""))
+        d.text((x0 + 10, y + 175), num, font=_f(44, True), fill=cor)
+        y += 330
+
+
+def _multidao(img, cena, t, dur, n, p):
+    d = ImageDraw.Draw(img)
+    chao = H * 0.7
+    d.line((0, chao, W, chao), fill=p["apagado"], width=6)
+    pulo = max(0.0, math.sin(t * 2.4)) * 60 if cena.get("pulando", True) else 0
+    for linha in range(4):
+        for k in range(9):
+            x = 70 + k * 118 + (linha % 2) * 55
+            alt = 210 - linha * 30
+            y = chao - linha * 26 - pulo * (1 - linha * 0.15)
+            cor = tuple(int(c * (1 - linha * 0.18)) for c in p["fig"])
+            _pessoa(d, x, y, alt, cor, t, "parado", False, p["fundo"], olhos=False)
+    if cena.get("rotulo"):
+        _centro_texto(d, W / 2, H * 0.3, str(cena["rotulo"]).upper(), _f(70), p["acento"])
+
+
+QUADROS.update({"planeta": _planeta, "terra_corte": _terra_corte, "espaco": _espaco, "numero": _numero,
+                "comparar": _comparar, "multidao": _multidao})
 
 
 def _hud(img, cena, t, p):

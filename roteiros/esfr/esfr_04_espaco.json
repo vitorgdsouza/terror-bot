@@ -1,0 +1,88 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.3,
+ "titulo": "E se você saísse da nave sem roupa espacial?",
+ "titulo_youtube": "E se você saísse da nave SEM roupa espacial? 🧑‍🚀 #shorts",
+ "legenda_post": "Não, você não explode. Mas você tem uns 15 segundos... e em 1965 um técnico da NASA passou por isso de verdade. Você seria astronauta? 👇\n\nFontes: NASA (relato do teste de 1965), Live Science, Space.com (ESA).\n#ciencia #espaco #curiosidades #ese",
+ "cenas": [
+  {
+   "narracao": "E se você saísse da nave sem roupa espacial?",
+   "quadro": "espaco",
+   "sem_capacete": true
+  },
+  {
+   "narracao": "Primeiro: você não explode. Isso é coisa de filme.",
+   "quadro": "texto",
+   "texto": "VOCÊ NÃO|EXPLODE"
+  },
+  {
+   "narracao": "Sua pele é elástica e segura a pressão.",
+   "quadro": "texto",
+   "texto": "A PELE|SEGURA"
+  },
+  {
+   "narracao": "Mas você tem uns quinze segundos.",
+   "quadro": "espaco",
+   "sem_capacete": true,
+   "segundos": 15
+  },
+  {
+   "narracao": "Regra um: não prenda a respiração.",
+   "quadro": "regra",
+   "n": 1,
+   "texto": "não prenda|a respiração"
+  },
+  {
+   "narracao": "O ar dentro dos pulmões se expande.",
+   "quadro": "texto",
+   "texto": "O AR|SE EXPANDE"
+  },
+  {
+   "narracao": "Sem pressão, a água ferve na temperatura do corpo.",
+   "quadro": "texto",
+   "texto": "A ÁGUA|FERVE"
+  },
+  {
+   "narracao": "Em mil novecentos e sessenta e cinco, isso aconteceu de verdade.",
+   "quadro": "numero",
+   "de": 1900,
+   "ate": 1965,
+   "unidade": "NASA",
+   "rotulo": "caso real"
+  },
+  {
+   "narracao": "O traje de um técnico vazou numa câmara de vácuo.",
+   "quadro": "espaco",
+   "sem_capacete": true,
+   "alerta": true
+  },
+  {
+   "narracao": "Ele ficou consciente por uns catorze segundos.",
+   "quadro": "espaco",
+   "sem_capacete": true,
+   "segundos": 14
+  },
+  {
+   "narracao": "A última coisa que ele lembra: a água fervendo na língua.",
+   "quadro": "texto",
+   "texto": "A ÁGUA FERVENDO|NA LÍNGUA"
+  },
+  {
+   "narracao": "E sobreviveu: repressurizaram a câmara a tempo.",
+   "quadro": "texto",
+   "texto": "E|SOBREVIVEU"
+  },
+  {
+   "narracao": "Você seria astronauta? Comenta.",
+   "quadro": "texto",
+   "texto": "VOCÊ SERIA|ASTRONAUTA?"
+  }
+ ]
+}

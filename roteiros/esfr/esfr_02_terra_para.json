@@ -1,0 +1,107 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.3,
+ "titulo": "E se a Terra parasse de girar?",
+ "titulo_youtube": "E se a Terra parasse de girar AGORA? 🌎 #shorts",
+ "legenda_post": "Você está girando a mais de 1.600 km/h agora e nem sente. E se o planeta freasse de uma vez? Onde você se esconderia? 👇\n\nFontes: Astronomy (fev/2026), Space.com, Weatherzone.\n#ciencia #curiosidades #ese #terra",
+ "cenas": [
+  {
+   "narracao": "E se a Terra parasse de girar agora?",
+   "quadro": "planeta",
+   "para": true
+  },
+  {
+   "narracao": "No Equador, o chão gira a mil seiscentos e setenta quilômetros por hora.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 1670,
+   "unidade": "km/h",
+   "rotulo": "no Equador"
+  },
+  {
+   "narracao": "E você nem sente.",
+   "quadro": "texto",
+   "texto": "VOCÊ|NEM SENTE"
+  },
+  {
+   "narracao": "Se o chão parar de uma vez...",
+   "quadro": "planeta",
+   "para": true,
+   "alerta": true
+  },
+  {
+   "narracao": "você continua indo. E o ar também.",
+   "quadro": "planeta",
+   "vento": true,
+   "lua": false
+  },
+  {
+   "narracao": "O vento seria quatro vezes mais forte que o maior já medido.",
+   "quadro": "comparar",
+   "itens": [
+    [
+     "Maior vento já medido",
+     408
+    ],
+    [
+     "Se a Terra parasse",
+     1670
+    ]
+   ],
+   "unidade": "km/h"
+  },
+  {
+   "narracao": "Tudo que não estiver preso na rocha... voa.",
+   "quadro": "texto",
+   "texto": "TUDO|VOA"
+  },
+  {
+   "narracao": "Os oceanos viram ondas gigantes indo para o leste.",
+   "quadro": "planeta",
+   "vento": true,
+   "rotulo": "oceanos",
+   "lua": false
+  },
+  {
+   "narracao": "Depois, a água escorre para os polos.",
+   "quadro": "texto",
+   "texto": "A ÁGUA CORRE|PROS POLOS"
+  },
+  {
+   "narracao": "E no meio surge um supercontinente seco.",
+   "quadro": "planeta",
+   "lua": false,
+   "rotulo": "1 supercontinente"
+  },
+  {
+   "narracao": "Um dia passaria a durar um ano inteiro.",
+   "quadro": "texto",
+   "texto": "1 DIA|= 1 ANO",
+   "fortes": [
+    "ano"
+   ]
+  },
+  {
+   "narracao": "Seis meses de sol. Seis meses de noite.",
+   "quadro": "relogio",
+   "hora": "12:00",
+   "vira": "00:00"
+  },
+  {
+   "narracao": "Relaxa: isso não tem como acontecer.",
+   "quadro": "planeta"
+  },
+  {
+   "narracao": "Mas onde você se esconderia? Comenta.",
+   "quadro": "texto",
+   "texto": "ONDE VOCÊ|SE ESCONDERIA?"
+  }
+ ]
+}
