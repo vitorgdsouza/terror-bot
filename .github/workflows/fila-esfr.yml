@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       acao:
-        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram)"
+        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram) | testar (confere a conexão com o canal)"
         default: postar
       turno:
         description: "postar: manha (isca) ou tarde (principal)"
@@ -36,6 +36,7 @@ jobs:
       YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
       YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN_ESE }}
       CANAL: esfr
+      GEMINI_API_KEY_ESE: ${{ secrets.GEMINI_API_KEY_ESE }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -46,6 +47,17 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
       - name: Instalar dependências
         run: pip install -r requirements.txt
+      - name: Testar a conexão com o canal
+        if: github.event.inputs.acao == 'testar'
+        run: |
+          python - <<'PY'
+          from src.analise import _token, _get, DATA
+          tok = _token()
+          c = _get(f"{DATA}/channels", tok, part="snippet,statistics", mine="true")["items"][0]
+          print("YouTube conectado ao canal:", c["snippet"]["title"], "| inscritos:", c["statistics"].get("subscriberCount"))
+          PY
+          python -c "import os; print('UPLOAD_POST_USER_ESE configurado:', bool(os.environ.get('UPLOAD_POST_USER','').strip()))"
+          python -c "import os; print('GEMINI_API_KEY_ESE configurado:', bool(os.environ.get('GEMINI_API_KEY_ESE','').strip()))"
       - name: Aviso no Telegram
         if: github.event.inputs.acao == 'aviso'
         env:
@@ -53,7 +65,7 @@ jobs:
         run: python -m src.fila aviso
       - name: Qual é o próximo
         id: prox
-        if: github.event.inputs.acao != 'aviso'
+        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar'
         env:
           TURNO: ${{ github.event.inputs.turno }}
           AGENDADO: ${{ github.event_name == 'schedule' && '1' || '0' }}
