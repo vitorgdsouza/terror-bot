@@ -1,0 +1,116 @@
+{
+  "titulo": "Dashcam 04:02",
+  "tipo": "isca",
+  "serie": "Corrida Noturna",
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "NOV 20 2026",
+  "hora_fita": [
+    4,
+    2,
+    0
+  ],
+  "protagonista": null,
+  "clima": "suspense",
+  "selo": "DASHCAM",
+  "pergunta_thumb": "Você olharia no retrovisor?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "final": true,
+  "titulo_youtube": "4h02: o cinto de trás clicou sozinho... o banco estava vazio 🚗 #shorts",
+  "legenda_post": "Dashcam, 4h02. O Rafa dirigia sozinho quando o cinto de trás clicou e o carro ficou com cheiro de flor de velório (história de ficção). Você olharia no retrovisor? 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#dashcam",
+    "#foundfootage",
+    "#terror",
+    "#corridanoturna"
+  ],
+  "cenas": [
+    {
+      "narracao": "O cinto de trás clicou sozinho.",
+      "cenario": "carro_banco_tras",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "DASHCAM | 04:02",
+      "som": {
+        "busca": "seatbelt click",
+        "palavra": "clicou"
+      }
+    },
+    {
+      "narracao": "Rafa, sozinho. Cheiro de flor de velório.",
+      "cenario": "carro_dentro",
+      "personagem": null,
+      "camera": "zoom_out",
+      "efeito": "luz_piscando",
+      "texto_tela": "APP | 1 PASSAGEIRO"
+    },
+    {
+      "narracao": "Regra: não olhe o retrovisor.",
+      "cenario": "estrada_noite",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "NÃO OLHE | O RETROVISOR",
+      "som": {
+        "busca": "car interior driving at night",
+        "palavra": "Regra"
+      }
+    },
+    {
+      "narracao": "Ele olhou.",
+      "cenario": "esp_passageiro",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "thumb": true,
+      "pausa_extra": 1.0,
+      "som": {
+        "busca": "horror stinger hit",
+        "palavra": "olhou"
+      }
+    },
+    {
+      "narracao": "Destino da corrida: aqui.",
+      "cenario": "cemiterio_portao",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "texto_tela": "DESTINO | CHEGOU",
+      "som": {
+        "busca": "iron gate creak",
+        "palavra": "Destino"
+      }
+    },
+    {
+      "narracao": "O cinto continua afivelado.",
+      "cenario": "carro_banco_tras",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.48,
+        0.5,
+        2.0
+      ],
+      "efeito": "tv_chiando",
+      "texto_tela": "CORRIDA | NÃO TERMINOU"
+    },
+    {
+      "narracao": "Você olharia no retrovisor?",
+      "cenario": "carro_dentro",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.24,
+        2.2
+      ],
+      "efeito": "tremor",
+      "corte_preto": true,
+      "som": {
+        "busca": "seatbelt click",
+        "palavra": "retrovisor"
+      }
+    }
+  ]
+}

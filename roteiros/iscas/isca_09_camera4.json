@@ -1,0 +1,114 @@
+{
+  "titulo": "CAM 04 | 03:13",
+  "tipo": "isca",
+  "serie": "Câmera 4",
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "NOV 20 1998",
+  "hora_fita": [
+    3,
+    13,
+    0
+  ],
+  "protagonista": null,
+  "clima": "suspense",
+  "selo": "CAM 04",
+  "pergunta_thumb": "Você olharia de novo?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "final": true,
+  "titulo_youtube": "O elevador parou no 13º andar... o prédio só tem 12 📼 #shorts",
+  "legenda_post": "Câmera 4, 3h13. O elevador parou no 13º andar de um prédio de 12, e o Seu Joaquim, porteiro da noite, olhou a câmera tempo demais (história de ficção). Você olharia de novo? 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#cftv",
+    "#foundfootage",
+    "#terror",
+    "#camera4"
+  ],
+  "cenas": [
+    {
+      "narracao": "O elevador parou no treze.",
+      "cenario": "elevador_porta",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 04 | 03:13",
+      "som": {
+        "busca": "elevator ding",
+        "palavra": "elevador"
+      }
+    },
+    {
+      "narracao": "O prédio tem doze andares.",
+      "cenario": "portaria",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "PORTARIA | 12 ANDARES"
+    },
+    {
+      "narracao": "Seu Joaquim olhou a câmera quatro.",
+      "cenario": "corredor_camera4",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tv_chiando",
+      "texto_tela": "CAM 04 | 13º ANDAR"
+    },
+    {
+      "narracao": "Olhou demais.",
+      "cenario": "esp_moradora",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 04",
+      "thumb": true,
+      "pausa_extra": 1.0,
+      "som": {
+        "busca": "horror stinger hit",
+        "palavra": "demais"
+      }
+    },
+    {
+      "narracao": "Ela sumiu da quatro.",
+      "cenario": "elevador_dentro",
+      "personagem": null,
+      "camera": "zoom_out",
+      "efeito": "tv_chiando",
+      "texto_tela": "CAM 02 | ELEVADOR",
+      "som": {
+        "busca": "static noise",
+        "palavra": "sumiu"
+      }
+    },
+    {
+      "narracao": "Apareceu na câmera um. A da portaria.",
+      "cenario": "portaria",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.17,
+        0.26,
+        1.9
+      ],
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 01 | PORTARIA"
+    },
+    {
+      "narracao": "Você olharia de novo?",
+      "cenario": "portaria",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.72,
+        0.44,
+        1.8
+      ],
+      "efeito": "tremor",
+      "corte_preto": true,
+      "som": {
+        "busca": "glass tap",
+        "palavra": "novo"
+      }
+    }
+  ]
+}
