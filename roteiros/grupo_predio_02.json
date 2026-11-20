@@ -1,0 +1,189 @@
+{
+ "titulo": "Grupo do Prédio (Parte 2)",
+ "serie": "Grupo do Prédio",
+ "formato": "voce",
+ "paleta": "papel",
+ "hora": "03:21",
+ "parte": "PARTE 2",
+ "tipo": "historia",
+ "clima": "suspense",
+ "trilha": "dark ambient drone hum",
+ "trilha_volume": 0.4,
+ "titulo_youtube": "O porteiro diz que o corredor tá vazio... mas tem pés debaixo da sua porta 😨 Grupo do Prédio pt. 2 #shorts",
+ "legenda_post": "Grupo do Prédio, parte 2. A câmera mostra o corredor vazio, a dona Célia diz que ele estava dentro do 701... e alguém manda mensagem do SEU número. Quem entrou? Comenta 👇 (história de ficção) #terror #historiasdeterror #voceescaparia",
+ "resumo": "Continua exatamente no sussurro da Parte 1. O porteiro vê o corredor vazio na câmera, mas os pés seguem debaixo da porta; a dona Célia diz que ele estava dentro do 701; a sombra some; chega no grupo 'obrigado por abrir' enviado do seu número e a porta do quarto, fechada, está aberta. Sem gore.",
+ "cenas": [
+  {
+   "narracao": "Eu sei que você leu a mensagem.",
+   "quadro": "texto",
+   "texto": "EU SEI QUE|VOCÊ LEU",
+   "alerta": true
+  },
+  {
+   "narracao": "Você não responde. Nem respira.",
+   "quadro": "silhueta",
+   "acao": "parado"
+  },
+  {
+   "narracao": "O celular vibra.",
+   "quadro": "chat",
+   "nome": "GRUPO DO PRÉDIO",
+   "msgs": [
+    [
+     "ele",
+     "alguém liga pro porteiro"
+    ]
+   ],
+   "som": {
+    "busca": "phone vibrate",
+    "palavra": "vibra"
+   }
+  },
+  {
+   "narracao": "Você liga pra portaria.",
+   "quadro": "ligacao",
+   "nome": "PORTARIA",
+   "estado": "tocando"
+  },
+  {
+   "narracao": "Ninguém atende.",
+   "quadro": "texto",
+   "texto": "NINGUÉM|ATENDE"
+  },
+  {
+   "narracao": "Até que o seu Jorge, o porteiro, manda mensagem.",
+   "quadro": "chat",
+   "nome": "SEU JORGE (PORTARIA)",
+   "msgs": [
+    [
+     "ele",
+     "tô vendo a câmera do 7º"
+    ]
+   ]
+  },
+  {
+   "narracao": "O corredor do sétimo está vazio.",
+   "quadro": "chat",
+   "nome": "SEU JORGE (PORTARIA)",
+   "msgs": [
+    [
+     "ele",
+     "tô vendo a câmera do 7º"
+    ],
+    [
+     "ele",
+     "corredor vazio"
+    ],
+    [
+     "ele",
+     "não tem ninguém aí"
+    ]
+   ],
+   "fortes": [
+    "vazio"
+   ]
+  },
+  {
+   "narracao": "Você olha pelo olho mágico. Vazio.",
+   "quadro": "olho_magico",
+   "figura": "ninguem"
+  },
+  {
+   "narracao": "Mas a sombra de pés continua debaixo da porta.",
+   "quadro": "porta",
+   "luz": true,
+   "pes": true,
+   "fortes": [
+    "pés"
+   ]
+  },
+  {
+   "narracao": "A dona Célia escreve de novo.",
+   "quadro": "chat",
+   "nome": "DONA CÉLIA 701",
+   "msgs": [
+    [
+     "ele",
+     "ele saiu daqui"
+    ]
+   ]
+  },
+  {
+   "narracao": "Ele saiu daqui. Ele estava aqui dentro.",
+   "quadro": "chat",
+   "nome": "DONA CÉLIA 701",
+   "msgs": [
+    [
+     "ele",
+     "ele saiu daqui"
+    ],
+    [
+     "ele",
+     "ele tava AQUI DENTRO"
+    ]
+   ],
+   "fortes": [
+    "dentro"
+   ],
+   "alerta": true
+  },
+  {
+   "narracao": "E a sombra debaixo da sua porta... some.",
+   "quadro": "porta",
+   "luz": true
+  },
+  {
+   "narracao": "Silêncio. Três e vinte e cinco.",
+   "quadro": "relogio",
+   "hora": "03:24",
+   "vira": "03:25"
+  },
+  {
+   "narracao": "O grupo apita de novo.",
+   "quadro": "chat",
+   "nome": "GRUPO DO PRÉDIO",
+   "msgs": [
+    [
+     "ele",
+     "702: obrigado por abrir 🙂"
+    ]
+   ],
+   "som": {
+    "busca": "message notification",
+    "palavra": "apita"
+   }
+  },
+  {
+   "narracao": "A mensagem saiu do seu número.",
+   "quadro": "texto",
+   "texto": "ENVIADA|DO SEU NÚMERO",
+   "fortes": [
+    "seu"
+   ]
+  },
+  {
+   "narracao": "Você não abriu. Você não mandou isso.",
+   "quadro": "silhueta",
+   "acao": "tremendo"
+  },
+  {
+   "narracao": "Atrás de você, a porta do quarto estava fechada.",
+   "quadro": "porta"
+  },
+  {
+   "narracao": "Agora ela está aberta.",
+   "quadro": "porta",
+   "aberta": true,
+   "susto": true,
+   "som": {
+    "busca": "door creak",
+    "palavra": "aberta"
+   }
+  },
+  {
+   "narracao": "Quem entrou? Comenta. Parte três em breve.",
+   "quadro": "texto",
+   "texto": "CONTINUA...|PARTE 3"
+  }
+ ]
+}
