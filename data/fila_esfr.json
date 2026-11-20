@@ -1,15 +1,6 @@
 {
  "itens": [
   {
-   "run_id": "44775541697",
-   "titulo": "E se você pulasse num buraco que atravessa a Terra?",
-   "titulo_youtube": "E se você pulasse num buraco que atravessa a Terra? 🌍 #shorts",
-   "legenda": "E se existisse um túnel até o outro lado do planeta? A queda leva uns 38 minutos... e o final é o pior. Você pularia? 👇\n\nFontes: Klotz, \"The Gravity Tunnel in a Non-Uniform Earth\" (Am. J. Phys., 2015); Live Science.\n#ciencia #curiosidades #ese #fisica",
-   "tipo": "historia",
-   "adicionado": "2026-11-20 13:45",
-   "aprovacao": "canal sob controle do Claude (Vitor 20/11)"
-  },
-  {
    "run_id": "44797420689",
    "titulo": "E se a Terra parasse de girar?",
    "titulo_youtube": "E se a Terra parasse de girar AGORA? 🌎 #shorts",
@@ -42,5 +33,16 @@
    "adicionado": "2026-11-20 16:57"
   }
  ],
- "postados": []
+ "postados": [
+  {
+   "run_id": "44775541697",
+   "titulo": "E se você pulasse num buraco que atravessa a Terra?",
+   "titulo_youtube": "E se você pulasse num buraco que atravessa a Terra? 🌍 #shorts",
+   "legenda": "E se existisse um túnel até o outro lado do planeta? A queda leva uns 38 minutos... e o final é o pior. Você pularia? 👇\n\nFontes: Klotz, \"The Gravity Tunnel in a Non-Uniform Earth\" (Am. J. Phys., 2015); Live Science.\n#ciencia #curiosidades #ese #fisica",
+   "tipo": "historia",
+   "adicionado": "2026-11-20 13:45",
+   "aprovacao": "canal sob controle do Claude (Vitor 20/11)",
+   "postado_em": "2026-11-20 23:55"
+  }
+ ]
 }
