@@ -1383,13 +1383,15 @@ def quadro(cena: dict, t: float, dur: float, prot: str = "homem", n: int = 0) ->
         img = img.resize(img.size, Image.LANCZOS, box=(x0, y0, min(img.width, x0 + cw_), min(img.height, y0 + ch_)))
     if cena.get("foco"):                               # close num detalhe do cenário (ex.: a maçaneta), aproximando devagar
         fx, fy, fz = cena["foco"]
-        z = fz * (1 + 0.08 * _suave(t / dur if dur else 0))
+        z = max(1.0, fz) * (1 + 0.08 * _suave(t / dur if dur else 0))
         cw_, ch_ = img.width / z, img.height / z
-        x0 = min(max(0.0, fx * img.width - cw_ / 2), img.width - cw_)
-        y0 = min(max(0.0, fy * img.height - ch_ / 2), img.height - ch_)
+        x0 = fx * img.width - cw_ / 2
+        y0 = fy * img.height - ch_ / 2
         if cena.get("efeito") == "tremor" or cena.get("chacoalha"):
             x0 += math.sin(t * 31) * cw_ * 0.006
-        img = img.resize(img.size, Image.LANCZOS, box=(x0, y0, x0 + cw_, y0 + ch_))
+        x0 = min(max(0.0, x0), img.width - cw_)       # o recorte nunca sai da imagem (nem com o tremor)
+        y0 = min(max(0.0, y0), img.height - ch_)
+        img = img.resize(img.size, Image.LANCZOS, box=(x0, y0, min(img.width, x0 + cw_), min(img.height, y0 + ch_)))
     if cena.get("texto_tela"):
         _texto_tela(img, str(cena["texto_tela"]), t)
     if cena.get("_vhs"):
