@@ -44,6 +44,9 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Instalar FFmpeg e fontes
+        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar'
+        timeout-minutes: 6               # o espelho do apt às vezes trava; postar não depende disso
+        continue-on-error: true
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
       - name: Instalar dependências
         run: pip install -r requirements.txt
