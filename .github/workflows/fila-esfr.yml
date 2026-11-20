@@ -57,6 +57,21 @@ jobs:
           print("YouTube conectado ao canal:", c["snippet"]["title"], "| inscritos:", c["statistics"].get("subscriberCount"))
           PY
           python -c "import os; print('UPLOAD_POST_USER_ESE configurado:', bool(os.environ.get('UPLOAD_POST_USER','').strip()))"
+          python - <<'PY'
+          import os, requests
+          perfil = os.environ.get("UPLOAD_POST_USER", "").strip()
+          r = requests.get(f"https://api.upload-post.com/api/uploadposts/users/{perfil}",
+                           headers={"Authorization": "Apikey " + os.environ.get("UPLOAD_POST_API_KEY", "")}, timeout=30)
+          print("Upload-Post, perfil:", r.status_code)
+          try:
+              d = r.json()
+              prof = d.get("profile") or d
+              contas = prof.get("social_accounts") or {}
+              yt = contas.get("youtube")
+              print("YouTube no perfil:", (yt or {}).get("display_name") if isinstance(yt, dict) else yt)
+          except Exception as e:
+              print("resposta:", r.text[:300])
+          PY
           python -c "import os; print('GEMINI_API_KEY_ESE configurado:', bool(os.environ.get('GEMINI_API_KEY_ESE','').strip()))"
       - name: Aviso no Telegram
         if: github.event.inputs.acao == 'aviso'
