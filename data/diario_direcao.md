@@ -224,3 +224,18 @@
 - O agendamento das 18h47 falhou de novo (3ª vez em 2 dias). Rodei `fila.yml` turno=tarde (run 44626363969): Upload-Post completed, vídeo lAaMldaxFs4. A thumb entrou logo depois do post (marcada em `thumbs_feitas.json`).
 - Lembrete: no feed de Shorts o YouTube mostra o próprio vídeo, não a thumb; ela aparece na página do canal, na busca e nas inscrições.
 - Fila vazia. Para 20/11: a Câmera da Campainha (nº 5) e o Protocolo Geada (nº 6) esperam o Vitor.
+
+## 20/11 (07h25): rodada da manhã da equipe
+- **Analista:** pauta em `data/pauta/2026-11-20.md` (relatório run 44719126452). Canal com 6.374 views (+2.565) e 24 inscritos (+2). Protocolo Stu segue no topo da retenção (60,9% assistido, 43% no fim); histórias de 100 s ficam em 31 a 36%. Views públicas: Farmácia 01 1.254, protocolo da campainha 1.042 (o que mais cresceu), Fita 02 654 em ~16 h, **Pode Entrar? Ep. 1 só 117 em ~9 h** (87 s, estático: confirma a lição do "vídeo com vida"). Pesquisa web: CFTV/VHS/found footage seguem fortes; "personagem famoso macabro" sem sinal de alta.
+- **18h47 de hoje (protocolo):** coberto pelo nº 6 Protocolo Geada, ainda pendente com o Vitor. Só sai hoje se for aprovado até ~14h (render + Revisor + aprovação do vídeo). Não há protocolo reserva; não escrevi outro para não duplicar.
+- **Iscas:** fila com 0 aprovadas. O nº 5 (Câmera da Campainha) cobre só hoje 11h47, se aprovado. Roteirista escreveu 2 novas no padrão novo (só artes que já existem, sem pedido ao Diretor de Arte):
+  - **nº 8 "Dashcam 04:02"** (`roteiros/iscas/isca_10_dashcam.json`, estreia da Corrida Noturna): 32 palavras, ~20 s, susto `esp_passageiro`, virada: o cinto de trás continua afivelado no portão do cemitério. Pergunta: "Você olharia no retrovisor?".
+  - **nº 9 "CAM 04 | 03:13"** (`roteiros/iscas/isca_09_camera4.json`, estreia da Câmera 4): 33 palavras, ~21 s, susto `esp_moradora`, virada: o elevador para no 13º num prédio de 12 andares e ela passa para a câmera da portaria.
+  - Sugestão: postar a Dashcam antes da CAM 04, porque o piloto "Grupo do Prédio" (formato voce, renderizado às 04h25, em `pendente.json`) também é de prédio.
+- **Ressalvas para o Revisor/Vitor:**
+  - CAM 04: o 1º quadro (`elevador_porta`) saiu escuro na prova; e a fala "Apareceu na câmera um" fecha num plano da portaria sem ela visível. Conferir se o susto final lê bem ou se precisa de um sinal dela no monitor.
+  - Dashcam: a ficha diz que o Passageiro "não aparece no retrovisor", mas a única arte (`esp_passageiro`) é ele pelo retrovisor. O roteiro trata como Rafa quebrando a regra ("Ele olhou."). Se o Vitor quiser o cânone estrito, falta uma `esp_` dele direto no banco de trás.
+  - `planta_andar` é a planta da casa do Guizo; não serve para prédio.
+- **Refazer:** nada com status "refazer" em `aprovacoes.json`.
+- **Mesa do Gerente:** "Aguardando" com nº 9, 8, 6 e 5 (o texto do nº 6 agora diz que a cota já voltou). Histórico sem decisões novas desde o nº 7 (19/11).
+- **Ferramenta:** gh CLI segue sem token; workflows pelo conector do GitHub. Analista e Roteirista rodaram como subagentes.
