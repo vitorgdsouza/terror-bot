@@ -10,3 +10,6 @@
 - Renders com a chave nova: Terra parando (46 s, voz 95%) e Lua sumindo (32 s, voz 91%).
 - Correções no motor: número com decimal (23,5) e ano sem ponto, eixo da Terra bamboleando, rótulo do planeta no alto.
 - **Fila:** buraco (20/11 20h17), Terra parando (21/11 12h17), Lua (21/11 20h17). Os roteiros 04 (espaço) e 05 (pulo) estão prontos para renderizar.
+- 20/11, 17h: o Vitor entregou o comando do canal ("é você que comanda, dispare quantos achar melhor"). Ritmo: até 3 por dia (12h17, 16h17, 20h17). Arte do canal entregue (perfil refeito a pedido do Vitor, que achou simples demais). Criada a tarefa de produção diária às 9h41.
+- Fila: buraco, Terra parando, Lua, espaço sem traje, todo mundo pulando.
+- **Para melhorar:** o quadro "multidao" ficou fraco (fileira pequena de bonecos) e houve cenas demais só de texto no vídeo do pulo. Preferir quadros com desenho e criar novos quando o assunto pedir.
