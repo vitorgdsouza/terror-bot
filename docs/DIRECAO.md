@@ -24,6 +24,15 @@ O Vitor é o gerente. A automação é feita por 5 agentes especializados, defin
 - **7h23:** Analista → Roteirista (e Diretor de Arte se precisar) → roteiros para aprovação.
 - **10h53 e 15h23:** Revisor confere o que foi renderizado → Publicador manda o vídeo para aprovação. Os roteiros devolvidos com /refazer voltam ao Roteirista.
 
+## Canal 2: E Se Fosse Real? (desde 20/11)
+- **O que é:** ciência e curiosidades em segunda pessoa ("E se você...?"). Formato `voce` com a paleta `ciencia`, voz Puck no estilo `curioso`. Roteiros em `roteiros/esfr/`, fila em `data/fila_esfr.json`, postagem às 12h17 e 20h17 (`fila-esfr.yml`, segredos `YT_REFRESH_TOKEN_ESE` e `UPLOAD_POST_USER_ESE`).
+- **Quem decide:** o Claude tem controle total de tendências e disparos neste canal, a pedido do Vitor. O objetivo é monetizar antes do canal de terror.
+- **Regras:**
+  - fatos checados, com fontes na descrição;
+  - nada de saúde ou finanças (a política de conteúdo inautêntico do YouTube pega personas de IA nesses temas);
+  - cada vídeo com assunto e roteiro únicos, nada de molde repetido;
+  - um vídeo longo por semana (compilação) para somar horas assistidas.
+
 ## 1. Calendário de postagem (YouTube, fila automática)
 - **11h47:** sempre uma **isca** (12 a 20 s). Gancho e pergunta, para trazer gente nova. Puxa uma série do canal.
 - **18h47:** o **vídeo principal**, alternando por dia:
