@@ -27,7 +27,7 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   numero       número grande contando; "de", "ate", "unidade" (km/h), "rotulo"
   comparar     barras crescendo; "itens": [["Furacão", 300], ["Sem rotação", 1670]], "unidade": "km/h"
   multidao     muita gente pulando; "rotulo"
-Em qualquer cena: "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
+Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
 import math
 import random
@@ -371,8 +371,12 @@ def _texto(img, cena, t, dur, n, p):
     texto = str(cena.get("texto", "")).upper()
     mostra = texto[:int(len(texto) * min(1.0, t / max(0.3, dur * 0.45)))]
     linhas = mostra.split("|")
+    tam = 104                                           # diminui a letra até a linha mais longa caber na tela
+    while tam > 56 and max(d.textlength(lin.strip(), font=_f(tam)) for lin in texto.split("|")) > W * 0.88:
+        tam -= 6
     for k, lin in enumerate(linhas):
-        _centro_texto(d, W / 2, H * 0.42 + (k - (len(texto.split("|")) - 1) / 2) * 130, lin.strip(), _f(104), p["acento"] if k == len(linhas) - 1 else p["fig"])
+        _centro_texto(d, W / 2, H * 0.42 + (k - (len(texto.split("|")) - 1) / 2) * tam * 1.25, lin.strip(), _f(tam),
+                      p["acento"] if k == len(linhas) - 1 else p["fig"])
 
 
 QUADROS = {"ligacao": _ligacao, "chat": _chat, "relogio": _relogio, "andares": _andares, "mapa": _mapa,
@@ -440,6 +444,7 @@ def _terra_corte(img, cena, t, dur, n, p):
         d.rectangle((cx - 22, cy - r - 30, cx + 22, cy + r + 30), fill=(10, 10, 14))
         prog = cena.get("de", 0.0) + (cena.get("ate", 1.0) - cena.get("de", 0.0)) * _suave(t / max(0.1, dur * 0.9))
         y = cy - r + prog * 2 * r
+        cena["_alvo"] = (cx / W, y / H)                  # para a câmera seguir quem cai ("seguir": true)
         d.ellipse((cx - 18, y - 18, cx + 18, y + 18), fill=p["fig"])
         d.ellipse((cx - 7, y - 30, cx + 7, y - 16), fill=p["fig"])
     if cena.get("rotulo"):
@@ -544,14 +549,20 @@ def quadro(cena: dict, t: float, dur: float, n: int) -> Image.Image:
     QUADROS.get(tipo, _texto)(img, cena, t, dur, n, p)
     _hud(img, cena, t, p)
     z = 1.02 + 0.06 * _suave(t / max(1.0, dur))          # sempre aproximando devagar: o quadro nunca fica parado
+    cx_, cy_ = 0.5, 0.5
+    if cena.get("seguir") and cena.get("_alvo"):        # close acompanhando o alvo (ex.: quem cai no buraco)
+        z = 2.2
+        cx_, cy_ = cena["_alvo"]
+    elif cena.get("foco"):
+        cx_, cy_, z = cena["foco"]
     sx = sy = 0.0
     if cena.get("susto"):
         rnd = random.Random(n)
         sx, sy = (rnd.random() - 0.5) * 16, (rnd.random() - 0.5) * 16
     cw, ch = W / z, H / z
-    x0 = min(max(0.0, (W - cw) / 2 + sx), W - cw)
-    y0 = min(max(0.0, (H - ch) / 2 + sy), H - ch)
-    img = img.resize((W, H), Image.BILINEAR, box=(x0, y0, x0 + cw, y0 + ch))
+    x0 = min(max(0.0, cx_ * W - cw / 2 + sx), W - cw)
+    y0 = min(max(0.0, cy_ * H - ch / 2 + sy), H - ch)
+    img = img.resize((W, H), Image.BILINEAR, box=(x0, y0, min(W, x0 + cw), min(H, y0 + ch)))
     a = np.asarray(img).astype(np.float32)
     a += np.random.default_rng(n).normal(0, 5, (H // 4, W // 4, 1)).repeat(4, 0).repeat(4, 1)   # grão
     borda = min(t, dur - t)

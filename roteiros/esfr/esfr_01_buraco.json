@@ -30,7 +30,8 @@
    "narracao": "No começo, você cai cada vez mais rápido.",
    "quadro": "terra_corte",
    "de": 0.02,
-   "ate": 0.3
+   "ate": 0.3,
+   "seguir": true
   },
   {
    "narracao": "No centro, passa de vinte e oito mil quilômetros por hora.",
@@ -68,7 +69,8 @@
    "narracao": "Você vai freando... até a borda do outro lado.",
    "quadro": "terra_corte",
    "de": 0.75,
-   "ate": 0.99
+   "ate": 0.99,
+   "seguir": true
   },
   {
    "narracao": "A viagem toda leva uns trinta e oito minutos.",
@@ -112,7 +114,8 @@
    "ate": 0.0,
    "fortes": [
     "pêndulo"
-   ]
+   ],
+   "seguir": true
   },
   {
    "narracao": "E com ar no túnel, você terminaria parado... no centro da Terra.",
