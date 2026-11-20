@@ -76,6 +76,16 @@ jobs:
               print("resposta:", r.text[:300])
           PY
           python -c "import os; print('GEMINI_API_KEY_ESE configurado:', bool(os.environ.get('GEMINI_API_KEY_ESE','').strip()))"
+          python - <<'PY'
+          import os, requests
+          k = os.environ.get("GEMINI_API_KEY_ESE", "").strip()
+          if k:
+              r = requests.get("https://generativelanguage.googleapis.com/v1beta/models", params={"key": k, "pageSize": 200}, timeout=30)
+              nomes = [m["name"] for m in r.json().get("models", [])] if r.ok else []
+              print("Gemini ESE:", r.status_code, "| tem voz (TTS):", any("tts" in n for n in nomes))
+              if not r.ok:
+                  print("Gemini ESE erro:", r.text[:200])
+          PY
       - name: Aviso no Telegram
         if: github.event.inputs.acao == 'aviso'
         env:
