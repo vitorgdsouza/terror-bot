@@ -36,3 +36,6 @@
 ## 21/11 (13h45): post manual do Vitor
 - "E se a Terra parasse de girar?" foi postado à mão pelo Vitor no YouTube por volta das 13h15, com a thumb própria e a descrição sem as hashtags do terror. Passei o vídeo para `postados`. Ficam 5 na fila.
 - Corrigido em `src/postar.py` e `src/refazer.py`: o E Se Fosse Real? não recebe mais as hashtags fixas do terror (`config/serie.json`).
+
+## 21/11 (16h40): reserva da fila
+- O agendamento das 16h17 não disparou. Não postei: o Upload-Post segue no limite do mês (429, reinicia por volta de 17/12) e às 16h35 alguém rodou `acao=telegram`, que mandou "E se a Lua sumisse hoje à noite?" no Telegram para postar à mão. Postar pela automação agora só falharia ou duplicaria. Fila intacta com 5; quando o Vitor postar a Lua, passar para `postados`.
