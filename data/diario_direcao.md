@@ -280,3 +280,7 @@
 - **Mesa do Gerente:** sem mudança (o "Aguardando" já tem só nº 13, 12, 11, 10 e 5; histórico sem decisão nova).
 - **Aviso no Telegram:** não mandado (nada novo para decidir).
 - **Ferramenta:** gh CLI funcionou nesta rodada para leitura (`gh run list`). Sem subagentes (não havia trabalho para eles).
+
+## 21/11 (12h10): reserva da fila (Publicador)
+- **Furo de 21/11 11h47:** o agendamento do fila.yml não disparou. Postagem à mão da CAM 04 (run 44917640341) **falhou**: Upload-Post recusou (429, `monthly_limit_reached`, 10 de 10 usados; o ciclo começou em 17/11 e reinicia por volta de 17/12). A conta é a mesma dos dois canais.
+- Fila intacta (CAM 04 segue em primeiro). Não tentei de novo. Nada sai no 18h47 de hoje (Grupo do Prédio Pt 1) até o Vitor decidir: plano pago do Upload-Post ou conta separada para o E Se Fosse Real?.
