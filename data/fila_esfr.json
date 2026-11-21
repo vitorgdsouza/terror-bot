@@ -1,14 +1,6 @@
 {
  "itens": [
   {
-   "run_id": "44797420689",
-   "titulo": "E se a Terra parasse de girar?",
-   "titulo_youtube": "E se a Terra parasse de girar AGORA? 🌎 #shorts",
-   "legenda": "Você está girando a mais de 1.600 km/h agora e nem sente. E se o planeta freasse de uma vez? Onde você se esconderia? 👇\n\nFontes: Astronomy (fev/2026), Space.com, Weatherzone.\n#ciencia #curiosidades #ese #terra",
-   "tipo": "historia",
-   "adicionado": "2026-11-20 16:01"
-  },
-  {
    "run_id": "44799205601",
    "titulo": "E se a Lua sumisse hoje à noite?",
    "titulo_youtube": "E se a Lua sumisse hoje à noite? 🌕 #shorts",
@@ -59,6 +51,16 @@
    "adicionado": "2026-11-20 13:45",
    "aprovacao": "canal sob controle do Claude (Vitor 20/11)",
    "postado_em": "2026-11-20 23:55"
+  },
+  {
+   "run_id": "44797420689",
+   "titulo": "E se a Terra parasse de girar?",
+   "titulo_youtube": "E se a Terra parasse de girar AGORA? 🌎 #shorts",
+   "legenda": "Você está girando a mais de 1.600 km/h agora e nem sente. E se o planeta freasse de uma vez? Onde você se esconderia? 👇\n\nFontes: Astronomy (fev/2026), Space.com, Weatherzone.\n#ciencia #curiosidades #ese #terra",
+   "tipo": "historia",
+   "adicionado": "2026-11-20 16:01",
+   "postado_em": "2026-11-21 16:15",
+   "postado_por": "Vitor, à mão no YouTube (Upload-Post no limite)"
   }
  ]
 }
