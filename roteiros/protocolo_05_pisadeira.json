@@ -1,0 +1,157 @@
+{
+  "titulo": "Protocolo Pisadeira",
+  "tipo": "protocolo",
+  "formato": "protocolo",
+  "serie": "Férias na Roça",
+  "rotulo": "PROTOCOLO PISADEIRA",
+  "selo": "PROTOCOLO",
+  "pergunta_thumb": "Seu gato já encarou o teto?",
+  "clima": "alerta",
+  "ritmo": 1.1,
+  "final": true,
+  "trilha": "dark ambient drone hum night crickets",
+  "trilha_volume": 0.6,
+  "titulo_youtube": "Se o seu gato encarar o teto de madrugada... não abra os olhos 🐈‍⬛ Protocolo Pisadeira #shorts",
+  "legenda_post": "Protocolo Pisadeira, das Férias na Roça (história de ficção, inspirada no folclore brasileiro). Se o seu gato encarar o teto às 2h51, siga cada passo. O que você jantou hoje? 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#protocolo",
+    "#terror",
+    "#pisadeira",
+    "#folclore"
+  ],
+  "resumo": "Protocolo de folclore (Pisadeira, versão nossa) com gato: 4 regras (escutar o telhado, 2h51 não levantar, nunca deitar de barriga cheia, tesoura aberta debaixo do travesseiro e não abrir os olhos se o peito pesar) e a parte mais importante: o gato não encara o teto, encara ela (esp_pisadeira, corte seco). Fecha acusando quem assiste: o que você jantou hoje? Mesmo horário (2h51) da isca das 11h47.",
+  "cenas": [
+    {
+      "narracao": "Se o seu gato encarar o teto de madrugada...",
+      "icones": [
+        "gato:olhos_escuro",
+        "cama"
+      ],
+      "thumb": true,
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "emergency alert beep",
+        "palavra": "Se"
+      }
+    },
+    {
+      "narracao": "Preste atenção. Siga cada passo.",
+      "destaque": "siga cada passo",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Primeiro: escute o telhado.",
+      "icones": [
+        "som",
+        "casa"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Passos de telha em telha. Sem vento nenhum.",
+      "icones": [
+        "pegadas",
+        "casa"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "roof tiles creaking footsteps",
+        "palavra": "telha"
+      }
+    },
+    {
+      "narracao": "Segundo: olhe o relógio.",
+      "icones": [
+        "relogio"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "clock ticking",
+        "palavra": "relógio"
+      }
+    },
+    {
+      "narracao": "Duas e cinquenta e um? Não levante.",
+      "icones": [
+        "relogio",
+        "parar"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Terceiro: nunca deite de barriga cheia.",
+      "destaque": "nunca deite de barriga cheia",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Ela sobe no peito de quem comeu demais.",
+      "icones": [
+        "pessoa:encolhida",
+        "cama"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Quarto: tesoura aberta debaixo do travesseiro.",
+      "destaque": "tesoura aberta debaixo do travesseiro",
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "scissors opening snip",
+        "palavra": "tesoura"
+      }
+    },
+    {
+      "narracao": "Se o peito pesar... não abra os olhos.",
+      "icones": [
+        "olho",
+        "parar"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Não deixe ela perceber que você acordou.",
+      "destaque": "não deixe ela perceber",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "E a parte mais importante.",
+      "destaque": "a parte mais importante",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Seu gato não está olhando o teto.",
+      "icones": [
+        "gato:assustado",
+        "olho"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Ele está olhando pra ela.",
+      "cenario": "esp_pisadeira",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true,
+      "pausa_extra": 0.5,
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "horror stinger hit",
+        "palavra": "ela"
+      }
+    },
+    {
+      "narracao": "O que você jantou hoje?",
+      "icones": [
+        "cama",
+        "alerta"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "emergency alert beep",
+        "palavra": "jantou"
+      }
+    }
+  ]
+}
