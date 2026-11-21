@@ -39,3 +39,6 @@
 
 ## 21/11 (16h40): reserva da fila
 - O agendamento das 16h17 não disparou. Não postei: o Upload-Post segue no limite do mês (429, reinicia por volta de 17/12) e às 16h35 alguém rodou `acao=telegram`, que mandou "E se a Lua sumisse hoje à noite?" no Telegram para postar à mão. Postar pela automação agora só falharia ou duplicaria. Fila intacta com 5; quando o Vitor postar a Lua, passar para `postados`.
+
+## 21/11 (20h40): reserva da fila
+- O agendamento das 20h17 não disparou (a última execução `schedule` foi às 17h53, que falhou). Não postei: o envio ainda passa pelo Upload-Post, que segue no limite do mês (429, reinicia por volta de 17/12), e "E se a Lua sumisse hoje à noite?" já foi mandada no Telegram às 16h35 para postar à mão. Fila intacta com 5. Hoje saiu 1 post (Terra, 13h15).
