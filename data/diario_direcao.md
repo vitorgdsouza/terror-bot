@@ -284,3 +284,6 @@
 ## 21/11 (12h10): reserva da fila (Publicador)
 - **Furo de 21/11 11h47:** o agendamento do fila.yml não disparou. Postagem à mão da CAM 04 (run 44917640341) **falhou**: Upload-Post recusou (429, `monthly_limit_reached`, 10 de 10 usados; o ciclo começou em 17/11 e reinicia por volta de 17/12). A conta é a mesma dos dois canais.
 - Fila intacta (CAM 04 segue em primeiro). Não tentei de novo. Nada sai no 18h47 de hoje (Grupo do Prédio Pt 1) até o Vitor decidir: plano pago do Upload-Post ou conta separada para o E Se Fosse Real?.
+
+## 21/11 (13h40): post manual do Vitor
+- Com o Upload-Post no limite, o Vitor postou à mão no YouTube o **Protocolo Geada** (run 44816462692, aprovações nº 10), por volta das 13h35. Às 13h39 já tinha 178 visualizações. Registrado em `postados` em `data/fila.json`. Os itens da fila não mudaram: CAM 04, Grupo do Prédio Pt 1 e Dashcam continuam esperando.
