@@ -52,7 +52,7 @@ def executar(tema: str | None = None, usar_telegram: bool = True):
     if usar_telegram:
         telegram.enviar_video(video, legenda)
         texto = "\n\n".join(c["narracao"] for c in roteiro["cenas"])
-        telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
+        telegram.enviar_textos_post(roteiro, cfg)
         telegram.enviar_mensagem(f"Roteiro completo:\n\n{texto}"[:4000])
         info = roteiro.get("_ilustracoes")
         if info:

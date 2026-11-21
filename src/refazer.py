@@ -54,15 +54,10 @@ def main():
     for destino in {previas / "ultima_folha.jpg", previas / f"{nome}.jpg"}:
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(final), "-vf", f"fps=1/{passo},scale=150:-1,tile=8x7",
                         "-frames:v", "1", "-q:v", "4", str(destino)])
-    legenda = next((p.read_text(encoding="utf-8") for p in (RAIZ / "baixado").rglob("legenda_do_post.txt")), None)
-    if not legenda:
-        fixas = [] if r.get("canal") == "esfr" else cfg.get("hashtags_fixas", [])   # fixas são do terror
-        tags = " ".join(dict.fromkeys(r.get("hashtags", []) + fixas))
-        legenda = f"{r['titulo']}\n\n{r.get('legenda_post', '')}\n\n{tags}"
     import time
     canal = {"esfr": "[E Se Fosse Real?] "}.get(r.get("canal", ""), "")
     telegram.enviar_video(final, f"{canal}{r['titulo']} ({'versão ajustada ' if not arq else ''}{time.strftime('%H:%M', time.localtime(time.time() - 3 * 3600))})")
-    telegram.enviar_mensagem(f"{canal}Legenda para copiar e colar:\n\n{legenda}")
+    telegram.enviar_textos_post(r, cfg, canal)
     from .thumb import enviar_thumbs
     enviar_thumbs(r, TRAB / "thumbs")
     if canal:                                           # o canal 2 é separado: nunca vira o "pendente" do /postar do terror

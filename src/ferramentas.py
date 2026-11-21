@@ -310,7 +310,7 @@ def enviar_agora(r: dict, cfg: dict, nota: str = "") -> None:
     legenda = f"{r['titulo']}\n\n{r.get('legenda_post', '')}\n\n{hashtags}"
     (TRAB / "legenda_do_post.txt").write_text(legenda, encoding="utf-8")
     telegram.enviar_video(FINAL, legenda)
-    telegram.enviar_mensagem(f"Legenda para copiar e colar:\n\n{legenda}")
+    telegram.enviar_textos_post(r, cfg)
     from .thumb import enviar_thumbs
     enviar_thumbs(r, TRAB / "thumbs")
     custo = r.get("_ilustracoes", {})

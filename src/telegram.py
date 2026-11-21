@@ -93,3 +93,32 @@ def ler_mensagens_novas() -> list[dict]:
         if m and m.get("text"):
             mensagens.append({"chat_id": str(m["chat"]["id"]), "texto": m["text"].strip()})
     return mensagens
+
+
+def textos_post(r: dict, cfg: dict) -> dict:
+    """Título do YouTube, descrição do YouTube e legenda do TikTok de um roteiro, prontos para postar à mão.
+    As hashtags fixas do config são do terror: o E Se Fosse Real? usa só as do próprio roteiro/legenda."""
+    fixas = [] if r.get("canal") == "esfr" else cfg.get("hashtags_fixas", [])
+    legenda = (r.get("legenda_post") or "").strip()
+    ja_tem = set(legenda.lower().split())
+    tags = [h for h in dict.fromkeys((r.get("hashtags") or []) + fixas) if h.lower() not in ja_tem]
+    tags_txt = " ".join(tags)
+    titulo = (r.get("titulo_youtube") or r.get("titulo") or "").strip()
+    if "#shorts" not in titulo.lower():
+        titulo = f"{titulo[:90]} #shorts"
+    corpo = "\n\n".join(x for x in (legenda, tags_txt) if x)
+    tiktok = corpo.replace("#shorts", "").strip()
+    return {"titulo_youtube": titulo[:100], "descricao_youtube": corpo[:4900], "legenda_tiktok": tiktok[:2200]}
+
+
+def enviar_textos_post(r: dict, cfg: dict, prefixo: str = "") -> None:
+    """Manda os textos do post em blocos separados (no Telegram, tocar no bloco copia só ele)."""
+    import html
+    t = textos_post(r, cfg)
+    blocos = [("Título do YouTube", t["titulo_youtube"]), ("Descrição do YouTube", t["descricao_youtube"]),
+              ("Legenda do TikTok", t["legenda_tiktok"])]
+    texto = f"<b>{html.escape(prefixo)}Textos para postar</b>\n\n" + "\n\n".join(
+        f"<b>{nome}</b>\n<pre>{html.escape(valor)}</pre>" for nome, valor in blocos)
+    r_ = requests.post(_url("sendMessage"), timeout=30,
+                       data={"chat_id": env("TELEGRAM_CHAT_ID"), "text": texto[:4096], "parse_mode": "HTML"})
+    _checar(r_, "os textos do post")
