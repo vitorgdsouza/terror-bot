@@ -58,6 +58,12 @@ Também não usa os números do canal 2 nas decisões do terror. O contrário ta
   - O final que volta para o começo faz rever.
   - Durações curtas completam mais.
 - **TikTok:** os protocolos e as perguntas diretas engajam mais.
+- **Leitura de 21/11 (prints do YouTube e do TikTok):**
+  - **YouTube faz o volume.** Seis vídeos passaram de mil views: as duas Fitas da Farmácia, a Campainha, o Gato à noite, o Rufus e o Guizo. No TikTok o teto é cerca de 500.
+  - **Bichos de estimação são o tema mais forte nas duas plataformas:** Gato à noite (1,1 mil no YT e 513 no TT), Rufus e Guizo. O protocolo do cachorro foi a exceção (11 e 8): a thumb e a abertura não deixavam claro o que o cachorro faz.
+  - **A rajada de 17 e 18/11 (9 posts em 25 h) matou 5 vídeos no YouTube:** ficaram com 11 a 25 views, enquanto os mesmos vídeos fizeram de 160 a 485 no TikTok. O conteúdo era bom; o problema foi a distribuição. Nunca mais rajada: 2 por dia em horário fixo.
+  - **VHS "fita encontrada" é a isca que mais rende.** Dois de dois passaram de mil.
+  - **TikTok:** os vídeos de 18/11 em diante ficam perto de 100. O TikTok premia constância no horário e vídeos curtos (até cerca de 35 s): fazer um corte curto das iscas para o TikTok.
 - **Relatório:** `gh workflow run youtube.yml -f acao=relatorio` grava `data/analise/ultima.json`, com retenção, quem ficou e origem. Leia antes de decidir o dia. Os dados do YouTube atrasam 2 a 3 dias.
 
 ## 3. Gosto do Vitor (respeitar sempre)
