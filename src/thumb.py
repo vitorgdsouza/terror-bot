@@ -61,6 +61,9 @@ def _pergunta(r: dict) -> str:
 
 
 def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
+    if r.get("canal") == "esfr":                       # E Se Fosse Real? tem thumb própria (nada do terror)
+        from .thumb_esfr import gerar
+        return gerar(r, pasta)
     from .animacao import quadro
     pasta.mkdir(parents=True, exist_ok=True)
     prot = r.get("protagonista", "homem")

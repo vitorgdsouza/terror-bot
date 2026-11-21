@@ -84,5 +84,11 @@
    "quadro": "texto",
    "texto": "VOCÊ SERIA|ASTRONAUTA?"
   }
+ ],
+ "thumb_texto": "SEM TRAJE|NO ESPAÇO?",
+ "thumb_zoom": 1.45,
+ "thumb_centro": [
+  0.5,
+  0.42
  ]
 }

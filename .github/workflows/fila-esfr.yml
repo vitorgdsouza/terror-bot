@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       acao:
-        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram) | testar (confere a conexão com o canal)"
+        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram) | testar (confere a conexão com o canal) | thumbs (troca a thumb dos vídeos cujo título contém o texto abaixo)"
         default: postar
       turno:
         description: "postar: manha (isca) ou tarde (principal)"
@@ -50,6 +50,11 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
       - name: Instalar dependências
         run: pip install -r requirements.txt
+      - name: Trocar thumbs de vídeos já postados
+        if: github.event.inputs.acao == 'thumbs'
+        env:
+          TROCAR: ${{ github.event.inputs.texto }}
+        run: python -m src.thumb_youtube antigas
       - name: Testar a conexão com o canal
         if: github.event.inputs.acao == 'testar'
         run: |
@@ -93,7 +98,7 @@ jobs:
         run: python -m src.fila aviso
       - name: Qual é o próximo
         id: prox
-        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar'
+        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar' && github.event.inputs.acao != 'thumbs'
         env:
           TURNO: ${{ github.event.inputs.turno }}
           AGENDADO: ${{ github.event_name == 'schedule' && '1' || '0' }}
