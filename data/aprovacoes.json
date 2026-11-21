@@ -1,5 +1,5 @@
 {
- "proximo": 13,
+ "proximo": 14,
  "itens": [
   {
    "id": 1,
@@ -191,6 +191,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-21 10:33",
+   "decidido": ""
+  },
+  {
+   "id": 13,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Protocolo Pisadeira",
+   "arquivo": "roteiros/protocolo_05_pisadeira.json",
+   "run_id": "",
+   "resumo": "Protocolo Pisadeira 'Se o Seu Gato Encarar o Teto' para 24/11 18h47: 4 regras + a parte mais importante (o gato encara ela, esp_pisadeira, corte seco), 15 cenas, 94 palavras (~43 s). Gato (2º melhor % assistido) + folclore, fecha o dia da Pisadeira com a isca; pergunta 'O que você jantou hoje?'.",
+   "titulo_youtube": "Se o seu gato encarar o teto de madrugada... não abra os olhos 🐈‍⬛ Protocolo Pisadeira #shorts",
+   "legenda": "Protocolo Pisadeira, das Férias na Roça (história de ficção, inspirada no folclore brasileiro). Se o seu gato encarar o teto às 2h51, siga cada passo. O que você jantou hoje? 👇",
+   "tipo_video": "protocolo",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-21 10:35",
    "decidido": ""
   }
  ]
