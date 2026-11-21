@@ -1,88 +1,88 @@
 {
-  "itens": [
-    {
-      "run_id": "44692800085",
-      "titulo": "Grupo do Prédio (Parte 1)",
-      "titulo_youtube": "3h14 no grupo do prédio: \"tem um homem parado na frente do 702\"... o 702 é o seu 😨 #shorts",
-      "legenda": "Grupo do Prédio, parte 1. Às 3h14 alguém avisa no grupo que tem um homem parado na frente do seu apartamento. Você abriria? Comenta 👇 (história de ficção) #terror #historiasdeterror #voceescaparia",
-      "tipo": "historia",
-      "adicionado": "2026-11-20 11:17",
-      "aprovacao": "Vitor 20/11 11h17 (piloto formato Você)"
-    },
-    {
-      "run_id": "44753896133",
-      "titulo": "CAM 04 | 03:13",
-      "titulo_youtube": "O elevador parou no 13º andar... o prédio só tem 12 📼 #shorts",
-      "legenda": "Câmera 4, 3h13. O elevador parou no 13º andar de um prédio de 12, e o Seu Joaquim, porteiro da noite, olhou a câmera tempo demais (história de ficção). Você olharia de novo? 👇",
-      "tipo": "isca",
-      "adicionado": "2026-11-20 11:38",
-      "aprovacao": "Vitor 20/11 11h17"
-    },
-    {
-      "run_id": "44752236174",
-      "titulo": "Dashcam 04:02",
-      "titulo_youtube": "4h02: o cinto de trás clicou sozinho... o banco estava vazio 🚗 #shorts",
-      "legenda": "Dashcam, 4h02. O Rafa dirigia sozinho quando o cinto de trás clicou e o carro ficou com cheiro de flor de velório (história de ficção). Você olharia no retrovisor? 👇",
-      "tipo": "isca",
-      "adicionado": "2026-11-20 11:38",
-      "aprovacao": "Vitor 20/11 11h17"
-    }
-  ],
-  "postados": [
-    {
-      "run_id": "44233575763",
-      "titulo": "Fita da Farmácia 03:17",
-      "titulo_youtube": "Câmera da farmácia 24h às 3h17... ele sempre volta 📼 #shorts",
-      "legenda": "Toda noite, 3h17, ele volta e pede o de sempre. O que você acha que ele pede? 👇 #analoghorror #vhs",
-      "tipo": "isca",
-      "postado_em": "2026-11-18 15:30"
-    },
-    {
-      "run_id": "44345291582",
-      "titulo": "Se a Campainha Tocar Duas Vezes",
-      "titulo_youtube": "Se a campainha tocar duas vezes e só uma pessoa entrar... 🔔 Protocolo 3h17 #shorts",
-      "legenda": "Protocolo 3h17. Pra quem trabalha de madrugada. Quantas vezes a campainha tocou no vídeo? Responde sem voltar 👇 (história de ficção) #analoghorror #protocolo #terror #madrugada #farmacia24h",
-      "tipo": "protocolo",
-      "postado_em": "2026-11-18 22:19"
-    },
-    {
-      "run_id": "44542181080",
-      "titulo": "Fita da Farmácia 03:17 (Fita 02)",
-      "titulo_youtube": "A mãe dela ligou às 3h17... 📼 #shorts",
-      "legenda": "Fita 02 (história de ficção). A mãe dela ligou às 3h17 pedindo para abrir a porta dos fundos. O que você responderia? 👇",
-      "tipo": "isca",
-      "adicionado": "2026-11-19 15:29",
-      "aprovacao": 7,
-      "postado_em": "2026-11-19 15:33"
-    },
-    {
-      "run_id": "44400389600",
-      "titulo": "O Entregador",
-      "titulo_youtube": "Ele diz que é só um entregador... você abriria a porta? 🚪 #shorts",
-      "tipo": "historia",
-      "legenda": "Pode Entrar? Ep. 1. Faz 19 dias de geada cinza, a sua comida está acabando e o Tiago está na sua porta. Ele treme de frio... mas o vidro não embaçou. Você abre? Comenta SIM ou NÃO 👇 (história de ficção)",
-      "adicionado": "2026-11-18 22:28",
-      "observacao": "aprovado pelo Vitor na conversa com o Roteirista para 19/11 às 18h47",
-      "postado_em": "2026-11-19 22:23"
-    },
-    {
-      "run_id": "44692786600",
-      "titulo": "Pode Entrar? (versão Você)",
-      "titulo_youtube": "19 dias de geada. Às 2h alguém bate na sua porta... você abre? 🚪 #shorts",
-      "legenda": "Pode Entrar? Faz 19 dias de geada e um entregador bate na sua porta às 2h. Ele treme... mas o vidro não embaçou. Você abre? Comenta SIM ou NÃO 👇 (história de ficção) #terror #podeentrar #voceescaparia",
-      "tipo": "historia",
-      "adicionado": "2026-11-20 11:17",
-      "aprovacao": "Vitor 20/11 11h17 (piloto formato Você)",
-      "postado_em": "2026-11-20 14:38"
-    },
-    {
-      "run_id": "44816462692",
-      "titulo": "Protocolo Geada",
-      "titulo_youtube": "Se baterem na sua porta na geada... é gente ou é Oco? ❄️ Protocolo Geada #shorts",
-      "tipo": "protocolo",
-      "aprovacao": "Vitor (aprovações nº 10)",
-      "postado_em": "2026-11-21 16:35",
-      "postado_por": "Vitor, à mão no YouTube (Upload-Post no limite)"
-    }
-  ]
+ "itens": [
+  {
+   "run_id": "44692800085",
+   "titulo": "Grupo do Prédio (Parte 1)",
+   "titulo_youtube": "3h14 no grupo do prédio: \"tem um homem parado na frente do 702\"... o 702 é o seu 😨 #shorts",
+   "legenda": "Grupo do Prédio, parte 1. Às 3h14 alguém avisa no grupo que tem um homem parado na frente do seu apartamento. Você abriria? Comenta 👇 (história de ficção) #terror #historiasdeterror #voceescaparia",
+   "tipo": "historia",
+   "adicionado": "2026-11-20 11:17",
+   "aprovacao": "Vitor 20/11 11h17 (piloto formato Você)"
+  },
+  {
+   "run_id": "44753896133",
+   "titulo": "CAM 04 | 03:13",
+   "titulo_youtube": "O elevador parou no 13º andar... o prédio só tem 12 📼 #shorts",
+   "legenda": "Câmera 4, 3h13. O elevador parou no 13º andar de um prédio de 12, e o Seu Joaquim, porteiro da noite, olhou a câmera tempo demais (história de ficção). Você olharia de novo? 👇",
+   "tipo": "isca",
+   "adicionado": "2026-11-20 11:38",
+   "aprovacao": "Vitor 20/11 11h17"
+  },
+  {
+   "run_id": "44752236174",
+   "titulo": "Dashcam 04:02",
+   "titulo_youtube": "4h02: o cinto de trás clicou sozinho... o banco estava vazio 🚗 #shorts",
+   "legenda": "Dashcam, 4h02. O Rafa dirigia sozinho quando o cinto de trás clicou e o carro ficou com cheiro de flor de velório (história de ficção). Você olharia no retrovisor? 👇",
+   "tipo": "isca",
+   "adicionado": "2026-11-20 11:38",
+   "aprovacao": "Vitor 20/11 11h17"
+  }
+ ],
+ "postados": [
+  {
+   "run_id": "44233575763",
+   "titulo": "Fita da Farmácia 03:17",
+   "titulo_youtube": "Câmera da farmácia 24h às 3h17... ele sempre volta 📼 #shorts",
+   "legenda": "Toda noite, 3h17, ele volta e pede o de sempre. O que você acha que ele pede? 👇 #analoghorror #vhs",
+   "tipo": "isca",
+   "postado_em": "2026-11-18 15:30"
+  },
+  {
+   "run_id": "44345291582",
+   "titulo": "Se a Campainha Tocar Duas Vezes",
+   "titulo_youtube": "Se a campainha tocar duas vezes e só uma pessoa entrar... 🔔 Protocolo 3h17 #shorts",
+   "legenda": "Protocolo 3h17. Pra quem trabalha de madrugada. Quantas vezes a campainha tocou no vídeo? Responde sem voltar 👇 (história de ficção) #analoghorror #protocolo #terror #madrugada #farmacia24h",
+   "tipo": "protocolo",
+   "postado_em": "2026-11-18 22:19"
+  },
+  {
+   "run_id": "44542181080",
+   "titulo": "Fita da Farmácia 03:17 (Fita 02)",
+   "titulo_youtube": "A mãe dela ligou às 3h17... 📼 #shorts",
+   "legenda": "Fita 02 (história de ficção). A mãe dela ligou às 3h17 pedindo para abrir a porta dos fundos. O que você responderia? 👇",
+   "tipo": "isca",
+   "adicionado": "2026-11-19 15:29",
+   "aprovacao": 7,
+   "postado_em": "2026-11-19 15:33"
+  },
+  {
+   "run_id": "44400389600",
+   "titulo": "O Entregador",
+   "titulo_youtube": "Ele diz que é só um entregador... você abriria a porta? 🚪 #shorts",
+   "tipo": "historia",
+   "legenda": "Pode Entrar? Ep. 1. Faz 19 dias de geada cinza, a sua comida está acabando e o Tiago está na sua porta. Ele treme de frio... mas o vidro não embaçou. Você abre? Comenta SIM ou NÃO 👇 (história de ficção)",
+   "adicionado": "2026-11-18 22:28",
+   "observacao": "aprovado pelo Vitor na conversa com o Roteirista para 19/11 às 18h47",
+   "postado_em": "2026-11-19 22:23"
+  },
+  {
+   "run_id": "44692786600",
+   "titulo": "Pode Entrar? (versão Você)",
+   "titulo_youtube": "19 dias de geada. Às 2h alguém bate na sua porta... você abre? 🚪 #shorts",
+   "legenda": "Pode Entrar? Faz 19 dias de geada e um entregador bate na sua porta às 2h. Ele treme... mas o vidro não embaçou. Você abre? Comenta SIM ou NÃO 👇 (história de ficção) #terror #podeentrar #voceescaparia",
+   "tipo": "historia",
+   "adicionado": "2026-11-20 11:17",
+   "aprovacao": "Vitor 20/11 11h17 (piloto formato Você)",
+   "postado_em": "2026-11-20 14:38"
+  },
+  {
+   "run_id": "44816462692",
+   "titulo": "Protocolo Geada",
+   "titulo_youtube": "Se baterem na sua porta na geada... é gente ou é Oco? ❄️ Protocolo Geada #shorts",
+   "tipo": "protocolo",
+   "aprovacao": "Vitor (aprovações nº 10)",
+   "postado_em": "2026-11-21 16:35",
+   "postado_por": "Vitor, à mão no YouTube (Upload-Post no limite)"
+  }
+ ]
 }
