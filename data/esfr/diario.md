@@ -29,3 +29,6 @@
 - **Aprendido:** número falado longo derruba a nota do Whisper. Arredondar na fala e mostrar o mesmo na tela ("QUASE 11 KM"). A cota do Gemini TTS deu 429 várias vezes no 4º render do dia: não passar de uns 4 renders por dia.
 - **Domingo (22/11): vídeo longo.** Planejar a compilação de 8 a 12 min. O motor hoje só faz Shorts verticais de até ~1 min; falta juntar vários vídeos prontos em 16:9 (ou vertical com faixas), com vinheta entre eles e uma narração de ligação.
 - **Testar depois:** se o Upload-Post voltar, ver qual gancho segura mais (espaço x oceano). Próximas ideias sem repetir: buraco negro, Terra com anéis, um dia em Vênus, raio caindo em você, gravidade sumindo por 5 s.
+
+## 21/11 (12h40): reserva da fila
+- O agendamento das 12h17 não disparou (nenhuma execução `schedule` desde 00h57). Postagem à mão de "E se a Terra parasse de girar?" (run 44920276209) **falhou**: Upload-Post 429 `monthly_limit_reached` (10 de 10, reinicia por volta de 17/12). Fila intacta com 6. Não tentei de novo.
