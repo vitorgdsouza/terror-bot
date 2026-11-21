@@ -27,7 +27,7 @@
    "ate": 500
   },
   {
-   "narracao": "A luz do Sol some. Lá embaixo é escuridão total.",
+   "narracao": "A luz do Sol some. Lá embaixo, escuridão total.",
    "quadro": "mergulho",
    "de": 500,
    "ate": 1500,
@@ -42,12 +42,13 @@
    "rotulo": "fundura média do oceano"
   },
   {
-   "narracao": "Aqui, o fundo fica a dez mil novecentos e trinta e cinco metros.",
+   "narracao": "Aqui, o fundo fica a quase onze quilômetros.",
    "quadro": "numero",
    "de": 0,
-   "ate": 10935,
-   "unidade": "metros",
-   "rotulo": "Fossa das Marianas"
+   "ate": 11,
+   "unidade": "km",
+   "rotulo": "Fossa das Marianas",
+   "antes": "quase"
   },
   {
    "narracao": "Se você jogasse o Everest aqui dentro...",
@@ -90,12 +91,13 @@
    "peixe": true
   },
   {
-   "narracao": "Um peixe já foi filmado a oito mil cento e setenta e oito metros.",
+   "narracao": "Um peixe já foi filmado a mais de oito mil metros.",
    "quadro": "numero",
    "de": 0,
-   "ate": 8178,
+   "ate": 8000,
    "unidade": "metros",
-   "rotulo": "o peixe mais fundo já filmado"
+   "rotulo": "o peixe mais fundo já filmado",
+   "antes": "mais de"
   },
   {
    "narracao": "Até 2022, só vinte e sete pessoas tinham chegado aqui.",

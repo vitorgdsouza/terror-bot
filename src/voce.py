@@ -24,7 +24,7 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   planeta      a Terra girando no espaço; "eixo": true (mostra o eixo), "balanca": true (eixo bamboleando), "lua": false, "some_lua": true, "para": true (rotação freia), "vento": true, "rotulo"
   terra_corte  a Terra em corte com o buraco; "de"/"ate" (0 a 1: posição de quem cai), "rotulo" (ex.: "5.400 °C")
   espaco       astronauta flutuando; "sem_capacete": true, "segundos": 15 (contagem regressiva)
-  numero       número grande contando; "de", "ate", "ano": true (sem ponto de milhar), "unidade" (km/h), "rotulo"
+  numero       número grande contando; "de", "ate", "antes" (ex.: "QUASE"), "ano": true (sem ponto de milhar), "unidade" (km/h), "rotulo"
   comparar     barras crescendo; "itens": [["Furacão", 300], ["Sem rotação", 1670]], "unidade": "km/h"
   multidao     muita gente pulando; "rotulo"
   sol          o Sol e a Terra em órbita; "apaga", "apagado", "onda" (a última luz indo até a Terra), "tangente" (a Terra sai em linha reta), "so_terra" + "congela" (a Terra virando gelo), "rotulo"
@@ -501,6 +501,8 @@ def _numero(img, cena, t, dur, n, p):
     v = de + (ate - de) * _suave(t / max(0.1, dur * 0.7))
     inteiro = float(ate).is_integer() and float(de).is_integer()
     txt = f"{v:.0f}" if cena.get("ano") else f"{v:,.0f}".replace(",", ".") if inteiro else f"{v:,.1f}".replace(",", "#").replace(".", ",").replace("#", ".")
+    if cena.get("antes"):                                  # palavra pequena antes do número ("QUASE", "MAIS DE")
+        _centro_texto(d, W / 2, H * 0.3, str(cena["antes"]).upper(), _f(64), p["acento2"])
     _centro_texto(d, W / 2, H * 0.38, txt, _f(230, True), p["acento"])
     if cena.get("unidade"):
         _centro_texto(d, W / 2, H * 0.49, str(cena["unidade"]).upper(), _f(70), p["fig"])
@@ -627,7 +629,7 @@ def _mergulho(img, cena, t, dur, n, p):
             c = tuple(int(a + (b - a) * min(1, f_ * 2.2)) for a, b in zip((40, 120, 210), (3, 6, 18)))
             d.rectangle((0, y, W, y + 6), fill=c)
         d.rectangle((0, fundo, W, H), fill=(40, 34, 30))
-        sobe = _suave(t / max(0.1, dur * 0.6))
+        sobe = 1.0 if cena.get("rotulo") else _suave(t / max(0.1, dur * 0.6))
         topo = fundo - (fundo - sup) * (8.8 / 10.9) * sobe   # Everest ~8,8 km na fossa de ~10,9 km
         d.polygon([(W * 0.18, fundo), (W * 0.5, topo), (W * 0.82, fundo)], fill=(150, 150, 160))
         d.polygon([(W * 0.5, topo), (W * 0.44, topo + 90 * sobe), (W * 0.56, topo + 90 * sobe)], fill=(250, 250, 255))
