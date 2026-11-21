@@ -1,0 +1,123 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.3,
+ "titulo": "E se o Sol se apagasse agora?",
+ "titulo_youtube": "E se o Sol se APAGASSE agora? ☀️ #shorts",
+ "legenda_post": "Se o Sol sumisse agora, você passaria 8 minutos e 20 segundos sem perceber nada. Depois disso, a Terra sai pela tangente e o frio começa. Onde você estaria? 👇\n\nFontes: Live Science (mar/2026), IFLScience (mai/2026), WorldAtlas (ago/2026).\n#ciencia #espaco #curiosidades #ese #sol",
+ "cenas": [
+  {
+   "narracao": "E se o Sol se apagasse agora?",
+   "quadro": "sol",
+   "apaga": true,
+   "thumb": true,
+   "thumb_momento": 0.1
+  },
+  {
+   "narracao": "Nos primeiros oito minutos e vinte segundos, nada muda.",
+   "quadro": "sol",
+   "apagado": true,
+   "onda": true,
+   "rotulo": "8 min 20 s"
+  },
+  {
+   "narracao": "É o tempo que a última luz leva até aqui.",
+   "quadro": "sol",
+   "apagado": true,
+   "onda": true
+  },
+  {
+   "narracao": "São cento e cinquenta milhões de quilômetros.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 150,
+   "unidade": "milhões de km",
+   "rotulo": "do Sol até a Terra"
+  },
+  {
+   "narracao": "E o fim da gravidade do Sol chega junto.",
+   "quadro": "sol",
+   "apagado": true,
+   "onda": true,
+   "rotulo": "luz + gravidade"
+  },
+  {
+   "narracao": "Aí a Terra sai da órbita e segue em linha reta.",
+   "quadro": "sol",
+   "apagado": true,
+   "tangente": true
+  },
+  {
+   "narracao": "A uns trinta quilômetros por segundo.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 30,
+   "unidade": "km por segundo",
+   "rotulo": "velocidade da Terra"
+  },
+  {
+   "narracao": "E você não sente tranco nenhum.",
+   "quadro": "sol",
+   "apagado": true,
+   "tangente": true,
+   "rotulo": "sem tranco"
+  },
+  {
+   "narracao": "A Lua fica escura. As estrelas continuam lá.",
+   "quadro": "planeta",
+   "some_lua": true
+  },
+  {
+   "narracao": "As plantas param a fotossíntese quase na hora.",
+   "quadro": "texto",
+   "texto": "SEM|FOTOSSÍNTESE"
+  },
+  {
+   "narracao": "Em uns vinte dias, a média do planeta chega a zero grau.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 20,
+   "unidade": "dias",
+   "rotulo": "até a média chegar a 0 °C"
+  },
+  {
+   "narracao": "Os oceanos congelam de cima para baixo.",
+   "quadro": "sol",
+   "so_terra": true,
+   "congela": true
+  },
+  {
+   "narracao": "No fim, a Terra fica gelada como Plutão.",
+   "quadro": "sol",
+   "so_terra": true,
+   "congela": true,
+   "rotulo": "frio de Plutão"
+  },
+  {
+   "narracao": "Mas no fundo do mar, perto do calor da Terra, micróbios resistem.",
+   "quadro": "mergulho",
+   "fonte": true,
+   "luz": true,
+   "medidor": false,
+   "de": 3000,
+   "ate": 3000
+  },
+  {
+   "narracao": "Relaxa: o Sol de verdade ainda brilha por bilhões de anos.",
+   "quadro": "sol"
+  },
+  {
+   "narracao": "Onde você estaria quando a luz acabasse? Comenta.",
+   "quadro": "sol",
+   "apaga": true,
+   "rotulo": "onde você estaria?"
+  }
+ ],
+ "thumb_texto": "E SE O SOL|APAGASSE?"
+}

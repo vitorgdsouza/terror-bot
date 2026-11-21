@@ -1,0 +1,118 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.3,
+ "titulo": "E se você descesse até o fundo da Fossa das Marianas?",
+ "titulo_youtube": "E se você descesse até o PONTO MAIS FUNDO do mar? 🌊 #shorts",
+ "legenda_post": "Quase 11 km de água em cima de você, pressão mais de mil vezes maior que na praia e escuridão total. Mesmo assim, tem vida lá embaixo. Você desceria? 👇\n\nFontes: Live Science (NOAA), Royal Museums Greenwich, NASA Earth Observatory, EarthDate.\n#ciencia #oceano #curiosidades #ese #mar",
+ "cenas": [
+  {
+   "narracao": "E se você descesse até o ponto mais fundo do mar?",
+   "quadro": "mergulho",
+   "de": 0,
+   "ate": 150,
+   "thumb": true,
+   "thumb_momento": 0.9
+  },
+  {
+   "narracao": "Você entra num submarino na Fossa das Marianas, no Pacífico.",
+   "quadro": "mergulho",
+   "de": 150,
+   "ate": 500
+  },
+  {
+   "narracao": "A luz do Sol some. Lá embaixo é escuridão total.",
+   "quadro": "mergulho",
+   "de": 500,
+   "ate": 1500,
+   "luz": false
+  },
+  {
+   "narracao": "O oceano tem, em média, uns três mil e setecentos metros.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 3700,
+   "unidade": "metros",
+   "rotulo": "fundura média do oceano"
+  },
+  {
+   "narracao": "Aqui, o fundo fica a dez mil novecentos e trinta e cinco metros.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 10935,
+   "unidade": "metros",
+   "rotulo": "Fossa das Marianas"
+  },
+  {
+   "narracao": "Se você jogasse o Everest aqui dentro...",
+   "quadro": "mergulho",
+   "escala": true
+  },
+  {
+   "narracao": "ainda sobrariam uns dois quilômetros de água em cima dele.",
+   "quadro": "mergulho",
+   "escala": true,
+   "rotulo": "+ 2 km de água"
+  },
+  {
+   "narracao": "A pressão no fundo é mais de mil vezes a da superfície.",
+   "quadro": "numero",
+   "de": 1,
+   "ate": 1000,
+   "unidade": "vezes",
+   "rotulo": "a pressão da superfície"
+  },
+  {
+   "narracao": "O casco do submarino é espremido de todos os lados.",
+   "quadro": "mergulho",
+   "de": 9000,
+   "ate": 10000,
+   "pressao": true
+  },
+  {
+   "narracao": "E a água fica entre um e quatro graus.",
+   "quadro": "mergulho",
+   "de": 10000,
+   "ate": 10935,
+   "rotulo": "1 a 4 °C"
+  },
+  {
+   "narracao": "Mesmo assim, tem vida bem lá embaixo.",
+   "quadro": "mergulho",
+   "de": 8178,
+   "ate": 8178,
+   "peixe": true
+  },
+  {
+   "narracao": "Um peixe já foi filmado a oito mil cento e setenta e oito metros.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 8178,
+   "unidade": "metros",
+   "rotulo": "o peixe mais fundo já filmado"
+  },
+  {
+   "narracao": "Até 2022, só vinte e sete pessoas tinham chegado aqui.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 27,
+   "unidade": "pessoas",
+   "rotulo": "no fundo da fossa"
+  },
+  {
+   "narracao": "Você teria coragem de descer? Comenta.",
+   "quadro": "mergulho",
+   "de": 10935,
+   "ate": 10935,
+   "luz": true,
+   "rotulo": "você desceria?"
+  }
+ ],
+ "thumb_texto": "VOCÊ DESCERIA|ATÉ AQUI?"
+}

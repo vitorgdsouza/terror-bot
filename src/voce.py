@@ -27,6 +27,8 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   numero       número grande contando; "de", "ate", "ano": true (sem ponto de milhar), "unidade" (km/h), "rotulo"
   comparar     barras crescendo; "itens": [["Furacão", 300], ["Sem rotação", 1670]], "unidade": "km/h"
   multidao     muita gente pulando; "rotulo"
+  sol          o Sol e a Terra em órbita; "apaga", "apagado", "onda" (a última luz indo até a Terra), "tangente" (a Terra sai em linha reta), "so_terra" + "congela" (a Terra virando gelo), "rotulo"
+  mergulho     submarino descendo; "de"/"ate" (metros no medidor), "luz", "peixe", "pressao", "fonte" (fonte de calor no fundo), "escala": true (mar em corte com o Everest dentro), "medidor": false, "rotulo"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
 import math
@@ -541,8 +543,165 @@ def _multidao(img, cena, t, dur, n, p):
         _centro_texto(d, W / 2, H * 0.3, str(cena["rotulo"]).upper(), _f(70), p["acento"])
 
 
+def _estrelas(d, t, n=110):
+    for k in range(n):
+        rnd = random.Random(k)
+        x, y = rnd.random() * W, rnd.random() * H
+        b = 120 + int(120 * abs(math.sin(t * 2 + k)))
+        d.ellipse((x - 2, y - 2, x + 2, y + 2), fill=(b, b, b))
+
+
+def _sol(img, cena, t, dur, n, p):
+    """O Sol no meio e a Terra em órbita. "apaga": o Sol se apaga; "apagado": já começa apagado;
+    "onda": a última luz sai do Sol e chega à Terra; "tangente": a Terra sai pela tangente, em linha reta;
+    "so_terra": só a Terra, grande; "congela": a Terra vai ficando branca de gelo; "rotulo"."""
+    d = ImageDraw.Draw(img, "RGBA")
+    _estrelas(d, t)
+    cx, cy, ro = W / 2, H * 0.47, 370
+    if cena.get("so_terra"):
+        r = 300
+        _globo(d, cx, cy, r, t * 0.6)
+        if cena.get("congela"):
+            gelo = _suave(t / max(0.1, dur * 0.8))
+            d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(235, 245, 255, int(215 * gelo)))
+            for k in range(14):                            # rachaduras de gelo aparecendo
+                rnd = random.Random(k * 3)
+                if rnd.random() > gelo:
+                    continue
+                a0, l0 = rnd.random() * 2 * math.pi, rnd.random() * r * 0.8
+                x1, y1 = cx + math.cos(a0) * l0, cy + math.sin(a0) * l0
+                a1 = a0 + (rnd.random() - 0.5) * 2
+                d.line((x1, y1, x1 + math.cos(a1) * 90, y1 + math.sin(a1) * 90), fill=(150, 190, 230, 255), width=5)
+    else:
+        luz = 1.0
+        if cena.get("apagado"):
+            luz = 0.0
+        elif cena.get("apaga"):
+            luz = 1 - _suave(t / max(0.1, dur * 0.35))
+        rs = 120
+        if luz > 0.02:                                     # brilho em camadas
+            for k in range(6, 0, -1):
+                rr = rs * (1 + k * 0.22)
+                d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), fill=p["acento"][:3] + (int(30 * luz),))
+        base = tuple(int(40 + (c - 40) * luz) for c in p["acento"])
+        d.ellipse((cx - rs, cy - rs, cx + rs, cy + rs), fill=base,
+                  outline=(90, 100, 130) if luz < 0.5 else None, width=4)
+        a0 = cena.get("angulo", math.pi / 2 if cena.get("tangente") else -0.6)
+        for k in range(0, 360, 6):                         # a órbita, tracejada
+            d.arc((cx - ro, cy - ro, cx + ro, cy + ro), k, k + 3, fill=(120, 140, 190, 150), width=3)
+        if cena.get("onda"):                               # a última luz viajando até a Terra
+            rw = rs + (ro - rs) * min(1.0, t / max(0.1, dur * 0.75))
+            d.ellipse((cx - rw, cy - rw, cx + rw, cy + rw), outline=p["acento"][:3] + (230,), width=10)
+        if cena.get("tangente"):                           # sai em linha reta, para onde estava indo
+            ex, ey = cx + math.cos(a0) * ro, cy + math.sin(a0) * ro
+            tx, ty = -math.sin(a0), math.cos(a0)
+            s_ = t * 90
+            for k in range(0, int(s_), 30):
+                d.ellipse((ex + tx * k - 4, ey + ty * k - 4, ex + tx * k + 4, ey + ty * k + 4), fill=p["acento2"])
+            ex, ey = ex + tx * s_, ey + ty * s_
+        else:
+            a = a0 + t * 0.35
+            ex, ey = cx + math.cos(a) * ro, cy + math.sin(a) * ro
+        _globo(d, ex, ey, 62, t)
+    if cena.get("rotulo"):
+        _centro_texto(d, W / 2, H * 0.17, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 64), p["acento"])
+
+
+def _fit(d, txt, px):
+    """Fonte que cabe na largura da tela (com margem)."""
+    while px > 30 and d.textlength(txt, font=_f(px)) > W * 0.86:
+        px -= 4
+    return _f(px)
+
+
+def _mergulho(img, cena, t, dur, n, p):
+    """Submarino descendo no mar. "de"/"ate": profundidade em metros (aparece no medidor); "luz": farol aceso;
+    "peixe": um peixe pálido passa no farol; "pressao": setas apertando o casco; "fonte": fonte de calor no fundo;
+    "escala": o mar em corte com o Everest dentro; "rotulo"."""
+    d = ImageDraw.Draw(img, "RGBA")
+    if cena.get("escala"):
+        sup, fundo = H * 0.22, H * 0.86
+        d.rectangle((0, 0, W, sup), fill=(140, 200, 255))
+        for y in range(int(sup), int(fundo), 6):           # água escurecendo com a fundura
+            f_ = (y - sup) / (fundo - sup)
+            c = tuple(int(a + (b - a) * min(1, f_ * 2.2)) for a, b in zip((40, 120, 210), (3, 6, 18)))
+            d.rectangle((0, y, W, y + 6), fill=c)
+        d.rectangle((0, fundo, W, H), fill=(40, 34, 30))
+        sobe = _suave(t / max(0.1, dur * 0.6))
+        topo = fundo - (fundo - sup) * (8.8 / 10.9) * sobe   # Everest ~8,8 km na fossa de ~10,9 km
+        d.polygon([(W * 0.18, fundo), (W * 0.5, topo), (W * 0.82, fundo)], fill=(150, 150, 160))
+        d.polygon([(W * 0.5, topo), (W * 0.44, topo + 90 * sobe), (W * 0.56, topo + 90 * sobe)], fill=(250, 250, 255))
+        if sobe > 0.95:
+            for k in range(0, int(topo - sup), 26):         # régua da água que sobra em cima
+                d.line((W * 0.5 + 60, sup + k, W * 0.5 + 60, sup + k + 14), fill=p["acento"], width=6)
+        if cena.get("rotulo"):
+            _centro_texto(d, W / 2, sup + (topo - sup) / 2, str(cena["rotulo"]).upper(),
+                          _fit(d, str(cena["rotulo"]).upper(), 58), p["acento"])
+        return
+    de, ate = float(cena.get("de", 0)), float(cena.get("ate", 0))
+    prof = de + (ate - de) * _suave(t / max(0.1, dur * 0.8))
+    esc = min(1.0, prof / 1000)
+    c = tuple(int(a + (b - a) * esc) for a, b in zip((40, 120, 210), (2, 5, 14)))
+    d.rectangle((0, 0, W, H), fill=c)
+    vel = 1.0 if ate > de else 0.25
+    for k in range(70):                                    # neve marinha subindo: dá a sensação de descer
+        rnd = random.Random(k * 11)
+        x = rnd.random() * W
+        y = (rnd.random() * H - t * (260 * vel + rnd.random() * 80)) % H
+        d.ellipse((x - 3, y - 3, x + 3, y + 3), fill=(200, 220, 240, 110))
+    sx, sy = W / 2 + math.sin(t * 1.1) * 12, H * 0.44 + math.sin(t * 1.7) * 14
+    if cena.get("pressao"):
+        sx += math.sin(t * 40) * 5
+    if cena.get("fonte"):                                  # chaminé no fundo soltando fumaça quente
+        bx, by = W * 0.7, H * 0.9
+        d.polygon([(bx - 90, H), (bx - 30, by - 180), (bx + 30, by - 180), (bx + 90, H)], fill=(60, 50, 44))
+        for k in range(9):
+            f_ = ((t * 0.5 + k / 9) % 1)
+            rr = 30 + f_ * 90
+            d.ellipse((bx - rr + math.sin(k + t) * 30, by - 200 - f_ * 600 - rr, bx + rr + math.sin(k + t) * 30,
+                       by - 200 - f_ * 600 + rr), fill=(255, 140, 60, int(120 * (1 - f_))))
+        d.rectangle((0, H * 0.94, W, H), fill=(40, 34, 30))
+    if cena.get("luz", prof > 400):                        # farol: cone de luz para baixo
+        d.polygon([(sx - 30, sy + 70), (sx + 30, sy + 70), (sx + 260, sy + 640), (sx - 260, sy + 640)],
+                  fill=(255, 240, 170, 66))
+    if cena.get("peixe"):
+        fx = W + 160 - ((t * 220) % (W + 400))
+        fy = sy + 380 + math.sin(t * 3) * 20
+        d.ellipse((fx - 90, fy - 34, fx + 60, fy + 34), fill=(236, 214, 220))
+        d.polygon([(fx + 50, fy), (fx + 120, fy - 40 + math.sin(t * 9) * 10), (fx + 120, fy + 40 + math.sin(t * 9) * 10)],
+                  fill=(236, 214, 220))
+        d.ellipse((fx - 70, fy - 12, fx - 52, fy + 6), fill=(20, 20, 30))
+    am = p["acento"]                                       # submarino amarelo
+    d.rounded_rectangle((sx - 230, sy - 90, sx + 230, sy + 90), radius=90, fill=am)
+    d.rounded_rectangle((sx - 70, sy - 150, sx + 70, sy - 70), radius=30, fill=am)
+    d.ellipse((sx - 150, sy - 45, sx - 60, sy + 45), fill=p["acento2"], outline=(30, 40, 60), width=10)
+    d.ellipse((sx - 20, sy - 45, sx + 70, sy + 45), fill=p["acento2"], outline=(30, 40, 60), width=10)
+    d.polygon([(sx + 225, sy), (sx + 290, sy - 70), (sx + 290, sy + 70)], fill=tuple(int(v * 0.8) for v in am))
+    for k in range(0 if cena.get("rotulo") or cena.get("pressao") else 6):       # bolhas (sem rótulo, para não brigar com ele)
+        f_ = ((t * 0.9 + k / 6) % 1)
+        bx_ = sx - 60 + math.sin(k * 2 + t * 3) * 40
+        d.ellipse((bx_ - 12, sy - 160 - f_ * 160 - 12, bx_ + 12, sy - 160 - f_ * 160 + 12), outline=(220, 240, 255, 180), width=4)
+    if cena.get("pressao"):                                # setas apertando de todos os lados
+        aperta = 30 * abs(math.sin(t * 3))
+        for ang in range(0, 360, 45):
+            a = math.radians(ang)
+            r1, r2 = 420 - aperta, 330 - aperta
+            x1, y1 = sx + math.cos(a) * r1, sy + math.sin(a) * r1 * 0.75
+            x2, y2 = sx + math.cos(a) * r2, sy + math.sin(a) * r2 * 0.75
+            d.line((x1, y1, x2, y2), fill=(232, 44, 56), width=14)
+            px_, py_ = -math.sin(a) * 26, math.cos(a) * 26 * 0.75
+            d.polygon([(x2 - math.cos(a) * 10, y2 - math.sin(a) * 10), (x2 + math.cos(a) * 40 + px_, y2 + math.sin(a) * 30 + py_),
+                       (x2 + math.cos(a) * 40 - px_, y2 + math.sin(a) * 30 - py_)], fill=(232, 44, 56))
+    if cena.get("medidor", True):                          # "medidor": false esconde a fundura
+        _centro_texto(d, W / 2, H * 0.2, f"{prof:,.0f} m".replace(",", "."), _f(150, True), p["fig"])
+        _centro_texto(d, W / 2, H * 0.27, "DE PROFUNDIDADE", _f(44), p["acento2"])
+    if cena.get("rotulo"):
+        _centro_texto(d, W / 2, H * 0.32, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 60), p["acento"])
+
+
+
 QUADROS.update({"planeta": _planeta, "terra_corte": _terra_corte, "espaco": _espaco, "numero": _numero,
-                "comparar": _comparar, "multidao": _multidao})
+                "comparar": _comparar, "multidao": _multidao, "sol": _sol, "mergulho": _mergulho})
 
 
 def _hud(img, cena, t, p):
