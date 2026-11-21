@@ -577,7 +577,7 @@ def _sol(img, cena, t, dur, n, p):
         if cena.get("apagado"):
             luz = 0.0
         elif cena.get("apaga"):
-            luz = 1 - _suave(t / max(0.1, dur * 0.35))
+            luz = 1 - _suave((t - dur * 0.4) / max(0.1, dur * 0.3))   # brilha um pouco antes de apagar
         rs = 120
         if luz > 0.02:                                     # brilho em camadas
             for k in range(6, 0, -1):
