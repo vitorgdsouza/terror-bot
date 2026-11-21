@@ -57,9 +57,11 @@ def _ceu(W: int, H: int) -> Image.Image:
     return img
 
 
-def arte(r: dict) -> Image.Image:
+ARTE_HORIZONTAL = {"lua_some"}                               # artes que têm composição própria em 16:9
+
+
+def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
     """A imagem principal da thumb: um desenho feito para ela (thumb_arte) ou um quadro do vídeo com zoom."""
-    W, H = 1080, 1920
     tipo = r.get("thumb_arte", "")
     if not tipo:
         img = quadro_do_video(r)
@@ -80,15 +82,7 @@ def arte(r: dict) -> Image.Image:
         for dx in (-42, 22):
             d.rounded_rectangle((cx + dx, cy - 58, cx + dx + 22, cy + 58), radius=6, fill=(255, 255, 255))
     elif tipo == "lua_some":
-        t = terra(330)
-        img.alpha_composite(t, (int(W * 0.38) - t.width // 2, int(H * 0.66) - t.height // 2))
-        m = lua(120, apagada=0.55)
-        mx, my = int(W * 0.8), int(H * 0.4)
-        img.alpha_composite(m, (mx - m.width // 2, my - m.height // 2))
-        for k in range(0, 360, 20):                              # contorno tracejado de onde a Lua estava
-            d.arc((mx - 150, my - 150, mx + 150, my + 150), k, k + 11, fill=(255, 196, 40), width=8)
-        f = ImageFont.truetype(str(FONTE), 150)
-        d.text((mx - f.getlength("?") / 2, my - 110), "?", font=f, fill=(255, 196, 40), stroke_width=6, stroke_fill=(0, 0, 0))
+        _lua_some(img, W, H)
     elif tipo == "buraco":
         R = 380
         t = terra(R)
@@ -146,10 +140,19 @@ def gerar(r: dict, pasta: Path) -> tuple[Path, Path]:
     v.convert("RGB").save(vert, quality=92)
 
     # ---------------- horizontal (16:9): texto à esquerda, desenho à direita
-    hz = Image.new("RGB", (1280, 720))
-    fundo = cena.resize((1280, int(1280 * H / W))).crop((0, 600, 1280, 1320)).filter(ImageFilter.GaussianBlur(28))
-    hz.paste(ImageEnhance.Brightness(fundo).enhance(0.4), (0, 0))
-    hz.paste(cena.resize((470, 836)).crop((0, 58, 470, 778)), (810, 0))
+    if r.get("thumb_arte") in ARTE_HORIZONTAL:                # desenho refeito em 16:9, sem cortar o vertical
+        hz = arte(r, 1280, 720).convert("RGBA")
+        som = Image.new("RGBA", hz.size, (0, 0, 0, 0))
+        ds = ImageDraw.Draw(som)
+        for k in range(60):                                   # escurece a esquerda para o texto saltar
+            ds.rectangle((int(700 * k / 60), 0, int(700 * (k + 1) / 60), 720), fill=(4, 8, 24, int(200 * (1 - k / 60))))
+        hz.alpha_composite(som)
+        hz = hz.convert("RGB")
+    else:
+        hz = Image.new("RGB", (1280, 720))
+        fundo = cena.resize((1280, int(1280 * H / W))).crop((0, 600, 1280, 1320)).filter(ImageFilter.GaussianBlur(28))
+        hz.paste(ImageEnhance.Brightness(fundo).enhance(0.4), (0, 0))
+        hz.paste(cena.resize((470, 836)).crop((0, 58, 470, 778)), (810, 0))
     dz = ImageDraw.Draw(hz)
     y = 150
     for n, txt in enumerate(linhas):
@@ -237,3 +240,61 @@ def lua(R: int, apagada: float = 0.0) -> Image.Image:
     cor = np.stack([base, base, base + 10], -1) * sh[..., None]
     a = np.clip((1 - np.sqrt(m2)) * R * 1.5, 0, 1) * 255 * (1 - apagada)
     return Image.fromarray(np.dstack([cor.clip(0, 255), a]).astype("uint8"), "RGBA")
+
+
+def _lua_desfazendo(R: int, seed: int = 5) -> Image.Image:
+    """A Lua grande se desfazendo em pedaços para a direita. Devolve RGBA (R*5 x R*3), com a Lua centrada em (1.5R, 1.5R)."""
+    import random
+    S = R * 2 + 4
+    m = lua(R).copy()
+    X = (np.arange(S)[None, :] - S / 2) / R
+    Y = (np.arange(S)[:, None] - S / 2) / R
+    corte = 0.05 + 0.35 * Y ** 2 + 0.28 * (_ruido(S, S, max(4, R // 6), seed) - 0.5)   # borda irregular do corte
+    a = np.asarray(m, "float32")[..., 3] * np.clip((corte - X) * R / 6, 0, 1)
+    px = np.asarray(m).copy().astype("float32")
+    borda = np.clip(1 - (corte - X) / 0.07, 0, 1)[..., None] * (a > 0)[..., None]       # a borda quebrada brilha quente
+    px[..., :3] = px[..., :3] * (1 - borda * 0.75) + np.array([255, 170, 70]) * borda * 0.75
+    px[..., 3] = a
+    px = px.clip(0, 255).astype("uint8")
+    lua_cortada = Image.fromarray(px, "RGBA")
+
+    out = Image.new("RGBA", (R * 5, R * 3), (0, 0, 0, 0))
+    cx, cy = int(R * 1.5), int(R * 1.5)
+    brilho = Image.new("RGBA", out.size, (0, 0, 0, 0))                                  # halo frio da Lua
+    ImageDraw.Draw(brilho).ellipse((cx - R * 1.18, cy - R * 1.18, cx + R * 1.18, cy + R * 1.18), fill=(190, 215, 255, 110))
+    out.alpha_composite(brilho.filter(ImageFilter.GaussianBlur(R * 0.14)))
+    d = ImageDraw.Draw(out)
+    rnd = random.Random(seed)
+    for _ in range(170):                                       # pedaços e poeira voando, menores quanto mais longe
+        ang = rnd.uniform(-0.95, 0.95)
+        y0 = rnd.uniform(-0.85, 0.85)
+        x0 = 0.05 + 0.35 * y0 ** 2
+        dist = rnd.random() ** 1.6 * 3.1
+        x = cx + (x0 + dist * np.cos(ang * 0.45)) * R
+        y = cy + (y0 + dist * np.sin(ang * 0.45) * 0.9) * R
+        tam = max(2.0, R * 0.13 * (1 - dist / 3.3) * rnd.uniform(0.25, 1.0))
+        tom = int(rnd.uniform(130, 210) * (1 - 0.35 * dist / 3.1))
+        alfa = int(255 * (1 - 0.6 * dist / 3.1))
+        pts = [(x + tam * np.cos(t) * rnd.uniform(0.6, 1.1), y + tam * np.sin(t) * rnd.uniform(0.6, 1.1))
+               for t in np.linspace(0, 2 * np.pi, rnd.randint(5, 7), endpoint=False)]
+        d.polygon(pts, fill=(tom, tom, tom + 8, alfa))
+        if tam > R * 0.05:                                    # lado iluminado do pedaço
+            d.polygon([(px_ - 0.25 * tam, py_ - 0.25 * tam) for px_, py_ in pts[:3]] + [pts[0]],
+                      fill=(min(255, tom + 45),) * 3 + (alfa,))
+    out.alpha_composite(lua_cortada, (cx - S // 2, cy - S // 2))
+    return out
+
+
+def _lua_some(img: Image.Image, W: int, H: int) -> None:
+    """Thumb da Lua sumindo: a Lua enorme se desfazendo, com a Terra pequena embaixo para dar escala."""
+    horizontal = W > H
+    if horizontal:
+        R, (lx, ly) = 235, (1010, int(H * 0.46))
+        Rt, (tx, ty) = 210, (760, 820)
+    else:
+        R, (lx, ly) = 360, (int(W * 0.44), int(H * 0.56))
+        Rt, (tx, ty) = 520, (int(W * 0.5), int(H * 1.17))
+    t = terra(Rt)
+    img.alpha_composite(t, (tx - t.width // 2, ty - t.height // 2))
+    m = _lua_desfazendo(R)
+    img.alpha_composite(m, (lx - int(R * 1.5), ly - int(R * 1.5)))
