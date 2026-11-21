@@ -56,7 +56,8 @@ def main():
                         "-frames:v", "1", "-q:v", "4", str(destino)])
     legenda = next((p.read_text(encoding="utf-8") for p in (RAIZ / "baixado").rglob("legenda_do_post.txt")), None)
     if not legenda:
-        tags = " ".join(dict.fromkeys(r.get("hashtags", []) + cfg.get("hashtags_fixas", [])))
+        fixas = [] if r.get("canal") == "esfr" else cfg.get("hashtags_fixas", [])   # fixas são do terror
+        tags = " ".join(dict.fromkeys(r.get("hashtags", []) + fixas))
         legenda = f"{r['titulo']}\n\n{r.get('legenda_post', '')}\n\n{tags}"
     import time
     canal = {"esfr": "[E Se Fosse Real?] "}.get(r.get("canal", ""), "")

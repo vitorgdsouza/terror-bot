@@ -139,7 +139,10 @@ def main():
     if r.get("titulo_youtube"):                          # título pensado para busca, definido no roteiro
         os.environ["_TITULO_YT_ROTEIRO"] = r["titulo_youtube"]
     cfg = carregar_config()
-    hashtags = list(dict.fromkeys((r.get("hashtags") or []) + cfg.get("hashtags_fixas", [])))
+    # as hashtags fixas são do terror; o E Se Fosse Real? usa só as do próprio roteiro/legenda
+    esfr = r.get("canal") == "esfr" or os.environ.get("CANAL") == "esfr"
+    fixas = [] if esfr else cfg.get("hashtags_fixas", [])
+    hashtags = list(dict.fromkeys((r.get("hashtags") or []) + fixas))
     try:
         resp = publicar(videos[-1], titulo, legenda, hashtags)
     except Exception as e:
