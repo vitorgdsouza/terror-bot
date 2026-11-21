@@ -162,8 +162,34 @@ def main():
         PENDENTE.write_text(json.dumps(p, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def enviar_telegram():
+    """Manda no Telegram o próximo vídeo da fila pronto para postar à mão: vídeo, textos (título e descrição do
+    YouTube, legenda do TikTok) e thumbs. Não posta nada e não mexe na fila."""
+    from . import telegram
+    from .thumb import enviar_thumbs
+    base = RAIZ / "baixado"
+    videos = sorted(base.rglob("video_final.mp4"), key=lambda p: p.stat().st_mtime)
+    if not videos:
+        telegram.enviar_mensagem("Não achei o vídeo da fila para mandar (ele fica guardado 30 dias).")
+        sys.exit(1)
+    roteiros = sorted(base.rglob("roteiro.json"))
+    r = json.loads(roteiros[0].read_text(encoding="utf-8")) if roteiros else {}
+    if os.environ.get("CANAL") == "esfr":
+        r["canal"] = "esfr"
+    if os.environ.get("TITULO_YOUTUBE", "").strip():         # os textos da fila valem mais que os do roteiro
+        r["titulo_youtube"] = os.environ["TITULO_YOUTUBE"].strip()
+    if os.environ.get("LEGENDA_POST", "").strip():
+        r["legenda_post"] = os.environ["LEGENDA_POST"].strip()
+    prefixo = "[E Se Fosse Real?] " if r.get("canal") == "esfr" else "[Você Escaparia?] "
+    telegram.enviar_video(videos[-1], f"{prefixo}Para postar: {r.get('titulo', '')}")
+    telegram.enviar_textos_post(r, carregar_config(), prefixo)
+    enviar_thumbs(r, RAIZ / "trabalho" / "thumbs")
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "testar":
         testar()
+    elif len(sys.argv) > 1 and sys.argv[1] == "telegram":
+        enviar_telegram()
     else:
         main()

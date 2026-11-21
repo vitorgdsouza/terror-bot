@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       acao:
-        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram) | testar (confere a conexão com o canal) | thumbs (troca a thumb dos vídeos cujo título contém o texto abaixo)"
+        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram) | telegram (manda o próximo da fila no Telegram para postar à mão, sem postar) | testar (confere a conexão com o canal) | thumbs (troca a thumb dos vídeos cujo título contém o texto abaixo)"
         default: postar
       turno:
         description: "postar: manha (isca) ou tarde (principal)"
@@ -114,15 +114,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh run download "${{ steps.prox.outputs.run_id }}" -D baixado
+      - name: Mandar no Telegram para postar à mão
+        if: steps.prox.outputs.run_id != '' && github.event.inputs.acao == 'telegram'
+        env:
+          TITULO_YOUTUBE: ${{ steps.prox.outputs.titulo_youtube }}
+          LEGENDA_POST: ${{ steps.prox.outputs.legenda }}
+        run: python -m src.postar telegram
       - name: Postar
-        if: steps.prox.outputs.run_id != ''
+        if: steps.prox.outputs.run_id != '' && github.event.inputs.acao != 'telegram'
         env:
           DA_FILA: "1"
           TITULO_YOUTUBE: ${{ steps.prox.outputs.titulo_youtube }}
           LEGENDA_POST: ${{ steps.prox.outputs.legenda }}
         run: python -m src.postar
       - name: Tirar da fila
-        if: steps.prox.outputs.run_id != '' && success()
+        if: steps.prox.outputs.run_id != '' && success() && github.event.inputs.acao != 'telegram'
         env:
           INDICE: ${{ steps.prox.outputs.indice }}
         run: python -m src.fila feito
