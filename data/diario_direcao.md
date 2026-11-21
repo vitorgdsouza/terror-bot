@@ -287,3 +287,12 @@
 
 ## 21/11 (13h40): post manual do Vitor
 - Com o Upload-Post no limite, o Vitor postou à mão no YouTube o **Protocolo Geada** (run 44816462692, aprovações nº 10), por volta das 13h35. Às 13h39 já tinha 178 visualizações. Registrado em `postados` em `data/fila.json`. Os itens da fila não mudaram: CAM 04, Grupo do Prédio Pt 1 e Dashcam continuam esperando.
+
+## 21/11 (15h55): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item "renderizado", "renderizando" ou "refazer" em `aprovacoes.json`. Os últimos renders de `refazer-video.yml` (44905839296 a 44907278914) são do E Se Fosse Real? e já terminaram.
+- **Publicador:** nenhum vídeo novo para mandar. O principal de hoje já saiu: o Vitor postou o Protocolo Geada à mão (~13h35). Marquei o nº 10 como `na_fila` em `aprovacoes.json` (com o motivo), para ele sair do /pendentes.
+- **Fila:** CAM 04, Grupo do Prédio Pt 1 e Dashcam seguem parados porque o Upload-Post está no limite do mês (10/10, volta ~17/12). Hoje: 1 post (Geada); a isca das 11h47 não saiu. Esse problema já está com o Vitor (registro das 12h10), então não mandei aviso novo.
+- **Esperam o Vitor:** nº 13 e 12 (roteiros Pisadeira, 24/11), nº 11 (Grupo Pt 2) e nº 5 (Campainha).
+- **Mesa do Gerente:** saiu o nº 10 do "Aguardando"; o histórico ganhou "21/11 #10 Protocolo Geada, postado à mão pelo Vitor".
+- **Aviso no Telegram:** não mandado (nada novo para decidir).
+- **Ferramenta:** gh CLI funcionou para leitura (`gh run list`), apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).

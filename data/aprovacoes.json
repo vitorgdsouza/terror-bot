@@ -156,10 +156,10 @@
    "titulo_youtube": "Se baterem na sua porta na geada... é gente ou é Oco? ❄️ Protocolo Geada #shorts",
    "legenda": "Protocolo Geada, do universo de Pode Entrar? (história de ficção). Três sinais para saber quem está na sua porta... e por que você nunca deve ficar sozinho com um Oco. Qual sinal você testa primeiro: vapor, vidro ou geada? 👇",
    "tipo_video": "protocolo",
-   "status": "pendente",
-   "motivo": "",
+   "status": "na_fila",
+   "motivo": "postado à mão pelo Vitor no YouTube em 21/11 ~13h35 (Upload-Post no limite do mês); já em postados de data/fila.json",
    "criado": "2026-11-20 21:19",
-   "decidido": ""
+   "decidido": "2026-11-21 13:35"
   },
   {
    "id": 11,
