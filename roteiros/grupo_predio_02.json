@@ -164,7 +164,8 @@
   {
    "narracao": "Você não abriu. Você não mandou isso.",
    "quadro": "silhueta",
-   "acao": "tremendo"
+   "acao": "tremendo",
+   "thumb": true
   },
   {
    "narracao": "Atrás de você, a porta do quarto estava fechada.",
@@ -185,5 +186,15 @@
    "quadro": "texto",
    "texto": "CONTINUA...|PARTE 3"
   }
- ]
+ ],
+ "selo": "PARTE 2",
+ "pergunta_thumb": "Quem entrou?",
+ "thumb_texto_y": 0.1,
+ "thumb_de": "GRUPO DO PRÉDIO",
+ "thumb_msg": "702: obrigado por abrir :)",
+ "thumb_texto": "VOCÊ|NÃO ABRIU.",
+ "thumb_ajuste": {
+  "outra": true,
+  "acao": "parado"
+ }
 }

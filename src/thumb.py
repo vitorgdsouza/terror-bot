@@ -60,7 +60,67 @@ def _pergunta(r: dict) -> str:
     return "E você, escaparia?" if not r.get("final") else "Como tudo termina?"
 
 
+VERM_T = (225, 25, 35)
+
+
+def _thumb_voce(r: dict, pasta: Path) -> tuple[Path, Path]:
+    """Formato Você: a mensagem que dá o gancho (balão de celular) + frase em vermelho + o quadro do vídeo embaixo."""
+    from .voce import quadro as quadro_voce
+    c = next((c for c in r["cenas"] if c.get("thumb")), None) or next(
+        (c for c in r["cenas"] if c.get("quadro") == "olho_magico" and c.get("figura") not in (None, "ninguem")), r["cenas"][0])
+    c = dict(c, _paleta=r.get("paleta", "noite"), _hora=None, _parte=None, alerta=False, susto=False, texto_topo=None)
+    c.update(r.get("thumb_ajuste") or {})
+    q = quadro_voce(c, 2.2, 3.0, 7).convert("RGB")
+    W, H = q.size
+    q = ImageEnhance.Brightness(q).enhance(0.95)
+    base = Image.new("RGB", (W, H), (6, 4, 6))
+    base.paste(q.crop((0, int(H * 0.18), W, H)), (0, int(H * 0.36)))           # o desenho desce; o topo fica pro gancho
+    v = base.convert("RGBA")
+    fade = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    fd = ImageDraw.Draw(fade)
+    for k in range(40):
+        y = H * 0.36 + k * 6
+        fd.rectangle((0, y, W, y + 6), fill=(6, 4, 6, int(255 * (1 - k / 40))))
+    v.alpha_composite(fade)
+    g = Image.new("RGBA", (W, H), (0, 0, 0, 0))                               # vinheta vermelha
+    ImageDraw.Draw(g).rectangle((0, 0, W, H), outline=(200, 10, 20, 170), width=90)
+    v.alpha_composite(g.filter(ImageFilter.GaussianBlur(70)))
+    d = ImageDraw.Draw(v)
+    selo = r.get("selo") or f"EP. {r.get('parte') or 1}"
+    fs = ImageFont.truetype(str(FONTE), 46)
+    d.rounded_rectangle((50, 60, 90 + fs.getlength(selo), 130), radius=14, fill=VERM_T)
+    d.text((70, 64), selo, font=fs, fill=(255, 255, 255))
+    # balão de mensagem
+    nome, msg = r.get("thumb_de", "MENSAGEM NOVA"), r.get("thumb_msg", "")
+    fm, fn = _fonte(msg, W * 0.74, 64), ImageFont.truetype(str(FONTE), 34)
+    bw = max(fm.getlength(msg), fn.getlength(nome)) + 80
+    x0, y0 = (W - bw) / 2, H * 0.1
+    d.rounded_rectangle((x0, y0, x0 + bw, y0 + 70 + fm.size * 1.25), radius=34, fill=(242, 242, 246))
+    d.text((x0 + 40, y0 + 20), nome, font=fn, fill=(120, 120, 130))
+    d.text((x0 + 40, y0 + 58), msg, font=fm, fill=(15, 15, 20))
+    # frase em vermelho
+    y = y0 + 70 + fm.size * 1.25 + 50
+    for k, txt in enumerate([l for l in r.get("thumb_texto", "").upper().split("|") if l]):
+        f = _fonte(txt, W * 0.88, 140)
+        x = (W - f.getlength(txt)) / 2
+        d.text((x + 6, y + 8), txt, font=f, fill=(0, 0, 0))
+        d.text((x, y), txt, font=f, fill=VERM_T if k else (255, 255, 255), stroke_width=3, stroke_fill=(0, 0, 0))
+        y += f.size * 1.1
+    vert = pasta / "thumb_vertical.jpg"
+    v.convert("RGB").save(vert, quality=92)
+    hz = Image.new("RGB", (1280, 720), (6, 4, 6))
+    vv = v.convert("RGB")
+    hz.paste(vv.resize((405, 720)), (875, 0))
+    hz.paste(vv.crop((0, 0, W, int(H * 0.36))).resize((800, int(800 * H * 0.36 / W))), (40, 120))
+    hor = pasta / "thumb_horizontal.jpg"
+    hz.save(hor, quality=92)
+    return vert, hor
+
+
 def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
+    if r.get("formato") == "voce" and r.get("canal") != "esfr" and r.get("thumb_msg"):
+        pasta.mkdir(parents=True, exist_ok=True)
+        return _thumb_voce(r, pasta)
     if r.get("canal") == "esfr":                       # E Se Fosse Real? tem thumb própria (nada do terror)
         from .thumb_esfr import gerar
         return gerar(r, pasta)
@@ -94,6 +154,12 @@ def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
         from .sombra import quadro as quadro_sombra
         c = next((c for c in r["cenas"] if c.get("thumb")), None) or next(c for c in reversed(r["cenas"]) if c.get("quadro") == "abismo")
         cena = quadro_sombra(dict(c, texto=None), 3.0, 3.2, 1)
+    elif r.get("formato") == "voce":                   # quadro do próprio vídeo (cena "thumb": true, ou o olho mágico)
+        from .voce import quadro as quadro_voce
+        c = next((c for c in r["cenas"] if c.get("thumb")), None) or next(
+            (c for c in r["cenas"] if c.get("quadro") == "olho_magico" and c.get("figura") not in (None, "ninguem")), r["cenas"][0])
+        c = dict(c, _paleta=r.get("paleta", "noite"), _hora=r.get("hora"), _parte=None, alerta=False, susto=False)
+        cena = ImageEnhance.Brightness(quadro_voce(c, 2.2, 3.0, 7).convert("RGB")).enhance(1.15)
     elif r.get("thumb_cenario"):                       # ilustração pronta (cena especial) escolhida para a thumb
         cena = Image.open(RAIZ / "assets" / "cenarios" / f"{r['thumb_cenario']}.png").convert("RGB")
         fx, fy, z = r.get("thumb_foco") or [0.5, 0.5, 1.0]
