@@ -206,6 +206,7 @@
   "thumb_texto_y": 0.1,
   "titulo_thumb": "Grupo do Prédio",
   "thumb_de": "GRUPO DO PRÉDIO",
-  "thumb_msg": "tem um homem na frente do 702",
-  "thumb_texto": "O 702|É O SEU."
+  "thumb_msg": "tem um homem parado na frente do 702",
+  "thumb_texto": "O 702|É O SEU.",
+  "thumb_arte": "porta_pes"
 }

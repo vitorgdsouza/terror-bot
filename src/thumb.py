@@ -6,6 +6,8 @@ o título do episódio em duas linhas (a segunda na caixa roxa das legendas), um
 """
 import json
 import sys
+
+import numpy as np
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
@@ -61,6 +63,124 @@ def _pergunta(r: dict) -> str:
 
 
 VERM_T = (225, 25, 35)
+
+
+def _arte_porta_pes(W, H, horizontal=False, circulo=True):
+    """Porta vista de dentro, no escuro: luz forte vazando por baixo cortada por duas sombras de pés; olho mágico aceso."""
+    yy, xx = np.mgrid[0:H, 0:W].astype("float32")
+    if horizontal:
+        px0, px1, chao = W * 0.62, W * 0.93, H * 0.80
+        ptop = H * 0.02
+    else:
+        px0, px1, chao = W * 0.17, W * 0.83, H * 0.90
+        ptop = H * 0.40
+    cxp = (px0 + px1) / 2
+    # fundo: parede escura com brilho quente vindo do chão
+    d_chao = np.clip((yy - (chao - H * 0.35)) / (H * 0.35), 0, 1)
+    base = np.array([10, 7, 9]) + np.array([60, 30, 14]) * (d_chao ** 2.2)[..., None] * np.exp(-((xx - cxp) / (W * 0.45)) ** 2)[..., None]
+    img = Image.fromarray(base.clip(0, 255).astype("uint8")).convert("RGBA")
+    d = ImageDraw.Draw(img)
+    # batente e porta
+    d.rectangle((px0 - 26, ptop - 26, px1 + 26, chao), fill=(22, 16, 16))
+    d.rectangle((px0, ptop, px1, chao - 30), fill=(40, 30, 30))
+    pw = px1 - px0
+    for (a, b) in ((0.08, 0.06), (0.08, 0.52)):          # almofadas da porta
+        x0, x1 = px0 + pw * a, px1 - pw * a
+        h_ = (chao - ptop)
+        y0 = ptop + h_ * b
+        y1 = y0 + h_ * 0.40
+        d.rectangle((x0, y0, x1, y1), outline=(48, 38, 38), width=6)
+    # maçaneta
+    mx, my = px1 - pw * 0.13, ptop + (chao - ptop) * 0.55
+    d.rounded_rectangle((mx - 16, my - 50, mx + 16, my + 50), radius=12, fill=(120, 96, 60))
+    # olho mágico aceso
+    oy = ptop + (chao - ptop) * 0.2 if not horizontal else ptop + (chao - ptop) * 0.3
+    halo = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(halo).ellipse((cxp - 60, oy - 60, cxp + 60, oy + 60), fill=(255, 190, 110, 150))
+    img.alpha_composite(halo.filter(ImageFilter.GaussianBlur(30)))
+    d = ImageDraw.Draw(img)
+    d.ellipse((cxp - 20, oy - 20, cxp + 20, oy + 20), fill=(255, 225, 170), outline=(90, 70, 50), width=6)
+    # fresta de luz debaixo da porta e o leque de luz no chão
+    fy0, fy1 = chao - 30, chao
+    luz = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ld = ImageDraw.Draw(luz)
+    ld.polygon([(px0, fy1), (px1, fy1), (px1 + pw * 0.5, H), (px0 - pw * 0.5, H)], fill=(255, 175, 90, 170))
+    img.alpha_composite(luz.filter(ImageFilter.GaussianBlur(40)))
+    brilho = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(brilho).rectangle((px0, fy0 - 6, px1, fy1 + 6), fill=(255, 210, 130, 255))
+    img.alpha_composite(brilho.filter(ImageFilter.GaussianBlur(14)))
+    d = ImageDraw.Draw(img)
+    d.rectangle((px0, fy0, px1, fy1), fill=(255, 244, 210))
+    # as duas sombras de pés cortando a luz (e se esticando pelo chão)
+    sombra = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    sd = ImageDraw.Draw(sombra)
+    for k in (-1, 1):
+        cx = cxp + k * pw * 0.085
+        w = pw * 0.05
+        sd.rounded_rectangle((cx - w, fy0 - 4, cx + w, fy1 + 4), radius=6, fill=(0, 0, 0, 255))
+        L = H * 0.12
+        for j in range(30):                                     # sombra comprida no chão, sumindo
+            y = fy1 + L * j / 30
+            ww = w * (1 + 1.4 * j / 30)
+            sd.rectangle((cx - ww + k * j * 1.5, y, cx + ww + k * j * 1.5, y + L / 30 + 1), fill=(0, 0, 0, int(230 * (1 - j / 30))))
+    img.alpha_composite(sombra.filter(ImageFilter.GaussianBlur(3)))
+    # vinheta vermelha
+    g = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(g).rectangle((0, 0, W, H), outline=(200, 10, 20, 170), width=90)
+    img.alpha_composite(g.filter(ImageFilter.GaussianBlur(70)))
+
+    if circulo:                                                # círculo vermelho "à mão" em volta dos pés
+        d = ImageDraw.Draw(img)
+        rx, ry = pw * 0.24, (chao - fy0) + H * 0.035
+        for k, (dx, dy, wd) in enumerate(((0, 0, 12), (6, -5, 8))):
+            d.ellipse((cxp - rx + dx, fy0 - ry * 0.9 + dy, cxp + rx + dx, fy1 + ry * 1.1 + dy), outline=VERM_T, width=wd)
+    return img
+
+
+def _gancho(d, cx, y0, larg, r, max_txt=140):
+    """Balão de mensagem do grupo + frase grande (branco e vermelho), centrados em cx. Devolve o y final."""
+    nome, msg = r.get("thumb_de", "MENSAGEM NOVA"), r.get("thumb_msg", "")
+    fm = _fonte(msg, larg * 0.84, int(max_txt * 0.46))
+    fn = ImageFont.truetype(str(FONTE), max(22, int(fm.size * 0.55)))
+    bw = max(fm.getlength(msg), fn.getlength(nome)) + fm.size * 1.25
+    x0 = cx - bw / 2
+    alt = fn.size * 1.6 + fm.size * 1.3
+    d.rounded_rectangle((x0, y0, x0 + bw, y0 + alt), radius=int(fm.size * 0.55), fill=(242, 242, 246))
+    d.ellipse((x0 + bw - fn.size * 1.2, y0 + fn.size * 0.45, x0 + bw - fn.size * 0.6, y0 + fn.size * 1.05), fill=VERM_T)
+    d.text((x0 + fm.size * 0.62, y0 + fn.size * 0.5), nome, font=fn, fill=(120, 120, 130))
+    d.text((x0 + fm.size * 0.62, y0 + fn.size * 1.55), msg, font=fm, fill=(15, 15, 20))
+    y = y0 + alt + fm.size * 0.7
+    for k, txt in enumerate([l for l in r.get("thumb_texto", "").upper().split("|") if l]):
+        f = _fonte(txt, larg, max_txt)
+        x = cx - f.getlength(txt) / 2
+        d.text((x + 6, y + 8), txt, font=f, fill=(0, 0, 0))
+        d.text((x, y), txt, font=f, fill=VERM_T if k else (255, 255, 255), stroke_width=4, stroke_fill=(0, 0, 0))
+        y += f.size * 1.08
+    return y
+
+
+def _thumb_porta_pes(r: dict, pasta: Path) -> tuple[Path, Path]:
+    """Formato Você com arte própria: a porta no escuro, a luz por baixo e duas sombras de pés (círculo vermelho)."""
+    selo = r.get("selo") or f"EP. {r.get('parte') or 1}"
+    # vertical
+    v = _arte_porta_pes(1080, 1920)
+    d = ImageDraw.Draw(v)
+    fs = ImageFont.truetype(str(FONTE), 46)
+    d.rounded_rectangle((50, 60, 90 + fs.getlength(selo), 130), radius=14, fill=VERM_T)
+    d.text((70, 64), selo, font=fs, fill=(255, 255, 255))
+    _gancho(d, 540, 190, 1080 * 0.9, r, 170)
+    vert = pasta / "thumb_vertical.jpg"
+    v.convert("RGB").save(vert, quality=92)
+    # horizontal
+    h = _arte_porta_pes(1280, 720, horizontal=True)
+    d = ImageDraw.Draw(h)
+    fs = ImageFont.truetype(str(FONTE), 32)
+    d.rounded_rectangle((40, 34, 72 + fs.getlength(selo), 86), radius=10, fill=VERM_T)
+    d.text((56, 38), selo, font=fs, fill=(255, 255, 255))
+    _gancho(d, 380, 120, 680, r, 130)
+    hor = pasta / "thumb_horizontal.jpg"
+    h.convert("RGB").save(hor, quality=92)
+    return vert, hor
 
 
 def _thumb_voce(r: dict, pasta: Path) -> tuple[Path, Path]:
@@ -120,6 +240,8 @@ def _thumb_voce(r: dict, pasta: Path) -> tuple[Path, Path]:
 def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
     if r.get("formato") == "voce" and r.get("canal") != "esfr" and r.get("thumb_msg"):
         pasta.mkdir(parents=True, exist_ok=True)
+        if r.get("thumb_arte") == "porta_pes":
+            return _thumb_porta_pes(r, pasta)
         return _thumb_voce(r, pasta)
     if r.get("canal") == "esfr":                       # E Se Fosse Real? tem thumb própria (nada do terror)
         from .thumb_esfr import gerar
