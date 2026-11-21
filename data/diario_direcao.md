@@ -271,3 +271,12 @@
 - **Mesa do Gerente:** "Aguardando" com nº 13, 12, 11, 10 e 5 (o nº 6 saiu, substituído pelo nº 10); histórico ganhou o nº 6.
 - **Aprendizado (Analista):** protocolo de 40 a 45 s, no máximo 5 regras, corte seco depois da última; isca até 25 s para caber no TikTok.
 - **Ferramenta:** gh CLI segue com token inválido; workflows pelo conector do GitHub. Analista e Roteirista rodaram como subagentes.
+
+## 21/11 (10h55): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item "renderizado" ou "renderizando" em `aprovacoes.json`. Os renders de `refazer-video.yml` de hoje (44905839296 a 44907278914) são todos do E Se Fosse Real? e já terminaram; nenhum do terror rodando.
+- **Publicador:** nenhum vídeo novo para mandar. Fila: CAM 04 (isca, hoje 11h47), Grupo do Prédio Pt 1 (principal, hoje 18h47) e Dashcam (isca, 22/11 11h47). O principal das 18h47 de hoje está coberto.
+- **Esperam o Vitor:** nº 13 e 12 (roteiros Pisadeira, 24/11), nº 11 (Grupo Pt 2), nº 10 (Protocolo Geada, 22/11 18h47) e nº 5 (Campainha, 23/11 11h47). Sem decisão nova desde a rodada das 07h25.
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** sem mudança (o "Aguardando" já tem só nº 13, 12, 11, 10 e 5; histórico sem decisão nova).
+- **Aviso no Telegram:** não mandado (nada novo para decidir).
+- **Ferramenta:** gh CLI funcionou nesta rodada para leitura (`gh run list`). Sem subagentes (não havia trabalho para eles).
