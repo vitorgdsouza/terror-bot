@@ -258,3 +258,16 @@
 - **Mesa do Gerente:** "Aguardando" ficou só com nº 6 e nº 5 (textos de data atualizados); o histórico ganhou nº 8, nº 9 e os pilotos do formato Você.
 - **Aviso no Telegram:** não mandado (nada novo para decidir; nº 5 e nº 6 já foram avisados).
 - **Ferramenta:** gh CLI segue com token inválido; consultas pelo conector do GitHub. Sem subagentes (não havia trabalho para eles).
+
+## 21/11 (07h25): rodada da manhã da equipe
+- **Analista:** pauta em `data/pauta/2026-11-21.md` (relatório run 44894280257). Canal com 7.475 views (+1.101) e 29 inscritos (+5). A Fita da Farmácia 01 virou a melhor retenção do canal (68,8% assistido, 38% no fim); a Fita 02 foi de 654 para 1.117 views. Os 3 vídeos de bicho somam 3.324 views e 17 dos 29 inscritos. Pode Entrar? (versão Você): 368 views em ~20 h, 3x o ritmo do Ep. 1.
+- **Furo de 20/11 18h47:** o Grupo do Prédio Pt 1 não saiu. O agendamento (run 44824933560) pulou porque `_ja_postou` viu o "Pode Entrar? (versão Você)" (tipo historia, postado à mão às 14h38 UTC) e considerou a faixa do principal já usada. Ele é o único principal na fila e sai hoje 18h47 sozinho; com isso são duas histórias seguidas. Fila não mexida. A testar: a trava podia olhar a faixa pelo horário do post, não pelo tipo.
+- **Mapa:** 21/11 CAM 04 + Grupo Pt 1 (fila); 22/11 Dashcam (fila) + Geada nº 10 (espera); 23/11 Campainha nº 5 + Grupo Pt 2 nº 11 (esperam); 24/11 vazio.
+- **Roteirista** (pauta pediu 24/11; skills protocolo-analog-horror e video-making carregadas; só arte que já existe):
+  - **nº 12 "Fita do Terreiro 02:51"** (`roteiros/iscas/isca_11_terreiro.json`): isca VHS da Férias na Roça, 7 cenas, 37 palavras, ~23 s, susto `esp_pisadeira` (estreia), o cachorro Tição foge para dentro e fica bem. Faixa 24/11 11h47.
+  - **nº 13 "Protocolo Pisadeira"** (`roteiros/protocolo_05_pisadeira.json`): "Se o Seu Gato Encarar o Teto", 15 cenas, 94 palavras, ~43 s, 4 regras + "a parte mais importante", corte seco em `esp_pisadeira`. Faixa 24/11 18h47.
+- **Ressalvas para o Revisor/Vitor:** o cachorro usa o desenho do Rufus (`de_pe` vira o falso Rufus, então usei `levantando_cabeca`/`correndo`); sem `sombra`, o motor desenha o Abismo apagado no fundo do protocolo (pode confundir a criatura); `gato:olhos_escuro` sai como gato em pé; tesoura vai como `destaque`. Diretor de Arte não acionado (o roteiro roda com o banco atual); se o Vitor quiser, uma silhueta da Pisadeira resolveria o fundo.
+- **Refazer:** nada com status "refazer".
+- **Mesa do Gerente:** "Aguardando" com nº 13, 12, 11, 10 e 5 (o nº 6 saiu, substituído pelo nº 10); histórico ganhou o nº 6.
+- **Aprendizado (Analista):** protocolo de 40 a 45 s, no máximo 5 regras, corte seco depois da última; isca até 25 s para caber no TikTok.
+- **Ferramenta:** gh CLI segue com token inválido; workflows pelo conector do GitHub. Analista e Roteirista rodaram como subagentes.
