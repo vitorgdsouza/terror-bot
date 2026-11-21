@@ -17,3 +17,15 @@
 ## 20/11 (20h55): piloto postado à mão
 - O agendamento das 20h17 não disparou. Com o OK do Vitor, rodei `fila-esfr.yml` à mão (run 44839969400): "E se você pulasse num buraco que atravessa a Terra?" saiu no YouTube (Upload-Post completed). Ficam 4 na fila.
 - Criada a tarefa de reserva (12h37, 16h37, 20h37): se o agendado falhar, ela posta à mão o próximo da fila e avisa o Vitor.
+
+## 21/11 (manhã, tarefa diária)
+- **Problema: postagem travada.** O post agendado (run 44863684279, 00h57) falhou com erro 429 do Upload-Post: "monthly_limit_reached", 10 de 10 uploads do plano grátis usados (o ciclo começou em 17/11, então volta por volta de 17/12). A chave `UPLOAD_POST_API_KEY` é a mesma nos dois canais, então o terror também fica parado. A fila não perdeu nada (o vídeo só sai da fila se postar). Vitor avisado no Telegram e no celular. Opções: plano pago, ou outra conta grátis só para este canal com um segredo próprio (ex.: `UPLOAD_POST_API_KEY_ESE`, e trocar no `fila-esfr.yml`). Upload direto pela API do YouTube não resolve: projeto sem auditoria do Google deixa o vídeo travado como privado.
+- **Conexões (fila-esfr testar):** YouTube conectado ao E Se Fosse Real? (1 inscrito), perfil do Upload-Post ok, chave Gemini própria com TTS.
+- **Números:** só 1 vídeo no ar (o buraco), sem dados para comparar ainda.
+- **Quadros novos em `src/voce.py`:** `sol` (Sol apagando, a última luz indo até a Terra, a Terra saindo pela tangente, a Terra congelando) e `mergulho` (submarino descendo com medidor de fundura, farol, peixe, setas de pressão, fonte de calor no fundo, mar em corte com o Everest dentro). Também `"antes"` no quadro numero ("QUASE 11 KM", "MAIS DE 8.000").
+- **Vídeos novos na fila (fila com 6):**
+  - 06 "E se o Sol se apagasse agora?" (run 44906725852, 54 s, voz 94%). A 1ª versão abria com o Sol já apagado; refeito para o Sol brilhar antes de apagar. Fontes: Live Science, IFLScience, WorldAtlas.
+  - 07 "Fossa das Marianas" (run 44907278914, 49 s, voz 89%). A 1ª versão deu 82% por causa dos números longos falados ("dez mil novecentos e trinta e cinco"); troquei por "quase onze quilômetros" e "mais de oito mil metros". Fontes: Live Science (NOAA), RMG, NASA Earth Observatory, EarthDate.
+- **Aprendido:** número falado longo derruba a nota do Whisper. Arredondar na fala e mostrar o mesmo na tela ("QUASE 11 KM"). A cota do Gemini TTS deu 429 várias vezes no 4º render do dia: não passar de uns 4 renders por dia.
+- **Domingo (22/11): vídeo longo.** Planejar a compilação de 8 a 12 min. O motor hoje só faz Shorts verticais de até ~1 min; falta juntar vários vídeos prontos em 16:9 (ou vertical com faixas), com vinheta entre eles e uma narração de ligação.
+- **Testar depois:** se o Upload-Post voltar, ver qual gancho segura mais (espaço x oceano). Próximas ideias sem repetir: buraco negro, Terra com anéis, um dia em Vênus, raio caindo em você, gravidade sumindo por 5 s.
