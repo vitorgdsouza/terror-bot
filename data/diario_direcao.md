@@ -332,3 +332,9 @@
 - **Agendado das 18h47:** `fila.yml` (run 45068642443, 20:49 UTC) falhou no upload do Grupo do Prédio Pt 1: Upload-Post 429 `monthly_limit_reached` (10/10, período começou em 17/11).
 - **Reserva:** não postei à mão. O mesmo limite bloquearia o upload; não insisti. Fila intacta (Grupo Pt 1, CAM 04, Dashcam). Nenhum post hoje.
 - **Aviso:** Vitor avisado por notificação.
+
+## 22/11 (noite): requel em bunker (Roteirista, conversa com o Vitor)
+- Referência do Vitor: "Sobrevivendo 1 Ano Trancado num Bunker | FILME COMPLETO" (@leonofimdomundo, 66 mil em 3 dias): boneco fixo + fundos ilustrados, sobrevivência dia a dia, Shorts que viram um filme longo. Nada do personagem, nome ou história deles.
+- O Vitor escolheu: requel do Pode Entrar? com o protagonista trancado num bunker.
+- Rascunho (não proposto): série "O Bunker do Vô", `roteiros/bunker_01.json` (Dia 1: A Escotilha, 18 cenas, 112 palavras). Nando se tranca no bunker que o avô fez para o bug do milênio no Dia 1 da geada; o vizinho Seu Jair bate às 3h, descalço e sem tremer. Segue a regra do vídeo com vida (até 8 palavras por cena, cenário no máximo 3 vezes).
+- Depende do OK do Vitor e de arte nova (boneco do Nando, 8 cenários e 1 cena especial, contador de dias/latas na tela).

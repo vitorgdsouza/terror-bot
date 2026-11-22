@@ -1,0 +1,249 @@
+{
+  "titulo": "Dia 1: A Escotilha",
+  "serie": "O Bunker do Vô",
+  "parte": 1,
+  "tipo": "historia",
+  "protagonista": "nando",
+  "clima": "suspense",
+  "selo": "DIA 1",
+  "pergunta_thumb": "Você abriria?",
+  "trilha": "dark ambient drone hum cold wind",
+  "trilha_volume": 0.4,
+  "titulo_youtube": "Dia 1 trancado no bunker do meu avô... o vizinho bateu às 3h 🥶 #shorts",
+  "legenda_post": "O Bunker do Vô, Dia 1. Quarenta latas, um rádio e o Seu Jair batendo na escotilha às 3h, descalço na geada... e sem tremer. Você abriria? SIM ou NÃO 👇 (história de ficção)",
+  "hashtags": [
+    "#terror",
+    "#bunker",
+    "#sobrevivencia",
+    "#voceescaparia",
+    "#animacao"
+  ],
+  "resumo": "Dia 1 do Inverno Errado. O céu fica cinza ao meio-dia e começa a geada. Nando se tranca no bunker que o avô construiu para o bug do milênio: 40 latas, um gerador, um rádio que só manda ficar em casa. Às 3h, pela câmera, o vizinho Seu Jair aparece descalço na geada, sem tremer, bate três vezes e pede para entrar. Ele sorri para a câmera. Com ele, a comida dura 20 dias.",
+  "opcao_a": "SIM: abrir a escotilha para o Seu Jair.",
+  "opcao_b": "NÃO: deixar a escotilha trancada.",
+  "rascunho": "aguarda OK do Vitor na premissa, o protagonista e as artes",
+  "precisa_arte": [
+    "quintal_vo",
+    "escotilha_fora",
+    "rua_geada",
+    "escotilha_dentro",
+    "bunker_despensa",
+    "bunker_sala",
+    "bunker_monitor",
+    "bunker_monitor_jair",
+    "esp_jair_camera",
+    "boneco do Nando",
+    "contador DIA/latas na tela"
+  ],
+  "cenas": [
+    {
+      "narracao": "Dia um. Meio-dia. O céu ficou cinza.",
+      "cenario": "quintal_vo",
+      "personagem": {
+        "pose": "olhando_cima",
+        "acao": "parado",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_out",
+      "texto_tela": "DIA 1"
+    },
+    {
+      "narracao": "E começou a cair geada. Em novembro.",
+      "cenario": "quintal_vo",
+      "personagem": {
+        "pose": "medo",
+        "acao": "tremendo",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.3,
+        1.6
+      ]
+    },
+    {
+      "narracao": "O avô do Nando fez um bunker.",
+      "cenario": "escotilha_fora",
+      "personagem": {
+        "pose": "frente",
+        "acao": "andando",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Pro bug do milênio. Todo mundo riu.",
+      "cenario": "escotilha_fora",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.7,
+        2.0
+      ]
+    },
+    {
+      "narracao": "Hoje, ninguém mais está rindo.",
+      "cenario": "rua_geada",
+      "personagem": null,
+      "camera": "pan_direita",
+      "som": {
+        "busca": "cold wind howling",
+        "palavra": "ninguém"
+      }
+    },
+    {
+      "narracao": "Ele desce. Gira a trava. Trancado.",
+      "cenario": "escotilha_dentro",
+      "personagem": {
+        "pose": "alcancando",
+        "acao": "parado",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "parada",
+      "efeito": "tremor",
+      "som": {
+        "busca": "heavy metal hatch lock",
+        "palavra": "trava"
+      }
+    },
+    {
+      "narracao": "Quarenta latas. Um gerador. Um rádio.",
+      "cenario": "bunker_despensa",
+      "personagem": {
+        "pose": "frente",
+        "acao": "parado",
+        "posicao": "direita",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in",
+      "texto_tela": "40 LATAS"
+    },
+    {
+      "narracao": "Dá pra quarenta dias. Sozinho.",
+      "cenario": "bunker_despensa",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.5,
+        2.0
+      ]
+    },
+    {
+      "narracao": "O rádio só repete: fiquem em casa.",
+      "cenario": "bunker_sala",
+      "personagem": {
+        "pose": "sentado",
+        "acao": "parado",
+        "posicao": "esquerda",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in",
+      "som": {
+        "busca": "radio static voice",
+        "palavra": "rádio"
+      }
+    },
+    {
+      "narracao": "Depois, só chiado.",
+      "cenario": "bunker_sala",
+      "personagem": null,
+      "camera": "parada",
+      "foco": [
+        0.3,
+        0.55,
+        2.4
+      ],
+      "efeito": "tv_chiando"
+    },
+    {
+      "narracao": "Três da manhã. A câmera lá de cima.",
+      "cenario": "bunker_monitor",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "CAM 01  03:00"
+    },
+    {
+      "narracao": "Seu Jair, o vizinho. Descalço. Na geada.",
+      "cenario": "bunker_monitor_jair",
+      "personagem": null,
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Ele não treme. Nem um pouco.",
+      "cenario": "bunker_monitor_jair",
+      "personagem": null,
+      "camera": "parada",
+      "foco": [
+        0.5,
+        0.6,
+        2.2
+      ]
+    },
+    {
+      "narracao": "Três batidas na escotilha.",
+      "cenario": "escotilha_dentro",
+      "personagem": {
+        "pose": "medo",
+        "acao": "tremendo",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in",
+      "som": {
+        "busca": "knocking on metal hatch",
+        "palavra": "batidas"
+      }
+    },
+    {
+      "narracao": "Nando, abre. Tá frio aqui fora.",
+      "cenario": "escotilha_dentro",
+      "personagem": {
+        "pose": "olhando_cima",
+        "acao": "parado",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Mas ele sorri... pra câmera.",
+      "cenario": "esp_jair_camera",
+      "personagem": null,
+      "camera": "zoom_in",
+      "thumb": true,
+      "pausa_extra": 1.0,
+      "efeito": "luz_piscando",
+      "som": {
+        "busca": "low eerie drone hit",
+        "palavra": "sorri"
+      }
+    },
+    {
+      "narracao": "Com ele, as latas duram vinte dias.",
+      "cenario": "bunker_sala",
+      "personagem": {
+        "pose": "encolhida",
+        "acao": "tremendo",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in",
+      "texto_tela": "20 DIAS?"
+    },
+    {
+      "narracao": "Dia um. Você abriria a escotilha? SIM ou NÃO.",
+      "cenario": "bunker_monitor_jair",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true
+    }
+  ]
+}
