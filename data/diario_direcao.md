@@ -296,3 +296,14 @@
 - **Mesa do Gerente:** saiu o nº 10 do "Aguardando"; o histórico ganhou "21/11 #10 Protocolo Geada, postado à mão pelo Vitor".
 - **Aviso no Telegram:** não mandado (nada novo para decidir).
 - **Ferramenta:** gh CLI funcionou para leitura (`gh run list`), apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
+
+## 22/11 (07h25): rodada da manhã da equipe
+- **Analista:** pauta em `data/pauta/2026-11-22.md`. Números iguais aos de ontem (o `ultima.json` ainda é o relatório de 21/11: 7.475 views, 29 inscritos); o commit 693be22 de hoje foi só a rodada de thumbs. Próximo relatório automático: 23/11.
+- **Grupo do Prédio Pt 1 parece postado:** a rodada de thumbs de hoje achou um Short novo (`_9eTAbgUSrs`) e pôs nele a thumb do "Grupo do Prédio". Provavelmente o Vitor postou à mão na noite de 21/11. `data/fila.json` ainda tem o Pt 1 em `itens`; não mexi (falta o Vitor confirmar que está público, aí o Publicador passa para `postados`).
+- **Hoje (22/11) vira dia de protocolo** (último principal: Pt 1, história). Não há protocolo aprovado na fila; o candidato é o nº 13 (Pisadeira, roteiro). Se não ficar pronto até ~17h, a reserva é o Pt 2 (nº 11, vídeo pronto, continuação direta).
+- **Mapa:** 22/11 CAM 04 + Pisadeira nº 13 (espera); 23/11 Dashcam + Pt 2 nº 11 (espera); 24/11 Campainha nº 5 (espera) + protocolo novo nº 14; 25/11 Terreiro nº 12 + vazio (história).
+- **Roteirista** (skills protocolo-analog-horror e video-making carregadas; só arte que já existe): **nº 14 "Protocolo Assobiador"** (`roteiros/protocolo_06_assobiador.json`), "Se o Seu Gato Eriçar Pra Janela e Alguém Assobiar", 15 cenas, 93 palavras, ~43 s, 4 regras, gato eriçado na cena 1, corte seco em `esp_assobiador` (estreia), fecho "quantos assobios você ouviu?". O gato termina calmo. Iscas novas: 0 (fila com 2).
+- **Ressalvas para o Revisor/Vitor (nº 14):** sem `sombra` própria o motor desenha o Abismo apagado no fundo (mesma ressalva da Pisadeira; uma silhueta `assobiador` em `src/protocolo.py` resolveria); `pessoa:encolhida` não existe, usei `pessoa:silencio`; conferir se os 3 assobios dos sons se ouvem e não parecem apito, e a duração (40 a 45 s).
+- **Diretor de Arte:** não acionado (nenhuma imagem faltando).
+- **Refazer:** nada com status "refazer". Nenhuma decisão nova do Vitor em `aprovacoes.json` desde 21/11 13h35, então o histórico da Mesa não mudou; o "Aguardando" ganhou o nº 14.
+- **Ferramenta:** gh CLI com token inválido; workflows pelo conector do GitHub. Analista e Roteirista rodaram como subagentes.
