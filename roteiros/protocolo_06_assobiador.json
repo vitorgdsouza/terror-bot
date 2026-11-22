@@ -1,0 +1,166 @@
+{
+  "titulo": "Protocolo Assobiador",
+  "tipo": "protocolo",
+  "formato": "protocolo",
+  "serie": "Férias na Roça",
+  "rotulo": "PROTOCOLO ASSOBIADOR",
+  "selo": "PROTOCOLO",
+  "pergunta_thumb": "Seu gato já eriçou pra janela?",
+  "clima": "alerta",
+  "ritmo": 1.1,
+  "final": true,
+  "trilha": "dark ambient drone hum night crickets wind in trees",
+  "trilha_volume": 0.6,
+  "titulo_youtube": "Se o seu gato eriçar pra janela e alguém assobiar lá fora... não responda 🐈‍⬛ Protocolo Assobiador #shorts",
+  "legenda_post": "Protocolo Assobiador, das Férias na Roça (história de ficção, inspirada no folclore brasileiro). Se o seu gato eriçar pra janela e alguém assobiar no escuro, siga cada passo. Você contou quantos assobios ouviu neste vídeo? 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#protocolo",
+    "#terror",
+    "#assobiador",
+    "#folclore"
+  ],
+  "resumo": "Protocolo de folclore (Assobiador do mato, versão nossa) com gato. Abre com o gato eriçado para a janela e a 1ª regra já na cena 2. 4 regras (nunca responder o assobio; o assobio dele nunca para pra tomar ar; fechar a janela sem olhar pra fora; ficar perto do gato e só dormir quando o pelo dele abaixar) e a parte mais importante, que é o cânone: quanto mais longe ele parece, mais perto ele está (corte seco em esp_assobiador, estreia). Fecha acusando quem assiste: três assobios escondidos no vídeo (cenas 2, 6 e 13) puxam o rever. O gato termina deitado e calmo.",
+  "cenas": [
+    {
+      "narracao": "Se o seu gato eriçar para a janela...",
+      "icones": [
+        "gato:assustado",
+        "janela"
+      ],
+      "thumb": true,
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "emergency alert beep",
+        "palavra": "Se"
+      }
+    },
+    {
+      "narracao": "...e alguém assobiar: primeiro, não responda.",
+      "icones": [
+        "som",
+        "parar"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "long eerie human whistle in the dark",
+        "palavra": "assobiar"
+      }
+    },
+    {
+      "narracao": "Nem assobio. Nem grito. Nem \"quem tá aí?\".",
+      "icones": [
+        "pessoa:silencio"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Quem responde, chama. E ele vem.",
+      "icones": [
+        "pegadas",
+        "casa"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "footsteps on dry leaves approaching",
+        "palavra": "vem"
+      }
+    },
+    {
+      "narracao": "Segundo: escute a respiração.",
+      "destaque": "escute a respiração",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "O assobio dele nunca para pra tomar ar.",
+      "icones": [
+        "som"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "single long whistle far away night",
+        "palavra": "assobio"
+      }
+    },
+    {
+      "narracao": "Gente cansa. Ele não.",
+      "destaque": "ele não cansa",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Terceiro: feche a janela sem olhar pra fora.",
+      "icones": [
+        "janela",
+        "parar"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "wooden window shutter closing",
+        "palavra": "feche"
+      }
+    },
+    {
+      "narracao": "Ele assobia pra descobrir quem olha.",
+      "icones": [
+        "olho"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Quarto: fique perto do seu gato.",
+      "icones": [
+        "pessoa:parado",
+        "gato:sentado"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Quando o pelo dele abaixar, pode dormir.",
+      "icones": [
+        "gato:deitado",
+        "cama"
+      ],
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "E a parte mais importante.",
+      "destaque": "a parte mais importante",
+      "ambiente": "nenhum"
+    },
+    {
+      "narracao": "Quanto mais longe o assobio parece...",
+      "destaque": "quanto mais longe ele parece",
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "very faint distant whistle",
+        "palavra": "longe"
+      }
+    },
+    {
+      "narracao": "...mais perto ele está.",
+      "cenario": "esp_assobiador",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true,
+      "pausa_extra": 0.5,
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "horror stinger hit",
+        "palavra": "perto"
+      }
+    },
+    {
+      "narracao": "Você contou quantos assobios ouviu neste vídeo?",
+      "icones": [
+        "som",
+        "alerta"
+      ],
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "emergency alert beep",
+        "palavra": "contou"
+      }
+    }
+  ]
+}
