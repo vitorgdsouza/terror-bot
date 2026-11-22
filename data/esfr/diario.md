@@ -93,3 +93,9 @@
 ## 22/11 (noite): pulo no ar
 - O Vitor postou o pulo refeito (thumb com "AO MESMO TEMPO"), que já tinha **125 views** pouco depois de sair. Passei para `postados`. Ficam 4 na fila; a rodada de amanhã repõe até 6.
 - Comparar amanhã o ritmo do pulo novo (multidão nova, 16 cenas) com os outros nas primeiras horas.
+
+## 22/11 (noite): estratégia para monetizar
+- O Vitor reforçou que é um desafio: monetizar este canal antes do terror.
+- **Conta:** 10 milhões de views em Shorts em 90 dias dá uns 111 mil por dia, e hoje cada Short faz cerca de 1 a 2 mil. A outra porta são 4.000 horas em vídeos longos, mas views de Shorts não contam para essas horas. Uma compilação de 8 min com uns 4 min assistidos por view precisa de uns 60 mil views longos para fechar as horas. Esse caminho parece mais alcançável e soma com os Shorts.
+- **Prioridades:** (1) motor de compilação 16:9 (`compilar.py` + workflow), antes de 20/12, quando os primeiros vídeos renderizados expiram; (2) manter 3 Shorts por dia com pelo menos 6 na fila; (3) thumbs com objeto grande se transformando e título completo; (4) acompanhar quais temas seguram mais e dobrar neles; (5) resolver o gargalo do post manual (Upload-Post no limite até por volta de 17/12).
+- **Meta intermediária:** 1.000 inscritos é a outra metade da exigência. Pedir inscrição no fim dos longos, não nos Shorts.
