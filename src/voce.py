@@ -392,6 +392,11 @@ OCEANO, TERRA_COR = (38, 112, 206), (72, 170, 96)
 
 
 def _globo(d, cx, cy, r, t, gira=1.0):
+    from . import globo
+    if globo.tem_mapa():                                # Terra com os continentes de verdade (começa no Brasil)
+        tr = globo.terra(r, lon=-0.9 - t * 0.35 * gira, nuvens=t * 0.25, inclina=0.3)
+        d._image.paste(tr, (int(cx - tr.width / 2), int(cy - tr.height / 2)), tr)
+        return
     d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=OCEANO)
     for k in range(5):                                  # continentes simples andando com a rotação
         rnd = random.Random(k * 7)
@@ -792,22 +797,6 @@ def _astro_mini(d, x, y, ang, tam, estica=1.0, cor=(240, 243, 250, 255), visor=(
     d.ellipse((hx - hr * 0.55, hy - hr * 0.45, hx + hr * 0.55, hy + hr * 0.45), fill=visor)
 
 
-def _disco(d, cx, cy, R, t, metade, intens=1.0):
-    """Disco de gás quente em volta do buraco negro, em perspectiva. "metade": "tras" (em cima) ou "frente"."""
-    for j in range(6):
-        rx = R * (1.4 + j * 0.2)
-        ry = rx * 0.24
-        for k in range(0, 360, 4):
-            a = math.radians(k)
-            if (math.sin(a) < 0) != (metade == "tras"):
-                continue
-            x, y = cx + math.cos(a) * rx, cy + math.sin(a) * ry
-            brilho = 0.55 + 0.45 * math.sin(a * 3 - t * (5 - j * 0.5) + j)
-            cor = (255, int(120 + 110 * brilho * (1 - j / 7)), int(40 + 60 * brilho * (1 - j / 6)), int(230 * intens * (1 - j * 0.11)))
-            s = R * 0.1 * (1.1 - j * 0.08)
-            d.ellipse((x - s, y - s * 0.7, x + s, y + s * 0.7), fill=cor)
-
-
 def _buraco_negro(img, cena, t, dur, n, p):
     """Buraco negro com o disco de gás. "de"/"ate" (0 longe, 1 na borda): um astronauta caindo;
     "congela": quem cai parece parar na beirada, ficando vermelho e apagando; "atravessa": passa a borda e some;
@@ -835,14 +824,10 @@ def _buraco_negro(img, cena, t, dur, n, p):
     _estrelas(d, t)
     pequeno = cena.get("pequeno")
     cx, cy = W / 2, H * 0.47
-    R = 95 if pequeno else 175
-    for k in range(7, 0, -1):                                      # halo de luz curvada atrás do buraco
-        rr = R * (1.05 + k * 0.07)
-        d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), fill=(255, 160, 60, 20))
-    _disco(d, cx, cy, R, t, "tras", 1.3 if pequeno else 1.0)
-    d.ellipse((cx - R * 1.04, cy - R * 1.04, cx + R * 1.04, cy + R * 1.04), outline=(255, 220, 150, 255), width=5)
-    d.ellipse((cx - R, cy - R, cx + R, cy + R), fill=(0, 0, 0))
-    _disco(d, cx, cy, R, t, "frente", 1.3 if pequeno else 1.0)
+    R = 62 if pequeno else 140
+    from .buraco_negro import desenhar
+    desenhar(img, cx, cy, R, t, 1.25 if pequeno else 1.0)
+    d = ImageDraw.Draw(img, "RGBA")
     ang = math.radians(-58)                                        # o astronauta vem do alto, à direita
     if cena.get("estica") and not pequeno:                         # close: o corpo esticando
         f_ = _suave(t / max(0.1, dur * 0.85))
@@ -854,7 +839,7 @@ def _buraco_negro(img, cena, t, dur, n, p):
             d.line((x, y, x, y + 220), fill=(255, 170, 70, 120), width=5)
         _astro_mini(d, W / 2, H * 0.66, -math.pi / 2, 170, 1 + 2.6 * f_)
     elif "de" in cena or cena.get("congela") or cena.get("atravessa"):
-        longe = 3.5 if not pequeno else 6.0
+        longe = 3.9 if not pequeno else 7.0
         if cena.get("congela"):                                    # quase parando: aproxima cada vez mais devagar
             prog = 0.88 + 0.1 * (1 - math.exp(-t * 0.9))
         elif cena.get("atravessa"):

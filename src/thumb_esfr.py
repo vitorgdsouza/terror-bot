@@ -201,6 +201,11 @@ def terra(R: int, seed: int = 21) -> Image.Image:
     iu = ((u / np.pi + 0.5) * 1023 * 0.98).astype(int).clip(0, 1023)
     iv = ((v / np.pi + 0.5) * 511).astype(int).clip(0, 511)
     ct = np.clip((tex[iv, iu] - 0.565) * 60, 0, 1)[..., None]
+    from .globo import tem_mapa, _mapa
+    if tem_mapa():                                         # continentes de verdade, com o Brasil de frente
+        lo = ((u - 0.9 + np.pi) % (2 * np.pi)) / (2 * np.pi) * 2047
+        la = ((np.pi / 2 + v) / np.pi * 1023).clip(0, 1023)
+        ct = _mapa()[la.astype(int), lo.astype(int)][..., None]
     oceano = np.stack([18 + 20 * Z, 85 + 40 * Z, 190 + 40 * Z], -1)
     mist = np.clip((tex2[iv, iu] - 0.45) * 3, 0, 1)[..., None]
     solo = np.array([62, 160, 80]) * (1 - mist) + np.array([200, 175, 110]) * mist * 0.85

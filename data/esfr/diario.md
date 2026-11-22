@@ -99,3 +99,9 @@
 - **Conta:** 10 milhões de views em Shorts em 90 dias dá uns 111 mil por dia, e hoje cada Short faz cerca de 1 a 2 mil. A outra porta são 4.000 horas em vídeos longos, mas views de Shorts não contam para essas horas. Uma compilação de 8 min com uns 4 min assistidos por view precisa de uns 60 mil views longos para fechar as horas. Esse caminho parece mais alcançável e soma com os Shorts.
 - **Prioridades:** (1) motor de compilação 16:9 (`compilar.py` + workflow), antes de 20/12, quando os primeiros vídeos renderizados expiram; (2) manter 3 Shorts por dia com pelo menos 6 na fila; (3) thumbs com objeto grande se transformando e título completo; (4) acompanhar quais temas seguram mais e dobrar neles; (5) resolver o gargalo do post manual (Upload-Post no limite até por volta de 17/12).
 - **Meta intermediária:** 1.000 inscritos é a outra metade da exigência. Pedir inscrição no fim dos longos, não nos Shorts.
+
+## 22/11 (noite): visual novo e plano do longo
+- **Terra realista** (`src/globo.py`): continentes de verdade a partir da máscara do Natural Earth, de domínio público (`assets/esfr/terra_mapa.png`, gerada pelo workflow `mapa-terra.yml`). Tem oceano, gelo nos polos, nuvens andando, luz de lado, cidades no lado da noite e atmosfera, com o Brasil de frente. Vale para os vídeos (todo quadro que desenha a Terra) e para as thumbs.
+- **Buraco negro realista** (`src/buraco_negro.py`): sombra preta, anel de fótons, o disco cruzando a frente da sombra e a parte de trás dobrada por cima e por baixo, com o lado que vem em nossa direção mais brilhante. Não parece mais Saturno.
+- **Pesquisa de vídeo longo** registrada em `docs/ESFR_LONGO.md`. O 1º longo será "E se você pousasse em cada planeta do Sistema Solar?" (cerca de 11 min, ordem em escalada, nada de cartão de texto parado).
+- **Para a próxima rodada:** refazer o 08 (buraco negro) e o 09 (anéis), que estão na fila com o visual antigo. São 2 renders, e a cota de hoje já foi.
