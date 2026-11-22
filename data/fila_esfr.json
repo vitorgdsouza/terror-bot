@@ -1,66 +1,68 @@
 {
- "itens": [
-  {
-   "run_id": "44799205601",
-   "titulo": "E se a Lua sumisse hoje à noite?",
-   "titulo_youtube": "E se a Lua sumisse hoje à noite? 🌕 #shorts",
-   "legenda": "Pouca gente imagina o que a Lua faz pela Terra. Sem ela, as marés encolhem, bichos se perdem e o planeta começa a balançar. Você ia sentir falta? 👇\n\nFontes: Astronomy, Live Science, ZME Science.\n#ciencia #curiosidades #ese #lua",
-   "tipo": "historia",
-   "adicionado": "2026-11-20 16:12"
-  },
-  {
-   "run_id": "44804584682",
-   "titulo": "E se você saísse da nave sem roupa espacial?",
-   "titulo_youtube": "E se você saísse da nave SEM roupa espacial? 🧑‍🚀 #shorts",
-   "legenda": "Não, você não explode. Mas você tem uns 15 segundos... e em 1965 um técnico da NASA passou por isso de verdade. Você seria astronauta? 👇\n\nFontes: NASA (relato do teste de 1965), Live Science, Space.com (ESA).\n#ciencia #espaco #curiosidades #ese",
-   "tipo": "historia",
-   "adicionado": "2026-11-20 16:50"
-  },
-  {
-   "run_id": "44805892455",
-   "titulo": "E se todo mundo pulasse ao mesmo tempo?",
-   "titulo_youtube": "E se TODO MUNDO pulasse ao mesmo tempo? 🌍 #shorts",
-   "legenda": "Oito bilhões de pessoas, um pulo só. A Terra se mexe? Sim... mas o problema de verdade vem depois. Você pularia? 👇\n\nFontes: HowStuffWorks, Science ABC, xkcd What If #8.\n#ciencia #curiosidades #ese #fisica",
-   "tipo": "historia",
-   "adicionado": "2026-11-20 16:57"
-  },
-  {
-   "run_id": "44906725852",
-   "titulo": "E se o Sol se apagasse agora?",
-   "titulo_youtube": "E se o Sol se APAGASSE agora? ☀️ #shorts",
-   "legenda": "Se o Sol sumisse agora, você passaria 8 minutos e 20 segundos sem perceber nada. Depois disso, a Terra sai pela tangente e o frio começa. Onde você estaria? 👇\n\nFontes: Live Science (mar/2026), IFLScience (mai/2026), WorldAtlas (ago/2026).\n#ciencia #espaco #curiosidades #ese #sol",
-   "tipo": "historia",
-   "adicionado": "2026-11-21 10:20"
-  },
-  {
-   "run_id": "44907278914",
-   "titulo": "E se você descesse até o fundo da Fossa das Marianas?",
-   "titulo_youtube": "E se você descesse até o PONTO MAIS FUNDO do mar? 🌊 #shorts",
-   "legenda": "Quase 11 km de água em cima de você, pressão mais de mil vezes maior que na praia e escuridão total. Mesmo assim, tem vida lá embaixo. Você desceria? 👇\n\nFontes: Live Science (NOAA), Royal Museums Greenwich, NASA Earth Observatory, EarthDate.\n#ciencia #oceano #curiosidades #ese #mar",
-   "tipo": "historia",
-   "adicionado": "2026-11-21 10:20"
-  }
- ],
- "postados": [
-  {
-   "run_id": "44775541697",
-   "titulo": "E se você pulasse num buraco que atravessa a Terra?",
-   "titulo_youtube": "E se você pulasse num buraco que atravessa a Terra? 🌍 #shorts",
-   "legenda": "E se existisse um túnel até o outro lado do planeta? A queda leva uns 38 minutos... e o final é o pior. Você pularia? 👇\n\nFontes: Klotz, \"The Gravity Tunnel in a Non-Uniform Earth\" (Am. J. Phys., 2015); Live Science.\n#ciencia #curiosidades #ese #fisica",
-   "tipo": "historia",
-   "adicionado": "2026-11-20 13:45",
-   "aprovacao": "canal sob controle do Claude (Vitor 20/11)",
-   "postado_em": "2026-11-20 23:55"
-  },
-  {
-   "run_id": "44797420689",
-   "titulo": "E se a Terra parasse de girar?",
-   "titulo_youtube": "E se a Terra parasse de girar AGORA? 🌎 #shorts",
-   "legenda": "Você está girando a mais de 1.600 km/h agora e nem sente. E se o planeta freasse de uma vez? Onde você se esconderia? 👇\n\nFontes: Astronomy (fev/2026), Space.com, Weatherzone.\n#ciencia #curiosidades #ese #terra",
-   "tipo": "historia",
-   "adicionado": "2026-11-20 16:01",
-   "postado_em": "2026-11-21 16:15",
-   "postado_por": "Vitor, à mão no YouTube (Upload-Post no limite)"
-  }
- ]
+  "itens": [
+    {
+      "run_id": "44804584682",
+      "titulo": "E se você saísse da nave sem roupa espacial?",
+      "titulo_youtube": "E se você saísse da nave SEM roupa espacial? 🧑‍🚀 #shorts",
+      "legenda": "Não, você não explode. Mas você tem uns 15 segundos... e em 1965 um técnico da NASA passou por isso de verdade. Você seria astronauta? 👇\n\nFontes: NASA (relato do teste de 1965), Live Science, Space.com (ESA).\n#ciencia #espaco #curiosidades #ese",
+      "tipo": "historia",
+      "adicionado": "2026-11-20 16:50"
+    },
+    {
+      "run_id": "44805892455",
+      "titulo": "E se todo mundo pulasse ao mesmo tempo?",
+      "titulo_youtube": "E se TODO MUNDO pulasse ao mesmo tempo? 🌍 #shorts",
+      "legenda": "Oito bilhões de pessoas, um pulo só. A Terra se mexe? Sim... mas o problema de verdade vem depois. Você pularia? 👇\n\nFontes: HowStuffWorks, Science ABC, xkcd What If #8.\n#ciencia #curiosidades #ese #fisica",
+      "tipo": "historia",
+      "adicionado": "2026-11-20 16:57"
+    },
+    {
+      "run_id": "44906725852",
+      "titulo": "E se o Sol se apagasse agora?",
+      "titulo_youtube": "E se o Sol se APAGASSE agora? ☀️ #shorts",
+      "legenda": "Se o Sol sumisse agora, você passaria 8 minutos e 20 segundos sem perceber nada. Depois disso, a Terra sai pela tangente e o frio começa. Onde você estaria? 👇\n\nFontes: Live Science (mar/2026), IFLScience (mai/2026), WorldAtlas (ago/2026).\n#ciencia #espaco #curiosidades #ese #sol",
+      "tipo": "historia",
+      "adicionado": "2026-11-21 10:20"
+    },
+    {
+      "run_id": "44907278914",
+      "titulo": "E se você descesse até o fundo da Fossa das Marianas?",
+      "titulo_youtube": "E se você descesse até o PONTO MAIS FUNDO do mar? 🌊 #shorts",
+      "legenda": "Quase 11 km de água em cima de você, pressão mais de mil vezes maior que na praia e escuridão total. Mesmo assim, tem vida lá embaixo. Você desceria? 👇\n\nFontes: Live Science (NOAA), Royal Museums Greenwich, NASA Earth Observatory, EarthDate.\n#ciencia #oceano #curiosidades #ese #mar",
+      "tipo": "historia",
+      "adicionado": "2026-11-21 10:20"
+    }
+  ],
+  "postados": [
+    {
+      "run_id": "44775541697",
+      "titulo": "E se você pulasse num buraco que atravessa a Terra?",
+      "titulo_youtube": "E se você pulasse num buraco que atravessa a Terra? 🌍 #shorts",
+      "legenda": "E se existisse um túnel até o outro lado do planeta? A queda leva uns 38 minutos... e o final é o pior. Você pularia? 👇\n\nFontes: Klotz, \"The Gravity Tunnel in a Non-Uniform Earth\" (Am. J. Phys., 2015); Live Science.\n#ciencia #curiosidades #ese #fisica",
+      "tipo": "historia",
+      "adicionado": "2026-11-20 13:45",
+      "aprovacao": "canal sob controle do Claude (Vitor 20/11)",
+      "postado_em": "2026-11-20 23:55"
+    },
+    {
+      "run_id": "44797420689",
+      "titulo": "E se a Terra parasse de girar?",
+      "titulo_youtube": "E se a Terra parasse de girar AGORA? 🌎 #shorts",
+      "legenda": "Você está girando a mais de 1.600 km/h agora e nem sente. E se o planeta freasse de uma vez? Onde você se esconderia? 👇\n\nFontes: Astronomy (fev/2026), Space.com, Weatherzone.\n#ciencia #curiosidades #ese #terra",
+      "tipo": "historia",
+      "adicionado": "2026-11-20 16:01",
+      "postado_em": "2026-11-21 16:15",
+      "postado_por": "Vitor, à mão no YouTube (Upload-Post no limite)"
+    },
+    {
+      "run_id": "44799205601",
+      "titulo": "E se a Lua sumisse hoje à noite?",
+      "titulo_youtube": "E se a Lua sumisse hoje à noite? 🌕 #shorts",
+      "legenda": "Pouca gente imagina o que a Lua faz pela Terra. Sem ela, as marés encolhem, bichos se perdem e o planeta começa a balançar. Você ia sentir falta? 👇\n\nFontes: Astronomy, Live Science, ZME Science.\n#ciencia #curiosidades #ese #lua",
+      "tipo": "historia",
+      "adicionado": "2026-11-20 16:12",
+      "postado_em": "2026-11-22 09:39",
+      "postado_por": "Vitor, à mão no YouTube (Upload-Post no limite); horário é o do registro, o post saiu antes"
+    }
+  ]
 }

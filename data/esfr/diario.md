@@ -42,3 +42,6 @@
 
 ## 21/11 (20h40): reserva da fila
 - O agendamento das 20h17 não disparou (a última execução `schedule` foi às 17h53, que falhou). Não postei: o envio ainda passa pelo Upload-Post, que segue no limite do mês (429, reinicia por volta de 17/12), e "E se a Lua sumisse hoje à noite?" já foi mandada no Telegram às 16h35 para postar à mão. Fila intacta com 5. Hoje saiu 1 post (Terra, 13h15).
+
+## 22/11 (06h40): Lua postada à mão
+- O Vitor postou "E se a Lua sumisse hoje à noite?" à mão no YouTube. Com a autorização dele, passei o vídeo para `postados`. Ficam 4 na fila. Às 6h37 o canal tinha 21 inscritos e 3 Shorts: Lua com 1,3 mil views, Terra com 1,1 mil e Buraco com 1,1 mil.
