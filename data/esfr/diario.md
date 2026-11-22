@@ -85,3 +85,7 @@
 - **Roteiro novo (16 cenas, nenhuma só de texto):** mais de 8 bilhões de pessoas, todo mundo apertado num estadinho dos EUA, pulo de uns 50 cm, a Terra pesando mais de 10 trilhões de vezes, descida menor que um átomo, barulhão de vários segundos, rede de celular caindo, o maior engarrafamento da história e a órbita intacta. Fontes conferidas: xkcd What If? nº 8 e ONU (8 bilhões, nov/2022). Tirei HowStuffWorks e Science ABC da descrição, porque não abri essas páginas.
 - Substituído na fila, no mesmo lugar (1º). Enviado no Telegram para o post das 20h17.
 - **Cota de voz:** 5º render do dia, mas só precisou de 1 tomada (96%), então saiu barato.
+
+## 22/11 (19h55): thumb "corrompida" no celular
+- O Vitor avisou que a thumb chega como arquivo corrompido no celular, e que isso se repete. Os JPGs estão íntegros (conferi gerando aqui). A causa provável é o `sendDocument` sem tipo: o Telegram guarda como `application/octet-stream` e o celular não abre.
+- Corrigido em `src/telegram.py`: o arquivo vai com `image/jpeg`, e cada thumb agora também vai como foto, para tocar e salvar na galeria. Vale para os dois canais, porque o envio é o mesmo. Mandei as thumbs do pulo direto na conversa para o post de hoje.
