@@ -78,3 +78,10 @@
 - **28 inscritos** (eram 22 de manhã). "E se você saísse da nave sem roupa espacial?" já está no ar, postado à mão; passei para `postados`. Ficam 5 na fila.
 - **Views:** Lua 1,9 mil (a melhor até agora), Terra 1,3 mil, Buraco 1,2 mil, Espaço sem traje 1,1 mil (é o mais novo).
 - **Leitura:** a Lua abriu vantagem, com a thumb refeita (Lua se desfazendo). Thumbs com objeto grande se transformando parecem puxar mais que as de personagem. Testar isso nas thumbs do buraco negro e dos anéis.
+
+## 22/11 (19h25): pulo refeito a pedido do Vitor
+- "E se todo mundo pulasse ao mesmo tempo?" refeito do zero (run 45076982939, 54 s, voz Puck 96% na 1ª tomada). Era o mais fraco da fila: só 11 cenas, várias só com texto e a multidão em uma fileira pequena.
+- **Quadro `multidao` reescrito:** 7 fileiras em perspectiva, cada pessoa de uma cor, pulo em onda. Opções novas: `ondas` (som se espalhando), `celulares` + `sem_sinal`, `andando` e `transito` (estrada lotada, luzes de freio piscando). No `planeta` entraram `ponto` (ponto pulsando) e `seta`.
+- **Roteiro novo (16 cenas, nenhuma só de texto):** mais de 8 bilhões de pessoas, todo mundo apertado num estadinho dos EUA, pulo de uns 50 cm, a Terra pesando mais de 10 trilhões de vezes, descida menor que um átomo, barulhão de vários segundos, rede de celular caindo, o maior engarrafamento da história e a órbita intacta. Fontes conferidas: xkcd What If? nº 8 e ONU (8 bilhões, nov/2022). Tirei HowStuffWorks e Science ABC da descrição, porque não abri essas páginas.
+- Substituído na fila, no mesmo lugar (1º). Enviado no Telegram para o post das 20h17.
+- **Cota de voz:** 5º render do dia, mas só precisou de 1 tomada (96%), então saiu barato.
