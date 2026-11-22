@@ -63,12 +63,26 @@ def enviar_video(caminho, legenda: str) -> None:
 
 
 def enviar_arquivo(caminho, legenda: str = "") -> None:
+    """Manda como arquivo (sem compressão). O tipo vai junto (ex.: image/jpeg): sem ele o Telegram guarda como
+    "application/octet-stream" e o celular não consegue abrir ("arquivo corrompido")."""
+    import mimetypes
     caminho = Path(caminho)
+    tipo = mimetypes.guess_type(caminho.name)[0] or "application/octet-stream"
     with open(caminho, "rb") as f:
         r = requests.post(_url("sendDocument"), timeout=120,
                           data={"chat_id": env("TELEGRAM_CHAT_ID"), "caption": legenda[:1024]},
-                          files={"document": (caminho.name, f)})
+                          files={"document": (caminho.name, f, tipo)})
     _checar(r, "o arquivo")
+
+
+def enviar_foto(caminho, legenda: str = "") -> None:
+    """Manda como foto: abre direto no celular e dá para salvar na galeria (o Telegram comprime um pouco)."""
+    caminho = Path(caminho)
+    with open(caminho, "rb") as f:
+        r = requests.post(_url("sendPhoto"), timeout=120,
+                          data={"chat_id": env("TELEGRAM_CHAT_ID"), "caption": legenda[:1024]},
+                          files={"photo": (caminho.name, f, "image/jpeg")})
+    _checar(r, "a foto")
 
 
 def enviar_audio(caminho, legenda: str) -> None:

@@ -403,8 +403,9 @@ def enviar_thumbs(r: dict, pasta: Path) -> None:
     from . import telegram
     try:
         vert, hor = gerar_thumbs(r, pasta)
-        telegram.enviar_arquivo(vert, "Thumb vertical (capa do TikTok/Shorts)")
-        telegram.enviar_arquivo(hor, "Thumb horizontal (YouTube)")
+        for arq, nome in ((vert, "Thumb vertical (capa do TikTok/Shorts)"), (hor, "Thumb horizontal (YouTube)")):
+            telegram.enviar_foto(arq, nome + ": toque e salve na galeria")   # abre em qualquer celular
+            telegram.enviar_arquivo(arq, nome + ": arquivo original, sem compressão")
     except Exception as e:  # noqa: BLE001
         print(f"Thumbs falharam: {e}", file=sys.stderr)
 
