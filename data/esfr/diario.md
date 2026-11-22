@@ -73,3 +73,8 @@
 - Ideias ainda sem uso: um dia em Vênus, gravidade sumindo por 5 s, raio caindo perto de você (cuidado para não virar tema de saúde), Terra sem oceanos.
 
 - 22/11 16h38: o agendamento das 16h17 não disparou. Não reenviei: "E se você saísse da nave sem roupa espacial?" (1º da fila) já foi mandado no Telegram às 11h41 (run 45034173636, `acao=telegram`) e ainda espera o Vitor confirmar que postou. Upload-Post segue no limite do mês. Fila intacta com 6.
+
+## 22/11 (19h13): print do canal mandado pelo Vitor
+- **28 inscritos** (eram 22 de manhã). "E se você saísse da nave sem roupa espacial?" já está no ar, postado à mão; passei para `postados`. Ficam 5 na fila.
+- **Views:** Lua 1,9 mil (a melhor até agora), Terra 1,3 mil, Buraco 1,2 mil, Espaço sem traje 1,1 mil (é o mais novo).
+- **Leitura:** a Lua abriu vantagem, com a thumb refeita (Lua se desfazendo). Thumbs com objeto grande se transformando parecem puxar mais que as de personagem. Testar isso nas thumbs do buraco negro e dos anéis.
