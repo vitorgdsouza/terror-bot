@@ -89,3 +89,7 @@
 ## 22/11 (19h55): thumb "corrompida" no celular
 - O Vitor avisou que a thumb chega como arquivo corrompido no celular, e que isso se repete. Os JPGs estão íntegros (conferi gerando aqui). A causa provável é o `sendDocument` sem tipo: o Telegram guarda como `application/octet-stream` e o celular não abre.
 - Corrigido em `src/telegram.py`: o arquivo vai com `image/jpeg`, e cada thumb agora também vai como foto, para tocar e salvar na galeria. Vale para os dois canais, porque o envio é o mesmo. Mandei as thumbs do pulo direto na conversa para o post de hoje.
+
+## 22/11 (noite): pulo no ar
+- O Vitor postou o pulo refeito (thumb com "AO MESMO TEMPO"), que já tinha **125 views** pouco depois de sair. Passei para `postados`. Ficam 4 na fila; a rodada de amanhã repõe até 6.
+- Comparar amanhã o ritmo do pulo novo (multidão nova, 16 cenas) com os outros nas primeiras horas.
