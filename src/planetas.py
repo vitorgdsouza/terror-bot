@@ -82,14 +82,15 @@ def textura(nome: str) -> np.ndarray:
         cor = _mistura(cor, [215, 200, 180], np.clip((alat - 1.15) * 3, 0, 0.6))      # polos mais apagados
         if nome == "jupiter":                                                         # Grande Mancha Vermelha
             m = np.sqrt(((LAT + 0.39) / 0.085) ** 2 + ((LON - 0.6) / 0.22) ** 2)
-            cor = _mistura(cor, [206, 92, 58], np.clip((1 - m) * 2.2, 0, 1))
-            cor = _mistura(cor, [240, 220, 200], np.clip((1.25 - m) * 6, 0, 1) * (m > 1.0) * 0.7)
+            cor = _mistura(cor, [206, 92, 58], np.clip((1 - m) * 1.3, 0, 1))
+            cor = _mistura(cor, [240, 220, 200], np.clip(1 - np.abs(m - 1.12) * 6, 0, 1) * 0.6)
     elif nome == "urano":
         cor = _mistura([150, 214, 222], [178, 232, 236], 0.5 + np.sin(LAT * 6) * 0.15 + (n2 - 0.5) * 0.3)
     elif nome == "netuno":
         cor = _mistura([40, 78, 196], [78, 126, 230], 0.5 + np.sin(LAT * 8 + (n2 - 0.5) * 2) * 0.35)
         mancha = np.sqrt(((LAT + 0.36) / 0.07) ** 2 + ((LON + 0.4) / 0.17) ** 2)
-        cor = _mistura(cor, [22, 40, 110], np.clip((1 - mancha) * 2.5, 0, 1))
+        cor = _mistura(cor, [14, 24, 78], np.clip((1 - mancha) * 1.6, 0, 1))
+        cor = _mistura(cor, [236, 244, 255], np.clip((1.35 - np.sqrt(((LAT + 0.44) / 0.03) ** 2 + ((LON + 0.32) / 0.1) ** 2)) * 2, 0, 0.85))   # nuvem branca ao lado
         nuvem = np.exp(-((LAT + 0.27 + (n1 - 0.5) * 0.05) / 0.035) ** 2) * np.clip((n2 - 0.45) * 3, 0, 1)
         cor = _mistura(cor, [236, 244, 255], nuvem * 0.9)
         cor = _mistura(cor, [230, 240, 255], np.exp(-((LAT - 0.45 + (n1 - 0.5) * 0.05) / 0.03) ** 2) * np.clip((n1 - 0.48) * 3, 0, 1) * 0.6)
@@ -131,9 +132,17 @@ def _globo(nome, R, t, inclina=0.2, rola=0.0):
     S, dentro, lat, lon, luz, borda, alfa = _esfera(R, round(inclina, 3), round(rola, 3))
     tex = textura(nome)
     lo = (lon + t * GIRO.get(nome, 0.2) + math.pi) % (2 * math.pi)
-    u = (lo / (2 * math.pi) * (TW - 1)).astype(np.int32)
-    v = ((math.pi / 2 - lat) / math.pi * (TH - 1)).astype(np.int32).clip(0, TH - 1)
-    cor = tex[v, u].astype(np.float32)
+    uf = lo / (2 * math.pi) * (TW - 1)
+    vf = ((math.pi / 2 - lat) / math.pi * (TH - 1)).clip(0, TH - 1)
+    if R > 450:                                            # de perto: interpolação suave (sem serrilhado)
+        u0, v0 = np.floor(uf).astype(np.int32), np.floor(vf).astype(np.int32)
+        du, dv = (uf - u0)[:, None], (vf - v0)[:, None]
+        u1, v1 = (u0 + 1) % TW, np.minimum(v0 + 1, TH - 1)
+        T = tex.astype(np.float32)
+        cor = (T[v0, u0] * (1 - du) * (1 - dv) + T[v0, u1] * du * (1 - dv) + T[v1, u0] * (1 - du) * dv
+               + T[v1, u1] * du * dv)
+    else:
+        cor = tex[vf.astype(np.int32), uf.astype(np.int32)].astype(np.float32)
     amb = 0.16 if nome in ("venus", "urano", "netuno") else 0.07                # atmosfera espalha um pouco de luz
     cor = cor * (amb + 1.02 * luz ** 0.9)[:, None]
     atm = ATMOSFERA.get(nome)

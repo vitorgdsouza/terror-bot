@@ -42,14 +42,14 @@ def enviar_mensagem(texto: str, chat_id: str | None = None, botoes: list[list[st
         _checar(r, "a mensagem")
 
 
-def enviar_video(caminho, legenda: str) -> None:
+def enviar_video(caminho, legenda: str, largura: int = 1080, altura: int = 1920) -> None:
     import time
     for tentativa in range(3):                            # o Telegram às vezes devolve 502/504 em vídeo grande
         try:
             with open(caminho, "rb") as f:
                 r = requests.post(_url("sendVideo"), timeout=300,
                                   data={"chat_id": env("TELEGRAM_CHAT_ID"), "caption": legenda[:1024],
-                                        "supports_streaming": "true", "width": 1080, "height": 1920},
+                                        "supports_streaming": "true", "width": largura, "height": altura},
                                   files={"video": ("video.mp4", f, "video/mp4")})
         except requests.RequestException:
             if tentativa == 2:

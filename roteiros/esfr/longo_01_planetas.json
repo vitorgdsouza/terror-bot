@@ -1,0 +1,282 @@
+{
+ "formato": "longo",
+ "canal": "esfr",
+ "voz": "Puck",
+ "clima": "curioso",
+ "tomadas": 2,
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.22,
+ "titulo": "E se você pousasse em cada planeta do Sistema Solar?",
+ "titulo_youtube": "E se você POUSASSE em cada planeta do Sistema Solar?",
+ "legenda_post": "Você vai pousar em cada planeta do Sistema Solar e descobrir onde dá (ou não dá) para sobreviver.\n\nFontes: NASA Science (fichas de cada planeta), NASA NSSDC Planetary Fact Sheet.\n#ciencia #espaco #planetas #sistemasolar #ese",
+ "capitulos": [
+  "Início",
+  "Mercúrio",
+  "Marte",
+  "Júpiter",
+  "Saturno",
+  "Urano",
+  "Netuno",
+  "Vênus",
+  "Terra"
+ ],
+ "blocos": [
+  {
+   "capitulo": "Início",
+   "cenas": [
+    {
+     "narracao": "Imagina pousar num lugar tão quente que derrete chumbo.",
+     "quadro": "superficie",
+     "nome": "venus",
+     "efeitos": [
+      "calor"
+     ],
+     "traje": 0.3,
+     "camera": {
+      "zoom": [
+       1.12,
+       1.0
+      ]
+     }
+    },
+    {
+     "narracao": "Isso é Vênus. E ele nem é o planeta mais perto do Sol.",
+     "quadro": "planeta",
+     "nome": "venus",
+     "zoom": [
+      0.9,
+      1.15
+     ]
+    },
+    {
+     "narracao": "Hoje, você vai pousar em cada planeta do Sistema Solar.",
+     "quadro": "sistema",
+     "camera": {
+      "zoom": [
+       1.0,
+       1.08
+      ]
+     }
+    },
+    {
+     "narracao": "E em cada um, a mesma pergunta: dá pra sobreviver?",
+     "quadro": "placar",
+     "titulo": "Dá pra sobreviver?",
+     "itens": [
+      [
+       "Mercúrio",
+       "?"
+      ],
+      [
+       "Marte",
+       "?"
+      ],
+      [
+       "Júpiter",
+       "?"
+      ],
+      [
+       "Saturno",
+       "?"
+      ],
+      [
+       "Urano",
+       "?"
+      ],
+      [
+       "Netuno",
+       "?"
+      ],
+      [
+       "Vênus",
+       "?"
+      ],
+      [
+       "Terra",
+       "?"
+      ]
+     ]
+    },
+    {
+     "narracao": "No final, você vai entender por que Vênus é o pior de todos.",
+     "quadro": "planeta",
+     "nome": "venus",
+     "zoom": [
+      1.3,
+      1.6
+     ],
+     "x": 0.5
+    },
+    {
+     "narracao": "Primeira parada: o planeta mais perto do Sol.",
+     "quadro": "sistema",
+     "foco": "mercurio",
+     "camera": {
+      "zoom": [
+       1.0,
+       1.5
+      ],
+      "pan": [
+       [
+        0.5,
+        0.5
+       ],
+       [
+        0.12,
+        0.5
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "capitulo": "Mercúrio",
+   "cenas": [
+    {
+     "narracao": "Mercúrio. Ele tem pouco mais de um terço da largura da Terra.",
+     "quadro": "planeta",
+     "nome": "mercurio",
+     "nave": true,
+     "rotulo": "Mercúrio",
+     "zoom": [
+      0.8,
+      1.0
+     ]
+    },
+    {
+     "narracao": "Do lado da Terra, parece uma bolinha.",
+     "quadro": "escala",
+     "nome": "mercurio"
+    },
+    {
+     "narracao": "Você pousa no lado da noite. Sem ar, sem som, céu preto.",
+     "quadro": "superficie",
+     "nome": "mercurio",
+     "efeitos": [
+      "noite",
+      "frio"
+     ],
+     "camera": {
+      "zoom": [
+       1.15,
+       1.0
+      ]
+     }
+    },
+    {
+     "narracao": "E o termômetro despenca: cento e oitenta graus negativos.",
+     "quadro": "superficie",
+     "nome": "mercurio",
+     "efeitos": [
+      "noite",
+      "frio"
+     ],
+     "medidor": {
+      "de": 15,
+      "ate": -180,
+      "unidade": "°C",
+      "rotulo": "à noite"
+     }
+    },
+    {
+     "narracao": "Aqui, um dia inteiro, de um nascer do Sol ao outro, dura cento e setenta e seis dias da Terra.",
+     "quadro": "superficie",
+     "nome": "mercurio",
+     "efeitos": [
+      "noite"
+     ],
+     "rotulo": "1 dia = 176 dias da Terra"
+    },
+    {
+     "narracao": "Até que, bem devagar, o Sol começa a nascer...",
+     "quadro": "superficie",
+     "nome": "mercurio",
+     "efeitos": [
+      "sol_nasce"
+     ]
+    },
+    {
+     "narracao": "E ele parece mais de três vezes maior do que no céu daqui.",
+     "quadro": "superficie",
+     "nome": "mercurio",
+     "efeitos": [
+      "calor"
+     ],
+     "camera": {
+      "zoom": [
+       1.0,
+       1.35
+      ],
+      "pan": [
+       [
+        0.5,
+        0.5
+       ],
+       [
+        0.2,
+        0.4
+       ]
+      ]
+     }
+    },
+    {
+     "narracao": "Agora o chão chega a quatrocentos e trinta graus.",
+     "quadro": "superficie",
+     "nome": "mercurio",
+     "efeitos": [
+      "calor"
+     ],
+     "traje": 0.4,
+     "medidor": {
+      "de": -180,
+      "ate": 430,
+      "unidade": "°C",
+      "rotulo": "de dia"
+     }
+    },
+    {
+     "narracao": "Sem atmosfera, nada segura o calor: a noite congela e o dia cozinha.",
+     "quadro": "superficie",
+     "nome": "mercurio",
+     "efeitos": [
+      "calor"
+     ],
+     "traje": 0.7
+    },
+    {
+     "narracao": "Veredito: sem uma base protegida, Mercúrio não perdoa.",
+     "quadro": "sistema",
+     "foco": "mercurio",
+     "placar": {
+      "mercurio": "não"
+     }
+    },
+    {
+     "narracao": "Próxima parada: o planeta vermelho... onde, talvez, dê pra ficar de pé.",
+     "quadro": "sistema",
+     "foco": "marte",
+     "placar": {
+      "mercurio": "não"
+     },
+     "camera": {
+      "zoom": [
+       1.0,
+       1.4
+      ],
+      "pan": [
+       [
+        0.5,
+        0.5
+       ],
+       [
+        0.38,
+        0.5
+       ]
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

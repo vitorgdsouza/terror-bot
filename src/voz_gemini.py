@@ -195,7 +195,7 @@ def narrar_roteiro(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
             dono.append(i)
     # até 3 tomadas: fica com a que o Whisper entende melhor (fala embolada ou palavra comida = nota baixa)
     melhor = None
-    for tomada in range(3):
+    for tomada in range(int(roteiro.get("tomadas", 3))):   # o vídeo longo usa menos tomadas por bloco (cota)
         bruto = pasta / f"narracao_bruta_{tomada}.wav"
         candidato = pasta / f"narracao_{tomada}.wav"
         try:
