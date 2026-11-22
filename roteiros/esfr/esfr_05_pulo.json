@@ -10,69 +10,114 @@
  "trilha_volume": 0.3,
  "titulo": "E se todo mundo pulasse ao mesmo tempo?",
  "titulo_youtube": "E se TODO MUNDO pulasse ao mesmo tempo? 🌍 #shorts",
- "legenda_post": "Oito bilhões de pessoas, um pulo só. A Terra se mexe? Sim... mas o problema de verdade vem depois. Você pularia? 👇\n\nFontes: HowStuffWorks, Science ABC, xkcd What If #8.\n#ciencia #curiosidades #ese #fisica",
+ "legenda_post": "Oito bilhões de pessoas, um pulo só. A Terra quase nem sente... o problema de verdade começa quando todo mundo tenta voltar pra casa. Você pularia? 👇\n\nFontes: xkcd What If? nº 8 (\"Everybody Jump\"); ONU (8 bilhões de pessoas, nov/2022).\n#ciencia #curiosidades #ese #fisica",
  "cenas": [
   {
    "narracao": "E se todo mundo no planeta pulasse ao mesmo tempo?",
-   "quadro": "multidao"
+   "quadro": "multidao",
+   "thumb": true,
+   "thumb_momento": 0.5
   },
   {
-   "narracao": "São mais de oito bilhões de pessoas.",
+   "narracao": "Somos mais de oito bilhões de pessoas.",
    "quadro": "numero",
    "de": 0,
    "ate": 8,
+   "antes": "mais de",
    "unidade": "bilhões",
    "rotulo": "de pessoas"
   },
   {
-   "narracao": "Bem juntinhas, todo mundo cabe numa cidade grande.",
+   "narracao": "Bem apertadinhos, todo mundo cabe num estadinho dos Estados Unidos.",
+   "quadro": "planeta",
+   "lua": false,
+   "ponto": true,
+   "rotulo": "todo mundo aqui"
+  },
+  {
+   "narracao": "Ao meio-dia em ponto, todo mundo pula!",
+   "quadro": "multidao",
+   "rotulo": "PULA!",
+   "susto": true
+  },
+  {
+   "narracao": "A gente sobe, no máximo, uns cinquenta centímetros.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 50,
+   "antes": "uns",
+   "unidade": "centímetros",
+   "rotulo": "um bom pulo"
+  },
+  {
+   "narracao": "Mas a Terra pesa mais de dez trilhões de vezes o que a gente pesa.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 10,
+   "antes": "mais de",
+   "unidade": "trilhões de vezes",
+   "rotulo": "o peso de todos nós"
+  },
+  {
+   "narracao": "Então ela desce menos que a largura de um átomo.",
+   "quadro": "planeta",
+   "lua": false,
+   "seta": true,
+   "rotulo": "menos que 1 átomo"
+  },
+  {
+   "narracao": "O que sobra é um barulhão que dura vários segundos.",
    "quadro": "multidao",
    "pulando": false,
-   "rotulo": "uma cidade só"
-  },
-  {
-   "narracao": "Um, dois, três... todo mundo pula!",
-   "quadro": "multidao",
-   "rotulo": "PULA!"
-  },
-  {
-   "narracao": "A Terra se mexe?",
-   "quadro": "planeta",
-   "lua": false
-  },
-  {
-   "narracao": "Se mexe, sim: menos que a largura de um átomo.",
-   "quadro": "texto",
-   "texto": "MENOS QUE|UM ÁTOMO"
-  },
-  {
-   "narracao": "A Terra pesa trilhões de vezes mais que todos nós juntos.",
-   "quadro": "texto",
-   "texto": "TRILHÕES DE|VEZES MAIS",
-   "fortes": [
-    "trilhões"
-   ]
+   "ondas": true
   },
   {
    "narracao": "O problema de verdade vem depois do pulo.",
-   "quadro": "texto",
-   "texto": "O PROBLEMA|É DEPOIS"
-  },
-  {
-   "narracao": "Oito bilhões de pessoas tentando voltar pra casa ao mesmo tempo.",
    "quadro": "multidao",
    "pulando": false,
-   "alerta": true
+   "alerta": true,
+   "rotulo": "e agora?"
   },
   {
-   "narracao": "O maior engarrafamento da história.",
-   "quadro": "texto",
-   "texto": "O MAIOR|ENGARRAFAMENTO"
+   "narracao": "Todo mundo pega o celular ao mesmo tempo...",
+   "quadro": "multidao",
+   "pulando": false,
+   "celulares": true
   },
   {
-   "narracao": "Você pularia? Comenta.",
-   "quadro": "texto",
-   "texto": "VOCÊ|PULARIA?"
+   "narracao": "e a rede não aguenta. Sem sinal.",
+   "quadro": "multidao",
+   "pulando": false,
+   "celulares": true,
+   "sem_sinal": true,
+   "rotulo": "sem sinal"
+  },
+  {
+   "narracao": "Aí, oito bilhões de pessoas tentam voltar pra casa.",
+   "quadro": "multidao",
+   "pulando": false,
+   "andando": true
+  },
+  {
+   "narracao": "Todos os carros da região são tomados.",
+   "quadro": "multidao",
+   "transito": true
+  },
+  {
+   "narracao": "E as estradas viram o maior engarrafamento da história.",
+   "quadro": "multidao",
+   "transito": true,
+   "rotulo": "engarrafamento"
+  },
+  {
+   "narracao": "E a órbita da Terra? Continua igualzinha.",
+   "quadro": "sol",
+   "rotulo": "órbita igualzinha"
+  },
+  {
+   "narracao": "Você pularia junto ou ficava só olhando? Comenta.",
+   "quadro": "multidao",
+   "rotulo": "você pularia?"
   }
  ],
  "thumb_texto": "E SE TODO MUNDO|PULASSE?",

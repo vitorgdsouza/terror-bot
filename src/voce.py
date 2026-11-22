@@ -21,12 +21,12 @@ Cena: {"narracao": "...", "quadro": "<tipo>", ...}
   texto        palavras grandes no meio, escrita de máquina; "texto": "NÃO ATENDA" ("|" quebra a linha)
   preto        tela preta
 Ciência (paleta "ciencia", canal E Se Fosse Real?):
-  planeta      a Terra girando no espaço; "eixo": true (mostra o eixo), "balanca": true (eixo bamboleando), "lua": false, "some_lua": true, "para": true (rotação freia), "vento": true, "rotulo"
+  planeta      a Terra girando no espaço; "eixo": true (mostra o eixo), "balanca": true (eixo bamboleando), "lua": false, "some_lua": true, "para": true (rotação freia), "vento": true, "ponto" (ponto pulsando), "seta" (seta empurrando para baixo), "rotulo"
   terra_corte  a Terra em corte com o buraco; "de"/"ate" (0 a 1: posição de quem cai), "rotulo" (ex.: "5.400 °C")
   espaco       astronauta flutuando; "sem_capacete": true, "segundos": 15 (contagem regressiva)
   numero       número grande contando; "de", "ate", "antes" (ex.: "QUASE"), "ano": true (sem ponto de milhar), "unidade" (km/h), "rotulo"
   comparar     barras crescendo; "itens": [["Furacão", 300], ["Sem rotação", 1670]], "unidade": "km/h"
-  multidao     muita gente pulando; "rotulo"
+  multidao     multidão em fileiras pulando; "pulando": false, "ondas" (som se espalhando), "celulares" (+ "sem_sinal"), "andando", "transito" (estrada lotada de carros), "rotulo"
   sol          o Sol e a Terra em órbita; "apaga", "apagado", "onda" (a última luz indo até a Terra), "tangente" (a Terra sai em linha reta), "so_terra" + "congela" (a Terra virando gelo), "rotulo"
   buraco_negro buraco negro com disco de gás; "de"/"ate" (0 longe, 1 na borda: astronauta caindo), "congela" (parece parar na borda, avermelhando), "atravessa", "dentro" (o céu vira um círculo que encolhe), "estica" (espaguetificação; com "pequeno": true estica antes da borda), "rotulo"
   aneis        a Terra com anel; "asteroide", "quebra", "forma" (o anel se fecha), "faixa" + "crateras" (faixa de 30° do equador), "cai", "sombra", "gelo", "some", "ceu" (arco no céu visto do chão), "rotulo"
@@ -438,8 +438,20 @@ def _planeta(img, cena, t, dur, n, p):
             y = cy - r * 0.8 + k * r * 0.18
             x = (t * 900 + k * 170) % (W + 400) - 200
             d.line((x, y, x + 160, y), fill=p["acento2"], width=8)
+    if cena.get("ponto"):                               # um ponto pulsando: "todo mundo aqui"
+        px_, py_ = cx - r * 0.28, cy - r * 0.32
+        pul = 1 + 0.25 * math.sin(t * 6)
+        d.ellipse((px_ - 16, py_ - 16, px_ + 16, py_ + 16), fill=p["acento"])
+        for k in range(2):
+            rr = (40 + k * 30) * pul
+            d.ellipse((px_ - rr, py_ - rr, px_ + rr, py_ + rr), outline=p["acento"][:3] + (200 - k * 80,), width=6)
+    if cena.get("seta"):                                # seta empurrando a Terra para baixo (quase nada)
+        y0 = cy - r - 230 + math.sin(t * 5) * 14
+        d.rectangle((cx - 22, y0, cx + 22, y0 + 120), fill=p["acento"])
+        d.polygon([(cx - 60, y0 + 115), (cx + 60, y0 + 115), (cx, y0 + 190)], fill=p["acento"])
     if cena.get("rotulo"):
-        _centro_texto(d, W / 2, H * 0.16, str(cena["rotulo"]).upper(), _f(60), p["acento"])
+        _centro_texto(d, W / 2, H * (0.7 if cena.get("seta") else 0.16), str(cena["rotulo"]).upper(),
+                      _fit(d, str(cena["rotulo"]).upper(), 60), p["acento"])
 
 
 def _terra_corte(img, cena, t, dur, n, p):
@@ -531,20 +543,83 @@ def _comparar(img, cena, t, dur, n, p):
         y += 330
 
 
+def _carro(d, x, y, w, cor, freio=False):
+    h = w * 0.42
+    d.rounded_rectangle((x - w / 2, y - h, x + w / 2, y), radius=int(w * 0.12), fill=cor)
+    d.rounded_rectangle((x - w * 0.32, y - h * 1.55, x + w * 0.3, y - h * 0.9), radius=int(w * 0.1), fill=cor)
+    d.rounded_rectangle((x - w * 0.26, y - h * 1.42, x + w * 0.24, y - h * 1.0), radius=int(w * 0.06), fill=(30, 50, 90))
+    for s_ in (-1, 1):
+        d.ellipse((x + s_ * w * 0.3 - w * 0.1, y - w * 0.1, x + s_ * w * 0.3 + w * 0.1, y + w * 0.1), fill=(20, 20, 26))
+    if freio:                                                      # luz de freio acesa
+        d.rectangle((x - w / 2, y - h * 0.75, x - w / 2 + w * 0.08, y - h * 0.45), fill=(255, 40, 40))
+        d.rectangle((x + w / 2 - w * 0.08, y - h * 0.75, x + w / 2, y - h * 0.45), fill=(255, 40, 40))
+
+
 def _multidao(img, cena, t, dur, n, p):
-    d = ImageDraw.Draw(img)
-    chao = H * 0.7
-    d.line((0, chao, W, chao), fill=p["apagado"], width=6)
-    pulo = max(0.0, math.sin(t * 2.4)) * 60 if cena.get("pulando", True) else 0
-    for linha in range(4):
-        for k in range(9):
-            x = 70 + k * 118 + (linha % 2) * 55
-            alt = 210 - linha * 30
-            y = chao - linha * 26 - pulo * (1 - linha * 0.15)
-            cor = tuple(int(c * (1 - linha * 0.18)) for c in p["fig"])
-            _pessoa(d, x, y, alt, cor, t, "parado", False, p["fundo"], olhos=False)
+    """Multidão em fileiras (do fundo, pequenas, à frente, grandes), cada pessoa de uma cor. "pulando" (padrão: sim),
+    "ondas": o som do pulo se espalhando; "celulares": todo mundo com o celular aceso e "SEM SINAL";
+    "andando": a multidão se arrastando para o lado; "transito": estrada lotada de carros parados; "rotulo"."""
+    d = ImageDraw.Draw(img, "RGBA")
+    if cena.get("transito"):
+        hz = H * 0.3
+        d.rectangle((0, hz, W, H), fill=(40, 70, 50))
+        d.polygon([(W * 0.44, hz), (W * 0.56, hz), (W * 1.25, H), (-W * 0.25, H)], fill=(52, 56, 66))
+        for k in range(14):                                        # fileiras de carros até o horizonte
+            f_ = (k / 14) ** 1.6
+            y = H - f_ * (H - hz) - 40
+            esc = 1 - f_ * 0.92
+            larg_pista = (W * 1.5) * esc
+            for faixa in range(-2, 3):
+                x = W / 2 + faixa * larg_pista / 5 + math.sin(k * 3 + faixa) * 8 * esc
+                rnd = random.Random(k * 10 + faixa)
+                cor = [p["acento"], p["acento2"], (235, 235, 240), (200, 60, 60), (90, 120, 200)][rnd.randrange(5)]
+                _carro(d, x, y, 150 * esc, cor, freio=(math.sin(t * 4 + k + faixa) > 0))
+        if cena.get("rotulo"):
+            _centro_texto(d, W / 2, H * 0.17, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 62), p["acento"])
+        return
+    chao = H * 0.72
+    d.rectangle((0, chao, W, H), fill=tuple(int(c * 0.6) for c in p["fundo2"]))
+    cores = [p["acento"], p["acento2"], p["fig"], (232, 90, 80), (150, 220, 140), (200, 160, 255)]
+    pulando = cena.get("pulando", True)
+    desloca = (t * 40) if cena.get("andando") else 0
+    filas = 7
+    for linha in range(filas):                                     # do fundo para a frente
+        prof = linha / (filas - 1)                                 # 0 = fundo, 1 = frente
+        alt = 90 + 170 * prof
+        y_base = H * 0.5 + (chao - H * 0.5) * prof
+        passo = alt * 0.62
+        qtd = int(W / passo) + 3
+        for k in range(qtd):
+            rnd = random.Random(linha * 100 + k)
+            x = (k * passo + (linha % 2) * passo / 2 + desloca * (0.5 + prof) - passo) % (W + passo * 2) - passo
+            fase = rnd.random() * 0.25
+            pulo = max(0.0, math.sin((t - fase) * 3.2)) * alt * 0.45 if pulando else 0
+            cor = cores[rnd.randrange(len(cores))]
+            cor = tuple(int(c * (0.55 + 0.45 * prof)) for c in cor)
+            hx, hy, r = _pessoa(d, x, y_base - pulo, alt, cor, t, "andando" if cena.get("andando") else "parado",
+                                False, p["fundo"], olhos=prof > 0.6)
+            if cena.get("celulares"):                              # celular aceso na frente do rosto
+                cw, ch = r * 0.9, r * 1.5
+                d.rounded_rectangle((hx - cw / 2, hy + r * 0.2, hx + cw / 2, hy + r * 0.2 + ch), radius=int(cw * 0.2),
+                                    fill=(20, 20, 30), outline=(120, 200, 255), width=max(2, int(r * 0.08)))
+                d.rectangle((hx - cw * 0.35, hy + r * 0.35, hx + cw * 0.35, hy + r * 0.05 + ch), fill=(120, 200, 255, 200))
+    if cena.get("ondas"):                                          # o barulho se espalhando
+        for k in range(4):
+            f_ = ((t * 0.7 + k / 4) % 1)
+            rr = 80 + f_ * 700
+            yc = H * 0.47
+            d.arc((W / 2 - rr, yc - rr * 0.7, W / 2 + rr, yc + rr * 0.7), 195, 345,
+                  fill=p["acento"][:3] + (int(255 * (1 - f_)),), width=14)
+    if cena.get("celulares") and cena.get("sem_sinal"):           # ícone de sinal riscado
+        cx, cy = W / 2, H * 0.3
+        for k in range(4):
+            hh = 40 + k * 40
+            d.rounded_rectangle((cx - 110 + k * 60, cy + 80 - hh, cx - 70 + k * 60, cy + 80), radius=8, fill=p["apagado"])
+        if (t % 0.8) < 0.55:
+            d.line((cx - 140, cy - 110, cx + 140, cy + 110), fill=(232, 44, 56), width=18)
     if cena.get("rotulo"):
-        _centro_texto(d, W / 2, H * 0.3, str(cena["rotulo"]).upper(), _f(70), p["acento"])
+        _centro_texto(d, W / 2, H * (0.42 if cena.get("sem_sinal") else 0.3), str(cena["rotulo"]).upper(),
+                      _fit(d, str(cena["rotulo"]).upper(), 70), p["acento"])
 
 
 def _estrelas(d, t, n=110):
