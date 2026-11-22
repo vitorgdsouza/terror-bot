@@ -1,0 +1,28 @@
+name: Mapa da Terra (E Se Fosse Real?)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mapa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install Pillow
+      - run: python -m src.mapa_terra
+      - name: Guardar
+        run: |
+          git config user.name "bot-terror"
+          git config user.email "bot-terror@users.noreply.github.com"
+          git add assets/esfr/terra_mapa.png
+          git diff --cached --quiet && exit 0
+          git commit -m "E Se Fosse Real?: máscara de terra do Natural Earth (domínio público)"
+          for t in 1 2 3; do git pull --rebase -X theirs --autostash && git push && exit 0; sleep 7; done
+          exit 1
