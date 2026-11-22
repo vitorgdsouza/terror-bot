@@ -1,5 +1,5 @@
 {
- "proximo": 14,
+ "proximo": 15,
  "itens": [
   {
    "id": 1,
@@ -207,6 +207,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-21 10:35",
+   "decidido": ""
+  },
+  {
+   "id": 14,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Protocolo Assobiador",
+   "arquivo": "roteiros/protocolo_06_assobiador.json",
+   "run_id": "",
+   "resumo": "Protocolo Assobiador (Férias na Roça): gato eriçado pra janela na cena 1, 1ª regra na cena 2, 4 regras + parte mais importante. 15 cenas, 93 palavras, ~43 s, susto em esp_assobiador (estreia), 3 assobios escondidos puxam o rever. Faixa 24/11 18h47.",
+   "titulo_youtube": "Se o seu gato eriçar pra janela e alguém assobiar lá fora... não responda 🐈‍⬛ Protocolo Assobiador #shorts",
+   "legenda": "Protocolo Assobiador, das Férias na Roça (história de ficção, inspirada no folclore brasileiro). Se o seu gato eriçar pra janela e alguém assobiar no escuro, siga cada passo. Você contou quantos assobios ouviu neste vídeo? 👇",
+   "tipo_video": "protocolo",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-22 10:30",
    "decidido": ""
   }
  ]
