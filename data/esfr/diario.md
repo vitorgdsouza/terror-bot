@@ -71,3 +71,5 @@
 ### Testar depois
 - Comparar o buraco negro (espaço extremo) com a fossa (oceano) quando os dois estiverem no ar.
 - Ideias ainda sem uso: um dia em Vênus, gravidade sumindo por 5 s, raio caindo perto de você (cuidado para não virar tema de saúde), Terra sem oceanos.
+
+- 22/11 16h38: o agendamento das 16h17 não disparou. Não reenviei: "E se você saísse da nave sem roupa espacial?" (1º da fila) já foi mandado no Telegram às 11h41 (run 45034173636, `acao=telegram`) e ainda espera o Vitor confirmar que postou. Upload-Post segue no limite do mês. Fila intacta com 6.
