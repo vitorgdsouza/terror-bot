@@ -779,7 +779,7 @@ def _buraco_negro(img, cena, t, dur, n, p):
             d.line((x, y, x, y + 220), fill=(255, 170, 70, 120), width=5)
         _astro_mini(d, W / 2, H * 0.66, -math.pi / 2, 170, 1 + 2.6 * f_)
     elif "de" in cena or cena.get("congela") or cena.get("atravessa"):
-        longe = 4.6 if not pequeno else 8.5
+        longe = 3.5 if not pequeno else 6.0
         if cena.get("congela"):                                    # quase parando: aproxima cada vez mais devagar
             prog = 0.88 + 0.1 * (1 - math.exp(-t * 0.9))
         elif cena.get("atravessa"):
@@ -803,8 +803,8 @@ def _buraco_negro(img, cena, t, dur, n, p):
             a_ = int(255 * max(0.0, (dist - R * 0.8) / (R * 0.22)))
             cor, visor = cor[:3] + (a_,), visor[:3] + (a_,)
         _astro_mini(d, x, y, ang, tam, estica, cor, visor)
-    if cena.get("rotulo"):
-        _centro_texto(d, W / 2, H * 0.17, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 62), p["acento"])
+    if cena.get("rotulo"):                                         # embaixo do disco, longe de quem cai (que vem do alto)
+        _centro_texto(d, W / 2, H * (0.17 if cena.get("estica") and not pequeno else 0.62), str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 62), p["acento"])
 
 
 def _anel_pontos(d, cx, cy, rx, ry, t, metade, alfa=255, espalha=1.0, a0=0.0, faixas=5):
