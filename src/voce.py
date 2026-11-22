@@ -816,7 +816,7 @@ def _anel_pontos(d, cx, cy, rx, ry, t, metade, alfa=255, espalha=1.0, a0=0.0, fa
             a = a0 + (frac - 0.5) * 2 * math.pi * espalha + t * 0.25
             if (math.sin(a) < 0) != (metade == "tras"):
                 continue
-            f_r = 1 + j * 0.09 + rnd.random() * 0.05
+            f_r = 1 + j * 0.06 + rnd.random() * 0.04
             x, y = cx + math.cos(a) * rx * f_r, cy + math.sin(a) * ry * f_r
             tom = 190 + int(50 * rnd.random())
             s = 3 + rnd.random() * 4
@@ -855,8 +855,8 @@ def _aneis(img, cena, t, dur, n, p):
             _centro_texto(d, W / 2, H * 0.13, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 60), p["acento"])
         return
     _estrelas(d, t)
-    cx, cy, r = W / 2, H * 0.46, 260
-    rx, ry = r * 1.95, r * 0.42
+    cx, cy, r = W / 2, H * 0.46, 235
+    rx, ry = r * 1.75, r * 0.4                                     # o anel cabe na largura da tela
     tem_anel = not (cena.get("asteroide") or cena.get("quebra")) or cena.get("forma")
     alfa = 255
     if cena.get("some"):
@@ -920,7 +920,7 @@ def _aneis(img, cena, t, dur, n, p):
         px_, py_ = cx + math.cos(a0) * rx, cy + math.sin(a0) * ry
         if cena.get("asteroide") and not cena.get("quebra"):
             f_ = _suave(t / max(0.1, dur * 0.85))
-            x, y = W * 0.95 + (px_ - W * 0.95) * f_, H * 0.12 + (py_ - H * 0.12) * f_
+            x, y = W * 0.86 + (px_ - W * 0.86) * f_, H * 0.24 + (py_ - H * 0.24) * f_
             for k in range(6):                                     # rastro
                 d.ellipse((x + k * 18 - 6, y - k * 30 - 6, x + k * 18 + 6, y - k * 30 + 6), fill=(255, 196, 36, 150 - k * 22))
             d.polygon([(x - 44, y - 10), (x - 18, y - 42), (x + 30, y - 36), (x + 46, y + 6), (x + 14, y + 40), (x - 34, y + 30)],

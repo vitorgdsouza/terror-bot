@@ -69,7 +69,7 @@
   {
    "narracao": "Por acaso? A chance seria uma em vinte e cinco milhões.",
    "quadro": "numero",
-   "de": 0,
+   "de": 25,
    "ate": 25,
    "antes": "1 em",
    "unidade": "milhões",
