@@ -1,0 +1,107 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.3,
+ "titulo": "E se a Terra tivesse anéis como Saturno?",
+ "titulo_youtube": "E se a Terra tivesse ANÉIS como Saturno? 🪐 #shorts",
+ "legenda_post": "Um asteroide despedaçado, um anel em volta do equador e 21 crateras como pista. A Terra pode ter tido um anel de verdade. Você ia querer um no seu céu? 👇\n\nFontes: Monash University (set/2024); Tomkins et al., Earth and Planetary Science Letters (2024); Space.com (set/2024); EarthSky.\n#ciencia #espaco #terra #curiosidades #ese",
+ "cenas": [
+  {
+   "narracao": "E se a Terra tivesse anéis, como Saturno?",
+   "quadro": "aneis",
+   "thumb": true,
+   "thumb_momento": 0.6
+  },
+  {
+   "narracao": "Parece ficção, mas pode ter acontecido de verdade.",
+   "quadro": "aneis",
+   "rotulo": "pode ter acontecido"
+  },
+  {
+   "narracao": "Há cerca de quatrocentos e sessenta e seis milhões de anos.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 466,
+   "antes": "há cerca de",
+   "unidade": "milhões de anos"
+  },
+  {
+   "narracao": "Um asteroide passou perto demais da Terra.",
+   "quadro": "aneis",
+   "asteroide": true
+  },
+  {
+   "narracao": "A gravidade do planeta despedaçou a rocha.",
+   "quadro": "aneis",
+   "quebra": true
+  },
+  {
+   "narracao": "Os pedaços formaram um anel em volta do equador.",
+   "quadro": "aneis",
+   "forma": true
+  },
+  {
+   "narracao": "Com o tempo, esses pedaços foram caindo na Terra.",
+   "quadro": "aneis",
+   "cai": true
+  },
+  {
+   "narracao": "E deixaram uma pista: vinte e uma crateras daquela época.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 21,
+   "unidade": "crateras",
+   "rotulo": "da mesma época"
+  },
+  {
+   "narracao": "Todas a menos de trinta graus do equador.",
+   "quadro": "aneis",
+   "faixa": true,
+   "crateras": 21,
+   "rotulo": "até 30° do equador"
+  },
+  {
+   "narracao": "Por acaso? A chance seria uma em vinte e cinco milhões.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 25,
+   "antes": "1 em",
+   "unidade": "milhões",
+   "rotulo": "chance de ser por acaso"
+  },
+  {
+   "narracao": "Se fosse hoje, você veria um arco cruzando o céu.",
+   "quadro": "aneis",
+   "ceu": true
+  },
+  {
+   "narracao": "E a sombra do anel pode ter esfriado o planeta.",
+   "quadro": "aneis",
+   "sombra": true
+  },
+  {
+   "narracao": "Veio uma das eras mais frias dos últimos quinhentos milhões de anos.",
+   "quadro": "aneis",
+   "gelo": true
+  },
+  {
+   "narracao": "Ainda é uma hipótese, e tem cientista que duvida.",
+   "quadro": "aneis",
+   "some": true,
+   "rotulo": "hipótese"
+  },
+  {
+   "narracao": "Você ia querer um anel no seu céu? Comenta.",
+   "quadro": "aneis",
+   "ceu": true,
+   "rotulo": "você ia querer?"
+  }
+ ],
+ "thumb_texto": "A TERRA JÁ|TEVE ANEL?"
+}

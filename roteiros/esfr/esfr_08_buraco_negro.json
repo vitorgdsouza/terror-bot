@@ -1,0 +1,130 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "curious ambient electronic",
+ "trilha_volume": 0.3,
+ "titulo": "E se você caísse num buraco negro?",
+ "titulo_youtube": "E se você CAÍSSE num buraco negro? 🕳️ #shorts",
+ "legenda_post": "Num buraco negro gigante, você passa da borda inteiro... e só depois vira macarrão. Num pequeno, pode nem chegar lá. Você pularia? 👇\n\nFontes: NASA Goddard (simulação de Jeremy Schnittman, mai/2024), Live Science (mai/2024), Big Think (jan/2024).\n#ciencia #espaco #buraconegro #curiosidades #ese",
+ "cenas": [
+  {
+   "narracao": "E se você caísse num buraco negro?",
+   "quadro": "buraco_negro",
+   "de": 0,
+   "ate": 0.35,
+   "thumb": true,
+   "thumb_momento": 0.8
+  },
+  {
+   "narracao": "Vamos usar o gigante do centro da nossa galáxia.",
+   "quadro": "buraco_negro",
+   "de": 0.3,
+   "ate": 0.42,
+   "rotulo": "centro da Via Láctea"
+  },
+  {
+   "narracao": "Ele tem quatro vírgula três milhões de vezes a massa do Sol.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 4.3,
+   "unidade": "milhões de vezes",
+   "rotulo": "a massa do Sol"
+  },
+  {
+   "narracao": "A borda sem volta se chama horizonte de eventos.",
+   "quadro": "buraco_negro",
+   "de": 0.42,
+   "ate": 0.55,
+   "rotulo": "horizonte de eventos"
+  },
+  {
+   "narracao": "Ela mede cerca de vinte e cinco milhões de quilômetros.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 25,
+   "antes": "cerca de",
+   "unidade": "milhões de km",
+   "rotulo": "de borda a borda"
+  },
+  {
+   "narracao": "A NASA simulou essa queda num supercomputador.",
+   "quadro": "buraco_negro",
+   "de": 0.55,
+   "ate": 0.68,
+   "rotulo": "simulação da NASA"
+  },
+  {
+   "narracao": "Você levaria cerca de três horas caindo até a borda.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 3,
+   "antes": "cerca de",
+   "unidade": "horas",
+   "rotulo": "caindo até a borda"
+  },
+  {
+   "narracao": "Quem olha de longe vê você cada vez mais lento...",
+   "quadro": "buraco_negro",
+   "congela": true
+  },
+  {
+   "narracao": "até parecer congelado bem na beirada.",
+   "quadro": "buraco_negro",
+   "congela": true,
+   "rotulo": "visto de fora"
+  },
+  {
+   "narracao": "Mas, para você, nada para. Você atravessa.",
+   "quadro": "buraco_negro",
+   "atravessa": true
+  },
+  {
+   "narracao": "Lá dentro, a luz entra, mas nunca mais sai.",
+   "quadro": "buraco_negro",
+   "dentro": true
+  },
+  {
+   "narracao": "Doze vírgula oito segundos depois, a gravidade te alcança.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 12.8,
+   "unidade": "segundos",
+   "rotulo": "depois de passar a borda"
+  },
+  {
+   "narracao": "Ela estica o seu corpo feito macarrão.",
+   "quadro": "buraco_negro",
+   "estica": true,
+   "rotulo": "espaguetificação"
+  },
+  {
+   "narracao": "Num buraco negro pequeno, é ainda pior.",
+   "quadro": "buraco_negro",
+   "pequeno": true,
+   "de": 0,
+   "ate": 0.4,
+   "rotulo": "buraco negro pequeno"
+  },
+  {
+   "narracao": "Você pode virar espaguete antes mesmo de chegar à borda.",
+   "quadro": "buraco_negro",
+   "pequeno": true,
+   "estica": true,
+   "de": 0.1,
+   "ate": 0.75
+  },
+  {
+   "narracao": "Você pularia no gigante? Comenta.",
+   "quadro": "buraco_negro",
+   "de": 0,
+   "ate": 0.25,
+   "rotulo": "você pularia?"
+  }
+ ],
+ "thumb_texto": "VOCÊ VIRARIA|MACARRÃO?"
+}

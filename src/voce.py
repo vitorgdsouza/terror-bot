@@ -28,6 +28,8 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   comparar     barras crescendo; "itens": [["Furacão", 300], ["Sem rotação", 1670]], "unidade": "km/h"
   multidao     muita gente pulando; "rotulo"
   sol          o Sol e a Terra em órbita; "apaga", "apagado", "onda" (a última luz indo até a Terra), "tangente" (a Terra sai em linha reta), "so_terra" + "congela" (a Terra virando gelo), "rotulo"
+  buraco_negro buraco negro com disco de gás; "de"/"ate" (0 longe, 1 na borda: astronauta caindo), "congela" (parece parar na borda, avermelhando), "atravessa", "dentro" (o céu vira um círculo que encolhe), "estica" (espaguetificação; com "pequeno": true estica antes da borda), "rotulo"
+  aneis        a Terra com anel; "asteroide", "quebra", "forma" (o anel se fecha), "faixa" + "crateras" (faixa de 30° do equador), "cai", "sombra", "gelo", "some", "ceu" (arco no céu visto do chão), "rotulo"
   mergulho     submarino descendo; "de"/"ate" (metros no medidor), "luz", "peixe", "pressao", "fonte" (fonte de calor no fundo), "escala": true (mar em corte com o Everest dentro), "medidor": false, "rotulo"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
@@ -701,9 +703,246 @@ def _mergulho(img, cena, t, dur, n, p):
         _centro_texto(d, W / 2, H * 0.32, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 60), p["acento"])
 
 
+def _astro_mini(d, x, y, ang, tam, estica=1.0, cor=(240, 243, 250, 255), visor=(86, 214, 255, 255)):
+    """Astronauta pequeno visto de longe: corpo em cápsula na direção "ang" (cabeça para o lado de fora).
+    "estica" > 1 alonga e afina o corpo (espaguetificação)."""
+    ux, uy = math.cos(ang), math.sin(ang)
+    comp, larg = tam * 1.2 * estica, max(4, tam * 0.55 / math.sqrt(estica))
+    x2, y2 = x + ux * comp, y + uy * comp                       # pés (para dentro) -> cabeça (para fora)
+    d.line((x, y, x2, y2), fill=cor, width=int(larg))
+    d.ellipse((x - larg / 2, y - larg / 2, x + larg / 2, y + larg / 2), fill=cor)
+    hr = max(5, tam * 0.42 / math.sqrt(estica))
+    hx, hy = x2 + ux * hr * 0.6, y2 + uy * hr * 0.6
+    d.ellipse((hx - hr, hy - hr, hx + hr, hy + hr), fill=cor)
+    d.ellipse((hx - hr * 0.55, hy - hr * 0.45, hx + hr * 0.55, hy + hr * 0.45), fill=visor)
+
+
+def _disco(d, cx, cy, R, t, metade, intens=1.0):
+    """Disco de gás quente em volta do buraco negro, em perspectiva. "metade": "tras" (em cima) ou "frente"."""
+    for j in range(6):
+        rx = R * (1.4 + j * 0.2)
+        ry = rx * 0.24
+        for k in range(0, 360, 4):
+            a = math.radians(k)
+            if (math.sin(a) < 0) != (metade == "tras"):
+                continue
+            x, y = cx + math.cos(a) * rx, cy + math.sin(a) * ry
+            brilho = 0.55 + 0.45 * math.sin(a * 3 - t * (5 - j * 0.5) + j)
+            cor = (255, int(120 + 110 * brilho * (1 - j / 7)), int(40 + 60 * brilho * (1 - j / 6)), int(230 * intens * (1 - j * 0.11)))
+            s = R * 0.1 * (1.1 - j * 0.08)
+            d.ellipse((x - s, y - s * 0.7, x + s, y + s * 0.7), fill=cor)
+
+
+def _buraco_negro(img, cena, t, dur, n, p):
+    """Buraco negro com o disco de gás. "de"/"ate" (0 longe, 1 na borda): um astronauta caindo;
+    "congela": quem cai parece parar na beirada, ficando vermelho e apagando; "atravessa": passa a borda e some;
+    "dentro": visão de dentro, o céu virando um círculo cada vez menor; "estica": o astronauta esticando feito macarrão
+    (com "pequeno": true, um buraco negro pequeno que estica antes da borda); "rotulo"."""
+    d = ImageDraw.Draw(img, "RGBA")
+    if cena.get("dentro"):
+        d.rectangle((0, 0, W, H), fill=(0, 0, 0))
+        fecha = _suave(t / max(0.1, dur * 0.9))
+        rr = 640 - 420 * fecha
+        cx, cy = W / 2, H * 0.3
+        for k in range(5, 0, -1):                                  # brilho do disco visto de dentro, em volta do furo
+            r2 = rr * (1 + k * 0.05)
+            d.ellipse((cx - r2, cy - r2, cx + r2, cy + r2), fill=(255, 150, 50, 26))
+        d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), fill=p["fundo2"])
+        for k in range(80):                                        # estrelas só dentro do círculo do céu
+            rnd = random.Random(k)
+            a, r_ = rnd.random() * 2 * math.pi, math.sqrt(rnd.random()) * rr * 0.92
+            x, y = cx + math.cos(a) * r_, cy + math.sin(a) * r_
+            b = 150 + int(100 * abs(math.sin(t * 2 + k)))
+            d.ellipse((x - 3, y - 3, x + 3, y + 3), fill=(b, b, b))
+        if cena.get("rotulo"):
+            _centro_texto(d, W / 2, H * 0.66, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 60), p["acento"])
+        return
+    _estrelas(d, t)
+    pequeno = cena.get("pequeno")
+    cx, cy = W / 2, H * 0.47
+    R = 95 if pequeno else 175
+    for k in range(7, 0, -1):                                      # halo de luz curvada atrás do buraco
+        rr = R * (1.05 + k * 0.07)
+        d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), fill=(255, 160, 60, 20))
+    _disco(d, cx, cy, R, t, "tras", 1.3 if pequeno else 1.0)
+    d.ellipse((cx - R * 1.04, cy - R * 1.04, cx + R * 1.04, cy + R * 1.04), outline=(255, 220, 150, 255), width=5)
+    d.ellipse((cx - R, cy - R, cx + R, cy + R), fill=(0, 0, 0))
+    _disco(d, cx, cy, R, t, "frente", 1.3 if pequeno else 1.0)
+    ang = math.radians(-58)                                        # o astronauta vem do alto, à direita
+    if cena.get("estica") and not pequeno:                         # close: o corpo esticando
+        f_ = _suave(t / max(0.1, dur * 0.85))
+        d.rectangle((0, 0, W, H), fill=(0, 0, 0, int(200 * min(1, f_ * 2))))
+        for k in range(18):                                        # riscos de velocidade
+            rnd = random.Random(k * 5)
+            x = rnd.random() * W
+            y = (rnd.random() * H + t * 1400) % (H + 300) - 300
+            d.line((x, y, x, y + 220), fill=(255, 170, 70, 120), width=5)
+        _astro_mini(d, W / 2, H * 0.66, -math.pi / 2, 170, 1 + 2.6 * f_)
+    elif "de" in cena or cena.get("congela") or cena.get("atravessa"):
+        longe = 4.6 if not pequeno else 8.5
+        if cena.get("congela"):                                    # quase parando: aproxima cada vez mais devagar
+            prog = 0.88 + 0.1 * (1 - math.exp(-t * 0.9))
+        elif cena.get("atravessa"):
+            prog = 0.92 + 0.28 * _suave(t / max(0.1, dur * 0.8))
+        else:
+            de, ate = float(cena.get("de", 0)), float(cena.get("ate", 1))
+            prog = de + (ate - de) * _suave(t / max(0.1, dur * 0.9))
+        dist = R * (longe - (longe - 1.0) * prog)
+        x, y = cx + math.cos(ang) * dist, cy + math.sin(ang) * dist
+        tam = 95 * (0.6 + 0.4 * (dist / (R * longe)))
+        estica = 1.0
+        if pequeno and cena.get("estica"):                         # no pequeno, estica bem antes da borda
+            estica = 1 + 3.2 * _suave(prog / 0.7)
+        cor, visor = (240, 243, 250, 255), (86, 214, 255, 255)
+        if cena.get("congela"):                                    # vai ficando vermelho e apagado
+            f_ = _suave(t / max(0.1, dur * 0.9))
+            a_ = int(255 * (1 - 0.8 * f_))
+            cor = (240, int(243 - 170 * f_), int(250 - 210 * f_), a_)
+            visor = (120, 60, 60, a_)
+        if dist < R * 1.02:                                        # passou da borda: some no escuro
+            a_ = int(255 * max(0.0, (dist - R * 0.8) / (R * 0.22)))
+            cor, visor = cor[:3] + (a_,), visor[:3] + (a_,)
+        _astro_mini(d, x, y, ang, tam, estica, cor, visor)
+    if cena.get("rotulo"):
+        _centro_texto(d, W / 2, H * 0.17, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 62), p["acento"])
+
+
+def _anel_pontos(d, cx, cy, rx, ry, t, metade, alfa=255, espalha=1.0, a0=0.0, faixas=5):
+    """Partículas do anel em perspectiva. "espalha" (0 a 1): o quanto o anel já se fechou a partir do ângulo a0."""
+    for j in range(faixas):
+        for k in range(150):
+            rnd = random.Random(j * 1000 + k)
+            frac = rnd.random()
+            a = a0 + (frac - 0.5) * 2 * math.pi * espalha + t * 0.25
+            if (math.sin(a) < 0) != (metade == "tras"):
+                continue
+            f_r = 1 + j * 0.09 + rnd.random() * 0.05
+            x, y = cx + math.cos(a) * rx * f_r, cy + math.sin(a) * ry * f_r
+            tom = 190 + int(50 * rnd.random())
+            s = 3 + rnd.random() * 4
+            d.ellipse((x - s, y - s, x + s, y + s), fill=(tom, tom - 15, tom - 45, alfa))
+
+
+def _aneis(img, cena, t, dur, n, p):
+    """A Terra com um anel. "asteroide": uma rocha chegando perto; "quebra": a rocha se despedaçando;
+    "forma": o anel se fechando a partir dos pedaços; "faixa": a faixa de 30° do equador com crateras aparecendo
+    ("crateras": 21); "cai": pedaços caindo do anel no equador; "sombra": o Sol de lado e a sombra do anel na Terra;
+    "gelo": a Terra esfriando; "some": o anel se apagando; "ceu": visto do chão, um arco cruzando o céu; "rotulo"."""
+    d = ImageDraw.Draw(img, "RGBA")
+    if cena.get("ceu"):
+        chao = H * 0.72
+        for y in range(0, int(chao), 8):                           # céu do fim de tarde
+            f_ = y / chao
+            c = tuple(int(a + (b - a) * f_) for a, b in zip((14, 30, 80), (90, 140, 200)))
+            d.rectangle((0, y, W, y + 8), fill=c)
+        _estrelas(d, t, 40)
+        sobe = _suave(t / max(0.1, dur * 0.7))
+        topo = chao - (chao - H * 0.2) * sobe                      # o arco vai subindo do horizonte
+        for j in range(7):                                         # faixas do anel em arco
+            rx = W * 0.75 - j * 18
+            ry = (chao - topo) - j * 14
+            if ry <= 10:
+                continue
+            tom = 215 - j * 12
+            d.arc((W / 2 - rx, chao - ry, W / 2 + rx, chao + ry), 180, 360, fill=(tom, tom - 10, tom - 40, 230), width=14)
+        for k in range(30):                                        # brilho correndo no anel
+            a = math.radians(180 + ((k * 6 + t * 12) % 180))
+            x, y = W / 2 + math.cos(a) * (W * 0.7), chao + math.sin(a) * (chao - topo - 40)
+            d.ellipse((x - 4, y - 4, x + 4, y + 4), fill=(255, 250, 230, 200))
+        d.rectangle((0, chao, W, H), fill=(20, 40, 30))
+        _pessoa(d, W / 2, chao + 6, 260, (10, 18, 14), t, "parado", olhos=False)
+        if cena.get("rotulo"):
+            _centro_texto(d, W / 2, H * 0.13, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 60), p["acento"])
+        return
+    _estrelas(d, t)
+    cx, cy, r = W / 2, H * 0.46, 260
+    rx, ry = r * 1.95, r * 0.42
+    tem_anel = not (cena.get("asteroide") or cena.get("quebra")) or cena.get("forma")
+    alfa = 255
+    if cena.get("some"):
+        alfa = int(255 * max(0.0, 1 - t / max(0.1, dur * 0.8)))
+    espalha = _suave(t / max(0.1, dur * 0.85)) if cena.get("forma") else 1.0
+    a0 = -1.15                                                     # onde a rocha se quebrou (atrás, à direita)
+    if cena.get("sombra"):                                         # Sol à esquerda
+        for k in range(6, 0, -1):
+            rr = 90 * (1 + k * 0.3)
+            d.ellipse((30 - rr, cy - 530 - rr, 30 + rr, cy - 530 + rr), fill=p["acento"][:3] + (34,))
+        d.ellipse((-60, cy - 620, 120, cy - 440), fill=p["acento"])
+    if tem_anel:
+        _anel_pontos(d, cx, cy, rx, ry, t, "tras", alfa, espalha, a0)
+    _globo(d, cx, cy, r, t)
+    if cena.get("sombra"):                                         # a sombra do anel cai em faixa sobre um hemisfério
+        f_ = _suave(t / max(0.1, dur * 0.6))
+        for k in range(3):
+            yy = cy + r * (0.32 + k * 0.1)
+            meia = math.sqrt(max(0, r * r - (yy - cy) ** 2))
+            d.line((cx - meia, yy, cx + meia, yy), fill=(0, 0, 20, int(200 * f_)), width=30)
+    if cena.get("gelo"):
+        g = _suave(t / max(0.1, dur * 0.8))
+        d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(235, 245, 255, int(170 * g)))
+        h_ = r * (0.3 + 0.45 * g)                                  # calotas de gelo crescendo dos polos
+        for yy in range(int(cy - r), int(cy + r), 3):
+            if abs(yy - cy) < r - h_:
+                continue
+            meia = math.sqrt(max(0, r * r - (yy - cy) ** 2))
+            d.line((cx - meia, yy, cx + meia, yy), fill=(250, 252, 255, 235), width=3)
+    if cena.get("faixa") or cena.get("cai"):                       # faixa de 30° para cada lado do equador
+        meia_f = r * math.sin(math.radians(30))
+        for yy in (cy - meia_f, cy + meia_f):
+            meia = math.sqrt(max(0, r * r - (yy - cy) ** 2))
+            d.line((cx - meia, yy, cx + meia, yy), fill=p["acento"], width=6)
+    if cena.get("faixa"):
+        total = int(cena.get("crateras", 21))
+        mostra = int(total * _suave(t / max(0.1, dur * 0.8)) + 0.5)
+        for k in range(mostra):
+            rnd = random.Random(k * 13)
+            lat = (rnd.random() - 0.5) * 2 * math.radians(28)
+            yy = cy - r * math.sin(lat)
+            meia = math.sqrt(max(0, r * r - (yy - cy) ** 2))
+            xx = cx + (rnd.random() - 0.5) * 2 * meia * 0.85
+            d.ellipse((xx - 11, yy - 11, xx + 11, yy + 11), fill=(232, 44, 56), outline=(255, 230, 220), width=3)
+    if tem_anel:
+        _anel_pontos(d, cx, cy, rx, ry, t, "frente", alfa, espalha, a0)
+    if cena.get("cai"):                                            # pedaços descendo até o equador, com clarão
+        for k in range(8):
+            f_ = ((t * 0.6 + k / 8) % 1)
+            rnd = random.Random(k * 7)
+            sx_ = cx + (rnd.random() - 0.5) * rx * 1.6
+            sy_ = cy + ry * (0.4 if k % 2 else -0.4)
+            ex_ = cx + (rnd.random() - 0.5) * r * 1.2
+            ey_ = cy + (rnd.random() - 0.5) * r * 0.6
+            x, y = sx_ + (ex_ - sx_) * f_, sy_ + (ey_ - sy_) * f_
+            d.line((x, y, x - (ex_ - sx_) * 0.08, y - (ey_ - sy_) * 0.08), fill=(255, 170, 70, 200), width=6)
+            d.ellipse((x - 7, y - 7, x + 7, y + 7), fill=(255, 220, 160))
+            if f_ > 0.9:
+                d.ellipse((ex_ - 26, ey_ - 26, ex_ + 26, ey_ + 26), fill=(255, 200, 90, 180))
+    if cena.get("asteroide") or cena.get("quebra"):
+        px_, py_ = cx + math.cos(a0) * rx, cy + math.sin(a0) * ry
+        if cena.get("asteroide") and not cena.get("quebra"):
+            f_ = _suave(t / max(0.1, dur * 0.85))
+            x, y = W * 0.95 + (px_ - W * 0.95) * f_, H * 0.12 + (py_ - H * 0.12) * f_
+            for k in range(6):                                     # rastro
+                d.ellipse((x + k * 18 - 6, y - k * 30 - 6, x + k * 18 + 6, y - k * 30 + 6), fill=(255, 196, 36, 150 - k * 22))
+            d.polygon([(x - 44, y - 10), (x - 18, y - 42), (x + 30, y - 36), (x + 46, y + 6), (x + 14, y + 40), (x - 34, y + 30)],
+                      fill=(150, 130, 112))
+            d.ellipse((x - 10, y - 14, x + 8, y + 2), fill=(110, 94, 80))
+        else:
+            f_ = _suave(t / max(0.1, dur * 0.8))
+            for k in range(14):                                    # pedaços se afastando ao longo da órbita
+                rnd = random.Random(k * 3)
+                aa = a0 + (rnd.random() - 0.5) * 1.4 * f_
+                x, y = cx + math.cos(aa) * rx * (1 + (rnd.random() - 0.5) * 0.12), cy + math.sin(aa) * ry
+                s = 22 * (1 - 0.6 * f_) + rnd.random() * 10
+                d.polygon([(x - s, y), (x, y - s * 0.8), (x + s, y - s * 0.2), (x + s * 0.4, y + s * 0.8)], fill=(150, 130, 112))
+            if f_ < 0.35:
+                d.ellipse((px_ - 70, py_ - 70, px_ + 70, py_ + 70), outline=(255, 220, 150, int(255 * (1 - f_ / 0.35))), width=8)
+    if cena.get("rotulo"):
+        _centro_texto(d, W / 2, H * 0.17, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 62), p["acento"])
+
 
 QUADROS.update({"planeta": _planeta, "terra_corte": _terra_corte, "espaco": _espaco, "numero": _numero,
-                "comparar": _comparar, "multidao": _multidao, "sol": _sol, "mergulho": _mergulho})
+                "comparar": _comparar, "multidao": _multidao, "sol": _sol, "mergulho": _mergulho,
+                "buraco_negro": _buraco_negro, "aneis": _aneis})
 
 
 def _hud(img, cena, t, p):
