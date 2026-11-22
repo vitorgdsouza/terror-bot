@@ -57,7 +57,7 @@ def _ceu(W: int, H: int) -> Image.Image:
     return img
 
 
-ARTE_HORIZONTAL = {"lua_some"}                               # artes que têm composição própria em 16:9
+ARTE_HORIZONTAL = {"lua_some", "sem_traje"}                               # artes que têm composição própria em 16:9
 
 
 def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
@@ -83,6 +83,8 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
             d.rounded_rectangle((cx + dx, cy - 58, cx + dx + 22, cy + 58), radius=6, fill=(255, 255, 255))
     elif tipo == "lua_some":
         _lua_some(img, W, H)
+    elif tipo == "sem_traje":
+        _sem_traje(img, W, H)
     elif tipo == "buraco":
         R = 380
         t = terra(R)
@@ -298,3 +300,129 @@ def _lua_some(img: Image.Image, W: int, H: int) -> None:
     img.alpha_composite(t, (tx - t.width // 2, ty - t.height // 2))
     m = _lua_desfazendo(R)
     img.alpha_composite(m, (lx - int(R * 1.5), ly - int(R * 1.5)))
+
+
+# ---------------- "E se você saísse da nave sem roupa espacial?": pessoa de roupa comum saindo da nave
+def _pessoa_sem_traje(alt: int) -> Image.Image:
+    """Pessoa de camiseta e jeans, braços e pernas abertos, boca aberta soltando vapor. RGBA, desenhada em 2x e reduzida."""
+    k = 2
+    A = alt * k
+    S = int(A * 1.25)
+    im = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    cx, cy = S / 2, S / 2 + A * 0.06
+    pele, cabelo = (240, 196, 160), (70, 44, 28)
+    camisa, camisa2 = (240, 84, 60), (200, 58, 44)
+    jeans, jeans2 = (52, 96, 190), (38, 72, 150)
+    tenis = (245, 245, 250)
+
+    def membro(x0, y0, x1, y1, w, cor):
+        d.line((x0, y0, x1, y1), fill=cor, width=int(w))
+        for x, y in ((x0, y0), (x1, y1)):
+            d.ellipse((x - w / 2, y - w / 2, x + w / 2, y + w / 2), fill=cor)
+
+    ombro, quadril = cy - A * 0.14, cy + A * 0.18
+    # pernas abertas, joelho dobrado
+    membro(cx - A * 0.07, quadril, cx - A * 0.2, quadril + A * 0.2, A * 0.11, jeans2)
+    membro(cx - A * 0.2, quadril + A * 0.2, cx - A * 0.3, quadril + A * 0.38, A * 0.1, jeans2)
+    membro(cx + A * 0.07, quadril, cx + A * 0.22, quadril + A * 0.17, A * 0.11, jeans)
+    membro(cx + A * 0.22, quadril + A * 0.17, cx + A * 0.36, quadril + A * 0.3, A * 0.1, jeans)
+    for x, y, ang in ((cx - A * 0.3, quadril + A * 0.38, 0), (cx + A * 0.36, quadril + A * 0.3, 0)):
+        d.rounded_rectangle((x - A * 0.07, y - A * 0.04, x + A * 0.07, y + A * 0.05), radius=int(A * 0.04), fill=tenis)
+    # braços pra cima, se debatendo
+    membro(cx - A * 0.13, ombro + A * 0.02, cx - A * 0.3, ombro - A * 0.12, A * 0.1, camisa2)
+    membro(cx - A * 0.3, ombro - A * 0.12, cx - A * 0.36, ombro - A * 0.32, A * 0.085, pele)
+    membro(cx + A * 0.13, ombro + A * 0.02, cx + A * 0.32, ombro - A * 0.06, A * 0.1, camisa)
+    membro(cx + A * 0.32, ombro - A * 0.06, cx + A * 0.42, ombro - A * 0.25, A * 0.085, pele)
+    for x, y in ((cx - A * 0.36, ombro - A * 0.32), (cx + A * 0.42, ombro - A * 0.25)):   # mãos abertas
+        d.ellipse((x - A * 0.05, y - A * 0.05, x + A * 0.05, y + A * 0.05), fill=pele)
+    # tronco (camiseta) e cinto
+    d.rounded_rectangle((cx - A * 0.15, ombro - A * 0.04, cx + A * 0.15, quadril + A * 0.03), radius=int(A * 0.08), fill=camisa)
+    d.rounded_rectangle((cx - A * 0.15, quadril - A * 0.02, cx + A * 0.15, quadril + A * 0.06), radius=int(A * 0.03), fill=jeans)
+    d.polygon([(cx - A * 0.05, ombro - A * 0.04), (cx + A * 0.05, ombro - A * 0.04), (cx, ombro + A * 0.04)], fill=pele)
+    # cabeça
+    hr = A * 0.13
+    hx, hy = cx, ombro - A * 0.16
+    d.ellipse((hx - hr, hy - hr, hx + hr, hy + hr), fill=pele)
+    d.pieslice((hx - hr * 1.04, hy - hr * 1.1, hx + hr * 1.04, hy + hr * 0.55), 180, 360, fill=cabelo)
+    for s in (-1, 1):                                                       # olhos arregalados
+        ex, ey = hx + s * hr * 0.4, hy + hr * 0.05
+        d.ellipse((ex - hr * 0.24, ey - hr * 0.26, ex + hr * 0.24, ey + hr * 0.26), fill=(255, 255, 255))
+        d.ellipse((ex - hr * 0.1, ey - hr * 0.08, ex + hr * 0.1, ey + hr * 0.12), fill=(20, 20, 30))
+        d.line((ex - hr * 0.25, ey - hr * 0.42 - s * hr * 0.04, ex + hr * 0.25, ey - hr * 0.42 + s * hr * 0.04),
+               fill=cabelo, width=int(hr * 0.1))
+    d.ellipse((hx - hr * 0.2, hy + hr * 0.42, hx + hr * 0.2, hy + hr * 0.82), fill=(110, 32, 36))   # boca em "O"
+    # vapor saindo da boca (a água da boca e o ar escapando)
+    for j, (dx, dy, rr) in enumerate(((0.28, 0.75, 0.13), (0.5, 0.62, 0.17), (0.76, 0.5, 0.21), (1.02, 0.4, 0.15))):
+        x, y, r = hx + hr * dx * 1.6, hy + hr * dy, hr * rr * 1.3
+        d.ellipse((x - r, y - r, x + r, y + r), fill=(225, 240, 255, 200 - j * 30))
+    return im.resize((S // k, S // k), Image.LANCZOS)
+
+
+def _nave(w: int) -> Image.Image:
+    """Lateral de uma nave (casco branco), com a escotilha aberta e luz quente saindo. RGBA."""
+    k = 2
+    W2, H2 = w * k, int(w * 1.5) * k
+    im = Image.new("RGBA", (W2, H2), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((0, 0, W2, H2), radius=int(W2 * 0.18), fill=(214, 220, 232))
+    d.rounded_rectangle((W2 * 0.06, 0, W2, H2), radius=int(W2 * 0.18), fill=(236, 240, 247))
+    for y in (0.18, 0.82):                                                 # faixas e rebites
+        d.rectangle((0, H2 * y - 10 * k, W2, H2 * y + 10 * k), fill=(180, 188, 206))
+    d.rectangle((W2 * 0.3, H2 * 0.1, W2 * 0.95, H2 * 0.14), fill=(232, 60, 60))
+    porta = (W2 * 0.3, H2 * 0.28, W2 * 0.95, H2 * 0.72)
+    d.rounded_rectangle((porta[0] - 14 * k, porta[1] - 14 * k, porta[2] + 14 * k, porta[3] + 14 * k), radius=int(W2 * 0.12),
+                        fill=(120, 128, 150))
+    d.rounded_rectangle(porta, radius=int(W2 * 0.1), fill=(255, 214, 120))
+    d.rounded_rectangle((porta[0] + 12 * k, porta[1] + 12 * k, porta[2] - 12 * k, porta[3] - 12 * k), radius=int(W2 * 0.08),
+                        fill=(255, 238, 190))
+    return im.resize((W2 // k, H2 // k), Image.LANCZOS)
+
+
+def _capacete(r: int) -> Image.Image:
+    """Capacete de astronauta vazio, flutuando para longe. RGBA."""
+    k = 2
+    R = r * k
+    S = int(R * 2.4)
+    im = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    c = S / 2
+    d.ellipse((c - R, c - R, c + R, c + R), fill=(240, 243, 250))
+    d.rounded_rectangle((c - R * 0.75, c - R * 0.5, c + R * 0.75, c + R * 0.5), radius=int(R * 0.45), fill=(255, 190, 60))
+    d.rounded_rectangle((c - R * 0.62, c - R * 0.38, c + R * 0.62, c + R * 0.38), radius=int(R * 0.35), fill=(40, 60, 120))
+    d.ellipse((c - R * 0.48, c - R * 0.3, c - R * 0.12, c - R * 0.08), fill=(150, 200, 255))
+    d.rounded_rectangle((c - R * 0.7, c + R * 0.78, c + R * 0.7, c + R * 1.05), radius=int(R * 0.12), fill=(180, 188, 206))
+    return im.resize((S // k, S // k), Image.LANCZOS)
+
+
+def _cronometro(d, cx, cy, r, txt):
+    """Selo vermelho de cronômetro com o número de segundos."""
+    d.rectangle((cx - r * 0.14, cy - r * 1.28, cx + r * 0.14, cy - r * 1.02), fill=(255, 255, 255))
+    d.rounded_rectangle((cx - r * 0.32, cy - r * 1.4, cx + r * 0.32, cy - r * 1.22), radius=int(r * 0.08), fill=(255, 255, 255))
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(225, 30, 40), outline=(255, 255, 255), width=max(6, int(r * 0.09)))
+    f = _fonte(txt, r * 1.5, int(r * 0.9))
+    d.text((cx - f.getlength(txt) / 2, cy - f.size * 0.62), txt, font=f, fill=(255, 255, 255))
+
+
+def _sem_traje(img: Image.Image, W: int, H: int) -> None:
+    d = ImageDraw.Draw(img)
+    if W > H:                                    # 16:9: texto à esquerda, cena à direita
+        t = terra(250)
+        img.alpha_composite(t, (1040 - t.width // 2, 930 - t.height // 2))
+        nv = _nave(170)
+        img.alpha_composite(nv, (1280 - nv.width + 40, 40))
+        cp = _capacete(58).rotate(-25, expand=True, resample=Image.BICUBIC)
+        img.alpha_composite(cp, (700, 470))
+        ps = _pessoa_sem_traje(430).rotate(18, expand=True, resample=Image.BICUBIC)
+        img.alpha_composite(ps, (990 - ps.width // 2, 330 - ps.height // 2))
+        _cronometro(d, 1190, 620, 62, "15s")
+    else:                                        # 9:16: texto em cima, cena no meio, Terra embaixo
+        t = terra(520)
+        img.alpha_composite(t, (int(W * 0.5) - t.width // 2, int(H * 1.17) - t.height // 2))
+        nv = _nave(300)
+        img.alpha_composite(nv, (-110, int(H * 0.41)))
+        cp = _capacete(80).rotate(-25, expand=True, resample=Image.BICUBIC)
+        img.alpha_composite(cp, (10, int(H * 0.285)))
+        ps = _pessoa_sem_traje(720).rotate(14, expand=True, resample=Image.BICUBIC)
+        img.alpha_composite(ps, (int(W * 0.56) - ps.width // 2, int(H * 0.56) - ps.height // 2))
+        _cronometro(d, int(W * 0.2), int(H * 0.76), 110, "15s")
