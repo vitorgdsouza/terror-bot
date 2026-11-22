@@ -327,3 +327,8 @@
 - **Mesa do Gerente:** sem mudança.
 - **Aviso no Telegram:** não mandado (nada novo para decidir).
 - **Ferramenta:** gh CLI funcionou para leitura apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
+
+## 22/11 (19h08): reserva da fila, turno tarde
+- **Agendado das 18h47:** `fila.yml` (run 45068642443, 20:49 UTC) falhou no upload do Grupo do Prédio Pt 1: Upload-Post 429 `monthly_limit_reached` (10/10, período começou em 17/11).
+- **Reserva:** não postei à mão. O mesmo limite bloquearia o upload; não insisti. Fila intacta (Grupo Pt 1, CAM 04, Dashcam). Nenhum post hoje.
+- **Aviso:** Vitor avisado por notificação.
