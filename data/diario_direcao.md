@@ -307,3 +307,13 @@
 - **Diretor de Arte:** não acionado (nenhuma imagem faltando).
 - **Refazer:** nada com status "refazer". Nenhuma decisão nova do Vitor em `aprovacoes.json` desde 21/11 13h35, então o histórico da Mesa não mudou; o "Aguardando" ganhou o nº 14.
 - **Ferramenta:** gh CLI com token inválido; workflows pelo conector do GitHub. Analista e Roteirista rodaram como subagentes.
+
+## 22/11 (10h55): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item "renderizado" ou "renderizando" em `aprovacoes.json`. Os renders de `refazer-video.yml` de hoje (45024118569 a 45025849302) são todos do E Se Fosse Real? e já terminaram; nenhum do terror rodando.
+- **Publicador:** nenhum vídeo novo para mandar. Fila sem mudança: Grupo do Prédio Pt 1 (provavelmente já postado à mão, falta o Vitor confirmar), CAM 04 e Dashcam, todos parados pelo limite do Upload-Post (10/10, volta ~17/12; já com o Vitor desde 21/11 12h10).
+- **Principal de hoje (22/11 18h47, dia de protocolo):** não há vídeo aprovado na fila, mas há coisa esperando o Vitor (nº 11 Grupo Pt 2, vídeo pronto, reserva; nº 13 Pisadeira, roteiro), então não mandei aviso.
+- **Esperam o Vitor:** nº 14, 13 e 12 (roteiros), nº 11 (Grupo Pt 2) e nº 5 (Campainha). Nenhuma decisão nova desde 21/11 13h35.
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** sem mudança (o "Aguardando" já tem só nº 14, 13, 12, 11 e 5; histórico sem decisão nova).
+- **Aviso no Telegram:** não mandado (nada novo para decidir).
+- **Ferramenta:** gh CLI funcionou para leitura (`gh run list`, `gh run view`) apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
