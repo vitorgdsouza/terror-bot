@@ -317,3 +317,13 @@
 - **Mesa do Gerente:** sem mudança (o "Aguardando" já tem só nº 14, 13, 12, 11 e 5; histórico sem decisão nova).
 - **Aviso no Telegram:** não mandado (nada novo para decidir).
 - **Ferramenta:** gh CLI funcionou para leitura (`gh run list`, `gh run view`) apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
+
+## 22/11 (15h55): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item "renderizado" ou "renderizando" em `aprovacoes.json`. Nenhum render novo de `refazer-video.yml` desde 13h07 UTC (os de hoje são todos do E Se Fosse Real? e terminaram).
+- **Publicador:** nenhum vídeo novo para mandar. Às 14h41 UTC rodou um `fila.yml` manual em modo Telegram (run 45034176843) com a CAM 04 (próxima da fila) para post à mão; a fila não mudou. Grupo do Prédio Pt 1, CAM 04 e Dashcam seguem parados pelo limite do Upload-Post (já com o Vitor desde 21/11 12h10).
+- **Principal de hoje (22/11 18h47):** sem vídeo aprovado na fila, mas há coisa esperando o Vitor (nº 11 Grupo Pt 2, vídeo pronto; nº 13 e 14, roteiros de protocolo), então não mandei aviso.
+- **Esperam o Vitor:** nº 14, 13 e 12 (roteiros), nº 11 (Grupo Pt 2) e nº 5 (Campainha). Nenhuma decisão nova desde 21/11 13h35.
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** sem mudança.
+- **Aviso no Telegram:** não mandado (nada novo para decidir).
+- **Ferramenta:** gh CLI funcionou para leitura apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
