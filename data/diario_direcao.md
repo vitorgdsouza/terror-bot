@@ -371,3 +371,13 @@
 - **Agendamento das 11h47 não disparou** (nenhuma execução `schedule` do fila.yml hoje de manhã; as duas últimas agendadas, 22/11 20h49 e 23/11 01h58 UTC, falharam).
 - **Não postei à mão:** a primeira isca em `itens` é a CAM 04, que já saiu em 22/11 (`atlITzZFEtU`). Disparar o fila.yml postaria a CAM 04 de novo. A Dashcam só sai depois que a CAM 04 e o Pt 1 forem tirados de `itens` (limpeza que espera o Vitor).
 - Aviso mandado ao Vitor por notificação.
+
+## 23/11 (18h55 UTC): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item "renderizado" ou "renderizando" em `aprovacoes.json`. Nenhum render do terror em `refazer-video.yml` hoje (os de hoje são do E Se Fosse Real?, todos terminados).
+- **Publicador:** nenhum vídeo novo para mandar. Fila já limpa (commit 6f8a0a9): só a Dashcam em `itens`. Às 15h47 UTC rodou um `fila.yml` manual (run 45209246875); a fila não mudou.
+- **Principal de hoje (23/11 18h47, protocolo):** sem protocolo aprovado na fila, mas nº 14 Assobiador e nº 13 Pisadeira esperam o Vitor, então não mandei aviso.
+- **Esperam o Vitor:** nº 16, 15, 14, 13, 12 (roteiros), nº 11 (Grupo Pt 2) e nº 5 (Campainha). Nenhuma decisão nova desde 21/11 13h35.
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** sem mudança (nada novo pendente nem decidido desde a rodada das 07h25).
+- **Aviso no Telegram:** não mandado (nada novo para decidir).
+- **Ferramenta:** gh CLI funcionou para leitura apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
