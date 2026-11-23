@@ -139,9 +139,10 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
         cor = base * (0.35 + 0.9 * luz)[..., None] * (1 - quente) + np.array([255, 150, 50]) * quente
         a = np.clip((borda - np.sqrt(m2)) * ar * 1.2, 0, 1) * 255
         img.alpha_composite(Image.fromarray(np.dstack([cor.clip(0, 255), a]).astype("uint8"), "RGBA"), (ax - S // 2, ay - S // 2))
+        img.alpha_composite(_dino_assustado(img.size, ex, ey, R, x=300))
         d = ImageDraw.Draw(img)
         fl = ImageFont.truetype(str(FONTE), 54)                    # rótulos
-        for txt, x, y in (("10 KM", ax - 300, ay + 40), ("20 KM/S", ax + 150, ay + 130)):
+        for txt, x, y in (("10 KM", ax + 150, ay - 60), ("20 KM/S", ax + 150, ay + 130)):
             d.text((x, y), txt, font=fl, fill=(255, 196, 40), stroke_width=4, stroke_fill=(0, 0, 0))
     elif tipo == "pulo":
         t = terra(380)
@@ -473,3 +474,42 @@ def _sem_traje(img: Image.Image, W: int, H: int) -> None:
         ps = _pessoa_sem_traje(720).rotate(14, expand=True, resample=Image.BICUBIC)
         img.alpha_composite(ps, (int(W * 0.56) - ps.width // 2, int(H * 0.56) - ps.height // 2))
         _cronometro(d, int(W * 0.2), int(H * 0.76), 110, "15s")
+
+
+def _dino_assustado(tam, ex, ey, R, x):
+    """Um T-rex de desenho em pé na borda da Terra, olhando para cima, de boca aberta."""
+    import math
+    L = Image.new("RGBA", (700, 700), (0, 0, 0, 0))
+    d = ImageDraw.Draw(L)
+    V, VE, CL, PR = (88, 170, 72), (58, 125, 52), (190, 225, 150), (20, 30, 18)
+    o = dict(outline=PR, width=8)
+    d.polygon([(250, 470), (60, 560), (40, 590), (90, 585), (270, 520)], fill=V, **o)            # cauda
+    d.rounded_rectangle((285, 520, 335, 640), radius=20, fill=VE, **o)                         # perna de trás
+    d.ellipse((230, 360, 440, 560), fill=V, **o)                                               # corpo
+    d.rounded_rectangle((370, 520, 420, 640), radius=20, fill=V, **o)                          # perna da frente
+    d.ellipse((280, 420, 400, 540), fill=CL)                                                   # barriga
+    d.polygon([(360, 380), (420, 220), (480, 230), (440, 400)], fill=V, **o)                   # pescoço
+    d.polygon([(400, 120), (560, 90), (600, 140), (560, 175), (470, 190), (410, 220)], fill=V, **o)  # cabeça
+    d.polygon([(420, 222), (470, 196), (560, 184), (575, 250), (470, 262), (430, 250)], fill=VE, **o)  # mandíbula aberta
+    d.polygon([(470, 192), (560, 180), (560, 190), (470, 202)], fill=(120, 20, 20))           # boca
+    for k in range(4):                                                                         # dentes
+        xx = 485 + k * 20
+        d.polygon([(xx, 182), (xx + 8, 196), (xx + 14, 181)], fill=(250, 250, 245))
+    d.ellipse((470, 92, 530, 152), fill=(255, 255, 255), **o)                                  # olho arregalado
+    d.ellipse((498, 98, 524, 124), fill=PR)
+    d.line((462, 80, 520, 70), fill=PR, width=8)                                               # sobrancelha
+    d.line((440, 300, 480, 330), fill=PR, width=10)                                            # bracinho
+    d.line((480, 330, 500, 315), fill=PR, width=8)
+    for k in range(3):                                                                         # tremedeira
+        d.arc((560 + k * 22, 30 + k * 10, 640 + k * 22, 110 + k * 10), 300, 30, fill=(255, 255, 255), width=6)
+    T = 560
+    L = L.resize((T, T), Image.LANCZOS)
+    pe = 640 / 700 * T                                                                         # altura dos pés na camada
+    dy = math.sqrt(max(R * R - (x - ex) ** 2, 0))
+    ang = math.degrees(math.atan2(x - ex, dy)) * 0.6                                           # inclina um pouco com a curva
+    G = Image.new("RGBA", (T * 2, T * 2), (0, 0, 0, 0))
+    G.alpha_composite(L, (T // 2, int(T - pe)))                                                # pés no centro da camada grande
+    G = G.rotate(-ang, resample=Image.BICUBIC, center=(T, T))
+    out = Image.new("RGBA", tam, (0, 0, 0, 0))
+    out.alpha_composite(G, (int(x - T), int(ey - dy - T + 18)))
+    return out
