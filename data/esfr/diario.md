@@ -125,4 +125,7 @@
 - **Thumb 16:9** gerada pelo próprio motor ("EM QUAL PLANETA VOCÊ SOBREVIVERIA?"), mandada no Telegram como foto e como arquivo. Se o vídeo passar de 50 MB, vai uma cópia comprimida para o Telegram, e o original fica no artefato.
 - **Short novo pronto para renderizar:** `esfr_10_venus.json`, para Sáb 28/11 às 16h17, ligado ao longo. Quadros novos nos Shorts: `astro` (qualquer planeta no visual novo) e `pouso` (o você no chão, igual ao longo).
 - **Calendário** em `docs/ESFR_LONGO.md`: render do longo na Qua 25/11 à tarde (nesse dia, no máximo 1 Short renderizado); post do longo no Sáb 28/11 às 11h; sem Short às 12h17 nesse sábado.
-- **Para a rodada diária:** Seg 23/11, refazer o 08 e o 09 (visual e trilha novos) e renderizar o 10 (Vênus). Pôr o 10 na fila, mas ele só sai no Sáb 28/11 às 16h17 (anotar na legenda da fila; o Vitor posta à mão).
+- **Para a rodada diária:**
+  - **Seg 23/11:** refazer o 08 e o 09, que estão na fila (trocar o `run_id` deles na fila pelo novo, no mesmo lugar), e renderizar o 10 (Vênus). O 10 **NÃO entra na fila**: só anote o `run_id` dele aqui no diário. A tarefa agendada de Sáb 28/11 (10h13) põe ele no início da fila para as 16h17.
+  - **Qua 25/11:** no máximo 1 render de Short. Às 14h11, a tarefa agendada "render do 1º vídeo longo" usa a cota de voz.
+  - **Sáb 28/11:** sem Short às 12h17 (dia do longo).
