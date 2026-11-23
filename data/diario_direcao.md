@@ -356,3 +356,13 @@
 - **Mesa do Gerente:** "Aguardando" ganhou nº 16 e 15, e as faixas dos nº 5, 11, 12, 13 e 14 foram atualizadas pelo mapa novo; histórico ganhou "22/11 #9 CAM 04 postada à mão".
 - **Aprendizado (Analista):** cada meio minuto a mais custa ~15 pontos de % assistido. História até 50 s, isca até 25 s; se não couber, vira 2 episódios.
 - **Ferramenta:** gh CLI funcionou para disparar workflows nesta rodada (apesar de `gh auth status` dizer token inválido).
+
+## 23/11 (13h55 UTC): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item "renderizado" ou "renderizando" em `aprovacoes.json`. Os renders de hoje em `refazer-video.yml` são todos do E Se Fosse Real? (último 13:08 UTC, terminado).
+- **Publicador:** nenhum vídeo novo para mandar. Fila sem mudança (Grupo Pt 1, CAM 04, Dashcam; CAM 04 e Pt 1 já postados segundo o Analista, aguardando o Vitor confirmar a limpeza).
+- **Principal de hoje (23/11 18h47, protocolo):** sem protocolo aprovado na fila, mas nº 13 Pisadeira e nº 14 Assobiador esperam o Vitor, então não mandei aviso.
+- **Esperam o Vitor:** nº 16, 15, 14, 13, 12 (roteiros), nº 11 (Grupo Pt 2) e nº 5 (Campainha). Nenhuma decisão nova desde 21/11 13h35.
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** sem mudança (já estava em dia desde a rodada das 07h25).
+- **Aviso no Telegram:** não mandado (nada novo para decidir).
+- **Ferramenta:** gh CLI funcionou para leitura apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
