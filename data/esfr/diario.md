@@ -118,3 +118,4 @@
 
 ## 22/11 (21h20): trilha própria
 - O Vitor não gostou dos bipes da trilha antiga ("curious ambient electronic" do Freesound). Criada a trilha sintetizada do canal (`src/trilha_esfr.py`), aprovada por ele. Agora vale para o vídeo longo e para os Shorts: todos os roteiros `esfr_*` ficaram com `"trilha": "propria"`, e a regra entrou no `docs/ESFR.md`. Os vídeos já renderizados na fila continuam com a trilha antiga; os que forem refeitos (08 e 09 amanhã) já saem com a nova.
+- O Vitor pediu para deixar o 06 (Sol) e o 07 (Fossa) como estão, com a trilha antiga, por enquanto. Não refazer esses dois.
