@@ -192,10 +192,37 @@
  "thumb_texto_y": 0.1,
  "thumb_de": "GRUPO DO PRÉDIO",
  "thumb_msg": "702: obrigado por abrir :)",
- "thumb_texto": "VOCÊ|NÃO ABRIU.",
+ "thumb_texto": "EU NÃO|MANDEI ISSO.",
  "thumb_arte": "porta_aberta",
  "thumb_ajuste": {
   "outra": true,
   "acao": "parado"
- }
+ },
+ "thumb_modelo": "celular",
+ "thumb_cenario": "quarto_porta_fechada",
+ "thumb_sub": "Seu Jorge, Dona Célia, Você...",
+ "thumb_conversa": [
+  [
+   "Seu Jorge (portaria)",
+   "corredor vazio"
+  ],
+  [
+   "Dona Célia (701)",
+   "ele tava AQUI DENTRO"
+  ],
+  [
+   "eu",
+   "obrigado por abrir :)"
+  ]
+ ],
+ "thumb_foco_y": [
+  0.553,
+  0.87
+ ],
+ "thumb_circulo": [
+  540,
+  1670,
+  130
+ ],
+ "thumb_tel_alt": 600
 }

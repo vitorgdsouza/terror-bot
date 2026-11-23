@@ -288,7 +288,91 @@ def _thumb_voce(r: dict, pasta: Path) -> tuple[Path, Path]:
     return vert, hor
 
 
+def _thumb_celular(r: dict, pasta: Path) -> tuple[Path, Path]:
+    """Cenário de fundo em tom de fita + um celular com a conversa do gancho + frase grande. Para histórias de chat."""
+    import numpy as np
+    W, H = 1080, 1920
+    fundo = Image.open(Path(__file__).resolve().parent.parent / "assets" / "cenarios" / f"{r['thumb_cenario']}.png").convert("RGB")
+    fw, fh = fundo.size
+    esc = max(W / fw, H / fh)
+    fundo = fundo.resize((int(fw * esc) + 1, int(fh * esc) + 1), Image.LANCZOS)
+    fy, alvo = r.get("thumb_foco_y", [0.5, 0.5])                  # ponto do cenário (fração) que vai para a altura "alvo" da thumb
+    topo = int(fy * fundo.height - alvo * H)
+    base = Image.new("RGB", (W, H), (5, 3, 5))
+    base.paste(fundo.crop(((fundo.width - W) // 2, max(0, topo), (fundo.width - W) // 2 + W, min(fundo.height, topo + H))), (0, max(0, -topo)))
+    fundo = base
+    a = np.asarray(fundo, "float32") * np.array([1.05, 0.72, 0.75])               # tom vermelho de fita
+    a = a + np.random.RandomState(3).normal(0, 9, (H, W, 1))
+    a[::4] *= 0.85
+    v = Image.fromarray(a.clip(0, 255).astype("uint8")).convert("RGBA")
+    som = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    sd = ImageDraw.Draw(som)
+    for k in range(80):
+        sd.rectangle((0, k * 12, W, k * 12 + 12), fill=(5, 2, 4, int(235 * (1 - k / 80) ** 1.3)))
+    v.alpha_composite(som)
+    g = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(g).rectangle((0, 0, W, H), outline=(200, 10, 20, 200), width=80)
+    v.alpha_composite(g.filter(ImageFilter.GaussianBlur(60)))
+    d = ImageDraw.Draw(v)
+    # celular
+    px0, py0, pw, ph = 150, 130, 780, int(r.get("thumb_tel_alt", 640))
+    d.rounded_rectangle((px0, py0, px0 + pw, py0 + ph), radius=60, fill=(18, 18, 22), outline=(70, 70, 80), width=6)
+    tx0, ty0, tx1, ty1 = px0 + 26, py0 + 26, px0 + pw - 26, py0 + ph - 26
+    d.rounded_rectangle((tx0, ty0, tx1, ty1), radius=40, fill=(236, 229, 221))
+    d.rounded_rectangle((tx0, ty0, tx1, ty0 + 110), radius=40, fill=(32, 44, 51))
+    d.rectangle((tx0, ty0 + 60, tx1, ty0 + 110), fill=(32, 44, 51))
+    fn, fp = ImageFont.truetype(str(FONTE), 42), ImageFont.truetype(str(FONTE), 28)
+    d.ellipse((tx0 + 24, ty0 + 22, tx0 + 90, ty0 + 88), fill=(90, 110, 120))
+    d.text((tx0 + 110, ty0 + 16), r.get("thumb_de", "GRUPO"), font=fn, fill=(240, 240, 240))
+    d.text((tx0 + 110, ty0 + 64), r.get("thumb_sub", "online"), font=fp, fill=(170, 190, 195))
+    y = ty0 + 140
+    for quem, txt in r.get("thumb_conversa", []):
+        fm = _fonte(txt, (tx1 - tx0) * 0.72, 46)
+        bw, bh = fm.getlength(txt) + 60, fm.size + 70
+        meu = quem == "eu"
+        x = tx1 - 24 - bw if meu else tx0 + 24
+        d.rounded_rectangle((x, y, x + bw, y + bh), radius=22, fill=(217, 253, 211) if meu else (255, 255, 255))
+        if not meu:
+            d.text((x + 30, y + 8), quem, font=fp, fill=(200, 60, 60))
+            d.text((x + 30, y + 40), txt, font=fm, fill=(20, 20, 20))
+        else:
+            d.text((x + 30, y + 14), txt, font=fm, fill=(20, 20, 20))
+            d.text((x + bw - 175, y + bh - 36), "03:25", font=fp, fill=(90, 120, 130))
+            cx0 = x + bw - 85
+            for dx in (0, 16):                                                       # ✓✓ azul de lida
+                d.line((cx0 + dx, y + bh - 22, cx0 + dx + 8, y + bh - 14, cx0 + dx + 24, y + bh - 32), fill=(60, 150, 220), width=4)
+        y += bh + 22
+    if r.get("thumb_circulo"):                                    # círculo vermelho no detalhe (ex.: os pés debaixo da porta)
+        cx, cy, rr = r["thumb_circulo"]
+        d.ellipse((cx - rr, cy - rr * 0.6, cx + rr, cy + rr * 0.6), outline=VERM_T, width=12)
+    # selo e frase
+    selo = r.get("selo", "")
+    if selo:
+        fs = ImageFont.truetype(str(FONTE), 46)
+        d.rounded_rectangle((50, 40, 90 + fs.getlength(selo), 108), radius=14, fill=VERM_T)
+        d.text((70, 44), selo, font=fs, fill=(255, 255, 255))
+    y = py0 + ph + 60
+    for k, txt in enumerate([l for l in r.get("thumb_texto", "").upper().split("|") if l]):
+        f = _fonte(txt, W * 0.9, 150)
+        x = (W - f.getlength(txt)) / 2
+        d.text((x + 6, y + 9), txt, font=f, fill=(0, 0, 0))
+        d.text((x, y), txt, font=f, fill=VERM_T if k else (255, 255, 255), stroke_width=4, stroke_fill=(0, 0, 0))
+        y += f.size * 1.08
+    vert = pasta / "thumb_vertical.jpg"
+    v.convert("RGB").save(vert, quality=92)
+    hz = Image.new("RGB", (1280, 720), (6, 4, 6))
+    vv = v.convert("RGB")
+    hz.paste(vv.resize((405, 720)), (875, 0))
+    hz.paste(vv.crop((0, 0, W, int(py0 + ph + 40))).resize((800, int(800 * (py0 + ph + 40) / W))), (40, 40))
+    hor = pasta / "thumb_horizontal.jpg"
+    hz.save(hor, quality=92)
+    return vert, hor
+
+
 def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
+    if r.get("thumb_modelo") == "celular" and r.get("canal") != "esfr":
+        pasta.mkdir(parents=True, exist_ok=True)
+        return _thumb_celular(r, pasta)
     if r.get("formato") == "voce" and r.get("canal") != "esfr" and r.get("thumb_msg"):
         pasta.mkdir(parents=True, exist_ok=True)
         if r.get("thumb_arte") in ("porta_pes", "porta_aberta"):
