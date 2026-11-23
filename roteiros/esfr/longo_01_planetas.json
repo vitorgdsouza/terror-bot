@@ -193,7 +193,8 @@
        1.15,
        1.0
       ]
-     }
+     },
+     "pose": "andando"
     },
     {
      "narracao": "Aqui, você pesa só uns trinta e oito por cento do seu peso na Terra.",
@@ -369,7 +370,7 @@
      "narracao": "E aqui vem a boa notícia: dá pra ficar de pé e andar.",
      "quadro": "superficie",
      "nome": "marte",
-     "pose": "acenando"
+     "pose": "pulando"
     },
     {
      "narracao": "Com a gravidade fraca, você pesa só uns trinta e oito por cento do seu peso.",
@@ -380,7 +381,8 @@
       "ate": 38,
       "unidade": "%",
       "rotulo": "do seu peso"
-     }
+     },
+     "pose": "pulando"
     },
     {
      "narracao": "Mas o ar é fino e quase todo de gás carbônico.",
@@ -1250,7 +1252,8 @@
       1.5,
       1.7
      ],
-     "rotulo": "média de 15 °C"
+     "rotulo": "média de 15 °C",
+     "pose": "acenando"
     },
     {
      "narracao": "E um ar com vinte e um por cento de oxigênio.",
@@ -1341,7 +1344,8 @@
        1.0,
        1.1
       ]
-     }
+     },
+     "inscricao": true
     }
    ]
   }

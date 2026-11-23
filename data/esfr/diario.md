@@ -129,3 +129,14 @@
   - **Seg 23/11:** refazer o 08 e o 09, que estão na fila (trocar o `run_id` deles na fila pelo novo, no mesmo lugar), e renderizar o 10 (Vênus). O 10 **NÃO entra na fila**: só anote o `run_id` dele aqui no diário. A tarefa agendada de Sáb 28/11 (10h13) põe ele no início da fila para as 16h17.
   - **Qua 25/11:** no máximo 1 render de Short. Às 14h11, a tarefa agendada "render do 1º vídeo longo" usa a cota de voz.
   - **Sáb 28/11:** sem Short às 12h17 (dia do longo).
+
+## 23/11 (00h30): uma semana para polir o longo (pedido do Vitor)
+- O Vitor deu 1 semana para deixar o vídeo longo na melhor versão possível.
+- **Polimento feito hoje no motor** (`src/longo.py`):
+  - título grande de cada capítulo entrando na tela, e a faixa de documentário só depois dele;
+  - o você entra andando no pouso de Mercúrio e dá pulos lentos em Marte (gravidade fraca);
+  - na descida dos gigantes, o você gira enquanto cai;
+  - botão "SE INSCREVE" pulsando na última cena;
+  - efeitos sonoros sintetizados (whoosh na virada de capítulo, ronco grave nas descidas, vento, rumor de calor), abaixando quando a voz fala;
+  - som final normalizado em -14 LUFS (o padrão do YouTube).
+- **Plano da semana:** Qua 25/11, render da versão 1 (tarefa agendada). Depois, revisão e ajustes; se precisar, versão 2 até sexta. Post no Sáb 28/11 às 11h.

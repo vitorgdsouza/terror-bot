@@ -13,6 +13,8 @@ Quadros:
   descida     caindo dentro de um gigante gasoso; "nome", "esmaga": true (fim), "medidores": true (barras subindo)
   escala      "tipo": "terras" ("nome": planeta ao lado da Terra no tamanho real) | "dentro" (a Terra dentro de uma
               mancha: "nome" jupiter/netuno)
+  (superficie: "pose": parado | acenando | andando (entra andando) | pulando (pulos lentos, gravidade fraca);
+   "inscricao": true em qualquer cena mostra o botão "SE INSCREVE" pulsando)
   placar      quadro com os tempos de sobrevivência; "itens": [["Vênus", "texto"], ...], "destaque"
 Em qualquer cena: "camera": {"zoom": [1.0, 1.12], "pan": [[0.5, 0.5], [0.55, 0.5]]}, "rotulo" (faixa embaixo, à esquerda).
 
@@ -90,6 +92,7 @@ def astronauta(d, x, chao, h, t, dano=0.0, pose="parado", visor=CIANO):
     """Astronauta chapado de altura h, pés em (x, chao). dano 0 a 1: traje sujo, rachado, avermelhado."""
     s = h / 400
     bal = math.sin(t * 2.2) * 4 * s if pose == "parado" else 0
+    passo = math.sin(t * 7) * 22 * s if pose == "andando" else 0   # pernas alternando
     branco = tuple(int(c * (1 - 0.35 * dano) + v * 0.35 * dano) for c, v in zip((240, 243, 250), (220, 120, 90)))
     cinza = (190, 198, 214)
     y0 = chao - h + bal
@@ -104,10 +107,10 @@ def astronauta(d, x, chao, h, t, dano=0.0, pose="parado", visor=CIANO):
         d.rounded_rectangle((x + 62 * s, y0 + 60 * s + aceno, x + 112 * s, y0 + 175 * s), radius=int(25 * s), fill=branco)
     else:
         d.rounded_rectangle((x + 62 * s, y0 + 150 * s, x + 112 * s, y0 + 265 * s), radius=int(25 * s), fill=branco)
-    d.rounded_rectangle((x - 62 * s, y0 + 280 * s, x - 10 * s, chao), radius=int(24 * s), fill=branco)          # pernas
-    d.rounded_rectangle((x + 10 * s, y0 + 280 * s, x + 62 * s, chao), radius=int(24 * s), fill=branco)
-    d.rounded_rectangle((x - 66 * s, chao - 26 * s, x - 6 * s, chao + 4 * s), radius=int(12 * s), fill=cinza)
-    d.rounded_rectangle((x + 6 * s, chao - 26 * s, x + 66 * s, chao + 4 * s), radius=int(12 * s), fill=cinza)
+    d.rounded_rectangle((x - 62 * s + passo, y0 + 280 * s, x - 10 * s + passo, chao), radius=int(24 * s), fill=branco)  # pernas
+    d.rounded_rectangle((x + 10 * s - passo, y0 + 280 * s, x + 62 * s - passo, chao), radius=int(24 * s), fill=branco)
+    d.rounded_rectangle((x - 66 * s + passo, chao - 26 * s, x - 6 * s + passo, chao + 4 * s), radius=int(12 * s), fill=cinza)
+    d.rounded_rectangle((x + 6 * s - passo, chao - 26 * s, x + 66 * s - passo, chao + 4 * s), radius=int(12 * s), fill=cinza)
     hx, hy, hr = x, y0 + 80 * s, 82 * s                                                                          # capacete
     d.ellipse((hx - hr, hy - hr, hx + hr, hy + hr), fill=branco)
     d.rounded_rectangle((hx - hr * 0.72, hy - hr * 0.45, hx + hr * 0.72, hy + hr * 0.5), radius=int(40 * s), fill=(24, 40, 80))
@@ -212,7 +215,19 @@ def _q_superficie(img, c, t, dur):
         x, y, s = rr.random() * W, chao + 30 + rr.random() * (H - chao - 40), 20 + rr.random() * 50
         d.ellipse((x - s, y - s * 0.3, x + s, y + s * 0.3), fill=tuple(int(v * 0.8) for v in cfg["chao"]))
     dano = float(c.get("traje", 0))
-    astronauta(d, W * 0.42, chao + 60, 430, t, dano, c.get("pose", "parado"))
+    pose = c.get("pose", "parado")
+    ax, ay = W * 0.42, chao + 60
+    if pose == "andando":                                 # entra andando pela esquerda
+        ax = W * 0.12 + (W * 0.42 - W * 0.12) * _suave(t / max(0.1, dur * 0.7))
+        if t > dur * 0.7:
+            pose = "parado"
+    elif pose == "pulando":                               # gravidade fraca: pulos altos e lentos
+        ciclo = (t * 0.55) % 1
+        ay -= math.sin(ciclo * math.pi) * 260
+        sombra_r = 90 * (1 - 0.4 * math.sin(ciclo * math.pi))
+        d.ellipse((ax - sombra_r, chao + 50, ax + sombra_r, chao + 72), fill=(0, 0, 0, 70))
+        pose = "parado"
+    astronauta(d, ax, ay, 430, t, dano, pose)
     if "calor" in ef:                                     # ar tremendo e brilho vermelho
         q = 0.5 + 0.5 * math.sin(t * 3)
         d.rectangle((0, 0, W, H), fill=(255, 80, 20, int(40 + 30 * q)))
@@ -310,8 +325,12 @@ def _q_descida(img, c, t, dur):
     esmaga = c.get("esmaga")
     enc = 1 - 0.55 * _suave((t - dur * 0.3) / max(0.1, dur * 0.6)) if esmaga else 1.0
     tom = int(255 * (1 - enc)) if esmaga else 0
-    astronauta(d, W * 0.5, H * 0.55 + 215 * enc, int(430 * enc), t, 0.3 if esmaga else 0.0, "parado",
+    camada = Image.new("RGBA", (700, 700), (0, 0, 0, 0))     # o você numa camada própria, girando enquanto cai
+    astronauta(ImageDraw.Draw(camada), 350, 350 + 215 * enc, int(430 * enc), t, 0.3 if esmaga else 0.0, "parado",
                visor=(255, 120, 90) if esmaga else CIANO)
+    camada = camada.rotate(math.sin(t * 1.1) * 28 + t * 6, resample=Image.BICUBIC)
+    img.paste(camada, (int(W * 0.5 - 350), int(H * 0.55 - 350 + math.sin(t * 1.7) * 18)), camada)
+    d = ImageDraw.Draw(img, "RGBA")
     if esmaga:
         d.rectangle((0, 0, W, H), fill=(255, 60, 20, min(140, tom)))
     if c.get("medidores", True):
@@ -401,8 +420,33 @@ def _hud(img, c, t):
                 _texto(d, x, 96, nome.upper(), 26, AMARELO)
     d.rounded_rectangle((W - 230, 30, W - 40, 82), radius=14, fill=AMARELO)                        # selo do canal
     d.text((W - 215, 36), "E SE...", font=_f(32), fill=FUNDO)
-    if c.get("rotulo"):                                   # faixa de documentário embaixo, à esquerda
-        f = _suave(t / 0.4)
+    if c.get("_titulo_cap") and t < 2.4:                  # abertura do capítulo: o nome entra grande e sai
+        f = _suave(t / 0.5) * (1 - _suave((t - 1.8) / 0.6))
+        nome = str(c["_titulo_cap"]).upper()
+        px = int(150 * (1.25 - 0.25 * _suave(t / 0.5)))
+        cam = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        dc = ImageDraw.Draw(cam)
+        dc.rectangle((0, H * 0.38, W, H * 0.62), fill=(8, 18, 46, int(150 * f)))
+        _texto(dc, W / 2, H * 0.47, nome, px, AMARELO + (int(255 * f),), sombra=False)
+        larg = 520 * _suave((t - 0.2) / 0.6)
+        dc.rectangle((W / 2 - larg / 2, H * 0.56, W / 2 + larg / 2, H * 0.56 + 8), fill=BRANCO + (int(255 * f),))
+        img.paste(cam, (0, 0), cam)
+        d = ImageDraw.Draw(img, "RGBA")
+    if c.get("inscricao"):                                # botão genérico pulsando no fim do vídeo
+        f = _suave((t - 0.6) / 0.5)
+        pul = 1 + 0.06 * math.sin(t * 6)
+        bw, bh = 520 * pul * f, 120 * pul * f
+        if f > 0.05:
+            cx, cy = W / 2, H * 0.78
+            d.rounded_rectangle((cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2), radius=int(bh / 2), fill=AMARELO)
+            _texto(d, cx + 30 * f, cy, "SE INSCREVE", int(56 * f), FUNDO, sombra=False)
+            sx = cx - bw / 2 + 60 * f
+            d.ellipse((sx - 26 * f, cy - 30 * f, sx + 26 * f, cy + 22 * f), fill=FUNDO)       # sininho
+            d.rectangle((sx - 30 * f, cy + 12 * f, sx + 30 * f, cy + 22 * f), fill=FUNDO)
+            d.ellipse((sx - 8 * f, cy + 22 * f, sx + 8 * f, cy + 36 * f), fill=FUNDO)
+    t_rot = t - (2.4 if c.get("_titulo_cap") else 0.0)       # com título de capítulo, a faixa entra depois dele
+    if c.get("rotulo") and t_rot >= 0:                    # faixa de documentário embaixo, à esquerda
+        f = _suave(t_rot / 0.4)
         txt = str(c["rotulo"]).upper()
         tw = d.textlength(txt, font=_f(40))
         x0 = 70 - (1 - f) * 400
@@ -466,6 +510,52 @@ def _legendas(frases: list, destino: Path) -> None:
     destino.write_text("\n".join(linhas) + "\n", encoding="utf-8")
 
 
+def _efeitos(eventos: list, total: float, destino: Path) -> Path:
+    """Efeitos sonoros sintetizados (sem bipes): "whoosh" na virada de capítulo e na chegada da nave,
+    ronco grave nas descidas, vento nas cenas de vento/poeira e um rumor quente nas cenas de calor."""
+    import wave
+    sr = 44100
+    n = int(total * sr) + sr
+    out = np.zeros(n, np.float32)
+    rnd = np.random.RandomState(9)
+
+    def ruido(seg, corte):                               # ruído filtrado (passa-baixa simples no espectro)
+        m = int(seg * sr)
+        x = rnd.randn(m).astype(np.float32)
+        X = np.fft.rfft(x)
+        fr = np.fft.rfftfreq(m, 1 / sr)
+        X *= 1 / np.sqrt(1 + (fr / corte) ** 4)
+        y = np.fft.irfft(X, m).astype(np.float32)
+        return y / (np.abs(y).max() + 1e-9)
+
+    for t0, dur, quadro_, ef, inicio in eventos:
+        a = int(t0 * sr)
+        if inicio:                                        # whoosh: ruído que sobe e desce em 1,4 s
+            w = ruido(1.4, 1800)
+            env = np.sin(np.linspace(0, np.pi, len(w))) ** 2
+            seg = w * env * 0.55
+            out[a:a + len(seg)] += seg[:max(0, min(len(seg), n - a))]
+        m = int(dur * sr)
+        env = np.minimum(1, np.minimum(np.arange(m) / (0.4 * sr), (m - np.arange(m)) / (0.4 * sr))).astype(np.float32)
+        if quadro_ == "descida":
+            seg = ruido(dur, 120) * env * 0.5
+        elif "vento" in ef or "poeira" in ef:
+            seg = ruido(dur, 900) * env * 0.22 * (0.7 + 0.3 * np.sin(np.arange(m) / sr * 1.3))
+        elif "calor" in ef:
+            seg = ruido(dur, 250) * env * 0.25
+        else:
+            continue
+        out[a:a + m] += seg[:max(0, min(m, n - a))]
+    out = np.clip(out, -1, 1)
+    est = np.stack([out, np.roll(out, 300)], -1)
+    with wave.open(str(destino), "wb") as w:
+        w.setnchannels(2)
+        w.setsampwidth(2)
+        w.setframerate(sr)
+        w.writeframes((est * 32767 * 0.8).astype("<i2").tobytes())
+    return destino
+
+
 def montar(r: dict, pasta: Path) -> tuple[Path, list]:
     from .util import carregar_config, duracao
     from .voz_gemini import narrar_roteiro
@@ -473,7 +563,7 @@ def montar(r: dict, pasta: Path) -> tuple[Path, list]:
     cfg = carregar_config()
     pasta.mkdir(parents=True, exist_ok=True)
     so = [int(x) for x in os.environ.get("BLOCOS", "").replace(" ", "").split(",") if x != ""]
-    clipes, frases, capitulos, t0 = [], [], [], 0.0
+    clipes, frases, capitulos, eventos, t0 = [], [], [], [], 0.0
     caps = r.get("capitulos") or [b["capitulo"] for b in r["blocos"]]
     for bi, b in enumerate(r["blocos"]):
         if so and bi not in so:
@@ -484,11 +574,13 @@ def montar(r: dict, pasta: Path) -> tuple[Path, list]:
         vozes = narrar_roteiro(sub, cfg, pasta / f"audio_{bi:02d}")
         capitulos.append((t0, b["capitulo"]))
         for ci, (cena, voz) in enumerate(zip(b["cenas"], vozes)):
-            cena.update(_capitulos=caps, _capitulo=b.get("marca", b["capitulo"]), _fade=ci in (0, len(b["cenas"]) - 1))
+            cena.update(_capitulos=caps, _capitulo=b.get("marca", b["capitulo"]), _fade=ci in (0, len(b["cenas"]) - 1),
+                        _titulo_cap=b["capitulo"] if ci == 0 and bi > 0 else None)
             pausa = 0.35 if ci < len(b["cenas"]) - 1 else 0.9
             destino = pasta / f"clip_{bi:02d}_{ci:02d}.mp4"
             dur = renderizar_cena(cena, voz, destino, pausa, bi * 100 + ci)
             frases.append((t0, t0 + voz["duracao"], cena["narracao"]))
+            eventos.append((t0, dur, cena.get("quadro"), set(cena.get("efeitos") or []), ci == 0))
             t0 += dur
             clipes.append(destino)
     lista = pasta / "lista.txt"
@@ -507,8 +599,13 @@ def montar(r: dict, pasta: Path) -> tuple[Path, list]:
                      f"afade=t=out:st={max(total - 3, 0):.2f}:d=3[bg]")
     else:
         extras, filtro_bg = _trilha(total, cfg, r)
-    mistura = ("[0:a]asplit=2[voz][chave];[bg][chave]sidechaincompress=threshold=0.05:ratio=2.5:attack=40:"
-               "release=600[bgd];[voz][bgd]amix=inputs=2:duration=first:normalize=0[a]")
+    sfx = _efeitos(eventos, total, pasta / "efeitos.wav")
+    idx = 1 + (1 if extras else 0)
+    extras = [*extras, "-i", str(sfx)]
+    mistura = (f"[0:a]asplit=3[voz][chave][chave2];[{idx}:a]aformat=channel_layouts=stereo,volume=0.55[sfx];"
+               "[sfx][chave2]sidechaincompress=threshold=0.04:ratio=2.5:attack=30:release=400[sfxd];"
+               "[bg][chave]sidechaincompress=threshold=0.05:ratio=2.5:attack=40:release=600[bgd];"
+               "[voz][bgd][sfxd]amix=inputs=3:duration=first:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11[a]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", "juntos.mp4", *extras, "-filter_complex",
                     f"[0:v]ass=legendas.ass:fontsdir={FONTES}[v];{filtro_bg};{mistura}", "-map", "[v]", "-map", "[a]",
                     "-t", f"{total:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-pix_fmt", "yuv420p",
