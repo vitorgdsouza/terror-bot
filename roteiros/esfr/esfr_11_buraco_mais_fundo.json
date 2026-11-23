@@ -10,7 +10,7 @@
  "trilha_volume": 0.3,
  "titulo": "E se você descesse no buraco mais fundo já cavado?",
  "titulo_youtube": "E se você descesse no BURACO MAIS FUNDO do mundo? 🕳️ #shorts",
- "legenda_post": "Mais de 12 km para baixo, 180 °C lá no fundo e fósseis onde ninguém imaginava. E mesmo assim não chegou nem a 1% do caminho até o centro da Terra. Até onde você desceria? 👇\n\nFontes: ZME Science (jun/2014, atualizado out/2023); IFLScience (mai/2021); WorldAtlas (jun/2017).\n#ciencia #terra #curiosidades #ese #geologia",
+ "legenda_post": "Mais de 12 km para baixo, 180 °C lá no fundo e fósseis onde ninguém imaginava. E mesmo assim não chegou nem a um centésimo do caminho até o centro da Terra. Até onde você desceria? 👇\n\nFontes: ZME Science (jun/2014, atualizado out/2023); IFLScience (mai/2021); WorldAtlas (jun/2017).\n#ciencia #terra #curiosidades #ese #geologia",
  "cenas": [
   {
    "narracao": "E se você descesse no buraco mais fundo já cavado?",
@@ -27,26 +27,25 @@
    "boca": true
   },
   {
-   "narracao": "Os cientistas começaram a cavar em mil novecentos e setenta.",
-   "quadro": "numero",
-   "de": 1970,
-   "ate": 1970,
-   "ano": true,
-   "unidade": "começou a obra"
-  },
-  {
-   "narracao": "E passaram mais de vinte anos descendo.",
+   "narracao": "Cientistas soviéticos começaram a cavar aqui.",
    "quadro": "perfuracao",
    "de": 0,
+   "ate": 3000,
+   "medidor": false
+  },
+  {
+   "narracao": "E passaram mais de duas décadas descendo.",
+   "quadro": "perfuracao",
+   "de": 3000,
    "ate": 9000,
    "medidor": false
   },
   {
-   "narracao": "O buraco tem só uns vinte e três centímetros de largura.",
+   "narracao": "O buraco é estreito, da largura de um prato.",
    "quadro": "perfuracao",
    "boca": true,
    "medida": true,
-   "rotulo": "uns 23 cm"
+   "rotulo": "largura de um prato"
   },
   {
    "narracao": "Você não caberia lá dentro.",
@@ -135,10 +134,10 @@
    ]
   },
   {
-   "narracao": "Mas isso não chega a um por cento do caminho até o centro.",
+   "narracao": "Mas isso não chega a um centésimo do caminho até o centro.",
    "quadro": "perfuracao",
    "planeta": true,
-   "rotulo": "nem 1% do caminho"
+   "rotulo": "nem 1/100 do caminho"
   },
   {
    "narracao": "Até onde você teria coragem de descer? Comenta.",

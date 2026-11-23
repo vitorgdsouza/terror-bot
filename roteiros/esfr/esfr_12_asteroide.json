@@ -10,7 +10,7 @@
  "trilha_volume": 0.3,
  "titulo": "E se você visse o asteroide dos dinossauros cair?",
  "titulo_youtube": "E se você VISSE o asteroide dos dinossauros cair? ☄️ #shorts",
- "legenda_post": "Uma rocha de uns 10 km a 20 km por segundo, uma onda de 1,5 km e florestas pegando fogo. Mesmo assim, uns dinossauros escaparam... e estão no seu quintal. Você sobreviveria? 👇\n\nFontes: NSF (\"A moment that changed Earth\", jun/2022, atualizado jan/2026); Natural History Museum de Londres; BBC Sky at Night Magazine (out/2024).\n#ciencia #dinossauros #espaco #curiosidades #ese",
+ "legenda_post": "Uma rocha de uns 10 km a 20 km por segundo, uma onda de mais de 1 km de altura e florestas pegando fogo. Mesmo assim, uns dinossauros escaparam... e estão voando por aí. Você sobreviveria? 👇\n\nFontes: NSF (\"A moment that changed Earth\", jun/2022, atualizado jan/2026); Natural History Museum de Londres; BBC Sky at Night Magazine (out/2024).\n#ciencia #dinossauros #espaco #curiosidades #ese",
  "cenas": [
   {
    "narracao": "E se você visse cair o asteroide dos dinossauros?",
@@ -52,13 +52,13 @@
    "rotulo": "Yucatán, México"
   },
   {
-   "narracao": "Foi como quatro bilhões e meio de bombas de Hiroshima.",
-   "quadro": "numero",
-   "de": 4.5,
-   "ate": 4.5,
-   "antes": "uns",
-   "unidade": "bilhões",
-   "rotulo": "de bombas de Hiroshima"
+   "narracao": "Foi como bilhões de bombas de Hiroshima juntas.",
+   "quadro": "impacto",
+   "espaco": true,
+   "de": 1.0,
+   "ate": 1.0,
+   "impacto": true,
+   "rotulo": "bilhões de bombas"
   },
   {
    "narracao": "Rocha derretida foi jogada para o céu.",
@@ -72,16 +72,16 @@
    "rotulo": "+1.000 km/h"
   },
   {
-   "narracao": "No mar, veio uma onda de um quilômetro e meio de altura.",
+   "narracao": "No mar, veio uma onda de mais de um quilômetro de altura.",
    "quadro": "impacto",
    "tsunami": true,
-   "rotulo": "1,5 km de altura"
+   "rotulo": "mais de 1 km de altura"
   },
   {
-   "narracao": "O fogo chegou a setenta por cento das florestas do mundo.",
+   "narracao": "O fogo se espalhou pela maior parte das florestas do mundo.",
    "quadro": "impacto",
    "fogo": true,
-   "rotulo": "70% das florestas"
+   "rotulo": "a maior parte das florestas"
   },
   {
    "narracao": "E a poeira no ar diminuiu a luz do Sol.",
@@ -95,20 +95,19 @@
    "vazio": true
   },
   {
-   "narracao": "Uns setenta e cinco por cento dos animais sumiram.",
+   "narracao": "Três em cada quatro animais da Terra sumiram.",
    "quadro": "numero",
-   "de": 0,
-   "ate": 75,
-   "antes": "uns",
-   "unidade": "% dos animais",
+   "de": 3,
+   "ate": 3,
+   "unidade": "em cada 4 animais",
    "rotulo": "sumiram"
   },
   {
-   "narracao": "Nenhum bicho de terra com mais de vinte e cinco quilos sobrou.",
+   "narracao": "Nenhum bicho grande de terra sobrou.",
    "quadro": "impacto",
    "frio": true,
    "vazio": true,
-   "rotulo": "mais de 25 kg: nenhum"
+   "rotulo": "nenhum bicho grande"
   },
   {
    "narracao": "Mas alguns dinossauros escaparam. Eles viraram as aves.",
