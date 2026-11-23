@@ -6,6 +6,7 @@
 - **Assunto:** ciência e curiosidades em segunda pessoa ("E se você...?").
 - **Formato:** `voce` (`src/voce.py`), paleta `ciencia` (azul, amarelo e ciano), selo "E SE..." no canto, sem relógio de terror.
 - **Voz:** Puck, no estilo `curioso` (`"voz": "Puck", "clima": "curioso"`). A chave da voz é `GEMINI_API_KEY_ESE`, se existir, para ter cota separada do terror.
+- **Trilha:** `"trilha": "propria"` (trilha sintetizada do canal, `src/trilha_esfr.py`, sem bipes e sem direitos de terceiros). O Vitor aprovou em 22/11.
 - **Todo roteiro leva `"canal": "esfr"`.** É isso que o separa do terror no render, no Telegram e nas thumbs.
 
 ## Onde fica cada coisa

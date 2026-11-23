@@ -94,6 +94,7 @@ def gerar(destino: Path, seed: int = 7) -> Path:
     est = np.stack([mix, np.roll(mix, int(0.012 * SR))], -1)         # um pouco de largura estéreo
     import wave
     destino = Path(destino)
+    destino.parent.mkdir(parents=True, exist_ok=True)
     with wave.open(str(destino), "wb") as w:
         w.setnchannels(2)
         w.setsampwidth(2)

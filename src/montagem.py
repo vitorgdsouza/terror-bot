@@ -252,6 +252,14 @@ def _trilha(total: float, cfg: dict, roteiro: dict | None = None) -> list:
     """Devolve (entradas extras do ffmpeg, filtro da trilha). Se o roteiro pedir "trilha" (busca no Freesound),
     usa esse ambiente sombrio do começo ao fim; senão uma música de assets/musica; senão um drone gerado."""
     busca = (roteiro or {}).get("trilha")
+    if busca == "propria":                                # trilha sintetizada do E Se Fosse Real? (src/trilha_esfr.py)
+        from .trilha_esfr import gerar
+        arq = gerar(RAIZ / "trabalho" / "trilha_propria.wav")
+        vol = float((roteiro or {}).get("trilha_volume", 0.3))
+        log("Trilha: própria do canal (sintetizada)")
+        return (["-stream_loop", "-1", "-i", str(arq)],
+                f"[1:a]aformat=channel_layouts=stereo,volume={vol},afade=t=in:d=1,"
+                f"afade=t=out:st={max(total - 2, 0):.2f}:d=2[bg]")
     if busca:
         try:
             from .sons import baixar

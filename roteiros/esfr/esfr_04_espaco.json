@@ -6,7 +6,7 @@
  "clima": "curioso",
  "voz": "Puck",
  "canal": "esfr",
- "trilha": "curious ambient electronic",
+ "trilha": "propria",
  "trilha_volume": 0.3,
  "titulo": "E se você saísse da nave sem roupa espacial?",
  "titulo_youtube": "E se você saísse da nave SEM roupa espacial? 🧑‍🚀 #shorts",
@@ -85,7 +85,8 @@
    "texto": "VOCÊ SERIA|ASTRONAUTA?"
   }
  ],
- "thumb_texto": "SEM TRAJE|NO ESPAÇO?", "thumb_arte": "sem_traje",
+ "thumb_texto": "SEM TRAJE|NO ESPAÇO?",
+ "thumb_arte": "sem_traje",
  "thumb_zoom": 1.45,
  "thumb_centro": [
   0.5,

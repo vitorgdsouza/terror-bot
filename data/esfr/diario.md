@@ -115,3 +115,6 @@
 - **Teste:** abertura + Mercúrio (run 45085222903, 1,3 min, voz 98% e 90%), mandado no Telegram. Depois disso, troquei a geada "de bolhas" por vinheta gelada e corrigi a escala Terra x Mercúrio.
 - Fatos conferidos na NASA em `docs/esfr/longo_01_fatos.md`. Ficam fora do roteiro: "Olimpo 3x Everest" e "chuva de diamantes".
 - **Próximo:** roteiro dos outros blocos (Marte, Júpiter, Saturno, Urano, Netuno, Vênus, Terra) depois do retorno do Vitor sobre o teste. O render completo leva uns 20 a 30 min e uns 10 blocos de voz: fazer num dia sem renders de Shorts (a cota de hoje deu 429).
+
+## 22/11 (21h20): trilha própria
+- O Vitor não gostou dos bipes da trilha antiga ("curious ambient electronic" do Freesound). Criada a trilha sintetizada do canal (`src/trilha_esfr.py`), aprovada por ele. Agora vale para o vídeo longo e para os Shorts: todos os roteiros `esfr_*` ficaram com `"trilha": "propria"`, e a regra entrou no `docs/ESFR.md`. Os vídeos já renderizados na fila continuam com a trilha antiga; os que forem refeitos (08 e 09 amanhã) já saem com a nova.
