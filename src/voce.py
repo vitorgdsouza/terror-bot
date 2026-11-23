@@ -25,13 +25,15 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   terra_corte  a Terra em corte com o buraco; "de"/"ate" (0 a 1: posição de quem cai), "rotulo" (ex.: "5.400 °C")
   espaco       astronauta flutuando; "sem_capacete": true, "segundos": 15 (contagem regressiva)
   numero       número grande contando; "de", "ate", "antes" (ex.: "QUASE"), "ano": true (sem ponto de milhar), "unidade" (km/h), "rotulo"
-  comparar     barras crescendo; "itens": [["Furacão", 300], ["Sem rotação", 1670]], "unidade": "km/h"
+  comparar     barras crescendo; "itens": [["Furacão", 300], ["Sem rotação", 1670]], "unidade": "km/h", "numeros": false (só as barras)
   multidao     multidão em fileiras pulando; "pulando": false, "ondas" (som se espalhando), "celulares" (+ "sem_sinal"), "andando", "transito" (estrada lotada de carros), "rotulo"
   sol          o Sol e a Terra em órbita; "apaga", "apagado", "onda" (a última luz indo até a Terra), "tangente" (a Terra sai em linha reta), "so_terra" + "congela" (a Terra virando gelo), "rotulo"
   buraco_negro buraco negro com disco de gás; "de"/"ate" (0 longe, 1 na borda: astronauta caindo), "congela" (parece parar na borda, avermelhando), "atravessa", "dentro" (o céu vira um círculo que encolhe), "estica" (espaguetificação; com "pequeno": true estica antes da borda), "rotulo"
   aneis        a Terra com anel; "asteroide", "quebra", "forma" (o anel se fecha), "faixa" + "crateras" (faixa de 30° do equador), "cai", "sombra", "gelo", "some", "ceu" (arco no céu visto do chão), "rotulo"
   astro        qualquer planeta no visual novo; "nome", "com" (outro planeta ao lado), "zoom", "nave", "brilho" (calor), "rotulo"
   pouso        o você no chão de um planeta (igual ao vídeo longo); "nome" (mercurio, venus, marte, terra, lua), "efeitos" (calor, frio, pressao, vento, poeira, noite, sol_nasce), "traje" (0 a 1), "pose"
+  perfuracao   poço de sondagem em corte; "de"/"ate" (metros), "medidor": false, "termometro": [de, ate] °C, "calor", "treme", "fosseis", "agua", "lama"; modos "boca" (+ "medida"), "perfil" (você ao lado do poço), "planeta" (a marca minúscula na Terra em corte), "rotulo"
+  impacto      o asteroide dos dinossauros; "espaco" (+ "de"/"ate", "impacto"); paisagem com dinossauros e você: "bola", "plumas", "vento", "tsunami", "fogo", "escuro", "frio", "vazio", "ave", "voce": false, "rotulo"
   mergulho     submarino descendo; "de"/"ate" (metros no medidor), "luz", "peixe", "pressao", "fonte" (fonte de calor no fundo), "escala": true (mar em corte com o Everest dentro), "medidor": false, "rotulo"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
@@ -545,8 +547,9 @@ def _comparar(img, cena, t, dur, n, p):
         cor = p["acento"] if k == len(itens) - 1 else p["apagado"]
         d.text((x0, y), str(nome).upper(), font=_f(46), fill=p["fig"])
         d.rounded_rectangle((x0, y + 70, x0 + max(20, w), y + 160), radius=20, fill=cor)
-        num = f"{float(v) * cresce:,.0f}".replace(",", ".") + " " + str(cena.get("unidade", ""))
-        d.text((x0 + 10, y + 175), num, font=_f(44, True), fill=cor)
+        if cena.get("numeros", True):                     # "numeros": false quando a narração não fala os valores
+            num = f"{float(v) * cresce:,.0f}".replace(",", ".") + " " + str(cena.get("unidade", ""))
+            d.text((x0 + 10, y + 175), num, font=_f(44, True), fill=cor)
         y += 330
 
 
@@ -1051,6 +1054,361 @@ QUADROS.update({"astro": _astro, "pouso": _pouso})
 QUADROS.update({"planeta": _planeta, "terra_corte": _terra_corte, "espaco": _espaco, "numero": _numero,
                 "comparar": _comparar, "multidao": _multidao, "sol": _sol, "mergulho": _mergulho,
                 "buraco_negro": _buraco_negro, "aneis": _aneis})
+
+
+# ---------------------------------------------------------------- perfuração (buraco mais fundo já cavado)
+ROCHA_TOPO, ROCHA_FUNDO = (128, 96, 70), (70, 34, 28)
+
+
+def _perfuracao(img, cena, t, dur, n, p):
+    """Poço de sondagem em corte: torre na superfície, rocha em camadas e a broca descendo.
+    "de"/"ate": metros (0 a "escala", padrão 12262); "medidor": false esconde a fundura; "termometro": [de, ate] °C;
+    "calor": rocha brilhando no fundo; "treme": a broca sacode; "fosseis": plâncton fóssil brilhando em volta da broca;
+    "agua": gotas presas na rocha; "lama": bolhas subindo pelo poço; "rotulo".
+    Modos: "boca": a tampa de metal enferrujada vista de cima ("medida": régua com o rótulo);
+           "perfil": você de pé ao lado da boca do poço (o poço é mais estreito que você);
+           "planeta": a Terra em corte com a marca minúscula do poço no alto."""
+    d = ImageDraw.Draw(img, "RGBA")
+    rot = str(cena.get("rotulo", "")).upper()
+    if cena.get("boca"):
+        d.rectangle((0, 0, W, H), fill=(92, 94, 98))
+        for k in range(260):                                # concreto granulado
+            rnd = random.Random(k * 3)
+            x, y = rnd.random() * W, rnd.random() * H
+            c = 70 + int(rnd.random() * 50)
+            d.ellipse((x - 4, y - 4, x + 4, y + 4), fill=(c, c, c + 4))
+        d.line((W * 0.1, H * 0.15, W * 0.35, H * 0.3, W * 0.3, H * 0.42), fill=(60, 60, 64), width=5)
+        d.line((W * 0.75, H * 0.7, W * 0.9, H * 0.62), fill=(60, 60, 64), width=5)
+        cx, cy, r = W / 2, H * 0.45, 300 + 12 * math.sin(t * 0.8)
+        d.ellipse((cx - r - 40, cy - r - 40, cx + r + 40, cy + r + 40), fill=(64, 64, 68))
+        d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(150, 76, 36))
+        for k in range(40):                                 # manchas de ferrugem
+            rnd = random.Random(k * 17)
+            a, rr = rnd.random() * 6.283, rnd.random() * r * 0.9
+            x, y = cx + math.cos(a) * rr, cy + math.sin(a) * rr
+            tam = 14 + rnd.random() * 40
+            d.ellipse((x - tam, y - tam * 0.7, x + tam, y + tam * 0.7), fill=(110 + int(rnd.random() * 60), 50, 24, 180))
+        for k in range(12):                                 # parafusos
+            a = k / 12 * 6.283
+            x, y = cx + math.cos(a) * (r - 34), cy + math.sin(a) * (r - 34)
+            d.ellipse((x - 16, y - 16, x + 16, y + 16), fill=(70, 50, 40), outline=(40, 30, 26), width=4)
+        d.ellipse((cx - r * 0.35, cy - r * 0.35, cx + r * 0.35, cy + r * 0.35), outline=(96, 46, 24), width=10)
+        if cena.get("medida"):
+            ab = _suave(t / max(0.1, dur * 0.5))
+            meia = r * 0.35 * ab
+            y = cy + r + 110
+            d.line((cx - meia, y, cx + meia, y), fill=p["acento"], width=10)
+            for s_ in (-1, 1):
+                d.line((cx + s_ * meia, y - 30, cx + s_ * meia, y + 30), fill=p["acento"], width=10)
+        if rot:
+            _centro_texto(d, W / 2, H * 0.16, rot, _fit(d, rot, 64), p["acento"])
+        return
+    if cena.get("planeta"):
+        _estrelas(d, t)
+        cx, cy, r = W / 2, H * 0.5, 430
+        for f_, cor in [(1.0, (150, 96, 60)), (0.97, (205, 90, 40)), (0.55, (240, 150, 40)), (0.19, (255, 230, 120))]:
+            d.ellipse((cx - r * f_, cy - r * f_, cx + r * f_, cy + r * f_), fill=cor)
+        d.line((cx, cy - r, cx, cy), fill=(255, 255, 255, 70), width=3)        # caminho até o centro
+        d.line((cx, cy - r, cx, cy - r + 4), fill=(10, 10, 14), width=10)      # o poço: quase nada
+        pul = 40 + 25 * abs(math.sin(t * 3))
+        d.ellipse((cx - pul, cy - r - pul, cx + pul, cy - r + pul), outline=p["acento"], width=8)
+        d.line((cx + 70, cy - r - 170, cx + 22, cy - r - 40), fill=p["acento"], width=10)
+        d.polygon([(cx + 14, cy - r - 22), (cx + 2, cy - r - 70), (cx + 46, cy - r - 54)], fill=p["acento"])
+        if rot:
+            _centro_texto(d, W / 2, H * 0.16, rot, _fit(d, rot, 64), p["acento"])
+        return
+    sup = H * 0.30
+    if cena.get("perfil"):                                  # você ao lado da boca do poço, em escala
+        d.rectangle((0, 0, W, H * 0.62), fill=(150, 190, 225))
+        chao = H * 0.62
+        for y in range(int(chao), H, 8):
+            f_ = (y - chao) / (H - chao)
+            d.rectangle((0, y, W, y + 8), fill=tuple(int(a + (b - a) * f_) for a, b in zip(ROCHA_TOPO, ROCHA_FUNDO)))
+        alt = 620                                           # você (~1,70 m); o poço tem ~23 cm
+        poco = alt * 0.23 / 1.7
+        px_ = W * 0.62
+        d.rectangle((px_ - poco / 2, chao, px_ + poco / 2, H), fill=(14, 10, 10))
+        d.rectangle((px_ - poco / 2 - 22, chao - 26, px_ + poco / 2 + 22, chao), fill=(150, 76, 36))
+        _pessoa(d, W * 0.36, chao, alt, (30, 40, 70), t, "parado", fundo=(150, 190, 225))
+        seta = 20 * abs(math.sin(t * 3))
+        d.line((px_, chao - 220 - seta, px_, chao - 60 - seta), fill=p["acento"], width=12)
+        d.polygon([(px_ - 30, chao - 80 - seta), (px_ + 30, chao - 80 - seta), (px_, chao - 40 - seta)], fill=p["acento"])
+        if rot:
+            _centro_texto(d, W / 2, H * 0.2, rot, _fit(d, rot, 64), p["acento"])
+        return
+    fim = H * 0.75                                          # a legenda fica embaixo disso
+    escala = float(cena.get("escala", 12262))
+    d.rectangle((0, 0, W, sup), fill=(20, 40, 80))
+    for y in range(int(sup), H, 6):                         # rocha escurecendo e avermelhando com a fundura
+        f_ = min(1.0, (y - sup) / (fim - sup))
+        d.rectangle((0, y, W, y + 6), fill=tuple(int(a + (b - a) * f_) for a, b in zip(ROCHA_TOPO, ROCHA_FUNDO)))
+    for k in range(9):                                      # estratos
+        rnd = random.Random(k * 5)
+        y = sup + (k + 0.5) * (H - sup) / 9
+        pts = [(x, y + math.sin(x / 140 + k) * 16 + rnd.random() * 6) for x in range(0, W + 60, 60)]
+        d.line(pts, fill=(40, 20, 16, 90), width=4)
+    de, ate = float(cena.get("de", 0)), float(cena.get("ate", 0))
+    prof = de + (ate - de) * _suave(t / max(0.1, dur * 0.85))
+    by = sup + (fim - sup) * min(1.0, prof / escala)
+    calor = cena.get("calor") or cena.get("termometro")
+    if calor:
+        for k in range(12, 0, -1):                          # rocha brilhando em volta da ponta
+            rr = 60 + k * 34
+            a_ = int(10 + 8 * math.sin(t * 3 + k))
+            d.ellipse((W / 2 - rr * 1.6, by - rr, W / 2 + rr * 1.6, by + rr), fill=(255, 110, 30, a_))
+    cx = W / 2
+    treme = math.sin(t * 50) * 6 if cena.get("treme") else 0
+    d.rectangle((cx - 9, sup, cx + 9, by), fill=(12, 8, 8))                     # o poço
+    d.polygon([(cx - 120, sup), (cx - 26, sup - 190), (cx + 26, sup - 190), (cx + 120, sup)], outline=p["fig"], width=8)
+    for k in range(1, 4):                                   # torre de sondagem
+        yy = sup - k * 47
+        meia = 120 - (120 - 26) * k / 4
+        d.line((cx - meia, yy, cx + meia, yy), fill=p["fig"], width=5)
+    d.rectangle((cx - 160, sup - 10, cx + 160, sup + 6), fill=p["apagado"])
+    giro = (t * 8) % 1
+    bx = cx + treme
+    d.polygon([(bx - 24, by - 46), (bx + 24, by - 46), (bx, by + 8)], fill=p["acento"])  # broca
+    for k in range(3):
+        yy = by - 40 + ((giro + k / 3) % 1) * 44
+        meia = 24 * (1 - (yy - (by - 46)) / 54)
+        d.line((bx - meia, yy, bx + meia, yy), fill=(150, 110, 20), width=4)
+    if cena.get("fosseis"):
+        for k in range(9):
+            rnd = random.Random(k * 13)
+            x = cx + (rnd.random() - 0.5) * 760
+            y = by + (rnd.random() - 0.5) * 360
+            if abs(x - cx) < 80:
+                x += 160 * (1 if x >= cx else -1)
+            ap = _suave((t - k * 0.25) / 0.6)
+            if ap <= 0:
+                continue
+            rr = (22 + rnd.random() * 18) * ap * (1 + 0.08 * math.sin(t * 4 + k))
+            d.ellipse((x - rr * 2.2, y - rr * 2.2, x + rr * 2.2, y + rr * 2.2), fill=p["acento2"][:3] + (40,))
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), outline=p["acento2"], width=5)
+            for j in range(8):
+                a = j / 8 * 6.283 + t * 0.6
+                d.line((x + math.cos(a) * rr, y + math.sin(a) * rr, x + math.cos(a) * rr * 1.5, y + math.sin(a) * rr * 1.5),
+                       fill=p["acento2"], width=3)
+    if cena.get("agua"):
+        for k in range(16):
+            rnd = random.Random(k * 29)
+            x = cx + (rnd.random() - 0.5) * 820
+            y = by - 260 + rnd.random() * 420
+            if abs(x - cx) < 60:
+                continue
+            br = 0.6 + 0.4 * math.sin(t * 3 + k)
+            d.polygon([(x, y - 26), (x - 15, y + 4), (x + 15, y + 4)], fill=(90, 180, 255, int(220 * br)))
+            d.ellipse((x - 15, y - 10, x + 15, y + 18), fill=(90, 180, 255, int(220 * br)))
+    if cena.get("lama"):
+        for k in range(14):
+            f_ = ((t * 0.7 + k / 14) % 1)
+            y = by - f_ * (by - sup)
+            x = cx + math.sin(k * 1.7 + t * 5) * 6
+            rr = 7 + (k % 3) * 3
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(200, 230, 255, 200))
+        for k in range(7):                                  # espuma saindo na boca
+            f_ = ((t * 0.9 + k / 7) % 1)
+            x = cx + (k - 3) * 30 * f_
+            y = sup - 20 - f_ * 120
+            rr = 12 + f_ * 20
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(150, 120, 100, int(200 * (1 - f_))))
+    if cena.get("termometro"):
+        t0, t1 = cena["termometro"]
+        temp = t0 + (t1 - t0) * _suave(t / max(0.1, dur * 0.75))
+        tx, ty0, ty1 = W * 0.84, H * 0.40, H * 0.66
+        d.rounded_rectangle((tx - 26, ty0, tx + 26, ty1), radius=26, fill=(240, 240, 245), outline=(40, 40, 50), width=5)
+        d.ellipse((tx - 50, ty1 - 30, tx + 50, ty1 + 70), fill=(232, 44, 56), outline=(40, 40, 50), width=5)
+        nivel = ty1 - (ty1 - ty0 - 20) * min(1.0, temp / 200)
+        d.rounded_rectangle((tx - 13, nivel, tx + 13, ty1 + 10), radius=12, fill=(232, 44, 56))
+        _centro_texto(d, tx - 20, ty0 - 60, f"{temp:.0f} °C", _f(64, True), p["acento"])
+    if cena.get("medidor", True):
+        _centro_texto(d, W / 2, H * 0.085, f"{prof:,.0f} m".replace(",", "."), _f(120, True), p["fig"])
+    if rot:
+        _centro_texto(d, W / 2, H * 0.175 if cena.get("medidor", True) else H * 0.12, rot, _fit(d, rot, 58), p["acento"])
+
+
+# ---------------------------------------------------------------- impacto (o asteroide dos dinossauros)
+def _dino(d, x, chao, s, cor, t, vira=1):
+    """Saurópode genérico (pescoço longo) em silhueta, andando devagar."""
+    bal = math.sin(t * 2 + x) * s * 0.02
+    corpo = (x - s * 0.5, chao - s * 0.75 + bal, x + s * 0.5, chao - s * 0.3 + bal)
+    for k, dx in enumerate((-0.36, -0.2, 0.2, 0.36)):        # pernas
+        pa = math.sin(t * 2 + k * 1.6) * s * 0.03
+        d.rounded_rectangle((x + dx * s - s * 0.06 + pa, chao - s * 0.45, x + dx * s + s * 0.06 + pa, chao), radius=int(s * 0.05), fill=cor)
+    d.ellipse(corpo, fill=cor)
+    pes = [(x + vira * s * 0.35, chao - s * 0.62 + bal), (x + vira * s * 0.62, chao - s * 1.05), (x + vira * s * 0.78, chao - s * 1.32),
+           (x + vira * s * 0.86, chao - s * 1.3), (x + vira * s * 0.72, chao - s * 1.0), (x + vira * s * 0.45, chao - s * 0.45 + bal)]
+    d.polygon(pes, fill=cor)
+    hx, hy = x + vira * s * 0.86, chao - s * 1.34
+    d.ellipse((hx - s * 0.09, hy - s * 0.06, hx + s * 0.09, hy + s * 0.06), fill=cor)
+    cauda = math.sin(t * 1.5) * s * 0.05
+    d.polygon([(x - vira * s * 0.42, chao - s * 0.66 + bal), (x - vira * s * 1.05, chao - s * 0.36 + cauda),
+               (x - vira * s * 0.42, chao - s * 0.42 + bal)], fill=cor)
+
+
+def _palmeira(d, x, chao, s, cor, t, vento=0.0):
+    curva = vento * s * 0.4 + math.sin(t * 1.3 + x) * s * 0.02
+    d.line((x, chao, x + curva * 0.5, chao - s * 0.5, x + curva, chao - s), fill=cor, width=max(4, int(s * 0.06)))
+    for k in range(6):
+        a = math.pi + k * math.pi / 5 + vento * 0.6
+        d.line((x + curva, chao - s, x + curva + math.cos(a) * s * 0.4 + vento * s * 0.25, chao - s + math.sin(a) * s * 0.25 + s * 0.12),
+               fill=cor, width=max(4, int(s * 0.05)))
+
+
+def _ave(d, x, y, s, cor, t):
+    asa = math.sin(t * 9) * s * 0.5
+    d.line((x - s, y - asa, x, y, x + s, y - asa), fill=cor, width=max(4, int(s * 0.18)), joint="curve")
+
+
+def _rotulo_caixa(d, y, txt, p):
+    """Rótulo com caixa escura atrás (para ler em céu claro)."""
+    fonte = _fit(d, txt, 64)
+    b = d.textbbox((0, 0), txt, font=fonte)
+    w_, h_ = b[2] - b[0], b[3] - b[1]
+    d.rounded_rectangle((W / 2 - w_ / 2 - 30, y - h_ / 2 - 22, W / 2 + w_ / 2 + 30, y + h_ / 2 + 22), radius=24, fill=(8, 18, 46, 200))
+    _centro_texto(d, W / 2, y, txt, fonte, p["acento"])
+
+
+def _impacto(img, cena, t, dur, n, p):
+    """O asteroide dos dinossauros. Modo "espaco": a Terra e o asteroide chegando ("de"/"ate" de 0 a 1; com "impacto",
+    clarão no ponto de impacto). Sem "espaco": paisagem com dinossauros e você no morro. Opções: "bola" (risco de
+    fogo no céu), "plumas" (rocha derretida subindo do horizonte), "vento" (tudo envergando, poeira), "tsunami" (o mar
+    com a onda gigante subindo), "fogo" (incêndio), "escuro" (poeira tapando o Sol), "frio" (céu cinza e flocos caindo),
+    "vazio" (sem dinossauros), "ave" (aves voando), "voce": false (sem você), "rotulo"."""
+    d = ImageDraw.Draw(img, "RGBA")
+    rot = str(cena.get("rotulo", "")).upper()
+    if cena.get("espaco"):
+        _estrelas(d, t)
+        cx, cy, r = W / 2, H * 0.6, 340
+        _globo(d, cx, cy, r, t * 0.4)
+        d = ImageDraw.Draw(img, "RGBA")
+        de, ate = cena.get("de", 0.0), cena.get("ate", 0.85)
+        f_ = de + (ate - de) * _suave(t / max(0.1, dur * 0.9))
+        ix, iy = cx - r * 0.25, cy - r * 0.92                 # ponto de impacto
+        ox, oy = W * 1.05, -H * 0.05
+        ax, ay = ox + (ix - ox) * f_, oy + (iy - oy) * f_
+        ux, uy = (ox - ix), (oy - iy)
+        L = math.hypot(ux, uy)
+        ux, uy = ux / L, uy / L
+        tam = 26 + 18 * f_
+        for k in range(14, 0, -1):                            # rastro de fogo
+            rr = tam * (1 - k / 16)
+            x, y = ax + ux * k * 26, ay + uy * k * 26
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(255, 140 + k * 6, 40, 200 - k * 12))
+        d.ellipse((ax - tam, ay - tam, ax + tam, ay + tam), fill=(90, 80, 74), outline=(255, 200, 90), width=5)
+        if cena.get("impacto"):
+            g = _suave((t - dur * 0.15) / max(0.1, dur * 0.6))
+            for k in range(8, 0, -1):
+                rr = 30 + g * 260 * k / 8
+                d.ellipse((ix - rr, iy - rr * 0.6, ix + rr, iy + rr * 0.6), fill=(255, 230, 160, int(40 * (1 - k / 9))))
+            rr = 40 + g * 320
+            d.ellipse((ix - rr, iy - rr * 0.6, ix + rr, iy + rr * 0.6), outline=(255, 250, 220, int(255 * (1 - g))), width=10)
+        if rot:
+            _centro_texto(d, W / 2, H * 0.2, rot, _fit(d, rot, 64), p["acento"])
+        return
+    escuro = _suave(t / max(0.1, dur * 0.8)) if cena.get("escuro") else 0.0
+    ceu1, ceu2 = (96, 160, 220), (190, 220, 240)
+    if cena.get("fogo"):
+        ceu1, ceu2 = (120, 40, 26), (230, 110, 40)
+    if cena.get("frio"):
+        ceu1, ceu2 = (70, 76, 86), (120, 126, 134)
+        escuro = 0.3
+    horiz = H * 0.55
+    for y in range(0, int(horiz), 8):
+        f_ = y / horiz
+        c = [a + (b - a) * f_ for a, b in zip(ceu1, ceu2)]
+        c = [v * (1 - escuro) + q * escuro for v, q in zip(c, (40, 34, 30))]
+        d.rectangle((0, y, W, y + 8), fill=tuple(int(v) for v in c))
+    sx, sy = W * 0.8, H * 0.3                                     # o Sol (longe do rótulo)
+    sol_a = int(255 * (1 - escuro * 0.85))
+    d.ellipse((sx - 70, sy - 70, sx + 70, sy + 70), fill=(255, 240, 180, sol_a))
+    vento = (0.9 + 0.2 * math.sin(t * 7)) if cena.get("vento") else 0.0
+    if cena.get("plumas"):                                         # rocha derretida subindo no horizonte
+        for k in range(26):
+            rnd = random.Random(k * 7)
+            f_ = ((t * 0.35 + rnd.random()) % 1)
+            x = W * 0.5 + (rnd.random() - 0.5) * 300 * (0.3 + f_)
+            y = horiz - f_ * horiz * 0.9
+            rr = 14 + rnd.random() * 18
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(255, 120 + int(rnd.random() * 80), 30, int(230 * (1 - f_ * 0.6))))
+        g = 0.6 + 0.4 * math.sin(t * 5)
+        d.ellipse((W * 0.5 - 260, horiz - 120, W * 0.5 + 260, horiz + 120), fill=(255, 200, 90, int(160 * g)))
+    if cena.get("tsunami"):
+        d.rectangle((0, horiz, W, H), fill=(26, 80, 140))
+        sobe = _suave(t / max(0.1, dur * 0.8))
+        topo = horiz - sobe * horiz * 0.75
+        pts = [(0, horiz + 20)]
+        for x in range(0, W + 40, 40):
+            pts.append((x, topo + math.sin(x / 120 + t * 3) * 26 + (x / W) * 60))
+        pts.append((W, horiz + 20))
+        d.polygon(pts, fill=(22, 70, 126))
+        for x in range(0, W + 40, 40):
+            y = topo + math.sin(x / 120 + t * 3) * 26 + (x / W) * 60
+            d.ellipse((x - 26, y - 18, x + 26, y + 18), fill=(235, 245, 255, 220))
+        d.rectangle((0, H * 0.72, W, H), fill=(170, 150, 110))  # praia onde você está
+        if cena.get("voce", True):
+            _pessoa(d, W * 0.5, H * 0.72, 230, (30, 30, 40), t, "tremendo", fundo=(170, 150, 110))
+        if rot:
+            _rotulo_caixa(d, H * 0.16, rot, p)
+        return
+    for k in range(3):                                             # morros
+        rnd = random.Random(k * 31)
+        x = W * (0.15 + k * 0.4)
+        d.ellipse((x - 520, horiz - 80 - rnd.random() * 60, x + 520, horiz + 600), fill=(60 + k * 12, 100 + k * 10, 58))
+    d.rectangle((0, horiz + 60, W, H), fill=(70, 112, 62))
+    mato = (24, 44, 30) if not cena.get("fogo") else (30, 20, 16)
+    for k, (x, s) in enumerate(((W * 0.08, 300), (W * 0.9, 340), (W * 0.62, 220))):
+        _palmeira(d, x, horiz + 70 + k * 30, s, mato, t, vento)
+    if not cena.get("vazio"):
+        cor_dino = (30, 40, 36) if not cena.get("fogo") else (24, 16, 14)
+        recua = math.sin(t * 20) * 8 if vento else 0
+        _dino(d, W * 0.38 + recua, horiz + 150, 330, cor_dino, t, vira=1)
+        _dino(d, W * 0.78 + recua, horiz + 110, 200, cor_dino, t + 1, vira=-1)
+    if cena.get("voce", True):
+        _pessoa(d, W * 0.12, horiz + 220, 170, (20, 26, 40), t, "tremendo" if (vento or cena.get("fogo")) else "parado",
+                fundo=(70, 112, 62))
+    if cena.get("bola"):                                           # risco de fogo cruzando o céu
+        f_ = _suave(t / max(0.1, dur * 0.95))
+        ax, ay = W * 0.95 - f_ * W * 0.55, H * 0.05 + f_ * H * 0.42
+        for k in range(16, 0, -1):
+            rr = 34 * (1 - k / 18)
+            x, y = ax + k * 22, ay - k * 17
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(255, 160 + k * 5, 60, 230 - k * 13))
+        d.ellipse((ax - 30, ay - 30, ax + 30, ay + 30), fill=(255, 250, 220))
+    if vento:                                                      # poeira varrendo
+        for k in range(40):
+            rnd = random.Random(k * 9)
+            y = rnd.random() * H * 0.9
+            x = ((rnd.random() * W + t * (900 + rnd.random() * 500)) % (W + 300)) - 150
+            d.line((x, y, x + 120, y), fill=(200, 170, 130, 120), width=6)
+    if cena.get("fogo"):
+        for k in range(22):
+            rnd = random.Random(k * 3)
+            x = rnd.random() * W
+            base = horiz + 40 + rnd.random() * (H * 0.2)
+            alt = (90 + rnd.random() * 160) * (0.8 + 0.3 * math.sin(t * 8 + k))
+            d.polygon([(x - 45, base), (x + math.sin(t * 6 + k) * 20, base - alt), (x + 45, base)], fill=(255, 120, 20, 210))
+            d.polygon([(x - 22, base), (x + math.sin(t * 6 + k) * 12, base - alt * 0.6), (x + 22, base)], fill=(255, 220, 80, 230))
+    if cena.get("escuro") or cena.get("frio"):
+        dens = 40 if cena.get("frio") else int(40 * escuro)
+        for k in range(dens):
+            rnd = random.Random(k * 41)
+            x = (rnd.random() * W + math.sin(t + k) * 30) % W
+            y = (rnd.random() * H + t * (60 + rnd.random() * 60)) % H
+            cor = (235, 240, 250, 200) if cena.get("frio") else (90, 80, 70, 170)
+            d.ellipse((x - 6, y - 6, x + 6, y + 6), fill=cor)
+    if cena.get("ave"):
+        for k in range(3):
+            x = ((t * 160 + k * 260) % (W + 300)) - 150
+            _ave(d, x, H * (0.26 + k * 0.06), 74 - k * 12, (30, 30, 40), t + k)
+    if escuro or cena.get("frio"):                                 # a paisagem inteira escurece/esfria, não só o céu
+        cor = (200, 214, 230, 70) if cena.get("frio") else (30, 24, 20, int(150 * escuro))
+        d.rectangle((0, 0, W, H), fill=cor)
+    if rot:
+        _rotulo_caixa(d, H * 0.16, rot, p)
+
+
+QUADROS.update({"perfuracao": _perfuracao, "impacto": _impacto})
 
 
 def _hud(img, cena, t, p):

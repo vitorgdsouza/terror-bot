@@ -1,0 +1,128 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se você visse o asteroide dos dinossauros cair?",
+ "titulo_youtube": "E se você VISSE o asteroide dos dinossauros cair? ☄️ #shorts",
+ "legenda_post": "Uma rocha de uns 10 km a 20 km por segundo, uma onda de 1,5 km e florestas pegando fogo. Mesmo assim, uns dinossauros escaparam... e estão no seu quintal. Você sobreviveria? 👇\n\nFontes: NSF (\"A moment that changed Earth\", jun/2022, atualizado jan/2026); Natural History Museum de Londres; BBC Sky at Night Magazine (out/2024).\n#ciencia #dinossauros #espaco #curiosidades #ese",
+ "cenas": [
+  {
+   "narracao": "E se você visse cair o asteroide dos dinossauros?",
+   "quadro": "impacto",
+   "bola": true,
+   "thumb": true,
+   "thumb_momento": 0.7
+  },
+  {
+   "narracao": "Isso foi há uns sessenta e seis milhões de anos.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 66,
+   "antes": "há uns",
+   "unidade": "milhões de anos"
+  },
+  {
+   "narracao": "Uma rocha de uns dez quilômetros vinha na direção da Terra.",
+   "quadro": "impacto",
+   "espaco": true,
+   "de": 0,
+   "ate": 0.7,
+   "rotulo": "uns 10 km"
+  },
+  {
+   "narracao": "A vinte quilômetros por segundo.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 20,
+   "unidade": "km por segundo"
+  },
+  {
+   "narracao": "Ela caiu onde hoje é o México, na península de Yucatán.",
+   "quadro": "impacto",
+   "espaco": true,
+   "de": 0.75,
+   "ate": 1.0,
+   "impacto": true,
+   "rotulo": "Yucatán, México"
+  },
+  {
+   "narracao": "Foi como quatro bilhões e meio de bombas de Hiroshima.",
+   "quadro": "numero",
+   "de": 4.5,
+   "ate": 4.5,
+   "antes": "uns",
+   "unidade": "bilhões",
+   "rotulo": "de bombas de Hiroshima"
+  },
+  {
+   "narracao": "Rocha derretida foi jogada para o céu.",
+   "quadro": "impacto",
+   "plumas": true
+  },
+  {
+   "narracao": "Ventos de mais de mil quilômetros por hora varreram tudo em volta.",
+   "quadro": "impacto",
+   "vento": true,
+   "rotulo": "+1.000 km/h"
+  },
+  {
+   "narracao": "No mar, veio uma onda de um quilômetro e meio de altura.",
+   "quadro": "impacto",
+   "tsunami": true,
+   "rotulo": "1,5 km de altura"
+  },
+  {
+   "narracao": "O fogo chegou a setenta por cento das florestas do mundo.",
+   "quadro": "impacto",
+   "fogo": true,
+   "rotulo": "70% das florestas"
+  },
+  {
+   "narracao": "E a poeira no ar diminuiu a luz do Sol.",
+   "quadro": "impacto",
+   "escuro": true
+  },
+  {
+   "narracao": "O planeta esfriou rápido.",
+   "quadro": "impacto",
+   "frio": true,
+   "vazio": true
+  },
+  {
+   "narracao": "Uns setenta e cinco por cento dos animais sumiram.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 75,
+   "antes": "uns",
+   "unidade": "% dos animais",
+   "rotulo": "sumiram"
+  },
+  {
+   "narracao": "Nenhum bicho de terra com mais de vinte e cinco quilos sobrou.",
+   "quadro": "impacto",
+   "frio": true,
+   "vazio": true,
+   "rotulo": "mais de 25 kg: nenhum"
+  },
+  {
+   "narracao": "Mas alguns dinossauros escaparam. Eles viraram as aves.",
+   "quadro": "impacto",
+   "vazio": true,
+   "ave": true
+  },
+  {
+   "narracao": "Você teria sobrevivido? Comenta.",
+   "quadro": "impacto",
+   "vazio": true,
+   "ave": true,
+   "rotulo": "você sobreviveria?"
+  }
+ ],
+ "thumb_texto": "VOCÊ VIU O|ASTEROIDE CAIR"
+}

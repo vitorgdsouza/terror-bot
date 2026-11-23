@@ -1,0 +1,151 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se você descesse no buraco mais fundo já cavado?",
+ "titulo_youtube": "E se você descesse no BURACO MAIS FUNDO do mundo? 🕳️ #shorts",
+ "legenda_post": "Mais de 12 km para baixo, 180 °C lá no fundo e fósseis onde ninguém imaginava. E mesmo assim não chegou nem a 1% do caminho até o centro da Terra. Até onde você desceria? 👇\n\nFontes: ZME Science (jun/2014, atualizado out/2023); IFLScience (mai/2021); WorldAtlas (jun/2017).\n#ciencia #terra #curiosidades #ese #geologia",
+ "cenas": [
+  {
+   "narracao": "E se você descesse no buraco mais fundo já cavado?",
+   "quadro": "perfuracao",
+   "de": 0,
+   "ate": 12262,
+   "medidor": false,
+   "thumb": true,
+   "thumb_momento": 0.8
+  },
+  {
+   "narracao": "Ele existe, fica no norte da Rússia, embaixo desta tampa enferrujada.",
+   "quadro": "perfuracao",
+   "boca": true
+  },
+  {
+   "narracao": "Os cientistas começaram a cavar em mil novecentos e setenta.",
+   "quadro": "numero",
+   "de": 1970,
+   "ate": 1970,
+   "ano": true,
+   "unidade": "começou a obra"
+  },
+  {
+   "narracao": "E passaram mais de vinte anos descendo.",
+   "quadro": "perfuracao",
+   "de": 0,
+   "ate": 9000,
+   "medidor": false
+  },
+  {
+   "narracao": "O buraco tem só uns vinte e três centímetros de largura.",
+   "quadro": "perfuracao",
+   "boca": true,
+   "medida": true,
+   "rotulo": "uns 23 cm"
+  },
+  {
+   "narracao": "Você não caberia lá dentro.",
+   "quadro": "perfuracao",
+   "perfil": true
+  },
+  {
+   "narracao": "A mais de seis quilômetros, apareceram fósseis de plâncton microscópico.",
+   "quadro": "perfuracao",
+   "de": 6400,
+   "ate": 6500,
+   "medidor": false,
+   "fosseis": true,
+   "rotulo": "mais de 6 km"
+  },
+  {
+   "narracao": "E tinha água presa dentro da rocha.",
+   "quadro": "perfuracao",
+   "de": 7500,
+   "ate": 7600,
+   "medidor": false,
+   "agua": true
+  },
+  {
+   "narracao": "Do buraco saía uma lama borbulhando de hidrogênio.",
+   "quadro": "perfuracao",
+   "de": 11000,
+   "ate": 11100,
+   "medidor": false,
+   "lama": true
+  },
+  {
+   "narracao": "Lá embaixo, a rocha chegou a cento e oitenta graus.",
+   "quadro": "perfuracao",
+   "de": 12000,
+   "ate": 12262,
+   "medidor": false,
+   "termometro": [
+    20,
+    180
+   ]
+  },
+  {
+   "narracao": "Os cientistas esperavam uns cem graus.",
+   "quadro": "numero",
+   "de": 100,
+   "ate": 100,
+   "antes": "esperavam uns",
+   "unidade": "graus",
+   "rotulo": "veio quase o dobro"
+  },
+  {
+   "narracao": "A broca não aguentou o calor.",
+   "quadro": "perfuracao",
+   "de": 12262,
+   "ate": 12262,
+   "medidor": false,
+   "calor": true,
+   "treme": true
+  },
+  {
+   "narracao": "No fim, o buraco passou dos doze quilômetros.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 12,
+   "antes": "mais de",
+   "unidade": "km para baixo"
+  },
+  {
+   "narracao": "Isso é mais fundo que o ponto mais fundo do mar.",
+   "quadro": "comparar",
+   "numeros": false,
+   "itens": [
+    [
+     "Everest (altura)",
+     8848
+    ],
+    [
+     "Fundo do mar",
+     11034
+    ],
+    [
+     "O buraco",
+     12262
+    ]
+   ]
+  },
+  {
+   "narracao": "Mas isso não chega a um por cento do caminho até o centro.",
+   "quadro": "perfuracao",
+   "planeta": true,
+   "rotulo": "nem 1% do caminho"
+  },
+  {
+   "narracao": "Até onde você teria coragem de descer? Comenta.",
+   "quadro": "perfuracao",
+   "boca": true,
+   "rotulo": "você desceria?"
+  }
+ ],
+ "thumb_texto": "O BURACO MAIS|FUNDO DO MUNDO"
+}
