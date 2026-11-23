@@ -159,3 +159,5 @@
 - **Aprendido:** o Whisper escreve número em algarismo ("1970", "23", "1%") e a nota cai uns 3 pontos por número longo falado. Regra prática: no máximo 4 ou 5 números falados por roteiro, e de preferência curtos ("doze", "cem"); o resto vira comparação em palavras ("três em cada quatro", "da largura de um prato").
 - **Testar depois:** ver se temas "Terra por dentro/história da Terra" (poço, asteroide) seguram como os de espaço. Ideias ainda sem uso: um dia em Vênus (o 10 cobre), gravidade sumindo por 5 s, Terra sem oceanos (as fontes são fracas, só simulação), raio caindo perto de você (cuidado com saúde).
 - **Vídeo longo:** sem mudança hoje; render da versão 1 segue na Qua 25/11 (tarefa agendada). Na quarta, no máximo 1 Short.
+
+- 23/11 12h41: o agendamento das 12h17 não disparou (nenhuma execução `schedule` hoje depois das 00h42). Upload-Post segue no limite do mês (429, reinicia por volta de 17/12), então mandei no Telegram (run 45207611927, `acao=telegram`) "E se o Sol se apagasse agora?" para o Vitor postar à mão. Fila intacta com 6; passa para `postados` quando ele confirmar.
