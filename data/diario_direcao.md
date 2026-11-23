@@ -338,3 +338,21 @@
 - O Vitor escolheu: requel do Pode Entrar? com o protagonista trancado num bunker.
 - Rascunho (não proposto): série "O Bunker do Vô", `roteiros/bunker_01.json` (Dia 1: A Escotilha, 18 cenas, 112 palavras). Nando se tranca no bunker que o avô fez para o bug do milênio no Dia 1 da geada; o vizinho Seu Jair bate às 3h, descalço e sem tremer. Segue a regra do vídeo com vida (até 8 palavras por cena, cenário no máximo 3 vezes).
 - Depende do OK do Vitor e de arte nova (boneco do Nando, 8 cenários e 1 cena especial, contador de dias/latas na tela).
+
+## 23/11 (07h25): rodada da manhã da equipe
+- **Analista** (subagente): pauta em `data/pauta/2026-11-23.md`, com relatório novo (run 45155830250). Canal com 8.220 views (+745 desde 21/11) e 35 inscritos (+6). % assistido cai com a duração: fitas de 20 a 27 s ficam em 69 a 76%, protocolos de 54 s em 50 a 61%, histórias de 73 a 100 s em 31 a 36%. Feed de Shorts = 92 a 96% do tráfego.
+- **Descobertas no relatório:**
+  - **CAM 04 já foi postada** (`atlITzZFEtU`, 22/11): 1.131 views em ~1 dia, a largada mais rápida do canal.
+  - **Grupo do Prédio Pt 1** (`_9eTAbgUSrs`, 21/11, 73 s) tem só 4 views; o Geada, no mesmo período, fez 1.386. Precisa o Vitor conferir se está público.
+  - `data/fila.json` ainda tem CAM 04 e Pt 1 em `itens` (não mexi; é do Publicador, com confirmação do Vitor). Com isso só a Dashcam é isca aprovada de verdade.
+- **Hoje 23/11 = protocolo** (último principal postado: Pt 1, história). Sem protocolo aprovado; candidatos nº 14 Assobiador (preferido, tem gato) e nº 13 Pisadeira, com o Vitor.
+- **Mapa:** 23/11 Dashcam + nº 14/13; 24/11 nº 5 Campainha + nº 11 Pt 2 (só se o Pt 1 estiver público); 25/11 nº 12 Terreiro + o protocolo que sobrar; 26/11 vazio → coberto pelos roteiros de hoje.
+- **Roteirista** (subagente; skills video-making e protocolo-analog-horror carregadas; só arte que já existe):
+  - **nº 15 "Câmera 4, Ep. 1: O 13º Andar"** (`roteiros/camera4_01.json`), história para 26/11 18h47: 16 cenas, 89 palavras, ~50 s, VHS/CFTV em 12 cenas, susto `esp_moradora`, voto A escada / B elevador. Começa onde a CAM 04 parou.
+  - **nº 16 "Fita da Farmácia 03"** (`roteiros/iscas/isca_12_farmacia3.json`), isca para 26/11 11h47: 6 cenas, 32 palavras, ~22 s, susto `esp_cliente_estoque` (estreia), virada: a câmera mostra o corredor vazio.
+- **Ressalvas para o Revisor/Vitor:** o boneco `adulto` tem cara de criança, então o Seu Joaquim só aparece de costas e pequeno (cena 15); não há arte de interfone (close no painel de latão da portaria); `elevador_porta` e `farmacia_corredor2` saem escuros na prova; o 8º andar reaproveita o desenho do `corredor_camera4`. Se a história passar de 55 s: `"ritmo": 1.05` ou cortar a cena 4.
+- **Diretor de Arte:** não acionado (os roteiros rodam com o banco atual). Para o futuro: boneco próprio do Seu Joaquim (idoso, cabelo branco, uniforme) e arte do interfone.
+- **Refazer:** nada com status "refazer". Nenhuma decisão nova do Vitor em `aprovacoes.json` desde 21/11.
+- **Mesa do Gerente:** "Aguardando" ganhou nº 16 e 15, e as faixas dos nº 5, 11, 12, 13 e 14 foram atualizadas pelo mapa novo; histórico ganhou "22/11 #9 CAM 04 postada à mão".
+- **Aprendizado (Analista):** cada meio minuto a mais custa ~15 pontos de % assistido. História até 50 s, isca até 25 s; se não couber, vira 2 episódios.
+- **Ferramenta:** gh CLI funcionou para disparar workflows nesta rodada (apesar de `gh auth status` dizer token inválido).
