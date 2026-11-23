@@ -140,3 +140,22 @@
   - efeitos sonoros sintetizados (whoosh na virada de capítulo, ronco grave nas descidas, vento, rumor de calor), abaixando quando a voz fala;
   - som final normalizado em -14 LUFS (o padrão do YouTube).
 - **Plano da semana:** Qua 25/11, render da versão 1 (tarefa agendada). Depois, revisão e ajustes; se precisar, versão 2 até sexta. Post no Sáb 28/11 às 11h.
+
+## 23/11 (manhã, tarefa diária)
+- **Conexões (fila-esfr testar, run 45177015431):** YouTube conectado com **28 inscritos** (igual ao print de ontem à noite), perfil do Upload-Post ok (200), chave Gemini própria com TTS. O agendamento das 00h42 (run 45107584011) tentou o Sol e levou o 429 do Upload-Post (limite do mês, reinicia por volta de 17/12). Os posts seguem à mão pelo Vitor.
+- **Números:** sem dados novos de views (a análise só roda dentro dos workflows). Último registro (22/11, 19h13): Lua 1,9 mil, Terra 1,3 mil, Buraco 1,2 mil, Espaço sem traje 1,1 mil; o pulo refeito tinha 125 views logo depois de sair.
+- **Refeitos no visual novo (trocado o `run_id` na fila, mesmo lugar):**
+  - 08 buraco negro: run 45177197156, 54,5 s, voz Puck 92%. Buraco negro realista, números batendo (4,3 milhões, 25 milhões de km, 3 h, 12,8 s).
+  - 09 anéis: run 45178321957, 48,2 s, voz 91%, Terra realista. O anel encosta nas bordas da tela nas cenas de perfil, mas sem cortar texto.
+- **Quadros novos em `src/voce.py`** (testados aqui com folha de prova antes do render):
+  - `perfuracao`: poço em corte com torre e broca descendo, `termometro`, `calor`, `treme`, `fosseis` (plâncton brilhando), `agua`, `lama` (bolhas de hidrogênio subindo); modos `boca` (tampa enferrujada vista de cima, com `medida`), `perfil` (você ao lado do poço, em escala) e `planeta` (a marca minúscula do poço na Terra em corte).
+  - `impacto`: a Terra com o asteroide chegando e o clarão (`espaco`, `impacto`); paisagem com dinossauros genéricos e você no morro, com `bola`, `plumas`, `vento`, `tsunami`, `fogo`, `escuro`, `frio`, `vazio`, `ave`. Rótulo com caixa escura para ler no céu claro.
+  - `comparar` ganhou `"numeros": false` (só as barras, quando a narração não fala os valores).
+- **Vídeos novos na fila (fila com 6, meta batida):**
+  - 11 "E se você descesse no buraco mais fundo já cavado?" (poço superprofundo de Kola; run 45180147143, 49,6 s, voz 93%). A 1ª versão (run 45179223048) deu 84% nas 3 tomadas: tinha muito número falado ("mil novecentos e setenta", "vinte e três centímetros", "um por cento"), que o Whisper escreve em algarismos e conta como erro. Troquei por "cientistas soviéticos", "da largura de um prato" e "um centésimo do caminho". Fontes: ZME Science, IFLScience, WorldAtlas. Ficou de fora o que as fontes não batem (ano do fim, número de espécies de fóssil, fundura da água).
+  - 12 "E se você visse o asteroide dos dinossauros cair?" (run 45180951431, 48,1 s, voz 94%). Já escrito com pouco número falado. Números da NSF (uns 10 km, 20 km/s, ventos de mais de 1.000 km/h, onda de 1,5 km, que virou "mais de 1 km"), do NHM de Londres (75% dos animais = "três em cada quatro", nenhum bicho de terra com mais de 25 kg, as aves como dinossauros que escaparam) e da Sky at Night. Os 70% das florestas viraram "a maior parte".
+- **Cota de voz:** 5 renders hoje (08, 09, 11 duas vezes, 12), sem 429.
+- **Vênus (10) NÃO foi renderizado hoje** (cota). Renderizar na **Ter 24/11**, primeiro render do dia, e anotar o `run_id` aqui (não entra na fila; a tarefa de Sáb 28/11 põe ele no início).
+- **Aprendido:** o Whisper escreve número em algarismo ("1970", "23", "1%") e a nota cai uns 3 pontos por número longo falado. Regra prática: no máximo 4 ou 5 números falados por roteiro, e de preferência curtos ("doze", "cem"); o resto vira comparação em palavras ("três em cada quatro", "da largura de um prato").
+- **Testar depois:** ver se temas "Terra por dentro/história da Terra" (poço, asteroide) seguram como os de espaço. Ideias ainda sem uso: um dia em Vênus (o 10 cobre), gravidade sumindo por 5 s, Terra sem oceanos (as fontes são fracas, só simulação), raio caindo perto de você (cuidado com saúde).
+- **Vídeo longo:** sem mudança hoje; render da versão 1 segue na Qua 25/11 (tarefa agendada). Na quarta, no máximo 1 Short.
