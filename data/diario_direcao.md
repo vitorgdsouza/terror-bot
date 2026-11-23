@@ -381,3 +381,8 @@
 - **Mesa do Gerente:** sem mudança (nada novo pendente nem decidido desde a rodada das 07h25).
 - **Aviso no Telegram:** não mandado (nada novo para decidir).
 - **Ferramenta:** gh CLI funcionou para leitura apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
+
+## 23/11 (22h10 UTC): reserva da fila, turno tarde
+- **Agendamento das 18h47 não disparou** (nenhuma execução `schedule` do fila.yml hoje).
+- **Não postei à mão:** o Grupo do Prédio (Parte 2) já está no YouTube (`iseuGKOPE5M`, thumb às 21h38 UTC), postado pelo Vitor depois do envio pelo Telegram (run 45261575576).
+- **Atenção:** o Pt 2 continua em `itens` do `data/fila.json`. O próximo fila.yml da tarde postaria de novo. A limpeza espera o Vitor. A Dashcam 04:02 (isca) também segue em `itens` e não aparece no YouTube.
