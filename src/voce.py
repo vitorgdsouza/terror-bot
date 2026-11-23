@@ -30,6 +30,8 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   sol          o Sol e a Terra em órbita; "apaga", "apagado", "onda" (a última luz indo até a Terra), "tangente" (a Terra sai em linha reta), "so_terra" + "congela" (a Terra virando gelo), "rotulo"
   buraco_negro buraco negro com disco de gás; "de"/"ate" (0 longe, 1 na borda: astronauta caindo), "congela" (parece parar na borda, avermelhando), "atravessa", "dentro" (o céu vira um círculo que encolhe), "estica" (espaguetificação; com "pequeno": true estica antes da borda), "rotulo"
   aneis        a Terra com anel; "asteroide", "quebra", "forma" (o anel se fecha), "faixa" + "crateras" (faixa de 30° do equador), "cai", "sombra", "gelo", "some", "ceu" (arco no céu visto do chão), "rotulo"
+  astro        qualquer planeta no visual novo; "nome", "com" (outro planeta ao lado), "zoom", "nave", "brilho" (calor), "rotulo"
+  pouso        o você no chão de um planeta (igual ao vídeo longo); "nome" (mercurio, venus, marte, terra, lua), "efeitos" (calor, frio, pressao, vento, poeira, noite, sol_nasce), "traje" (0 a 1), "pose"
   mergulho     submarino descendo; "de"/"ate" (metros no medidor), "luz", "peixe", "pressao", "fonte" (fonte de calor no fundo), "escala": true (mar em corte com o Everest dentro), "medidor": false, "rotulo"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
@@ -1000,6 +1002,52 @@ def _aneis(img, cena, t, dur, n, p):
         _centro_texto(d, W / 2, H * 0.17, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 62), p["acento"])
 
 
+def _astro(img, cena, t, dur, n, p):
+    """Qualquer planeta no visual novo (src/planetas.py). "nome"; "com": outro planeta ao lado (ex.: "terra"),
+    "zoom": [z0, z1]; "nave": nave chegando; "brilho": brilho de calor em volta; "rotulo"."""
+    from .planetas import planeta
+    d = ImageDraw.Draw(img, "RGBA")
+    _estrelas(d, t)
+    z0, z1 = cena.get("zoom", [1.0, 1.15])
+    z = z0 + (z1 - z0) * _suave(t / max(0.1, dur))
+    cx, cy = W / 2, H * 0.47
+    R = int(330 * z)
+    if cena.get("com"):                                 # um em cima do outro, para comparar
+        cy, R = H * 0.33, int(230 * z)
+        outro = planeta(cena["com"], int(R * cena.get("proporcao", 1.0)), t)
+        img.paste(outro, (int(W / 2 - outro.width / 2), int(H * 0.66 - outro.height / 2)), outro)
+    if cena.get("brilho"):
+        for k in range(10, 0, -1):
+            rr = R * (1.05 + k * 0.05) * (1 + 0.02 * math.sin(t * 4))
+            d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), fill=(255, 120, 30, 14))
+    sp = planeta(cena["nome"], R, t)
+    img.paste(sp, (int(cx - sp.width / 2), int(cy - sp.height / 2)), sp)
+    d = ImageDraw.Draw(img, "RGBA")
+    if cena.get("nave"):
+        f = _suave(t / max(0.1, dur * 0.9))
+        x, y = W * 0.1 + (cx - R * 0.8 - W * 0.1) * f, H * 0.2 + (cy - R * 0.6 - H * 0.2) * f
+        for k in range(8):
+            d.ellipse((x - 40 - k * 20, y - 30 - k * 16, x - 22 - k * 20, y - 12 - k * 16), fill=p["acento"][:3] + (150 - k * 17,))
+        d.polygon([(x + 50, y + 40), (x - 40, y - 10), (x - 50, y + 20), (x - 20, y + 60)], fill=p["fig"])
+    if cena.get("rotulo"):
+        _centro_texto(d, W / 2, H * 0.16, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 64), p["acento"])
+
+
+def _pouso(img, cena, t, dur, n, p):
+    """O você no chão de um planeta (o mesmo do vídeo longo), recortado na vertical. "nome", "efeitos", "traje", "pose"."""
+    from .longo import _q_superficie, W as LW, H as LH
+    grande = Image.new("RGB", (LW, LH))
+    _q_superficie(grande, dict(cena, medidor=None), t, dur)
+    larg = LH * W / H
+    x0 = LW * 0.42 - larg / 2
+    corte = grande.crop((int(x0), 0, int(x0 + larg), LH)).resize((W, H), Image.BICUBIC)
+    img.paste(corte)
+    if cena.get("rotulo"):
+        d = ImageDraw.Draw(img)
+        _centro_texto(d, W / 2, H * 0.16, str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 64), p["acento"])
+
+
+QUADROS.update({"astro": _astro, "pouso": _pouso})
 QUADROS.update({"planeta": _planeta, "terra_corte": _terra_corte, "espaco": _espaco, "numero": _numero,
                 "comparar": _comparar, "multidao": _multidao, "sol": _sol, "mergulho": _mergulho,
                 "buraco_negro": _buraco_negro, "aneis": _aneis})

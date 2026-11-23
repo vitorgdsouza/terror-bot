@@ -42,3 +42,9 @@ Estrutura (cerca de 11 min). A ordem segue a escalada, não a distância ao Sol:
 - **Quadros dos planetas** (Mercúrio, Vênus, Marte, Júpiter, Saturno, Urano, Netuno) no padrão novo: a Terra com os continentes de verdade (`src/globo.py`) e o buraco negro realista (`src/buraco_negro.py`) são a referência de qualidade.
 
 Fontes da pesquisa: vidiq.com (estatísticas dos canais What If e Ciência Todo Dia), uniladtech.com (sobre o vídeo de 17 mi), wikiwand.com (Timelapse of the Future), kurzgesagt.org, kottke.org (bastidores do Kurzgesagt), memorando de produção da equipe MrBeast (alexanderjarvis.com), 1of10.com e vidiq.com/blog (retenção).
+
+## Calendário do 1º longo (combinado com o Vitor em 22/11)
+- **Qua 25/11, à tarde:** render completo (`longo-esfr.yml`, roteiro `roteiros/esfr/longo_01_planetas.json`, cerca de 9 a 10 min, trilha própria). Revisar a prévia `data/previas/longo_01_planetas.jpg` e o log (voz de cada bloco ≥ 88%). Nesse dia, a rodada de Shorts faz no máximo 1 render (cota de voz).
+- **Sáb 28/11, 11h:** o Vitor posta o longo à mão no YouTube (Upload-Post no limite até por volta de 17/12): título, descrição com os capítulos, thumb 16:9 (`thumb_longo.jpg`, que vai no Telegram).
+- **Sáb 28/11:** sem Short às 12h17. O Short "E se você pousasse em Vênus?" (`esfr_10_venus.json`) sai às 16h17, com o longo como "vídeo relacionado".
+- **Depois:** um longo por semana, sempre sábado às 11h, até o Studio mostrar o horário real do público (Análises → Público → "Quando seus espectadores estão no YouTube").

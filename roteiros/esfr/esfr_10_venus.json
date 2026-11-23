@@ -1,0 +1,132 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se você pousasse em Vênus?",
+ "titulo_youtube": "E se você POUSASSE em Vênus? 🔥 #shorts",
+ "legenda_post": "Quase do tamanho da Terra, mas lá embaixo faz calor de derreter chumbo e a pressão é umas 92 vezes a daqui. A sonda que mais aguentou durou 2 horas. Você pousaria? 👇\n\nFontes: NASA Science (Venus facts), NASA NSSDC Planetary Fact Sheet.\n#ciencia #espaco #venus #curiosidades #ese",
+ "thumb_texto": "VOCÊ POUSARIA|EM VÊNUS?",
+ "cenas": [
+  {
+   "narracao": "E se você pousasse em Vênus?",
+   "quadro": "astro",
+   "nome": "venus",
+   "nave": true,
+   "thumb": true,
+   "thumb_momento": 0.7
+  },
+  {
+   "narracao": "Ele é quase do tamanho da Terra.",
+   "quadro": "astro",
+   "nome": "venus",
+   "com": "terra",
+   "proporcao": 1.05
+  },
+  {
+   "narracao": "Mas o ar é quase todo de gás carbônico, com nuvens de ácido sulfúrico.",
+   "quadro": "astro",
+   "nome": "venus",
+   "zoom": [
+    1.1,
+    1.4
+   ]
+  },
+  {
+   "narracao": "Você desce, atravessa as nuvens e pousa.",
+   "quadro": "pouso",
+   "nome": "venus"
+  },
+  {
+   "narracao": "A temperatura média é de quatrocentos e sessenta e quatro graus.",
+   "quadro": "numero",
+   "de": 15,
+   "ate": 464,
+   "unidade": "°C",
+   "rotulo": "média em Vênus"
+  },
+  {
+   "narracao": "Quente o bastante para derreter chumbo.",
+   "quadro": "pouso",
+   "nome": "venus",
+   "efeitos": [
+    "calor"
+   ],
+   "traje": 0.3
+  },
+  {
+   "narracao": "E mais quente que Mercúrio, que fica mais perto do Sol.",
+   "quadro": "astro",
+   "nome": "venus",
+   "com": "mercurio",
+   "proporcao": 0.4,
+   "brilho": true
+  },
+  {
+   "narracao": "A pressão é umas noventa e duas vezes a daqui.",
+   "quadro": "numero",
+   "de": 1,
+   "ate": 92,
+   "unidade": "vezes",
+   "rotulo": "a pressão da Terra"
+  },
+  {
+   "narracao": "É como se o ar te apertasse de todos os lados.",
+   "quadro": "pouso",
+   "nome": "venus",
+   "efeitos": [
+    "calor",
+    "pressao"
+   ],
+   "traje": 0.7
+  },
+  {
+   "narracao": "A gente sabe disso porque já mandou sondas pra lá.",
+   "quadro": "astro",
+   "nome": "venus",
+   "nave": true,
+   "zoom": [
+    0.9,
+    1.1
+   ]
+  },
+  {
+   "narracao": "A que mais aguentou funcionou por duas horas.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 2,
+   "unidade": "horas",
+   "rotulo": "a sonda que mais durou"
+  },
+  {
+   "narracao": "E a que menos, só vinte e três minutos.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 23,
+   "unidade": "minutos",
+   "rotulo": "a que menos durou"
+  },
+  {
+   "narracao": "E o mais estranho: lá, um dia dura mais que um ano inteiro.",
+   "quadro": "astro",
+   "nome": "venus",
+   "brilho": true,
+   "rotulo": "dia 243 / ano 225"
+  },
+  {
+   "narracao": "E aí, você pousaria em Vênus? Comenta.",
+   "quadro": "pouso",
+   "nome": "venus",
+   "efeitos": [
+    "calor"
+   ],
+   "traje": 0.9,
+   "rotulo": "você pousaria?"
+  }
+ ]
+}

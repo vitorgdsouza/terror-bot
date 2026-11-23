@@ -534,15 +534,65 @@ def main():
     nome = Path(arq).stem
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(final), "-vf", "fps=1/4,scale=320:-1,tile=6x8",
                     "-frames:v", "1", "-q:v", "4", str(previas / f"{nome}.jpg")])
+    capa = thumb(r, trab / "thumb_longo.jpg")
+    try:
+        telegram.enviar_foto(capa, "[E Se Fosse Real?] Thumb do vídeo longo: toque e salve na galeria")
+        telegram.enviar_arquivo(capa, "Thumb do vídeo longo: arquivo original, sem compressão")
+    except Exception as e:  # noqa: BLE001
+        log(f"Thumb no Telegram falhou: {e}")
     try:
         telegram.enviar_mensagem(f"[E Se Fosse Real?] Vídeo longo pronto: {r['titulo']}\n\nCapítulos:\n{caps_txt}")
-        if final.stat().st_size < 48 * 1024 * 1024:
-            telegram.enviar_video(final, f"[E Se Fosse Real?] {r['titulo']}", W, H)
-        else:
-            telegram.enviar_mensagem("O vídeo passou de 50 MB: baixe pelo artefato do GitHub Actions (video-longo).")
+        envio = final
+        if final.stat().st_size > 48 * 1024 * 1024:       # o bot do Telegram só manda até 50 MB: cópia mais leve
+            from .util import duracao
+            dur = duracao(final)
+            kbps = int((45 * 8 * 1024) / dur - 128)
+            envio = final.with_name("video_longo_telegram.mp4")
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(final), "-c:v", "libx264", "-preset", "medium",
+                            "-b:v", f"{kbps}k", "-maxrate", f"{int(kbps * 1.3)}k", "-bufsize", f"{kbps * 2}k",
+                            "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", str(envio)], check=True)
+            log(f"Cópia para o Telegram: {envio.stat().st_size / 1e6:.0f} MB ({kbps} kbps)")
+        telegram.enviar_video(envio, f"[E Se Fosse Real?] {r['titulo']}", W, H)
+        if envio != final:
+            telegram.enviar_mensagem("Essa cópia foi comprimida para caber no Telegram. O arquivo em qualidade máxima "
+                                     "está no GitHub Actions (artefato video-longo).")
     except Exception as e:  # noqa: BLE001
         log(f"Telegram falhou: {e}")
 
 
 if __name__ == "__main__":
     main()
+
+
+def thumb(r: dict, destino: Path) -> Path:
+    """Thumb 16:9 (1280x720) do vídeo longo: o você em Vênus pegando fogo, os planetas em fila e a pergunta."""
+    from .planetas import planeta
+    img = _fundo_espaco(0.0).copy()
+    d = ImageDraw.Draw(img, "RGBA")
+    tam = {"mercurio": 48, "venus": 72, "terra": 74, "marte": 58, "jupiter": 150, "saturno": 120, "urano": 92, "netuno": 90}
+    xs = np.linspace(170, W - 170, len(ORDEM))
+    for i, n in enumerate(ORDEM):                         # fila de planetas embaixo
+        _colar(img, planeta(n, tam[n] * 0.95, 1.0 + i), xs[i], H * 0.86)
+    d = ImageDraw.Draw(img, "RGBA")
+    ven = planeta("venus", 300, 2.0)
+    _colar(img, ven, W * 0.8, H * 0.37)
+    d = ImageDraw.Draw(img, "RGBA")
+    for k in range(10, 0, -1):                            # brilho de calor em volta de Vênus
+        rr = 300 + k * 14
+        d.ellipse((W * 0.8 - rr, H * 0.37 - rr, W * 0.8 + rr, H * 0.37 + rr), outline=(255, 120, 30, 10), width=14)
+    astronauta(d, W * 0.5, H * 0.9, 420, 0.0, 0.5, "acenando")
+    linhas = [(l.strip().upper(), AMARELO if k == 1 else BRANCO)
+              for k, l in enumerate(str(r.get("thumb_texto", "DÁ PRA|SOBREVIVER?")).split("|"))]
+    y = 120
+    for txt, cor in linhas:
+        px = 150
+        while d.textlength(txt, font=_f(px)) > W * 0.55 and px > 60:
+            px -= 6
+        for dx, dy in ((5, 6), (0, 0)):
+            d.text((80 + dx, y + dy), txt, font=_f(px), fill=(0, 0, 0, 200) if dx else cor)
+        y += px * 1.08
+    d.rounded_rectangle((80, y + 20, 80 + d.textlength("E SE FOSSE REAL?", font=_f(40)) + 50, y + 92), radius=34, fill=(8, 14, 40))
+    d.text((105, y + 30), "E SE FOSSE REAL?", font=_f(40), fill=CIANO)
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    img.resize((1280, 720), Image.LANCZOS).save(destino, quality=92)
+    return destino

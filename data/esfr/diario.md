@@ -119,3 +119,10 @@
 ## 22/11 (21h20): trilha própria
 - O Vitor não gostou dos bipes da trilha antiga ("curious ambient electronic" do Freesound). Criada a trilha sintetizada do canal (`src/trilha_esfr.py`), aprovada por ele. Agora vale para o vídeo longo e para os Shorts: todos os roteiros `esfr_*` ficaram com `"trilha": "propria"`, e a regra entrou no `docs/ESFR.md`. Os vídeos já renderizados na fila continuam com a trilha antiga; os que forem refeitos (08 e 09 amanhã) já saem com a nova.
 - O Vitor pediu para deixar o 06 (Sol) e o 07 (Fossa) como estão, com a trilha antiga, por enquanto. Não refazer esses dois.
+
+## 23/11 (00h): vídeo longo encaminhado (pedido do Vitor)
+- **Roteiro completo** `roteiros/esfr/longo_01_planetas.json`: 9 capítulos (Início, Mercúrio, Marte, Júpiter, Saturno, Urano, Netuno, Vênus, Terra), 113 cenas, cerca de 1.240 palavras, uns 9 a 10 min. Tudo conferido em `docs/esfr/longo_01_fatos.md`. Todas as cenas foram testadas aqui, uma imagem por cena.
+- **Thumb 16:9** gerada pelo próprio motor ("EM QUAL PLANETA VOCÊ SOBREVIVERIA?"), mandada no Telegram como foto e como arquivo. Se o vídeo passar de 50 MB, vai uma cópia comprimida para o Telegram, e o original fica no artefato.
+- **Short novo pronto para renderizar:** `esfr_10_venus.json`, para Sáb 28/11 às 16h17, ligado ao longo. Quadros novos nos Shorts: `astro` (qualquer planeta no visual novo) e `pouso` (o você no chão, igual ao longo).
+- **Calendário** em `docs/ESFR_LONGO.md`: render do longo na Qua 25/11 à tarde (nesse dia, no máximo 1 Short renderizado); post do longo no Sáb 28/11 às 11h; sem Short às 12h17 nesse sábado.
+- **Para a rodada diária:** Seg 23/11, refazer o 08 e o 09 (visual e trilha novos) e renderizar o 10 (Vênus). Pôr o 10 na fila, mas ele só sai no Sáb 28/11 às 16h17 (anotar na legenda da fila; o Vitor posta à mão).
