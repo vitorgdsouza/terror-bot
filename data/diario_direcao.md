@@ -366,3 +366,8 @@
 - **Mesa do Gerente:** sem mudança (já estava em dia desde a rodada das 07h25).
 - **Aviso no Telegram:** não mandado (nada novo para decidir).
 - **Ferramenta:** gh CLI funcionou para leitura apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
+
+## 23/11 (15h10 UTC): reserva da fila, turno manhã
+- **Agendamento das 11h47 não disparou** (nenhuma execução `schedule` do fila.yml hoje de manhã; as duas últimas agendadas, 22/11 20h49 e 23/11 01h58 UTC, falharam).
+- **Não postei à mão:** a primeira isca em `itens` é a CAM 04, que já saiu em 22/11 (`atlITzZFEtU`). Disparar o fila.yml postaria a CAM 04 de novo. A Dashcam só sai depois que a CAM 04 e o Pt 1 forem tirados de `itens` (limpeza que espera o Vitor).
+- Aviso mandado ao Vitor por notificação.
