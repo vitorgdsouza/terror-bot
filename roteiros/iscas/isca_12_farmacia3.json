@@ -1,0 +1,112 @@
+{
+  "titulo": "Fita da Farmácia 03:17 (Fita 03)",
+  "tipo": "isca",
+  "serie": "Turno da Madrugada",
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "NOV 20 2003",
+  "hora_fita": [
+    3,
+    16,
+    40
+  ],
+  "protagonista": null,
+  "clima": "suspense",
+  "selo": "FITA 03",
+  "pergunta_thumb": "Fecha ou foge?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "final": true,
+  "titulo_youtube": "A porta dos fundos da farmácia abriu sozinha às 3h16... 📼 #shorts",
+  "legenda_post": "Fita 03 (história de ficção). Na noite depois do \"boa noite, mãe\", a porta dos fundos da farmácia abriu sozinha. A Bia viu ele no fim do corredor... e a câmera não. Você fechava os fundos ou fugia pela frente? 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#terror",
+    "#farmacia"
+  ],
+  "resumo": "Noite seguinte à Fita 02 (o 'boa noite, mãe' foi o convite). A porta de emergência do depósito abre sozinha; a Bia está sozinha no caixa; ouve passos; às 3h17 ela vê o Cliente na porta dos fundos (esp_cliente_estoque, sem texto de câmera: é o olho dela). Virada: na câmera, o mesmo corredor está vazio (cânone: ele não aparece na câmera). Pergunta A/B: fecha os fundos ou foge pela frente.",
+  "cenas": [
+    {
+      "narracao": "A porta dos fundos abriu sozinha.",
+      "cenario": "farmacia_deposito",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.48,
+        0.48,
+        1.5
+      ],
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 03 | DEPÓSITO | 03:16",
+      "som": {
+        "busca": "metal door creak",
+        "palavra": "abriu"
+      }
+    },
+    {
+      "narracao": "Bia, sozinha no caixa.",
+      "cenario": "farmacia_balcao_escuro",
+      "personagem": null,
+      "camera": "parada"
+    },
+    {
+      "narracao": "Passos no fim do corredor.",
+      "cenario": "farmacia_corredor2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.45,
+        1.25
+      ],
+      "som": {
+        "busca": "slow footsteps",
+        "palavra": "Passos"
+      }
+    },
+    {
+      "narracao": "Três e dezessete. Ele estava lá.",
+      "cenario": "esp_cliente_estoque",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "thumb": true,
+      "pausa_extra": 0.8,
+      "som": {
+        "busca": "horror stinger hit",
+        "palavra": "lá"
+      }
+    },
+    {
+      "narracao": "Na câmera... corredor vazio.",
+      "cenario": "farmacia_corredor2",
+      "personagem": null,
+      "camera": "parada",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 02 | CORREDOR | 03:17",
+      "som": {
+        "busca": "static noise",
+        "palavra": "câmera"
+      }
+    },
+    {
+      "narracao": "Fecha os fundos... ou foge pela frente?",
+      "cenario": "farmacia_balcao2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.76,
+        0.43,
+        1.8
+      ],
+      "efeito": "tremor",
+      "corte_preto": true,
+      "som": {
+        "busca": "knock on glass",
+        "palavra": "frente"
+      }
+    }
+  ]
+}

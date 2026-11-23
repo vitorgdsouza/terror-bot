@@ -1,0 +1,227 @@
+{
+  "titulo": "Câmera 4, Ep. 1: O 13º Andar",
+  "tipo": "historia",
+  "serie": "Câmera 4",
+  "parte": 1,
+  "final": false,
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "NOV 20 1998",
+  "hora_fita": [
+    3,
+    14,
+    0
+  ],
+  "protagonista": "adulto",
+  "clima": "suspense",
+  "selo": "CAM 04 | EP. 1",
+  "pergunta_thumb": "Escada ou elevador?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "titulo_youtube": "Ela pula de câmera em câmera... e agora está no andar da dona Zélia 📼 Câmera 4 Ep. 1 #shorts",
+  "legenda_post": "Câmera 4, Ep. 1: O 13º Andar (história de ficção). Continua da fita CAM 04: o interfone tocou do apartamento 1301, num prédio de 12 andares, e cada vez que o Seu Joaquim encara a tela, ela aparece mais perto. Agora ela está no 8º, o andar da dona Zélia. Ele sobe pela escada ou pelo elevador que desceu sozinho? Comenta A ou B 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#cftv",
+    "#foundfootage",
+    "#terror",
+    "#camera4"
+  ],
+  "resumo": "Continua exatamente onde a isca CAM 04 parou (ela apareceu na câmera da portaria). Seu Joaquim vira e não há ninguém; passa as câmeras (13º, garagem, escada, elevador com o espelho embaçado por dentro). O interfone toca do 1301, que não existe: 'o senhor lembra de mim?' (segredo: ela quer ser lembrada). Ele encara a câmera 4 tempo demais e ela pula para o 8º andar, o da dona Zélia (regra: encarar a traz para uma câmera mais perto). O elevador que veio do 13 abre sozinho no térreo. Voto: escada (8 andares aos 71) ou elevador.",
+  "opcao_a": "Subir os oito andares pela escada.",
+  "opcao_b": "Entrar no elevador que desceu sozinho do 13º.",
+  "cenas": [
+    {
+      "narracao": "A câmera mostrou alguém atrás dele. Ele virou.",
+      "cenario": "portaria",
+      "personagem": null,
+      "camera": "pan_esquerda",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 01 | PORTARIA | 03:14",
+      "som": {
+        "busca": "static noise",
+        "palavra": "virou"
+      }
+    },
+    {
+      "narracao": "Ninguém. Na tela, ela tinha sumido.",
+      "cenario": "portaria",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.17,
+        0.26,
+        1.9
+      ],
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 01",
+      "som": {
+        "busca": "static noise",
+        "palavra": "sumido"
+      }
+    },
+    {
+      "narracao": "Câmera quatro: o treze, vazio.",
+      "cenario": "corredor_camera4",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 04 | 13º ANDAR"
+    },
+    {
+      "narracao": "Garagem: nada.",
+      "cenario": "garagem_predio",
+      "personagem": null,
+      "camera": "pan_direita",
+      "texto_tela": "CAM 02 | GARAGEM",
+      "som": {
+        "busca": "camera switch click",
+        "palavra": "Garagem"
+      }
+    },
+    {
+      "narracao": "Escada: só a luz piscando.",
+      "cenario": "escada",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 03 | ESCADA"
+    },
+    {
+      "narracao": "Elevador: espelho embaçado... por dentro.",
+      "cenario": "elevador_dentro",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.68,
+        0.33,
+        1.9
+      ],
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 05 | ELEVADOR"
+    },
+    {
+      "narracao": "O interfone tocou: treze zero um.",
+      "cenario": "portaria",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.37,
+        2.0
+      ],
+      "efeito": "tremor",
+      "texto_tela": "INTERFONE | 1301",
+      "som": {
+        "busca": "old intercom buzzer",
+        "palavra": "interfone"
+      }
+    },
+    {
+      "narracao": "Lembra de mim, Seu Joaquim?",
+      "cenario": "elevador_porta",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.43,
+        0.6,
+        1.7
+      ],
+      "efeito": "luz_piscando",
+      "pausa_extra": 0.3
+    },
+    {
+      "narracao": "Ele não lembrava. Encarou a câmera.",
+      "cenario": "corredor_camera4",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.4,
+        2.0
+      ],
+      "texto_tela": "CAM 04 | 13º ANDAR"
+    },
+    {
+      "narracao": "Tempo demais... ela apareceu no oitavo.",
+      "cenario": "esp_moradora",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "texto_tela": "CAM 08 | 8º ANDAR",
+      "thumb": true,
+      "pausa_extra": 0.8,
+      "som": {
+        "busca": "horror stinger hit",
+        "palavra": "apareceu"
+      }
+    },
+    {
+      "narracao": "O andar da dona Zélia.",
+      "cenario": "escada_cima",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 07 | ESCADA 8º"
+    },
+    {
+      "narracao": "Tinha que subir antes dela descer.",
+      "cenario": "escada_cima",
+      "personagem": null,
+      "camera": "zoom_out",
+      "foco": [
+        0.5,
+        0.6,
+        1.6
+      ]
+    },
+    {
+      "narracao": "O elevador abriu sozinho.",
+      "cenario": "elevador_porta",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 06 | TÉRREO",
+      "som": {
+        "busca": "elevator ding",
+        "palavra": "elevador"
+      }
+    },
+    {
+      "narracao": "Rápido... mas veio do treze.",
+      "cenario": "elevador_dentro",
+      "personagem": null,
+      "camera": "zoom_out",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 05 | ELEVADOR"
+    },
+    {
+      "narracao": "Escada: oito andares. Ele tem setenta e um.",
+      "cenario": "escada",
+      "personagem": {
+        "pose": "olhando_cima",
+        "acao": "parado",
+        "posicao": "centro",
+        "tamanho": "medio"
+      },
+      "camera": "zoom_in"
+    },
+    {
+      "narracao": "Escada ou elevador? Comenta A ou B.",
+      "cenario": "elevador_dentro",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.68,
+        0.33,
+        2.2
+      ],
+      "efeito": "tremor",
+      "corte_preto": true,
+      "som": {
+        "busca": "glass tap",
+        "palavra": "Comenta"
+      }
+    }
+  ]
+}
