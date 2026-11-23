@@ -105,3 +105,13 @@
 - **Buraco negro realista** (`src/buraco_negro.py`): sombra preta, anel de fótons, o disco cruzando a frente da sombra e a parte de trás dobrada por cima e por baixo, com o lado que vem em nossa direção mais brilhante. Não parece mais Saturno.
 - **Pesquisa de vídeo longo** registrada em `docs/ESFR_LONGO.md`. O 1º longo será "E se você pousasse em cada planeta do Sistema Solar?" (cerca de 11 min, ordem em escalada, nada de cartão de texto parado).
 - **Para a próxima rodada:** refazer o 08 (buraco negro) e o 09 (anéis), que estão na fila com o visual antigo. São 2 renders, e a cota de hoje já foi.
+
+## 22/11 (21h): motor do vídeo longo
+- **Planetas** no visual novo (`src/planetas.py`), aprovados pelo Vitor.
+- **Motor 16:9** (`src/longo.py`) e workflow `longo-esfr.yml` (input `blocos` para testar só um trecho). Tem:
+  - quadros `sistema`, `planeta`, `superficie` (o "você" astronauta, efeitos de calor, frio, pressão e poeira, termômetro contando), `descida` (dentro dos gigantes gasosos) e `escala` (tamanho real ao lado da Terra, a Terra dentro da Grande Mancha);
+  - placar "Dá pra sobreviver?" (sem tempos inventados), barra de capítulos, faixa de documentário e legenda discreta;
+  - narração em blocos (2 tomadas por bloco).
+- **Teste:** abertura + Mercúrio (run 45085222903, 1,3 min, voz 98% e 90%), mandado no Telegram. Depois disso, troquei a geada "de bolhas" por vinheta gelada e corrigi a escala Terra x Mercúrio.
+- Fatos conferidos na NASA em `docs/esfr/longo_01_fatos.md`. Ficam fora do roteiro: "Olimpo 3x Everest" e "chuva de diamantes".
+- **Próximo:** roteiro dos outros blocos (Marte, Júpiter, Saturno, Urano, Netuno, Vênus, Terra) depois do retorno do Vitor sobre o teste. O render completo leva uns 20 a 30 min e uns 10 blocos de voz: fazer num dia sem renders de Shorts (a cota de hoje deu 429).

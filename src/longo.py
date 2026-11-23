@@ -222,13 +222,23 @@ def _q_superficie(img, c, t, dur):
             y = H - (t * (90 + rr.random() * 120) + rr.random() * H) % (H * 0.8)
             s_ = 3 + rr.random() * 5
             d.ellipse((x - s_, y - s_, x + s_, y + s_), fill=(255, 190, 90, 150))
-    if "frio" in ef:                                      # geada nas bordas
-        for k in range(40):
+    if "frio" in ef:                                      # vinheta gelada nas bordas e cristais caindo
+        k_ = ("vinheta_fria",)
+        if k_ not in _cache:
+            yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+            dd = np.sqrt(((xx - W / 2) / (W / 2)) ** 2 + ((yy - H / 2) / (H / 2)) ** 2)
+            a_ = (np.clip((dd - 0.75) * 1.6, 0, 1) * 170).astype(np.uint8)
+            v = np.dstack([np.full((H, W), 200, np.uint8), np.full((H, W), 230, np.uint8), np.full((H, W), 255, np.uint8), a_])
+            _cache[k_] = Image.fromarray(v, "RGBA")
+        img.paste(_cache[k_], (0, 0), _cache[k_])
+        d = ImageDraw.Draw(img, "RGBA")
+        for k in range(50):
             rr = random.Random(k * 5)
-            x, y = (rr.random() * W, rr.choice([rr.random() * 120, H - rr.random() * 120]))
-            s = 20 + rr.random() * 40
-            d.ellipse((x - s, y - s, x + s, y + s), fill=(220, 240, 255, 70))
-        d.rectangle((0, 0, W, H), fill=(120, 170, 255, 40))
+            x = rr.random() * W + math.sin(t + k) * 15
+            y = (rr.random() * H + t * (40 + rr.random() * 40)) % H
+            s_ = 2 + rr.random() * 3
+            d.line((x - s_, y, x + s_, y), fill=(235, 245, 255, 200), width=2)
+            d.line((x, y - s_, x, y + s_), fill=(235, 245, 255, 200), width=2)
     if "poeira" in ef or "vento" in ef:
         for k in range(60):
             rr = random.Random(k * 9)
@@ -338,14 +348,15 @@ def _q_escala(img, c, t, dur):
     nome = c["nome"]
     diam = {"mercurio": 4879, "venus": 12104, "terra": 12756, "marte": 6792, "jupiter": 142984, "saturno": 120536,
             "urano": 51118, "netuno": 49528}
-    escala = min(380 / diam[nome], 380 / diam["terra"]) if diam[nome] < diam["terra"] else 420 / diam[nome]
+    maior = max(diam[nome], diam["terra"])
+    escala = (300 if maior == diam["terra"] else 400) / maior       # raio do maior em pixels / diâmetro real
     f = _suave(t / max(0.1, dur * 0.5))
-    Rp, Rt = diam[nome] / 2 * escala * 2 * f, diam["terra"] / 2 * escala * 2
-    xp = W * 0.62 if diam[nome] > diam["terra"] else W * 0.62
+    Rp, Rt = diam[nome] * escala * f, diam["terra"] * escala
+    xp = W * 0.66
     _colar(img, planeta(nome, max(4, int(Rp)), t), xp, H * 0.5)
-    _colar(img, planeta("terra", max(4, int(Rt)), t), W * 0.22, H * 0.5)
+    _colar(img, planeta("terra", max(4, int(Rt)), t), W * 0.28, H * 0.5)
     d = ImageDraw.Draw(img, "RGBA")
-    _texto(d, W * 0.22, H * 0.5 + Rt + 60, "TERRA", 34, (170, 185, 215))
+    _texto(d, W * 0.28, H * 0.5 + Rt + 60, "TERRA", 34, (170, 185, 215))
     _texto(d, xp, min(H - 60, H * 0.5 + Rp + 60), NOMES[nome].upper(), 34, AMARELO)
 
 
