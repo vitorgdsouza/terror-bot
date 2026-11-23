@@ -497,7 +497,16 @@ def montar(r: dict, pasta: Path) -> tuple[Path, list]:
                     "juntos.mp4"], check=True, cwd=pasta)
     _legendas(frases, pasta / "legendas.ass")
     total = duracao(pasta / "juntos.mp4")
-    extras, filtro_bg = _trilha(total, cfg, r)
+    if r.get("trilha") == "propria":                      # trilha sintetizada do canal (src/trilha_esfr.py)
+        from .trilha_esfr import gerar
+        arq = gerar(pasta / "trilha.wav")
+        vol = float(r.get("trilha_volume", 0.22))
+        log("Trilha: própria do canal (sintetizada)")
+        extras = ["-stream_loop", "-1", "-i", str(arq)]
+        filtro_bg = (f"[1:a]aformat=channel_layouts=stereo,volume={vol},afade=t=in:d=2,"
+                     f"afade=t=out:st={max(total - 3, 0):.2f}:d=3[bg]")
+    else:
+        extras, filtro_bg = _trilha(total, cfg, r)
     mistura = ("[0:a]asplit=2[voz][chave];[bg][chave]sidechaincompress=threshold=0.05:ratio=2.5:attack=40:"
                "release=600[bgd];[voz][bgd]amix=inputs=2:duration=first:normalize=0[a]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", "juntos.mp4", *extras, "-filter_complex",
