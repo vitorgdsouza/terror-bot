@@ -102,6 +102,47 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
             x = cx + 150
             d.polygon([(x - 40, cy - R - 120), (x + 40, cy - R - 120), (x, cy - R - 50)], fill=(255, 196, 40)) if k == 0 else None
         d.rectangle((cx + 140, cy - R - 230, cx + 160, cy - R - 120), fill=(255, 196, 40))
+    elif tipo == "asteroide":
+        R = 700
+        t = terra(R, seed=33)
+        ex, ey = W // 2, int(H * 1.08)                            # Terra enorme, só o topo aparece
+        img.alpha_composite(t, (ex - t.width // 2, ey - t.height // 2))
+        ax, ay, ar = int(W * 0.56), int(H * 0.5), 125
+        ix, iy = int(W * 0.47), ey - R + 20                       # onde vai bater: brilho no planeta
+        gl = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ImageDraw.Draw(gl).ellipse((ix - 170, iy - 60, ix + 170, iy + 60), fill=(255, 120, 30, 200))
+        img.alpha_composite(gl.filter(ImageFilter.GaussianBlur(40)))
+        cauda = Image.new("RGBA", (W, H), (0, 0, 0, 0))          # rastro de fogo vindo do alto à direita
+        cd = ImageDraw.Draw(cauda)
+        dx, dy = 1.0, -1.25
+        for k in range(46, 0, -1):
+            f = k / 46
+            x, y = ax + dx * k * 16, ay + dy * k * 16
+            rr = ar * (1.05 - 0.75 * f)
+            cor = (255, int(240 - 170 * f), int(150 - 140 * f), int(250 * (1 - f) ** 0.7 + 10))
+            cd.ellipse((x - rr, y - rr, x + rr, y + rr), fill=cor)
+        img.alpha_composite(cauda.filter(ImageFilter.GaussianBlur(14)))
+        halo = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ImageDraw.Draw(halo).ellipse((ax - ar * 1.7, ay - ar * 1.7, ax + ar * 1.7, ay + ar * 1.7), fill=(255, 170, 60, 210))
+        img.alpha_composite(halo.filter(ImageFilter.GaussianBlur(30)))
+        S = ar * 2 + 4                                             # a rocha, com crateras e lado quente
+        X = (np.arange(S)[None, :] - S / 2) / ar
+        Y = (np.arange(S)[:, None] - S / 2) / ar
+        m2 = X ** 2 + Y ** 2
+        rug = _ruido(S, S, 18, 5)
+        borda = 1 + (rug - 0.5) * 0.25
+        Z = np.sqrt(np.clip(1 - m2, 0, 1))
+        luz = np.clip(-X * 0.55 + Y * 0.6 + Z * 0.6, 0, 1)
+        base = (70 + 80 * rug)[..., None] * np.array([1.0, 0.85, 0.75])
+        quente = np.clip((-X * 0.7 + Y * 0.7) - 0.15, 0, 1)[..., None] * 1.3   # frente em brasa (lado da descida)
+        quente = np.clip(quente, 0, 1)
+        cor = base * (0.35 + 0.9 * luz)[..., None] * (1 - quente) + np.array([255, 150, 50]) * quente
+        a = np.clip((borda - np.sqrt(m2)) * ar * 1.2, 0, 1) * 255
+        img.alpha_composite(Image.fromarray(np.dstack([cor.clip(0, 255), a]).astype("uint8"), "RGBA"), (ax - S // 2, ay - S // 2))
+        d = ImageDraw.Draw(img)
+        fl = ImageFont.truetype(str(FONTE), 54)                    # rótulos
+        for txt, x, y in (("10 KM", ax - 300, ay + 40), ("20 KM/S", ax + 150, ay + 130)):
+            d.text((x, y), txt, font=fl, fill=(255, 196, 40), stroke_width=4, stroke_fill=(0, 0, 0))
     elif tipo == "pulo":
         t = terra(380)
         cy = int(H * 0.64)
@@ -197,9 +238,10 @@ def terra(R: int, seed: int = 21) -> Image.Image:
     with np.errstate(invalid="ignore", divide="ignore"):
         u = np.nan_to_num(np.arcsin(np.clip(X / np.maximum(np.sqrt(np.clip(1 - Y ** 2, 0, 1)), 1e-3), -1, 1)))
         v = np.nan_to_num(np.arcsin(np.clip(Y, -1, 1)))
-    tex, tex2, tex3 = _ruido(1024, 512, 75, seed), _ruido(1024, 512, 35, 8), _ruido(1024, 512, 20, 30)
-    iu = ((u / np.pi + 0.5) * 1023 * 0.98).astype(int).clip(0, 1023)
-    iv = ((v / np.pi + 0.5) * 511).astype(int).clip(0, 511)
+    TW = 2048 if R > 450 else 1024
+    tex, tex2, tex3 = _ruido(TW, TW // 2, TW * 0.073, seed), _ruido(TW, TW // 2, TW * 0.034, 8), _ruido(TW, TW // 2, TW * 0.02, 30)
+    iu = ((u / np.pi + 0.5) * (TW - 1) * 0.98).astype(int).clip(0, TW - 1)
+    iv = ((v / np.pi + 0.5) * (TW // 2 - 1)).astype(int).clip(0, TW // 2 - 1)
     ct = np.clip((tex[iv, iu] - 0.565) * 60, 0, 1)[..., None]
     from .globo import tem_mapa, _mapa
     if tem_mapa():                                         # continentes de verdade, com o Brasil de frente
