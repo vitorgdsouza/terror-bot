@@ -386,3 +386,18 @@
 - **Agendamento das 18h47 não disparou** (nenhuma execução `schedule` do fila.yml hoje).
 - **Não postei à mão:** o Grupo do Prédio (Parte 2) já está no YouTube (`iseuGKOPE5M`, thumb às 21h38 UTC), postado pelo Vitor depois do envio pelo Telegram (run 45261575576).
 - **Atenção:** o Pt 2 continua em `itens` do `data/fila.json`. O próximo fila.yml da tarde postaria de novo. A limpeza espera o Vitor. A Dashcam 04:02 (isca) também segue em `itens` e não aparece no YouTube.
+
+## 24/11 (07h25): rodada da manhã da equipe
+- **Analista** (subagente): pauta em `data/pauta/2026-11-24.md`, com o relatório de hoje (já gravado pela rodada automática; não rodei o youtube.yml de novo). Canal com 9.619 views (+1.399 desde 23/11) e 36 inscritos (+1). Retenção nova só do Protocolo Geada (58 s): 48,9% assistido, 100% / 44% / 23%, 8 inscritos (2º do canal, atrás do Guizo). CAM 04 em 1.114 views, ainda sem retenção.
+- **Fila desatualizada de novo:** os dois itens em `itens` de `data/fila.json` já estão no YouTube: **Dashcam 04:02** (`vp0on5WliLU`, 23/11, 188 views no 1º dia; o render saiu com 35 s) e **Grupo do Prédio Pt 2** (`iseuGKOPE5M`, 23/11, 28 views). A fila aprovada de verdade está vazia. Risco de o `fila.yml` repostar. Não mexi (é do Publicador, com o Vitor). O Pt 1 segue com 5 views (conferir se está público); a pauta não pede Pt 3.
+- **Hoje 24/11 = protocolo** (último principal: Pt 2, história). Sem protocolo aprovado; candidatos nº 14 Assobiador (preferido, tem gato) e nº 13 Pisadeira, com o Vitor. Aprovar até ~15h.
+- **Mapa:** 24/11 Campainha nº 5 + nº 14/13; 25/11 Terreiro nº 12 + Câmera 4 Ep. 1 nº 15 (adiantado de 26/11); 26/11 Farmácia 03 nº 16 + o protocolo que sobrar; 27/11 vazio → coberto pelos roteiros de hoje.
+- **Roteirista** (subagente; skill video-making carregada; só arte que já existe):
+  - **nº 17 "Turno da Madrugada, Ep. 1: Duas Vezes"** (`roteiros/turno_01.json`), história para 27/11 18h47: 15 cenas, 71 palavras, ~45 a 49 s (`ritmo` 1.08), VHS com 5 cenas de CFTV, susto `esp_cliente_balcao2`. Continua da Fita 03 e honra as duas escolhas (tranca os fundos e depois foge pela frente). Voto A voltar pela irmã / B ligar para casa.
+  - **nº 18 "CAM 02 | GARAGEM | 03:13"** (`roteiros/iscas/isca_13_garagem.json`), isca para 27/11 11h47: 6 cenas, 27 palavras, ~20 a 23 s, susto `esp_moradora`, 19/11/1998, noite anterior ao Ep. 1 (não toca no voto). Virada: planta antiga com 13 andares. Pergunta "Quem morava no treze?".
+- **Ressalvas para o Revisor/Vitor:** a Bia não aparece (o boneco "mulher" destoa), como nas Fitas; `telefone_casa` é uma cozinha, close no telefone para esconder o fogão; a planta de 1979 com 13 andares é cânone novo (precisa do OK do Vitor); CAM 09 criada para o subsolo; se a isca passar de 25 s, cortar a cena 2; se a história passar de 50 s, ritmo 1.1 ou cortar a cena 3.
+- **Diretor de Arte:** não acionado (nenhuma imagem faltando).
+- **Refazer:** nada com status "refazer".
+- **Mesa do Gerente:** "Aguardando" ganhou nº 18 e 17, saiu o nº 11 (decidido) e as faixas dos nº 13, 14 e 15 foram atualizadas pelo mapa novo; histórico ganhou "23/11 #11 Grupo Pt 2 aprovado e postado à mão" e "23/11 #8 Dashcam postada à mão".
+- **Aprendizado (Analista):** o que conta é a duração do render, não a do roteiro. A Dashcam (32 palavras) deu 35 s e largou 6 vezes pior que a CAM 04 (33 palavras, 26 s). Conte pausas e sons; isca acima de 25 s no render é cortada antes de ir ao Vitor.
+- **Ferramenta:** gh CLI funcionou para disparar workflows apesar de `gh auth status` dizer token inválido. Repo usado em /home/claude/terror-bot (clone já existente). Analista e Roteirista rodaram como subagentes.
