@@ -1853,12 +1853,12 @@ def _estrela(img, cena, t, dur, n, p):
             d.line((x - 130, y + 40, x, y), fill=(86, 214, 255, 200), width=4)
             d.ellipse((x - 6, y - 6, x + 6, y + 6), fill=(200, 245, 255))
         pisca = (t % 0.6) < 0.3
-        bx, by = cx, cy + R + 170
+        bx, by = cx, H * 0.24                          # detector no alto (embaixo fica a legenda)
         d.rounded_rectangle((bx - 220, by - 60, bx + 220, by + 60), radius=20, fill=(10, 20, 40, 230), outline=p["acento2"], width=4)
         d.ellipse((bx - 190, by - 18, bx - 154, by + 18), fill=(80, 230, 120) if pisca else (30, 60, 40))
         d.text((bx - 130, by - 30), "DETECTOR", font=_f(50), fill=p["fig"])
         if rot:
-            _rotulo_caixa(d, H * 0.13, rot, p)
+            _rotulo_caixa(d, H * 0.13 if by > H * 0.4 else H * 0.33, rot, p)
         return
     if cena.get("supernova"):
         _estrelas(d, t, 90)
@@ -1902,7 +1902,7 @@ def _estrela(img, cena, t, dur, n, p):
             h_ = 90 + rnd.random() * 220
             d.rectangle((x, horiz - h_, x + 80 + rnd.random() * 40, horiz), fill=(40, 60, 90) if dia else (12, 16, 30))
         if cena.get("sombra"):
-            px_, chao = W * 0.62, H * 0.86
+            px_, chao = W * 0.66, H * 0.72
             # a sombra cai do lado oposto à estrela
             dx, dy = (px_ - sx), (chao - sy)
             L = math.hypot(dx, dy)
@@ -1910,7 +1910,7 @@ def _estrela(img, cena, t, dur, n, p):
             comp = 420 * _suave(t / max(0.1, dur * 0.4))
             d.polygon([(px_ - 40, chao), (px_ + 40, chao), (px_ + 40 + ux * comp, chao + uy * comp * 0.35),
                        (px_ - 40 + ux * comp, chao + uy * comp * 0.35)], fill=(0, 0, 0, 150))
-            _pessoa(d, px_, chao, 330, (210, 220, 240), t)
+            _pessoa(d, px_, chao, 300, (210, 220, 240), t)
         if rot:
             _rotulo_caixa(d, H * 0.82 if dia else H * 0.12, rot, p)
         return
@@ -2000,7 +2000,7 @@ def _estrela(img, cena, t, dur, n, p):
         d.ellipse((lx - lr, ly - lr, lx + lr, ly + lr), fill=(60, 64, 80))
         d.pieslice((lx - lr, ly - lr, lx + lr, ly + lr), 90, 270, fill=(240, 236, 220))
     if rot:
-        _rotulo_caixa(d, H * 0.86, rot, p)
+        _rotulo_caixa(d, H * 0.13, rot, p)
 
 
 QUADROS.update({"estrela": _estrela})
