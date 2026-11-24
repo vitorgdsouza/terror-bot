@@ -1571,7 +1571,7 @@ def _apophis(img, cena, t, dur, n, p):
         x0, y0, cel = cx - cw / 2 + 50, cy - ch / 2 + 250, (cw - 100) / 7
         for k, s_ in enumerate(sem):
             _centro_texto(d, x0 + cel * (k + 0.5), y0, s_, _f(46), (120, 130, 150))
-        mostrar = int(1 + prog * 13)                     # os dias vão aparecendo até o 13
+        mostrar = int(1 + _suave(t / max(0.1, dur * 0.55)) * 12.5)   # os dias vão aparecendo até o 13
         for dia in range(1, 31):
             col, lin = (dia - 1) % 7, (dia - 1) // 7      # 1º de abril de 2029 é domingo
             x, y = x0 + cel * (col + 0.5), y0 + 100 + lin * 115
@@ -1593,8 +1593,8 @@ def _apophis(img, cena, t, dur, n, p):
         d.rectangle((0, horiz, W, H), fill=(24, 30, 44))
         alt = 820
         _torre(d, W * 0.3, horiz, alt, (16, 20, 34))
-        s_ = _suave(t / max(0.1, dur * 0.5))
-        ax, ay = W * 0.72, horiz - alt / 2 - (1 - s_) * 900
+        s_ = _suave(t / max(0.1, dur * 0.35))
+        ax, ay = W * 0.72 + (1 - s_) * 500, horiz - alt / 2
         _rocha(d, ax, ay, alt * 0.36, ang=1.45 + t * 0.15)
         if s_ > 0.95:                                    # régua: as duas alturas iguais
             d.line((W * 0.08, horiz - alt, W * 0.94, horiz - alt), fill=p["acento"] + (200,), width=5)
@@ -1630,7 +1630,14 @@ def _apophis(img, cena, t, dur, n, p):
         a = math.pi + math.pi * fr
         d.line((cx, cy, cx + math.cos(a) * (R - 70), cy + math.sin(a) * (R - 70)), fill=p["fig"], width=16)
         d.ellipse((cx - 30, cy - 30, cx + 30, cy + 30), fill=p["fig"])
-        txt = "ZERO" if v < 0.05 else (str(cena["valor"]) if cena.get("valor") else f"{v:.1f}%".replace(".", ","))
+        if v < 0.05:
+            txt = "ZERO"
+        elif cena.get("valor"):
+            txt = str(cena["valor"])
+        elif ate < de:                                   # descendo: sem número no caminho, só o ponteiro (nada que a narração não diga)
+            txt = "..."
+        else:
+            txt = f"{v:.1f}%".replace(".", ",")
         _centro_texto(d, cx, cy + 150, txt, _fit(d, txt, 150), cor)
         _centro_texto(d, cx, cy + 270, "CHANCE DE BATER", _f(50), p["acento2"])
         _rocha(d, W * 0.78, H * 0.22, 80, ang=t * 0.6)
