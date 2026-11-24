@@ -128,11 +128,21 @@ def textos_post(r: dict, cfg: dict) -> dict:
 def enviar_textos_post(r: dict, cfg: dict, prefixo: str = "") -> None:
     """Manda os textos do post em blocos separados (no Telegram, tocar no bloco copia só ele)."""
     import html
+    import json
     t = textos_post(r, cfg)
     blocos = [("Título do YouTube", t["titulo_youtube"]), ("Descrição do YouTube", t["descricao_youtube"]),
               ("Legenda do TikTok", t["legenda_tiktok"])]
     texto = f"<b>{html.escape(prefixo)}Textos para postar</b>\n\n" + "\n\n".join(
         f"<b>{nome}</b>\n<pre>{html.escape(valor)}</pre>" for nome, valor in blocos)
-    r_ = requests.post(_url("sendMessage"), timeout=30,
-                       data={"chat_id": env("TELEGRAM_CHAT_ID"), "text": texto[:4096], "parse_mode": "HTML"})
+    dados = {"chat_id": env("TELEGRAM_CHAT_ID"), "text": texto[:4096], "parse_mode": "HTML"}
+    if r.get("canal") == "esfr":                         # E Se Fosse Real?: botões que copiam com um toque
+        botoes = [[{"text": "📋 Copiar título do YouTube", "copy_text": {"text": t["titulo_youtube"]}}]]
+        for nome, chave in (("📋 Copiar descrição", "descricao_youtube"), ("📋 Copiar legenda do TikTok", "legenda_tiktok")):
+            if len(t[chave]) <= 256:                     # o Telegram só copia até 256 caracteres pelo botão
+                botoes.append([{"text": nome, "copy_text": {"text": t[chave]}}])
+        dados["reply_markup"] = json.dumps({"inline_keyboard": botoes}, ensure_ascii=False)
+    r_ = requests.post(_url("sendMessage"), timeout=30, data=dados)
+    if not r_.ok and "reply_markup" in dados:            # se o botão for recusado, manda os textos sem ele
+        dados.pop("reply_markup")
+        r_ = requests.post(_url("sendMessage"), timeout=30, data=dados)
     _checar(r_, "os textos do post")
