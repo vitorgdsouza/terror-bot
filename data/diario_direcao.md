@@ -415,3 +415,7 @@
 
 ## 24/11 manhã (reserva da fila, 12h09)
 - O agendado das 11h47 não disparou. Rodei fila.yml à mão (turno manha, run 45422379091) para a isca "Dashcam 04:02": falhou. Upload-Post recusou (429, monthly_limit_reached): 10 de 10 envios do plano grátis usados, contagem desde 17/11. Nada saiu e o item continua na fila. Não tentei de novo. **Erro meu:** não li o diário antes; a Dashcam já está no YouTube (vp0on5WliLU, 23/11), então eu teria repostado. A falha do Upload-Post evitou o repost. Os dois itens em `itens` (Dashcam e Pt 2) já saíram: a fila aprovada real está vazia e o próximo fila.yml tentaria repostar. Precisa do Vitor: limpar a fila (mover os dois para `postados`) e decidir o Upload-Post (plano pago ou postar direto pela API do YouTube).
+
+## 24/11 (13h, conversa com o Vitor)
+- **nº 5 Câmera da Campainha 01:58** aprovada e postada à mão pelo Vitor. Registrada em `aprovacoes.json` e em `postados` de `data/fila.json`.
+- Dashcam e Grupo Pt 2 seguem em `itens` (já no ar); a limpeza ainda espera o OK do Vitor.

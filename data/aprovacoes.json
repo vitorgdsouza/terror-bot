@@ -76,10 +76,10 @@
    "titulo_youtube": "Câmera da campainha, 1h58, -9°C... repara na boca dele 📼 #shorts",
    "legenda": "Câmera da campainha, 1h58, -9°C. Ele ficou dois minutos parado antes de bater (história de ficção; o que aconteceu depois está no \"Pode Entrar? Ep. 1\", no perfil). O que tem de errado nele? Responde sem voltar o vídeo 👇 #analoghorror #vhs #podeentrar",
    "tipo_video": "isca",
-   "status": "pendente",
-   "motivo": "",
+   "status": "na_fila",
+   "motivo": "aprovado e postado à mão pelo Vitor em 24/11 ~13h (na conversa); já em postados de data/fila.json",
    "criado": "2026-11-19 14:07",
-   "decidido": ""
+   "decidido": "2026-11-24 13:00"
   },
   {
    "id": 6,
