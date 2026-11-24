@@ -1,0 +1,131 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se você visse um asteroide passar mais perto que os satélites?",
+ "titulo_youtube": "E se um ASTEROIDE passasse mais perto que os satélites? ☄️ #shorts",
+ "legenda_post": "Ele é quase da altura da Torre Eiffel, já foi o asteroide mais temido da história e vai passar mais perto que os satélites numa sexta-feira 13. Você sairia de casa pra ver? 👇\n\nFontes: Live Science (set/2025 e 2026), Space.com (set/2025), BBC Sky at Night Magazine (abr/2026).\n#ciencia #espaco #asteroide #apophis #curiosidades #ese",
+ "thumb_texto": "ELE VAI PASSAR|RASPANDO",
+ "cenas": [
+  {
+   "narracao": "E se você visse um asteroide passar mais perto que os satélites?",
+   "quadro": "apophis",
+   "perto": true,
+   "de": 0.0,
+   "ate": 0.55,
+   "thumb": true,
+   "thumb_momento": 0.8
+  },
+  {
+   "narracao": "Isso vai acontecer de verdade, numa sexta-feira treze.",
+   "quadro": "apophis",
+   "data": true
+  },
+  {
+   "narracao": "Ele se chama Apophis, e tem mais ou menos a altura da Torre Eiffel.",
+   "quadro": "apophis",
+   "tamanho": true,
+   "rotulo": "Apophis"
+  },
+  {
+   "narracao": "Quando foi descoberto, parecia que ia bater na Terra.",
+   "quadro": "apophis",
+   "de": 0.0,
+   "ate": 0.42,
+   "rotulo": "rota de colisão?",
+   "mira": true
+  },
+  {
+   "narracao": "A chance de batida chegou a quase três por cento.",
+   "quadro": "apophis",
+   "risco": true,
+   "de": 0,
+   "ate": 2.7,
+   "valor": "QUASE 3%"
+  },
+  {
+   "narracao": "Foi a maior nota de perigo que um asteroide já recebeu.",
+   "quadro": "apophis",
+   "risco": true,
+   "recorde": true
+  },
+  {
+   "narracao": "Mas anos de telescópio e radar zeraram esse risco.",
+   "quadro": "apophis",
+   "risco": true,
+   "de": 2.7,
+   "ate": 0
+  },
+  {
+   "narracao": "Ele não bate, nem agora, nem neste século.",
+   "quadro": "apophis",
+   "ceu": true,
+   "gente": 4
+  },
+  {
+   "narracao": "Só que vai passar a uns trinta mil quilômetros daqui.",
+   "quadro": "apophis",
+   "de": 0.42,
+   "ate": 0.5,
+   "medida": true,
+   "rotulo": "~30 mil km"
+  },
+  {
+   "narracao": "Mais perto que os satélites que ficam parados no céu.",
+   "quadro": "apophis",
+   "perto": true,
+   "de": 0.3,
+   "ate": 0.75,
+   "rotulo": "satélites"
+  },
+  {
+   "narracao": "Bilhões de pessoas vão poder ver, sem telescópio.",
+   "quadro": "apophis",
+   "ceu": true
+  },
+  {
+   "narracao": "Dá pra ver até do leste da América do Sul.",
+   "quadro": "apophis",
+   "mapa": true
+  },
+  {
+   "narracao": "Vai parecer uma estrela andando no meio das outras.",
+   "quadro": "apophis",
+   "ceu": true,
+   "gente": 3,
+   "seta": false
+  },
+  {
+   "narracao": "A gravidade da Terra vai puxar e espremer o asteroide.",
+   "quadro": "apophis",
+   "de": 0.48,
+   "ate": 0.52,
+   "espreme": true
+  },
+  {
+   "narracao": "E a órbita dele vai mudar.",
+   "quadro": "apophis",
+   "orbita": true
+  },
+  {
+   "narracao": "Isso só acontece uma vez a cada sete mil e quinhentos anos.",
+   "quadro": "numero",
+   "de": 7500,
+   "ate": 7500,
+   "unidade": "anos",
+   "antes": "uma vez a cada"
+  },
+  {
+   "narracao": "Você sairia de casa pra ver ele passar?",
+   "quadro": "apophis",
+   "ceu": true,
+   "rotulo": "você iria ver?"
+  }
+ ]
+}

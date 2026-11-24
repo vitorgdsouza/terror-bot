@@ -1,0 +1,112 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se você visse uma estrela explodir no céu?",
+ "titulo_youtube": "E se você visse uma ESTRELA EXPLODIR no céu? 💥 #shorts",
+ "legenda_post": "Betelgeuse, o ombro vermelho de Órion, é tão gigante que o Sol vira um pontinho do lado. Quando ela explodir, vai brilhar como a meia-lua e dar pra ver até de dia. Você ia querer ver? 👇\n\nFontes: Astronomy.com (fev/2020, atualizado mai/2023), Discover (fev/2020), BBC Sky at Night Magazine (jan/2025), Scientific American.\n#ciencia #espaco #estrelas #supernova #curiosidades #ese",
+ "thumb_texto": "ELA VAI|EXPLODIR",
+ "cenas": [
+  {
+   "narracao": "E se você visse uma estrela explodir no céu?",
+   "quadro": "estrela",
+   "explode": true,
+   "thumb": true,
+   "thumb_momento": 0.9
+  },
+  {
+   "narracao": "Ela existe, e se chama Betelgeuse.",
+   "quadro": "estrela",
+   "destaca": true
+  },
+  {
+   "narracao": "É o ombro vermelho da constelação de Órion.",
+   "quadro": "estrela",
+   "linhas": true,
+   "destaca": true
+  },
+  {
+   "narracao": "É uma gigante setecentas vezes mais larga que o Sol.",
+   "quadro": "estrela",
+   "tamanho": true
+  },
+  {
+   "narracao": "E um dia ela vai explodir, numa supernova.",
+   "quadro": "estrela",
+   "supernova": true
+  },
+  {
+   "narracao": "Primeiro, chegam partículas invisíveis que atravessam a Terra.",
+   "quadro": "estrela",
+   "neutrinos": true
+  },
+  {
+   "narracao": "Os detectores apitariam até um dia antes da luz.",
+   "quadro": "estrela",
+   "neutrinos": true,
+   "rotulo": "até 1 dia antes"
+  },
+  {
+   "narracao": "Aí ela acende, milhares de vezes mais forte.",
+   "quadro": "estrela",
+   "linhas": true,
+   "explode": true
+  },
+  {
+   "narracao": "Fica tão brilhante quanto a meia-lua.",
+   "quadro": "estrela",
+   "brilha": true,
+   "lua": true,
+   "linhas": true
+  },
+  {
+   "narracao": "Dá pra ver até de dia, no céu azul.",
+   "quadro": "estrela",
+   "dia": true
+  },
+  {
+   "narracao": "E à noite, ela faz você ter sombra no chão.",
+   "quadro": "estrela",
+   "sombra": true
+  },
+  {
+   "narracao": "Esse brilho forte dura mais de três meses.",
+   "quadro": "estrela",
+   "meses": true,
+   "ate": 3,
+   "rotulo": "mais de 3 meses"
+  },
+  {
+   "narracao": "Perigo? Nenhum. Ela está a mais de seiscentos anos-luz.",
+   "quadro": "estrela",
+   "longe": true,
+   "rotulo": "+ de 600 anos-luz"
+  },
+  {
+   "narracao": "Quando ela apagar, Órion vai ficar sem um ombro.",
+   "quadro": "estrela",
+   "apaga": true,
+   "linhas": true
+  },
+  {
+   "narracao": "Pode ser amanhã ou daqui a cem mil anos.",
+   "quadro": "estrela",
+   "linhas": true,
+   "destaca": true,
+   "rotulo": "quando?"
+  },
+  {
+   "narracao": "Você ia querer ver? Comenta.",
+   "quadro": "estrela",
+   "brilha": true,
+   "linhas": true,
+   "rotulo": "você ia querer ver?"
+  }
+ ]
+}
