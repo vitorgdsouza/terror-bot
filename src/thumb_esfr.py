@@ -65,13 +65,17 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
     tipo = r.get("thumb_arte", "")
     if not tipo:
         img = quadro_do_video(r)
-        z = float(r.get("thumb_zoom", 1.0))
-        if z > 1:
-            fx, fy = r.get("thumb_centro", [0.5, 0.55])
-            cw, ch = W / z, H / z
-            x0, y0 = min(max(0, fx * W - cw / 2), W - cw), min(max(0, fy * H - ch / 2), H - ch)
-            img = img.resize((W, H), Image.LANCZOS, box=(x0, y0, x0 + cw, y0 + ch))
-        return img
+        if (W, H) != img.size:
+            return img
+        # o desenho principal dos quadros fica em ~47% da altura; na thumb ele vai para o meio do espaço livre
+        # entre o texto (em cima) e o selo (embaixo), em ~58%, com um pouco de zoom
+        z = max(1.0, float(r.get("thumb_zoom", 1.25)))
+        fx, fy = r.get("thumb_centro", [0.5, 0.47])
+        alvo = float(r.get("thumb_alvo", 0.58))
+        cw, ch = W / z, H / z
+        x0 = min(max(0, fx * W - cw / 2), W - cw)
+        y0 = min(max(0, fy * H - alvo * ch), H - ch)
+        return img.resize((W, H), Image.LANCZOS, box=(x0, y0, x0 + cw, y0 + ch))
     img = _ceu(W, H).convert("RGBA")
     d = ImageDraw.Draw(img)
     if tipo == "terra_parada":
@@ -193,10 +197,23 @@ def gerar(r: dict, pasta: Path) -> tuple[Path, Path]:
         hz.alpha_composite(som)
         hz = hz.convert("RGB")
     else:
-        hz = Image.new("RGB", (1280, 720))
-        fundo = cena.resize((1280, int(1280 * H / W))).crop((0, 600, 1280, 1320)).filter(ImageFilter.GaussianBlur(28))
-        hz.paste(ImageEnhance.Brightness(fundo).enhance(0.4), (0, 0))
-        hz.paste(cena.resize((470, 836)).crop((0, 58, 470, 778)), (810, 0))
+        hz = _ceu(1280, 720).convert("RGBA")                   # céu limpo; o desenho centrado no painel da direita
+        q = quadro_do_video(r)
+        qw, qh = q.size
+        fx, fy = r.get("thumb_centro", [0.5, 0.47])
+        pw, ph = 600, 720
+        cw = qw * 0.98
+        ch = cw * ph / pw
+        x0 = min(max(0, fx * qw - cw / 2), qw - cw)
+        y0 = min(max(0, fy * qh - ch / 2), qh - ch)
+        painel = q.resize((pw, ph), Image.LANCZOS, box=(x0, y0, x0 + cw, y0 + ch)).convert("RGBA")
+        masc = Image.new("L", (pw, ph), 255)
+        dm = ImageDraw.Draw(masc)
+        for k in range(140):                                  # borda esquerda esfumada, sem emenda
+            dm.line((k, 0, k, ph), fill=int(255 * k / 140))
+        painel.putalpha(masc)
+        hz.alpha_composite(painel, (1280 - pw, 0))
+        hz = hz.convert("RGB")
     dz = ImageDraw.Draw(hz)
     y = 150
     for n, txt in enumerate(linhas):
