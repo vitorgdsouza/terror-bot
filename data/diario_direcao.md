@@ -412,3 +412,6 @@
 - **Mesa do Gerente:** sem mudança (já em dia desde a rodada das 07h25).
 - **Aviso no Telegram:** mandado (run 45408419989), pedindo o OK para mover Dashcam e Pt 2 para `postados`.
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
+
+## 24/11 manhã (reserva da fila, 12h09)
+- O agendado das 11h47 não disparou. Rodei fila.yml à mão (turno manha, run 45422379091) para a isca "Dashcam 04:02": falhou. Upload-Post recusou (429, monthly_limit_reached): 10 de 10 envios do plano grátis usados, contagem desde 17/11. Nada saiu e o item continua na fila. Não tentei de novo. Precisa de decisão do Vitor (plano pago ou postar direto pela API do YouTube).
