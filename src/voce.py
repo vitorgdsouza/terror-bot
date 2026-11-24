@@ -789,7 +789,7 @@ def _mergulho(img, cena, t, dur, n, p):
             _rotulo_caixa(d, H * 0.16, str(cena["rotulo"]).upper(), p)
 
 
-def _astro_sprite(alt, t, cor, visor):
+def _astro_sprite(alt, t, cor, visor, medo=False):
     """Astronauta de pé (cabeça para cima), desenhado em 4x e reduzido: capacete com viseira e reflexo,
     mochila, painel no peito, braços e pernas articulados se debatendo, luvas e botas, contorno escuro."""
     k = 4
@@ -877,6 +877,14 @@ def _astro_sprite(alt, t, cor, visor):
     d.ellipse((a - 1.2 * u, b - 1.2 * u, c_ + 1.2 * u, e + 1.2 * u), fill=vis)
     d.ellipse((a, b, c_, e), fill=vidro)
     d.arc((a + 1.5 * u, b + 1.5 * u, c_ - 1.5 * u, e - 1.5 * u), -20, 40, fill=laranja, width=int(2.2 * u))   # reflexo do disco na borda
+    if medo:                                                            # rosto apavorado atrás da viseira (thumb)
+        for ex in (45.5, 56):
+            x_, y_ = P(ex, 21)
+            d.ellipse((x_ - 4.2 * u, y_ - 4.8 * u, x_ + 4.2 * u, y_ + 4.8 * u), fill=(255, 255, 255))
+            d.ellipse((x_ - 1.5 * u, y_ - 1.2 * u, x_ + 1.5 * u, y_ + 1.8 * u), fill=(10, 12, 24))
+            d.line((x_ - 4 * u, y_ - 7.5 * u, x_ + 3 * u, y_ - 6 * u if ex < 50 else y_ - 8.5 * u), fill=(10, 12, 24), width=int(1.3 * u))
+        x_, y_ = P(51, 29)
+        d.ellipse((x_ - 2.6 * u, y_ - 2.4 * u, x_ + 2.6 * u, y_ + 2.6 * u), fill=(60, 14, 24))
     hx, hy = P(43, 16.5)
     d.ellipse((hx - 3.6 * u, hy - 2.2 * u, hx + 3.6 * u, hy + 2.2 * u), fill=(255, 255, 255))
     hx, hy = P(48.5, 15)
@@ -885,11 +893,11 @@ def _astro_sprite(alt, t, cor, visor):
     return sp, k, pe_y
 
 
-def _astro_mini(img, x, y, ang, tam, estica=1.0, cor=(240, 243, 250, 255), visor=(86, 214, 255, 255), t=0.0, centro=False):
+def _astro_mini(img, x, y, ang, tam, estica=1.0, cor=(240, 243, 250, 255), visor=(86, 214, 255, 255), t=0.0, centro=False, medo=False):
     """Astronauta visto de longe, com os pés em (x, y) e a cabeça na direção "ang" (para fora do buraco).
     "estica" > 1 alonga e afina o corpo (espaguetificação); "centro": (x, y) é o meio do corpo, não os pés."""
     alt = tam * 1.75
-    sp, k, pe_y = _astro_sprite(alt, t, cor, visor)
+    sp, k, pe_y = _astro_sprite(alt, t, cor, visor, medo)
     lw = max(4, int(sp.width / k / math.sqrt(estica)))
     lh = max(6, int(sp.height / k * estica))
     sy = lh / sp.height

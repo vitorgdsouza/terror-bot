@@ -57,7 +57,7 @@ def _ceu(W: int, H: int) -> Image.Image:
     return img
 
 
-ARTE_HORIZONTAL = {"lua_some", "sem_traje"}                               # artes que têm composição própria em 16:9
+ARTE_HORIZONTAL = {"lua_some", "sem_traje", "buraco_negro"}                               # artes que têm composição própria em 16:9
 
 
 def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
@@ -148,6 +148,8 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
         fl = ImageFont.truetype(str(FONTE), 54)                    # rótulos
         for txt, x, y in (("10 KM", ax + 150, ay - 60), ("20 KM/S", ax + 150, ay + 130)):
             d.text((x, y), txt, font=fl, fill=(255, 196, 40), stroke_width=4, stroke_fill=(0, 0, 0))
+    elif tipo == "buraco_negro":
+        _buraco_negro_thumb(img, W, H)
     elif tipo == "pulo":
         t = terra(380)
         cy = int(H * 0.64)
@@ -226,6 +228,68 @@ def gerar(r: dict, pasta: Path) -> tuple[Path, Path]:
     hor = pasta / "thumb_horizontal.jpg"
     hz.save(hor, quality=92)
     return vert, hor
+
+
+def _buraco_negro_thumb(img: Image.Image, W: int, H: int) -> None:
+    """Buraco negro gigante sugando tudo: riscos de luz entrando, o astronauta apavorado esticando feito macarrão
+    a caminho da borda, e a seta vermelha apontando para ele."""
+    import math
+    import random
+    from .buraco_negro import desenhar
+    from .voce import _astro_mini
+    deitado = W > H
+    if deitado:
+        R, cx, cy = int(H * 0.18), W * 0.75, H * 0.62
+        ang, dist, tam, est = math.radians(-60), 1.5, 0.6, 1.3
+    else:
+        R, cx, cy = int(W * 0.24), W * 0.5, H * 0.66
+        ang, dist, tam, est = math.radians(-58), 1.5, 0.62, 1.35
+    riscos = Image.new("RGBA", (W, H), (0, 0, 0, 0))             # luz e poeira caindo em espiral para dentro
+    dr, rnd = ImageDraw.Draw(riscos), random.Random(8)
+    for _ in range(90):
+        a = rnd.random() * 2 * math.pi
+        r1 = R * (1.4 + rnd.random() * 3.2)
+        r2 = r1 * (0.55 + rnd.random() * 0.2)
+        a2 = a + 0.35
+        cor = rnd.choice([(255, 170, 70), (255, 220, 150), (120, 200, 255)])
+        dr.line((cx + math.cos(a) * r1, cy + math.sin(a) * r1 * 0.8, cx + math.cos(a2) * r2, cy + math.sin(a2) * r2 * 0.8),
+                fill=cor + (rnd.randint(60, 150),), width=rnd.choice([3, 4, 6]))
+    img.alpha_composite(riscos.filter(ImageFilter.GaussianBlur(1.5)))
+    gl = Image.new("RGBA", (W, H), (0, 0, 0, 0))                  # brilho quente em volta
+    ImageDraw.Draw(gl).ellipse((cx - R * 3.2, cy - R * 1.6, cx + R * 3.2, cy + R * 1.6), fill=(255, 130, 40, 120))
+    img.alpha_composite(gl.filter(ImageFilter.GaussianBlur(R * 0.6)))
+    base = img.convert("RGB")
+    desenhar(base, cx, cy, R, 1.3, 1.35)
+    img.paste(base.convert("RGBA"))
+    # o astronauta: vem do alto, esticando na direção do buraco, com rastro brilhante
+    dist *= R
+    px, py = cx + math.cos(ang) * dist, cy + math.sin(ang) * dist
+    tam *= R
+    rastro = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    rd = ImageDraw.Draw(rastro)
+    for k in range(14):
+        f = k / 14
+        x = px + (cx - px) * f * 0.75
+        y = py + (cy - py) * f * 0.75
+        rr = tam * 0.22 * (1 - f * 0.7)
+        rd.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(255, 200, 120, int(120 * (1 - f))))
+    img.alpha_composite(rastro.filter(ImageFilter.GaussianBlur(10)))
+    _astro_mini(img, px, py, ang, tam, est, t=0.9, medo=True)
+    # seta vermelha com contorno branco, vindo de baixo à esquerda até o corpo de quem cai
+    meio = tam * 1.75 * est * 0.45
+    bcx, bcy = px + math.cos(ang) * meio, py + math.sin(ang) * meio
+    bx, by = bcx - tam * 0.75, bcy + tam * 0.15
+    ax, ay = bx - tam * 1.7, by + tam * 1.0
+    sd = ImageDraw.Draw(img)
+    ux, uy = bx - ax, by - ay
+    n = math.hypot(ux, uy)
+    ux, uy = ux / n, uy / n
+    lw = tam * 0.16
+    for cor, extra in (((255, 255, 255), lw * 0.5), ((228, 30, 44), 0)):
+        sd.line((ax, ay, bx - ux * tam * 0.4, by - uy * tam * 0.4), fill=cor, width=int(lw + extra * 2))
+        cab = tam * 0.5 + extra * 1.6
+        sd.polygon([(bx + ux * extra, by + uy * extra), (bx - ux * cab - uy * cab * 0.75, by - uy * cab + ux * cab * 0.75),
+                    (bx - ux * cab + uy * cab * 0.75, by - uy * cab - ux * cab * 0.75)], fill=cor)
 
 
 # ---------------- Terra "de verdade" (mesmo desenho do banner do canal), para as thumbs de planeta
