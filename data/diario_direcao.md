@@ -420,3 +420,13 @@
 - **nº 5 Câmera da Campainha 01:58** aprovada e postada à mão pelo Vitor. Registrada em `aprovacoes.json` e em `postados` de `data/fila.json`.
 - Dashcam e Grupo Pt 2 seguem em `itens` (já no ar); a limpeza ainda espera o OK do Vitor.
 - Com o OK do Vitor, Dashcam 04:02 (`vp0on5WliLU`) e Grupo do Prédio Pt 2 (`iseuGKOPE5M`) saíram de `itens` e foram para `postados`. A fila aprovada ficou vazia; não há mais risco de repost.
+
+## 24/11 (19h00 UTC): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item "renderizado" ou "renderizando" em `aprovacoes.json`. Os renders de hoje em `refazer-video.yml` são todos do E Se Fosse Real? (último 15:46 UTC, terminado).
+- **Publicador:** nenhum vídeo novo para mandar. Fila aprovada (`itens`) vazia; Campainha, Dashcam e Grupo Pt 2 já em `postados`.
+- **Principal de hoje (24/11 18h47, protocolo):** sem protocolo aprovado, mas nº 14 Assobiador e nº 13 Pisadeira esperam o Vitor, então não mandei aviso. Lembrete: o Upload-Post segue no limite do mês, então mesmo aprovado o vídeo sai à mão.
+- **Esperam o Vitor:** nº 18, 17, 16, 15, 14, 13, 12 (roteiros). Decisões novas desde a última rodada: nº 5 Campainha aprovada e postada à mão (~13h) e a limpeza da fila (Dashcam e Pt 2 para `postados`).
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** saiu o nº 5 de "Aguardando"; o Histórico ganhou "24/11 #5 Campainha aprovada e postada à mão" e "24/11 Fila: Dashcam e Pt 2 para postados".
+- **Aviso no Telegram:** não mandado (nada novo para decidir).
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
