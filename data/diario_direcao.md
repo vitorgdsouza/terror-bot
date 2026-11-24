@@ -401,3 +401,14 @@
 - **Mesa do Gerente:** "Aguardando" ganhou nº 18 e 17, saiu o nº 11 (decidido) e as faixas dos nº 13, 14 e 15 foram atualizadas pelo mapa novo; histórico ganhou "23/11 #11 Grupo Pt 2 aprovado e postado à mão" e "23/11 #8 Dashcam postada à mão".
 - **Aprendizado (Analista):** o que conta é a duração do render, não a do roteiro. A Dashcam (32 palavras) deu 35 s e largou 6 vezes pior que a CAM 04 (33 palavras, 26 s). Conte pausas e sons; isca acima de 25 s no render é cortada antes de ir ao Vitor.
 - **Ferramenta:** gh CLI funcionou para disparar workflows apesar de `gh auth status` dizer token inválido. Repo usado em /home/claude/terror-bot (clone já existente). Analista e Roteirista rodaram como subagentes.
+
+## 24/11 (13h55 UTC): rodada do Revisor e do Publicador
+- **Revisor:** nada para revisar. Nenhum item "renderizado" ou "renderizando" em `aprovacoes.json`. Os renders de hoje em `refazer-video.yml` são todos do E Se Fosse Real? (último 13:13 UTC, terminado).
+- **Publicador:** nenhum vídeo novo para mandar.
+- **Principal de hoje (24/11 18h47, protocolo):** sem protocolo aprovado, mas nº 14 Assobiador e nº 13 Pisadeira esperam o Vitor. A isca das 11h47 (nº 5 Campainha) também espera.
+- **Fila com risco de repost:** Dashcam 04:02 e Grupo do Prédio Pt 2 já estão no YouTube, mas seguem em `itens` de `data/fila.json`. A trava do `fila.py` só conta posts do dia, não confere o YouTube, então o agendamento das 11h47/18h47 pode repostar. Não mexi na fila (espera o OK do Vitor).
+- **Esperam o Vitor:** nº 18, 17, 16, 15, 14, 13, 12 (roteiros) e nº 5 (Campainha). Nenhuma decisão nova desde 23/11 20h38 (nº 11).
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** sem mudança (já em dia desde a rodada das 07h25).
+- **Aviso no Telegram:** mandado (run 45408419989), pedindo o OK para mover Dashcam e Pt 2 para `postados`.
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
