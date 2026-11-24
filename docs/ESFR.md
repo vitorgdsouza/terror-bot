@@ -14,6 +14,11 @@
 - **Fila:** `data/fila_esfr.json`, postada às 12h17, 16h17 e 20h17 (até 3 por dia, 2 h de intervalo) por `.github/workflows/fila-esfr.yml` (segredos `YT_REFRESH_TOKEN_ESE` e `UPLOAD_POST_USER_ESE`)
 - **Diário:** `data/esfr/diario.md`
 
+## Thumbs (em teste desde 24/11)
+- **Thumb própria em teste:** o buraco negro (08) foi o primeiro com arte feita só para a thumb (`thumb_arte`): o objeto gigante, um personagem com emoção (astronauta com `medo`) e a seta vermelha. A ideia veio do Vitor, que achou as thumbs de quadro do vídeo "simples".
+- **Como decidir:** quando o 08 tiver uns 3 dias no ar (os dados do YouTube atrasam 2 a 3 dias), compare as views das primeiras 48 h e, se o relatório trouxer, a taxa de cliques das impressões com as dos vídeos de thumb simples (Lua, Terra, Espaço, anéis). Se o 08 for melhor, isso vira o padrão: todo roteiro novo ganha uma `thumb_arte` própria nesse molde. Se não for, volte à thumb de quadro (já centralizada).
+- Até a decisão, os roteiros novos podem continuar com a thumb de quadro.
+
 ## Regras de conteúdo
 - **Fatos checados**, com as fontes na descrição. Número só com fonte.
 - **Nada de saúde nem finanças.** A política de "conteúdo inautêntico" do YouTube corta a monetização de personas de IA nesses temas.
