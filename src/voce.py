@@ -789,18 +789,124 @@ def _mergulho(img, cena, t, dur, n, p):
             _rotulo_caixa(d, H * 0.16, str(cena["rotulo"]).upper(), p)
 
 
-def _astro_mini(d, x, y, ang, tam, estica=1.0, cor=(240, 243, 250, 255), visor=(86, 214, 255, 255)):
-    """Astronauta pequeno visto de longe: corpo em cápsula na direção "ang" (cabeça para o lado de fora).
-    "estica" > 1 alonga e afina o corpo (espaguetificação)."""
-    ux, uy = math.cos(ang), math.sin(ang)
-    comp, larg = tam * 1.2 * estica, max(4, tam * 0.55 / math.sqrt(estica))
-    x2, y2 = x + ux * comp, y + uy * comp                       # pés (para dentro) -> cabeça (para fora)
-    d.line((x, y, x2, y2), fill=cor, width=int(larg))
-    d.ellipse((x - larg / 2, y - larg / 2, x + larg / 2, y + larg / 2), fill=cor)
-    hr = max(5, tam * 0.42 / math.sqrt(estica))
-    hx, hy = x2 + ux * hr * 0.6, y2 + uy * hr * 0.6
-    d.ellipse((hx - hr, hy - hr, hx + hr, hy + hr), fill=cor)
-    d.ellipse((hx - hr * 0.55, hy - hr * 0.45, hx + hr * 0.55, hy + hr * 0.45), fill=visor)
+def _astro_sprite(alt, t, cor, visor):
+    """Astronauta de pé (cabeça para cima), desenhado em 4x e reduzido: capacete com viseira e reflexo,
+    mochila, painel no peito, braços e pernas articulados se debatendo, luvas e botas, contorno escuro."""
+    k = 4
+    u = alt * k / 100.0
+    cw, ch = int(80 * u), int(104 * u)
+    sp = Image.new("RGBA", (cw, ch), (0, 0, 0, 0))
+    d = ImageDraw.Draw(sp)
+    ox = cw / 2 - 50 * u                                       # x em unidades 0..100, centro em 50
+    oy = 2 * u
+
+    def P(x, y):
+        return ox + x * u, oy + y * u
+
+    branco = tuple(cor[:3])
+    sombra = tuple(int(c * 0.78) for c in branco)
+    cinza = tuple(int(c * 0.58) for c in branco)
+    linha = (14, 18, 36)
+    vis = tuple(visor[:3])
+    vidro = tuple(int(10 + c * 0.22) for c in vis)
+    laranja = (255, 168, 72)
+
+    def membro(a, b, c_, larg, o, cor_):
+        pts = [P(*a), P(*b), P(*c_)]
+        w_ = (larg + 2 * o) * u
+        d.line(pts, fill=cor_, width=int(w_), joint="curve")
+        for q in pts:
+            r_ = w_ / 2
+            d.ellipse((q[0] - r_, q[1] - r_, q[0] + r_, q[1] + r_), fill=cor_)
+
+    def bola(x, y, r, o, cor_):
+        x, y = P(x, y)
+        r = (r + o) * u
+        d.ellipse((x - r, y - r, x + r, y + r), fill=cor_)
+
+    def caixa(x0, y0, x1, y1, rr, o, cor_):
+        a, b = P(x0 - o, y0 - o)
+        c_, e = P(x1 + o, y1 + o)
+        d.rounded_rectangle((a, b, c_, e), radius=int((rr + o) * u), fill=cor_)
+
+    def ang(x, y, graus, comp):
+        r_ = math.radians(graus)
+        return (x + math.cos(r_) * comp, y + math.sin(r_) * comp)
+
+    s1, s2 = math.sin(t * 2.3), math.sin(t * 1.7 + 1.1)
+    # braços se debatendo (graus com y para baixo: 180 = esquerda, 270 = para cima)
+    omb_e, omb_d = (37, 43), (63, 43)
+    cot_e = ang(*omb_e, 200 + 22 * s1, 15)
+    mao_e = ang(*cot_e, 245 + 25 * s1, 13)
+    cot_d = ang(*omb_d, 340 - 22 * s2, 15)
+    mao_d = ang(*cot_d, 295 - 25 * s2, 13)
+    # pernas pedalando de leve
+    qua_e, qua_d = (44, 66), (56, 66)
+    joe_e = ang(*qua_e, 100 + 10 * s2, 15)
+    pe_e = ang(*joe_e, 80 + 8 * s2, 14)
+    joe_d = ang(*qua_d, 75 - 10 * s1, 15)
+    pe_d = ang(*joe_d, 95 - 8 * s1, 14)
+
+    for o, fase in ((1.8, "linha"), (0.0, "cor")):
+        c = (lambda x: linha) if fase == "linha" else (lambda x: x)
+        caixa(27, 36, 57, 64, 6, o, c(cinza))                           # mochila (aparece de lado)
+        membro(qua_e, joe_e, pe_e, 11, o, c(branco))
+        membro(qua_d, joe_d, pe_d, 11, o, c(branco))
+        for pe in (pe_e, pe_d):                                         # botas
+            bola(pe[0], pe[1] + 1, 6.5, o, c(cinza))
+        caixa(34, 37, 66, 69, 10, o, c(branco))                         # tronco
+        membro(omb_e, cot_e, mao_e, 9.5, o, c(branco))
+        membro(omb_d, cot_d, mao_d, 9.5, o, c(branco))
+        for m in (mao_e, mao_d):                                        # luvas
+            bola(m[0], m[1], 5.8, o, c(cinza))
+        bola(50, 22, 19, o, c(branco))                                  # capacete
+        bola(31.5, 23, 3.4, o, c(cinza))
+        bola(68.5, 23, 3.4, o, c(cinza))
+    # detalhes por cima
+    caixa(59, 40, 66, 67, 6, 0, sombra)                                 # sombra no lado do tronco
+    caixa(34, 63, 66, 66.5, 1.5, 0, cinza)                              # cinto
+    for m, cot in ((mao_e, cot_e), (mao_d, cot_d)):                     # faixa laranja no antebraço
+        mx, my = cot[0] + (m[0] - cot[0]) * 0.45, cot[1] + (m[1] - cot[1]) * 0.45
+        bola(mx, my, 4.9, 0, laranja)
+    caixa(42, 46, 58, 56, 2.5, 0, cinza)                                # painel do peito
+    for i, cc in enumerate(((232, 44, 56), vis, (255, 196, 36))):
+        bola(45.5 + i * 4.5, 51, 1.6, 0, cc)
+    # viseira: vidro escuro com borda da cor do visor, reflexo laranja do disco e brilho branco
+    a, b = P(36, 12)
+    c_, e = P(66, 33)
+    d.ellipse((a - 1.2 * u, b - 1.2 * u, c_ + 1.2 * u, e + 1.2 * u), fill=vis)
+    d.ellipse((a, b, c_, e), fill=vidro)
+    d.arc((a + 1.5 * u, b + 1.5 * u, c_ - 1.5 * u, e - 1.5 * u), -20, 40, fill=laranja, width=int(2.2 * u))   # reflexo do disco na borda
+    hx, hy = P(43, 16.5)
+    d.ellipse((hx - 3.6 * u, hy - 2.2 * u, hx + 3.6 * u, hy + 2.2 * u), fill=(255, 255, 255))
+    hx, hy = P(48.5, 15)
+    d.ellipse((hx - 1.3 * u, hy - 1.0 * u, hx + 1.3 * u, hy + 1.0 * u), fill=(255, 255, 255))
+    pe_y = oy + (max(pe_e[1], pe_d[1]) + 7.5) * u                       # ponto dos pés (pivô)
+    return sp, k, pe_y
+
+
+def _astro_mini(img, x, y, ang, tam, estica=1.0, cor=(240, 243, 250, 255), visor=(86, 214, 255, 255), t=0.0, centro=False):
+    """Astronauta visto de longe, com os pés em (x, y) e a cabeça na direção "ang" (para fora do buraco).
+    "estica" > 1 alonga e afina o corpo (espaguetificação); "centro": (x, y) é o meio do corpo, não os pés."""
+    alt = tam * 1.75
+    sp, k, pe_y = _astro_sprite(alt, t, cor, visor)
+    lw = max(4, int(sp.width / k / math.sqrt(estica)))
+    lh = max(6, int(sp.height / k * estica))
+    sy = lh / sp.height
+    sp = sp.resize((lw, lh), Image.LANCZOS)
+    if cor[3] < 255:
+        a = sp.getchannel("A").point(lambda v: v * cor[3] // 255)
+        sp.putalpha(a)
+    piv_y = (sp.height / 2) if centro else pe_y * sy                    # pivô no corte já reduzido
+    dx, dy = 0.0, piv_y - sp.height / 2                                 # do centro até o pivô
+    teta = -90 - math.degrees(ang) + math.sin(t * 1.1) * 6              # gira o "para cima" até "ang", balançando
+    rot = sp.rotate(teta, resample=Image.BICUBIC, expand=True)
+    r_ = math.radians(teta)
+    rx = dx * math.cos(r_) + dy * math.sin(r_)
+    ry = -dx * math.sin(r_) + dy * math.cos(r_)
+    px = x - (rot.width / 2 + rx)
+    py = y - (rot.height / 2 + ry)
+    img.paste(rot, (int(px), int(py)), rot)
 
 
 def _buraco_negro(img, cena, t, dur, n, p):
@@ -843,7 +949,8 @@ def _buraco_negro(img, cena, t, dur, n, p):
             x = rnd.random() * W
             y = (rnd.random() * H + t * 1400) % (H + 300) - 300
             d.line((x, y, x, y + 220), fill=(255, 170, 70, 120), width=5)
-        _astro_mini(d, W / 2, H * 0.66, -math.pi / 2, 170, 1 + 2.6 * f_)
+        _astro_mini(img, W / 2, H * 0.48, -math.pi / 2, 150, 1 + 2.2 * f_, t=t, centro=True)
+        d = ImageDraw.Draw(img, "RGBA")
     elif "de" in cena or cena.get("congela") or cena.get("atravessa"):
         longe = 3.9 if not pequeno else 7.0
         if cena.get("congela"):                                    # quase parando: aproxima cada vez mais devagar
@@ -868,7 +975,8 @@ def _buraco_negro(img, cena, t, dur, n, p):
         if dist < R * 1.02:                                        # passou da borda: some no escuro
             a_ = int(255 * max(0.0, (dist - R * 0.8) / (R * 0.22)))
             cor, visor = cor[:3] + (a_,), visor[:3] + (a_,)
-        _astro_mini(d, x, y, ang, tam, estica, cor, visor)
+        _astro_mini(img, x, y, ang, tam, estica, cor, visor, t=t)
+        d = ImageDraw.Draw(img, "RGBA")
     if cena.get("rotulo"):                                         # embaixo do disco, longe de quem cai (que vem do alto)
         _centro_texto(d, W / 2, H * (0.17 if cena.get("estica") and not pequeno else 0.62), str(cena["rotulo"]).upper(), _fit(d, str(cena["rotulo"]).upper(), 62), p["acento"])
 
