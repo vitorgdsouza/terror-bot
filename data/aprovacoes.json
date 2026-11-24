@@ -1,5 +1,5 @@
 {
- "proximo": 18,
+ "proximo": 19,
  "itens": [
   {
    "id": 1,
@@ -271,6 +271,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-24 10:33",
+   "decidido": ""
+  },
+  {
+   "id": 18,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "CAM 02 | GARAGEM | 03:13",
+   "arquivo": "roteiros/iscas/isca_13_garagem.json",
+   "run_id": "",
+   "resumo": "Isca Sex 27/11 11h47: CAM 02 Garagem 03:13, fita da noite ANTERIOR ao Ep. 1 da Câmera 4 (não responde ao voto); CFTV com texto_tela, susto esp_moradora, virada (planta antiga com 13 andares), pergunta: quem morava no 13º? 6 cenas, 27 palavras, ~20-23 s no render.",
+   "titulo_youtube": "Passos na garagem às 3h13... e o elevador subiu sozinho até o 13º 📼 #shorts",
+   "legenda": "Câmera 4, fita da noite anterior (história de ficção). A câmera 2 da garagem do prédio do Seu Joaquim gravou passos às 3h13. O elevador subiu sozinho até o 13º andar de um prédio de 12... e a planta antiga tinha 13. Quem morava no 13º? 👇",
+   "tipo_video": "isca",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-24 10:34",
    "decidido": ""
   }
  ]
