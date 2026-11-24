@@ -1,0 +1,159 @@
+{
+  "titulo": "Turno da Madrugada, Ep. 1: Duas Vezes",
+  "tipo": "historia",
+  "serie": "Turno da Madrugada",
+  "parte": 1,
+  "final": false,
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "NOV 20 2003",
+  "hora_fita": [3, 17, 5],
+  "protagonista": "mulher",
+  "clima": "suspense",
+  "ritmo": 1.08,
+  "selo": "EP. 1",
+  "pergunta_thumb": "Volta ou liga?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "titulo_youtube": "Ela trancou os fundos... e a campainha da frente tocou duas vezes 📼 Turno da Madrugada Ep. 1 #shorts",
+  "legenda_post": "Turno da Madrugada, Ep. 1: Duas Vezes (história de ficção). Continua da Fita 03: a Bia trancou os fundos, a campainha da frente tocou duas vezes e a irmã ligou às 3h17... ela que só liga às 2h. A Bia fugiu pela frente, mas lá dentro, no vidro, a irmã dela acenava. Ela volta por ela ou liga pra casa? Comenta A ou B 👇",
+  "hashtags": ["#analoghorror", "#vhs", "#foundfootage", "#terror", "#turnodamadrugada"],
+  "resumo": "Começa onde a Fita 03 parou e honra as duas escolhas: a Bia tranca os fundos na cara do Cliente (A) e depois foge pela frente (B). A campainha da frente toca duas vezes e a câmera da entrada não mostra ninguém (ele não aparece na câmera). O telefone da copa toca: a irmã, que só liga às 2h, pede para abrir. Ela corre para a frente e ele está no balcão, sorrindo: hortelã, esparadrapo, 'boa noite, Bia' (esp_cliente_balcao2). Ela não responde e sai; lá fora, pelo vidro, a irmã acena lá de dentro (ele copia quem ela ama). Voto: voltar por ela ou ligar para casa (puxa o segredo: a ligação que não é a irmã).",
+  "opcao_a": "Voltar para dentro pela irmã (e se for ela de verdade?).",
+  "opcao_b": "Ligar para casa e conferir se a irmã está lá.",
+  "cenas": [
+    {
+      "narracao": "Bia trancou a porta na cara dele.",
+      "cenario": "farmacia_deposito",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.48, 0.48, 1.6],
+      "efeito": "tremor",
+      "texto_tela": "CAM 03 | DEPÓSITO | 03:17",
+      "som": {"busca": "metal door slam", "palavra": "trancou"}
+    },
+    {
+      "narracao": "Na frente, a campainha tocou.",
+      "cenario": "farmacia_balcao_luz",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.36, 0.42, 1.7],
+      "efeito": "luz_piscando",
+      "som": {"busca": "shop door bell", "palavra": "campainha"}
+    },
+    {
+      "narracao": "Duas vezes. Na câmera... ninguém.",
+      "cenario": "farmacia_fora2",
+      "personagem": null,
+      "camera": "parada",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 01 | ENTRADA | 03:17",
+      "som": {"busca": "shop door bell", "palavra": "Duas"}
+    },
+    {
+      "narracao": "Aí o telefone tocou.",
+      "cenario": "telefone_casa",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.25, 0.35, 1.5],
+      "efeito": "luz_piscando",
+      "som": {"busca": "old telephone ringing", "palavra": "telefone"}
+    },
+    {
+      "narracao": "Bia, abre pra mim.",
+      "cenario": "telefone_casa",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.24, 0.2, 2.2],
+      "efeito": "tremor",
+      "pausa_extra": 0.2
+    },
+    {
+      "narracao": "A irmã. Que só liga às duas.",
+      "cenario": "farmacia_cftv",
+      "personagem": null,
+      "camera": "parada",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 02 | SALÃO | 03:18",
+      "som": {"busca": "static noise", "palavra": "duas"}
+    },
+    {
+      "narracao": "Correu pra porta da frente.",
+      "cenario": "farmacia_corredor",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.5, 0.5, 1.3],
+      "efeito": "luz_piscando",
+      "som": {"busca": "running footsteps", "palavra": "Correu"}
+    },
+    {
+      "narracao": "Ele estava no balcão. Sorrindo.",
+      "cenario": "esp_cliente_balcao2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "thumb": true,
+      "pausa_extra": 0.8,
+      "som": {"busca": "horror stinger hit", "palavra": "balcão"}
+    },
+    {
+      "narracao": "Hortelã, esparadrapo... boa noite, Bia.",
+      "cenario": "farmacia_balcao_luz",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.14, 0.84, 1.8],
+      "efeito": "luz_piscando",
+      "som": {"busca": "cash register drawer", "palavra": "Hortelã"}
+    },
+    {
+      "narracao": "Ela não respondeu. Saiu correndo.",
+      "cenario": "farmacia_fora",
+      "personagem": null,
+      "camera": "pan_direita",
+      "som": {"busca": "shop door bell", "palavra": "Saiu"}
+    },
+    {
+      "narracao": "Lá dentro, no vidro...",
+      "cenario": "farmacia_fora2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.46, 0.42, 2.2],
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "a irmã dela acenava.",
+      "cenario": "farmacia_fora",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.45, 0.47, 2.0],
+      "efeito": "tremor",
+      "som": {"busca": "knock on glass", "palavra": "acenava"}
+    },
+    {
+      "narracao": "Volta por ela...",
+      "cenario": "farmacia_fora2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.46, 0.42, 2.6],
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "ou liga pra casa?",
+      "cenario": "telefone_casa",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.25, 0.35, 1.8],
+      "som": {"busca": "old telephone ringing", "palavra": "liga"}
+    },
+    {
+      "narracao": "Comenta A ou B.",
+      "cenario": "farmacia_cftv",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "texto_tela": "CAM 02 | SALÃO | 03:19",
+      "corte_preto": true,
+      "som": {"busca": "static noise", "palavra": "Comenta"}
+    }
+  ]
+}

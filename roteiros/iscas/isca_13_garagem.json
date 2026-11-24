@@ -1,0 +1,82 @@
+{
+  "titulo": "CAM 02 | GARAGEM | 03:13",
+  "tipo": "isca",
+  "serie": "Câmera 4",
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "NOV 19 1998",
+  "hora_fita": [3, 13, 0],
+  "protagonista": null,
+  "clima": "suspense",
+  "selo": "CAM 02",
+  "pergunta_thumb": "Quem morava no 13º?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "final": true,
+  "titulo_youtube": "Passos na garagem às 3h13... e o elevador subiu sozinho até o 13º 📼 #shorts",
+  "legenda_post": "Câmera 4, fita da noite anterior (história de ficção). A câmera 2 da garagem do prédio do Seu Joaquim gravou passos às 3h13. O elevador subiu sozinho até o 13º andar de um prédio de 12... e a planta antiga tinha 13. Quem morava no 13º? 👇",
+  "hashtags": ["#analoghorror", "#cftv", "#foundfootage", "#terror", "#camera4"],
+  "resumo": "Fita da noite ANTERIOR ao Ep. 1 da Câmera 4 (19/11/1998), sem tocar no voto escada/elevador. A câmera 2 da garagem grava passos sem ninguém; os passos entram no elevador do subsolo, que sobe sozinho até o 13; na câmera 4, a Moradora já esperava (esp_moradora). Virada: a planta antiga do prédio tem 13 andares. Pergunta: quem morava no 13º? (puxa o segredo do nome apagado da lista de 1979). Seu Joaquim fica fora de quadro.",
+  "cenas": [
+    {
+      "narracao": "Três e treze. Passos na garagem.",
+      "cenario": "garagem_predio2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.22, 0.45, 1.6],
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 02 | GARAGEM | 03:13",
+      "som": {"busca": "slow footsteps concrete", "palavra": "Passos"}
+    },
+    {
+      "narracao": "Entraram no elevador.",
+      "cenario": "elevador_porta",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "texto_tela": "CAM 09 | SUBSOLO",
+      "som": {"busca": "elevator door closing", "palavra": "elevador"}
+    },
+    {
+      "narracao": "Subiu sozinho até o treze.",
+      "cenario": "elevador_porta",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.5, 0.64, 2.2],
+      "efeito": "tv_chiando",
+      "texto_tela": "ELEVADOR | ANDAR 13",
+      "som": {"busca": "elevator ding", "palavra": "treze"}
+    },
+    {
+      "narracao": "No treze, ela esperava.",
+      "cenario": "esp_moradora",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "texto_tela": "CAM 04 | 13º ANDAR",
+      "thumb": true,
+      "pausa_extra": 0.6,
+      "som": {"busca": "horror stinger hit", "palavra": "esperava"}
+    },
+    {
+      "narracao": "Na planta antiga: treze andares.",
+      "cenario": "planta_andar",
+      "personagem": null,
+      "camera": "zoom_out",
+      "efeito": "luz_piscando",
+      "texto_tela": "PLANTA 1979 | 13º ANDAR",
+      "som": {"busca": "paper unfolding", "palavra": "planta"}
+    },
+    {
+      "narracao": "Quem morava no treze?",
+      "cenario": "garagem_predio2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.88, 0.5, 2.0],
+      "efeito": "tremor",
+      "texto_tela": "CAM 02 | GARAGEM | 03:14",
+      "corte_preto": true,
+      "som": {"busca": "slow footsteps concrete", "palavra": "Quem"}
+    }
+  ]
+}
