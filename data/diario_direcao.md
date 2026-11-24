@@ -419,3 +419,4 @@
 ## 24/11 (13h, conversa com o Vitor)
 - **nº 5 Câmera da Campainha 01:58** aprovada e postada à mão pelo Vitor. Registrada em `aprovacoes.json` e em `postados` de `data/fila.json`.
 - Dashcam e Grupo Pt 2 seguem em `itens` (já no ar); a limpeza ainda espera o OK do Vitor.
+- Com o OK do Vitor, Dashcam 04:02 (`vp0on5WliLU`) e Grupo do Prédio Pt 2 (`iseuGKOPE5M`) saíram de `itens` e foram para `postados`. A fila aprovada ficou vazia; não há mais risco de repost.

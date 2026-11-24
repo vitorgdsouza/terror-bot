@@ -1,24 +1,5 @@
 {
- "itens": [
-  {
-   "run_id": "44752236174",
-   "titulo": "Dashcam 04:02",
-   "titulo_youtube": "4h02: o cinto de trás clicou sozinho... o banco estava vazio 🚗 #shorts",
-   "legenda": "Dashcam, 4h02. O Rafa dirigia sozinho quando o cinto de trás clicou e o carro ficou com cheiro de flor de velório (história de ficção). Você olharia no retrovisor? 👇",
-   "tipo": "isca",
-   "adicionado": "2026-11-20 11:38",
-   "aprovacao": "Vitor 20/11 11h17"
-  },
-  {
-   "run_id": "44818132684",
-   "titulo": "Grupo do Prédio (Parte 2)",
-   "titulo_youtube": "O porteiro diz que o corredor tá vazio... mas tem pés debaixo da sua porta 😨 Grupo do Prédio pt. 2 #shorts",
-   "legenda": "Grupo do Prédio, parte 2. A câmera mostra o corredor vazio, a dona Célia diz que ele estava dentro do 701... e alguém manda mensagem do SEU número. Quem entrou? Comenta 👇 (história de ficção) #terror #historiasdeterror #voceescaparia",
-   "tipo": "historia",
-   "adicionado": "2026-11-23 20:38",
-   "aprovacao": 11
-  }
- ],
+ "itens": [],
  "postados": [
   {
    "run_id": "44233575763",
@@ -106,8 +87,32 @@
    "legenda": "Câmera da campainha, 1h58, -9°C. Ele ficou dois minutos parado antes de bater (história de ficção; o que aconteceu depois está no \"Pode Entrar? Ep. 1\", no perfil). O que tem de errado nele? Responde sem voltar o vídeo 👇 #analoghorror #vhs #podeentrar",
    "tipo": "isca",
    "aprovacao": 5,
-   "postado_em": "2026-11-24 13:00",
+   "postado_em": "2026-11-24 12:58",
    "obs": "postado à mão pelo Vitor"
+  },
+  {
+   "run_id": "44752236174",
+   "titulo": "Dashcam 04:02",
+   "titulo_youtube": "4h02: o cinto de trás clicou sozinho... o banco estava vazio 🚗 #shorts",
+   "legenda": "Dashcam, 4h02. O Rafa dirigia sozinho quando o cinto de trás clicou e o carro ficou com cheiro de flor de velório (história de ficção). Você olharia no retrovisor? 👇",
+   "tipo": "isca",
+   "adicionado": "2026-11-20 11:38",
+   "aprovacao": "Vitor 20/11 11h17",
+   "postado_em": "2026-11-23",
+   "youtube_id": "vp0on5WliLU",
+   "obs": "postado à mão pelo Vitor; tirado de itens em 24/11 com o OK dele"
+  },
+  {
+   "run_id": "44818132684",
+   "titulo": "Grupo do Prédio (Parte 2)",
+   "titulo_youtube": "O porteiro diz que o corredor tá vazio... mas tem pés debaixo da sua porta 😨 Grupo do Prédio pt. 2 #shorts",
+   "legenda": "Grupo do Prédio, parte 2. A câmera mostra o corredor vazio, a dona Célia diz que ele estava dentro do 701... e alguém manda mensagem do SEU número. Quem entrou? Comenta 👇 (história de ficção) #terror #historiasdeterror #voceescaparia",
+   "tipo": "historia",
+   "adicionado": "2026-11-23 20:38",
+   "aprovacao": 11,
+   "postado_em": "2026-11-23",
+   "youtube_id": "iseuGKOPE5M",
+   "obs": "postado à mão pelo Vitor; tirado de itens em 24/11 com o OK dele"
   }
  ]
 }
