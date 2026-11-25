@@ -218,3 +218,15 @@
 - **Vídeo longo:** sem mudança. Render da versão 1 hoje às 14h11 (tarefa agendada) e post no Sáb 28/11 às 11h.
 - 25/11 12h07 (reserva da fila, faixa das 12h17): nenhum post hoje e o Upload-Post segue no limite do mês (429, reinicia por volta de 17/12). Mandei no Telegram (run 45641281284, `acao=telegram`) "E se a Terra tivesse anéis como Saturno?" para o Vitor postar à mão. Fila intacta com 6; passa para `postados` na próxima faixa.
 - 25/11 13h26: o Vitor postou "anéis". A fila foi reordenada para o Apophis sair só depois do re-render de quinta de manhã. Ordem: hoje 16h17 buraco mais fundo e 20h17 Fossa; qui 12h17 Betelgeuse, 16h17 Apophis (re-render ANTES das 12h de quinta, trocando o run_id) e 20h17 Fermi.
+
+## 25/11 (tarde): render do 1º longo, não ficou pronto
+- **Run 45662288412** (14h12 às 15h14): o vídeo inteiro foi montado, mas o job morreu no último passo com `NameError: thumb` (a função `thumb` estava definida depois do `if __name__ == "__main__"`). Sem artefato, sem prévia e sem Telegram: o vídeo se perdeu.
+  - **Duração:** 7,8 min (abaixo dos 8 min da regra).
+  - **Voz por bloco (Whisper, melhor tomada):** Início 98%, Mercúrio **87%**, Marte **87%**, Júpiter 94%, Saturno 91%, Urano **85%**, Netuno 90%, Vênus 88% (a 2ª tomada caiu no 429), Terra 92%. Três blocos abaixo de 88%.
+  - **Capítulos dessa versão:** 0:00 Início, 0:33 Mercúrio, 1:40 Marte, 2:49 Júpiter, 3:51 Saturno, 4:40 Urano, 5:29 Netuno, 6:10 Vênus, 7:12 Terra. Vão mudar no próximo render, porque o roteiro cresceu.
+- **Correção (commit cd16029):**
+  - `src/longo.py`: o `__main__` foi para o fim do arquivo, e uma falha na thumb não derruba mais o envio do vídeo. Cada bloco pode ter `"tomadas"` própria. Thumb testada aqui: ok.
+  - Roteiro: +7 falas curtas (cerca de +30 s), só com fatos do `longo_01_fatos.md` ou frases sem número. Exemplos: a exosfera de Mercúrio, Venera, o dia e o ano de Vênus, 1989 na mancha de Netuno, "vinte e um anos no escuro". Saíram duas falas com dado fora do arquivo de fatos (tornados magnéticos de Mercúrio e Fobos). Mercúrio, Marte, Urano e Vênus passam a ter 3 tomadas.
+  - **Atenção:** o roteiro ainda tem números que não estão no arquivo de fatos, como 687 dias, 84 anos, 21% de oxigênio, gravidade de Júpiter, metano em Netuno e "50 km" em Vênus. Conferir e incluir as fontes no arquivo antes do post.
+- **Run 45675455221** (re-render, 15h28): morreu no 1º bloco com **429 "You exceeded your current quota"** (cota diária do TTS esgotada: Fermi de manhã + cerca de 17 chamadas do 1º render). Não insisti.
+- **Conclusão:** o longo gasta cerca de 20 chamadas de voz, a cota inteira de um dia. Ele precisa de um dia **sem nenhum Short renderizado**. Proposta: render na **Sex 27/11 de manhã**, porque na quinta a cota vai para o Apophis. O post de sábado às 11h continua possível.
