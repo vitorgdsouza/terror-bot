@@ -430,3 +430,17 @@
 - **Mesa do Gerente:** saiu o nº 5 de "Aguardando"; o Histórico ganhou "24/11 #5 Campainha aprovada e postada à mão" e "24/11 Fila: Dashcam e Pt 2 para postados".
 - **Aviso no Telegram:** não mandado (nada novo para decidir).
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Sem subagentes (não havia trabalho).
+
+## 25/11 (07h25): rodada da manhã da equipe
+- **Regra nova do Vitor (25/11):** 2 posts todo dia (11h47 e 18h47). Em 24/11 só saiu 1 (sem principal), porque os roteiros esperavam aprovação e ninguém cobrou.
+- **Decisões do Vitor desde a última rodada:** aprovou os roteiros nº 12 Terreiro (07h02), nº 13 Pisadeira (07h08), nº 16 Farmácia 03 (07h12) e nº 15 Câmera 4 Ep. 1 (07h19). Renders: 12 e 13 prontos e já mandados como vídeos nº 19 e nº 20; 16 renderizado (falta o Revisor); 15 renderizando (run 45593828707).
+- **Analista** (subagente): pauta em `data/pauta/2026-11-25.md`, relatório novo (run 45594935642). Canal com 11.905 views (+2.286) e 39 inscritos (+3). CAM 04 com retenção: 68,0% assistido, 125% / 62% / 39%, mas só 1 inscrito (isca puxa view, protocolo traz inscrito: Geada 8). Campainha 01:58 (20 s) fez 1.194 views em menos de 1 dia, o melhor 1º dia do canal. Dashcam (35 s) em 522. Geada virou o vídeo com mais views (1.392). Grupo Pt 1 está público (4 views no Analytics), só não teve distribuição.
+- **Alternância:** último principal postado foi história (Grupo Pt 2, 23/11) → hoje protocolo, 26 história, 27 protocolo, 28 história. Por isso o nº 17 Turno Ep. 1 (história) passou de 27/11 para 28/11 e o nº 14 Assobiador ocupa 27/11 18h47.
+- **Mapa:** 25/11 nº 19 Terreiro + nº 20 Pisadeira (vídeos, esperam o Vitor) | 26/11 nº 16 Farmácia 03 (renderizada) + nº 15 Câmera 4 Ep. 1 (renderizando) | 27/11 nº 18 Garagem + nº 14 Assobiador (roteiros) | 28/11 11h47 **vazia**, 18h47 nº 17 Turno Ep. 1. Fila aprovada: 0 de 6 faixas.
+- **Roteirista:** 0 roteiros hoje. As 6 faixas de 25 a 27/11 têm candidato e a regra é não acumular o que o Vitor não viu. Nada com status "refazer". Amanhã: isca de 28/11 11h47 (sugestão do Analista: nova noite da Câmera da Campainha, 20 s no render).
+- **Riscos para o Vitor/Revisor:** Terreiro com 27 s (teto 25) e voz 89% (seção 3 pede 90%); Pisadeira com 59 s (teto 55).
+- **Diretor de Arte:** não acionado (nenhuma imagem faltando).
+- **Mesa do Gerente:** "Aguardando" agora tem nº 20, 19, 18, 17 e 14 com as faixas novas (saíram 12, 13, 15 e 16, já aprovados); o Histórico ganhou as 4 aprovações de hoje.
+- **Aviso no Telegram:** mandado (run 45595485206) com /aprovar 19 e 20 para hoje e 18, 14 e 17 para 27 e 28/11.
+- **Aprendizado (Analista):** escrever a isca para 18 s, porque o render soma 5 a 15 s (20 s → 1.194 views; 26 s → 1.114; 35 s → 522).
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido.
