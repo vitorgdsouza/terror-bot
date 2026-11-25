@@ -1,15 +1,6 @@
 {
  "itens": [
   {
-   "run_id": "45429422168",
-   "titulo": "E se você caísse num buraco negro?",
-   "titulo_youtube": "E se você CAÍSSE num buraco negro? 🕳️ #shorts",
-   "legenda": "Num buraco negro gigante, você passa da borda inteiro... e só depois vira macarrão. Num pequeno, pode nem chegar lá. Você pularia? 👇\n\nFontes: NASA Goddard (simulação de Jeremy Schnittman, mai/2024), Live Science (mai/2024), Big Think (jan/2024).\n#ciencia #espaco #buraconegro #curiosidades #ese",
-   "tipo": "historia",
-   "adicionado": "2026-11-22 10:15",
-   "obs": "refeito 24/11 com o astronauta novo (pedido do Vitor)"
-  },
-  {
    "run_id": "45178321957",
    "titulo": "E se a Terra tivesse anéis como Saturno?",
    "titulo_youtube": "E se a Terra tivesse ANÉIS como Saturno? 🪐 #shorts",
@@ -120,6 +111,16 @@
    "adicionado": "2026-11-23 10:20",
    "postado_em": "2026-11-23 17:45",
    "obs": "postado à mão pelo Vitor no lugar da Fossa"
+  },
+  {
+   "run_id": "45429422168",
+   "titulo": "E se você caísse num buraco negro?",
+   "titulo_youtube": "E se você CAÍSSE num buraco negro? 🕳️ #shorts",
+   "legenda": "Num buraco negro gigante, você passa da borda inteiro... e só depois vira macarrão. Num pequeno, pode nem chegar lá. Você pularia? 👇\n\nFontes: NASA Goddard (simulação de Jeremy Schnittman, mai/2024), Live Science (mai/2024), Big Think (jan/2024).\n#ciencia #espaco #buraconegro #curiosidades #ese",
+   "tipo": "historia",
+   "adicionado": "2026-11-22 10:15",
+   "obs": "postado à mão pelo Vitor (confirmado no print de 25/11)",
+   "postado_em": "2026-11-24"
   }
  ]
 }
