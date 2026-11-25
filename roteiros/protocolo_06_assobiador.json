@@ -43,7 +43,7 @@
       ],
       "ambiente": "nenhum",
       "som": {
-        "busca": "long eerie human whistle in the dark",
+        "busca": "human whistling",
         "palavra": "assobiar"
       }
     },
@@ -62,7 +62,7 @@
       ],
       "ambiente": "nenhum",
       "som": {
-        "busca": "footsteps on dry leaves approaching",
+        "busca": "footsteps leaves",
         "palavra": "vem"
       }
     },
@@ -78,7 +78,7 @@
       ],
       "ambiente": "nenhum",
       "som": {
-        "busca": "single long whistle far away night",
+        "busca": "human whistling",
         "palavra": "assobio"
       }
     },
@@ -95,7 +95,7 @@
       ],
       "ambiente": "nenhum",
       "som": {
-        "busca": "wooden window shutter closing",
+        "busca": "window close",
         "palavra": "feche"
       }
     },
@@ -132,7 +132,7 @@
       "destaque": "quanto mais longe ele parece",
       "ambiente": "nenhum",
       "som": {
-        "busca": "very faint distant whistle",
+        "busca": "human whistling",
         "palavra": "longe"
       }
     },

@@ -26,7 +26,7 @@
       "foco": [0.22, 0.45, 1.6],
       "efeito": "luz_piscando",
       "texto_tela": "CAM 02 | GARAGEM | 03:13",
-      "som": {"busca": "slow footsteps concrete", "palavra": "Passos"}
+      "som": {"busca": "slow footsteps", "palavra": "Passos"}
     },
     {
       "narracao": "Entraram no elevador.",
@@ -76,7 +76,7 @@
       "efeito": "tremor",
       "texto_tela": "CAM 02 | GARAGEM | 03:14",
       "corte_preto": true,
-      "som": {"busca": "slow footsteps concrete", "palavra": "Quem"}
+      "som": {"busca": "slow footsteps", "palavra": "Quem"}
     }
   ]
 }

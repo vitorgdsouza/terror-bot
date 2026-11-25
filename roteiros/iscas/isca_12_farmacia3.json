@@ -12,6 +12,7 @@
   ],
   "protagonista": null,
   "clima": "suspense",
+  "ritmo": 1.1,
   "selo": "FITA 03",
   "pergunta_thumb": "Fecha ou foge?",
   "trilha": "dark ambient drone hum",
@@ -73,7 +74,7 @@
       "camera": "zoom_in",
       "efeito": "tremor",
       "thumb": true,
-      "pausa_extra": 0.8,
+      "pausa_extra": 0.5,
       "som": {
         "busca": "horror stinger hit",
         "palavra": "lá"
