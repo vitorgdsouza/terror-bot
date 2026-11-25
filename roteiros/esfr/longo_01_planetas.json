@@ -265,7 +265,7 @@
      }
     },
     {
-     "narracao": "Aqui, um dia inteiro, de um nascer do Sol ao outro, dura cento e setenta e seis dias da Terra.",
+     "narracao": "Aqui, de um nascer do Sol ao outro, passam quase seis meses da Terra.",
      "quadro": "superficie",
      "nome": "mercurio",
      "efeitos": [
@@ -452,7 +452,7 @@
      }
     },
     {
-     "narracao": "Mas à noite despenca para cento e cinquenta e três graus negativos.",
+     "narracao": "Mas à noite despenca para mais de cento e cinquenta graus negativos.",
      "quadro": "superficie",
      "nome": "marte",
      "efeitos": [
@@ -486,7 +486,7 @@
      "rotulo": "eixo de 25°"
     },
     {
-     "narracao": "Só que cada ano marciano dura seiscentos e oitenta e sete dias.",
+     "narracao": "Só que cada ano marciano dura quase dois anos da Terra.",
      "quadro": "planeta",
      "nome": "marte",
      "zoom": [
@@ -837,7 +837,7 @@
      ]
     },
     {
-     "narracao": "O eixo dele é inclinado quase noventa e oito graus.",
+     "narracao": "O eixo dele é tão inclinado que ele fica praticamente deitado.",
      "quadro": "planeta",
      "nome": "urano",
      "zoom": [
@@ -903,7 +903,7 @@
      "rotulo": "ventos de até 900 km/h"
     },
     {
-     "narracao": "E um frio que pode chegar a duzentos e vinte e quatro graus negativos.",
+     "narracao": "E um frio que passa de duzentos e vinte graus negativos.",
      "quadro": "descida",
      "nome": "urano",
      "de": 0.25,
@@ -1223,7 +1223,7 @@
      "rotulo": "dia: 243 dias / ano: 225 dias"
     },
     {
-     "narracao": "Um dia lá dura duzentos e quarenta e três dias da Terra. O ano, duzentos e vinte e cinco.",
+     "narracao": "Um dia lá dura uns oito meses da Terra. E o ano, uns sete meses e meio.",
      "quadro": "superficie",
      "nome": "venus",
      "efeitos": [

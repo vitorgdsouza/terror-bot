@@ -556,6 +556,35 @@ def _efeitos(eventos: list, total: float, destino: Path) -> Path:
     return destino
 
 
+def _narracao(sub: dict, cfg: dict, pasta: Path, bi: int, narrar) -> list:
+    """Narra o bloco, ou reaproveita a narração de um render anterior (NARRACAO_CACHE) se o texto for o mesmo.
+    Assim dá para refazer o visual do longo sem gastar a cota de voz. Sempre salva vozes.json para a próxima vez."""
+    import hashlib
+    texto = "\n".join(c["narracao"].strip() for c in sub["cenas"])
+    assinatura = hashlib.sha1(texto.encode("utf-8")).hexdigest()
+    cache = os.environ.get("NARRACAO_CACHE", "").strip()
+    if cache:
+        achado = next(iter(sorted(Path(cache).rglob(f"audio_{bi:02d}/vozes.json"))), None)
+        if achado:
+            dados = json.loads(achado.read_text(encoding="utf-8"))
+            if dados.get("assinatura") == assinatura:
+                pasta.mkdir(parents=True, exist_ok=True)
+                vozes = []
+                for v in dados["vozes"]:
+                    destino = pasta / v["arquivo"]
+                    shutil.copy(achado.parent / v["arquivo"], destino)
+                    vozes.append({"arquivo": destino, "duracao": v["duracao"], "palavras": v.get("palavras", [])})
+                log(f"  narração reaproveitada do render anterior ({len(vozes)} falas, nota {dados.get('nota', '?')})")
+                return vozes
+            log("  o texto do bloco mudou: narrando de novo")
+    vozes = narrar(sub, cfg, pasta)
+    (pasta / "vozes.json").write_text(json.dumps({
+        "assinatura": assinatura, "nota": sub.get("_nota"),
+        "vozes": [{"arquivo": Path(v["arquivo"]).name, "duracao": v["duracao"], "palavras": v.get("palavras", [])}
+                  for v in vozes]}, ensure_ascii=False), encoding="utf-8")
+    return vozes
+
+
 def montar(r: dict, pasta: Path) -> tuple[Path, list]:
     from .util import carregar_config, duracao
     from .voz_gemini import narrar_roteiro
@@ -571,7 +600,7 @@ def montar(r: dict, pasta: Path) -> tuple[Path, list]:
         log(f"Bloco {bi + 1}/{len(r['blocos'])}: {b['capitulo']} ({len(b['cenas'])} cenas)")
         sub = {"cenas": b["cenas"], "voz": r.get("voz", "Puck"), "clima": r.get("clima", "curioso"), "canal": "esfr",
                "formato": "voce", "tomadas": b.get("tomadas", r.get("tomadas", 2))}
-        vozes = narrar_roteiro(sub, cfg, pasta / f"audio_{bi:02d}")
+        vozes = _narracao(sub, cfg, pasta / f"audio_{bi:02d}", bi, narrar_roteiro)
         capitulos.append((t0, b["capitulo"]))
         for ci, (cena, voz) in enumerate(zip(b["cenas"], vozes)):
             cena.update(_capitulos=caps, _capitulo=b.get("marca", b["capitulo"]), _fade=ci in (0, len(b["cenas"]) - 1),

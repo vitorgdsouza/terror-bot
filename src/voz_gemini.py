@@ -218,6 +218,7 @@ def narrar_roteiro(roteiro: dict, cfg: dict, pasta: Path) -> list[dict]:
         if nota >= 0.96:
             break
     nota, escolhido, ouvidas = melhor
+    roteiro["_nota"] = round(nota, 3)                     # o vídeo longo guarda a nota de cada bloco
     shutil.copy(escolhido, completo)
     total = duracao(completo)
     tempos = alinhar(palavras, ouvidas, total)

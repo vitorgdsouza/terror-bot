@@ -10,6 +10,9 @@ on:
       blocos:
         description: "Só alguns blocos, para teste (ex.: 0,1). Vazio = todos"
         default: ""
+      reusar_narracao:
+        description: "Número de um render anterior do longo: reaproveita a narração dos blocos que não mudaram (não gasta cota de voz)"
+        default: ""
 
 permissions:
   contents: write
@@ -33,6 +36,14 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
       - name: Instalar dependências
         run: pip install -r requirements.txt
+      - name: Baixar a narração do render anterior
+        if: inputs.reusar_narracao != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: narracao-longo
+          run-id: ${{ inputs.reusar_narracao }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: cache_narracao
       - name: Montar o vídeo longo
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -42,15 +53,28 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           ROTEIRO_ARQ: ${{ inputs.roteiro }}
           BLOCOS: ${{ inputs.blocos }}
+          NARRACAO_CACHE: ${{ inputs.reusar_narracao != '' && 'cache_narracao' || '' }}
         run: python -m src.longo
+      - name: Guardar a narração (para refazer o visual sem gastar a cota)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: narracao-longo
+          path: |
+            trabalho/longo/audio_*/voz_*.mp3
+            trabalho/longo/audio_*/vozes.json
+          if-no-files-found: ignore
+          retention-days: 30
       - name: Guardar o vídeo
-        if: success()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: video-longo
           path: |
             trabalho/longo/video_longo.mp4
             trabalho/capitulos.txt
+            trabalho/thumb_longo.jpg
+          if-no-files-found: ignore
           retention-days: 30
       - name: Guardar a prévia
         if: success()
