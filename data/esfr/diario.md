@@ -254,3 +254,4 @@
   - **Qui 26/11:** só o re-render do Apophis (3 chamadas). **NADA do longo.**
   - **Sex 27/11:** o longo inteiro às **08h11** (tarefa agendada). A rodada diária de sexta (09h41) **não renderiza Short nenhum antes de o longo terminar**. Se a fila precisar, renderiza depois, só se sobrar cota.
   - Se a v2 precisar de ajuste só visual, re-renderizar com `reusar_narracao=<run da sexta>`, sem gastar voz.
+- 25/11 20h05 (reserva da fila, faixa das 20h17): "buraco mais fundo" (Telegram 16h05) passou para `postados` como postado. 2 posts hoje, o último há mais de 2 h, e o Upload-Post segue no limite do mês (429, reinicia por volta de 17/12). Mandei no Telegram (run 45718551793, `acao=telegram`, 20h05) "E se você descesse até o fundo da Fossa das Marianas?" para o Vitor postar à mão. Fila com 4; passa para `postados` na próxima faixa.
