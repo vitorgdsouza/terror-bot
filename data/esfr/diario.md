@@ -194,3 +194,4 @@
   - **Final:** "Qual você acha? 1, 2 ou 3?" para puxar comentário.
   - **Visual:** no padrão do asteroide, com quadros novos (galáxia, olhos no escuro, filtro), no máximo 1 cartão de número.
   - **Thumb:** a Terra pequena no escuro, cercada de olhos brilhando, com a frase "CADÊ / TODO MUNDO?".
+  - **Quarta 25/11:** o Fermi é o único render de Short do dia. Ele tem que terminar **antes das 14h11**, porque o render do longo é prioridade e a cota de voz precisa sobrar para ele. Se não der tempo de fazer bem os quadros novos, o Fermi passa para quinta: **o longo vem primeiro**.
