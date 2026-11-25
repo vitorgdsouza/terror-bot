@@ -459,3 +459,4 @@
 - **Roteirista:** nada com status "refazer".
 - **Mesa do Gerente:** "Aguardando" tem agora os nº 23, 22, 21, 20 e 19 (saíram os roteiros 18, 17 e 14, já aprovados). O Histórico ganhou as aprovações dos nº 18 (07h30), 17 (07h40) e 14 (07h49).
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Sem subagentes; os papéis foram feitos em sequência.
+- 25/11 13h26: **o Vitor postou o Protocolo Assobiador (nº 14) à mão**, na faixa das 11h47. NÃO re-renderizar: o nº 14 está como "postado". Mapa novo: hoje 18h47 Pisadeira (nº 20); 26/11 Farmácia 03 (nº 22) e Câmera 4 (nº 21); 27/11 Garagem (nº 18) e Turno (nº 23); 28/11 11h47 Fita do Terreiro (nº 19, que fecha o buraco).
