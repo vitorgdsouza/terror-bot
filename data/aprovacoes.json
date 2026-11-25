@@ -1,5 +1,5 @@
 {
- "proximo": 20,
+ "proximo": 21,
  "itens": [
   {
    "id": 1,
@@ -303,6 +303,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-25 10:18",
+   "decidido": ""
+  },
+  {
+   "id": 20,
+   "tipo": "video",
+   "agente": "Publicador",
+   "titulo": "Protocolo Pisadeira",
+   "arquivo": "roteiros/protocolo_05_pisadeira.json",
+   "run_id": "45592062852",
+   "resumo": "Protocolo Pisadeira 'Se o seu gato encarar o teto': 4 regras e a parte mais importante, com a Pisadeira no telhado no final. 59 s, voz 98%. Faixa: HOJE 18h47.",
+   "titulo_youtube": "Se o seu gato encarar o teto de madrugada... não abra os olhos 🐈‍⬛ Protocolo Pisadeira #shorts",
+   "legenda": "Protocolo Pisadeira, das Férias na Roça (história de ficção, inspirada no folclore brasileiro). Se o seu gato encarar o teto às 2h51, siga cada passo. O que você jantou hoje? 👇",
+   "tipo_video": "protocolo",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-25 10:19",
    "decidido": ""
   }
  ]
