@@ -1,5 +1,5 @@
 {
- "proximo": 22,
+ "proximo": 23,
  "itens": [
   {
    "id": 1,
@@ -335,6 +335,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-25 13:58",
+   "decidido": ""
+  },
+  {
+   "id": 22,
+   "tipo": "video",
+   "agente": "Publicador",
+   "titulo": "Fita da Farmácia 03:17 (Fita 03)",
+   "arquivo": "roteiros/iscas/isca_12_farmacia3.json",
+   "run_id": "45628901016",
+   "resumo": "Revisor: refeita 1x. O 1º render tinha 26 s (teto de isca 25 s); com ritmo 1.1 e susto mais seco ficou com 23 s, voz Enceladus (Gemini) 91%. VHS com 6 cenas, susto esp_cliente_estoque, virada do corredor vazio na câmera, sem gore. Pergunta: fecha os fundos ou foge pela frente? Faixa: Qui 26/11 11h47.",
+   "titulo_youtube": "A porta dos fundos da farmácia abriu sozinha às 3h16... 📼 #shorts",
+   "legenda": "Fita 03 (história de ficção). Na noite depois do \"boa noite, mãe\", a porta dos fundos da farmácia abriu sozinha. A Bia viu ele no fim do corredor... e a câmera não. Você fechava os fundos ou fugia pela frente? 👇",
+   "tipo_video": "isca",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-25 14:08",
    "decidido": ""
   }
  ]
