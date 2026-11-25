@@ -5,7 +5,7 @@
   "serie": "Férias na Roça",
   "rotulo": "PROTOCOLO ASSOBIADOR",
   "selo": "PROTOCOLO",
-  "pergunta_thumb": "Seu gato já eriçou pra janela?",
+  "pergunta_thumb": "...e alguém assobiar lá fora?",
   "clima": "alerta",
   "ritmo": 1.1,
   "final": true,
@@ -162,5 +162,6 @@
         "palavra": "contou"
       }
     }
-  ]
+  ],
+  "titulo_thumb": "Se o seu gato|eriçar pra janela"
 }

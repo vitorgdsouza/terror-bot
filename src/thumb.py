@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 from .util import RAIZ
 
 FONTE = RAIZ / "assets" / "fontes" / "Poppins-Bold.ttf"
-ROXO, VERMELHO = (124, 58, 237), (200, 30, 40)
+ROXO, VERMELHO = (205, 22, 32), (200, 30, 40)   # "ROXO" virou vermelho: identidade nova (fita/VHS), 25/11
 
 
 def _cena_chave(r: dict) -> dict:
@@ -34,6 +34,9 @@ def _cena_chave(r: dict) -> dict:
 
 
 def _linhas(titulo: str) -> tuple[str, str]:
+    if "|" in titulo:
+        a, b = titulo.upper().split("|", 1)
+        return a.strip(), b.strip()
     p = titulo.upper().split()
     if len(p) == 1:
         return "", p[0]
@@ -430,7 +433,7 @@ def gerar_thumbs(r: dict, pasta: Path) -> tuple[Path, Path]:
         cena = ImageEnhance.Brightness(quadro(_cena_chave(r), 2.2, 4.0, prot).convert("RGB")).enhance(1.25)
     W, H = cena.size
     ty = r.get("thumb_texto_y", 0.38)                   # altura do bloco de título (fração da altura)
-    l1, l2 = _linhas(r.get("titulo", "Você escaparia?"))
+    l1, l2 = _linhas(r.get("titulo_thumb") or r.get("titulo", "Você escaparia?"))
     pergunta = _pergunta(r)
     selo = r.get("selo") or ("FINAL" if r.get("final") else f"EP. {r.get('parte') or 1}")
 
