@@ -98,6 +98,36 @@
      ]
     },
     {
+     "narracao": "E vai marcar aqui, planeta por planeta, quanto tempo você aguentaria.",
+     "quadro": "sistema",
+     "placar": {
+      "mercurio": "?",
+      "marte": "?",
+      "jupiter": "?",
+      "saturno": "?",
+      "urano": "?",
+      "netuno": "?",
+      "venus": "?",
+      "terra": "?"
+     },
+     "camera": {
+      "zoom": [
+       1.0,
+       1.08
+      ],
+      "pan": [
+       [
+        0.45,
+        0.5
+       ],
+       [
+        0.55,
+        0.5
+       ]
+      ]
+     }
+    },
+    {
      "narracao": "Você vai cair dentro de um gigante que não tem chão.",
      "quadro": "descida",
      "nome": "jupiter",
@@ -211,7 +241,7 @@
      }
     },
     {
-     "narracao": "E o vento solar chega até o chão por redemoinhos magnéticos, que a NASA chama de tornados magnéticos.",
+     "narracao": "Mercúrio quase não tem ar. Só uma camada finíssima de gás.",
      "quadro": "superficie",
      "nome": "mercurio",
      "efeitos": [
@@ -331,7 +361,8 @@
       ]
      }
     }
-   ]
+   ],
+   "tomadas": 3
   },
   {
    "capitulo": "Marte",
@@ -368,6 +399,12 @@
     },
     {
      "narracao": "E aqui vem a boa notícia: dá pra ficar de pé e andar.",
+     "quadro": "superficie",
+     "nome": "marte",
+     "pose": "pulando"
+    },
+    {
+     "narracao": "Pela primeira vez, o seu traje não é o problema.",
      "quadro": "superficie",
      "nome": "marte",
      "pose": "pulando"
@@ -459,7 +496,7 @@
      "rotulo": "1 ano = 687 dias"
     },
     {
-     "narracao": "E uma das luas dele, Fobos, vai cair em Marte ou se partir em uns cinquenta milhões de anos.",
+     "narracao": "O ar é tão fino que, sem traje, não dá pra respirar.",
      "quadro": "planeta",
      "nome": "marte",
      "zoom": [
@@ -510,7 +547,8 @@
       ]
      }
     }
-   ]
+   ],
+   "tomadas": 3
   },
   {
    "capitulo": "Júpiter",
@@ -533,6 +571,15 @@
     },
     {
      "narracao": "Caberiam umas mil Terras aqui dentro.",
+     "quadro": "planeta",
+     "nome": "jupiter",
+     "zoom": [
+      1.0,
+      1.4
+     ]
+    },
+    {
+     "narracao": "Mil planetas como o seu, cabendo num só.",
      "quadro": "planeta",
      "nome": "jupiter",
      "zoom": [
@@ -700,6 +747,15 @@
      "rotulo": "1 ano = 29,4 anos"
     },
     {
+     "narracao": "Quem nascesse lá quase nunca faria aniversário.",
+     "quadro": "planeta",
+     "nome": "saturno",
+     "zoom": [
+      0.9,
+      1.05
+     ]
+    },
+    {
      "narracao": "E a temperatura média fica em cento e quarenta graus negativos.",
      "quadro": "descida",
      "nome": "saturno",
@@ -806,6 +862,15 @@
      "rotulo": "inverno de 21 anos"
     },
     {
+     "narracao": "Imagina: vinte e um anos no escuro.",
+     "quadro": "planeta",
+     "nome": "urano",
+     "zoom": [
+      1.05,
+      1.3
+     ]
+    },
+    {
      "narracao": "Ele ainda gira ao contrário, como Vênus.",
      "quadro": "planeta",
      "nome": "urano",
@@ -891,7 +956,8 @@
       ]
      }
     }
-   ]
+   ],
+   "tomadas": 3
   },
   {
    "capitulo": "Netuno",
@@ -922,7 +988,7 @@
      ]
     },
     {
-     "narracao": "Uma vez, apareceu aqui uma mancha escura em que cabia a Terra inteira.",
+     "narracao": "Em mil novecentos e oitenta e nove, apareceu aqui uma mancha escura em que cabia a Terra inteira.",
      "quadro": "escala",
      "tipo": "dentro",
      "nome": "netuno"
@@ -958,7 +1024,7 @@
      "rotulo": "cerca de -200 °C"
     },
     {
-     "narracao": "Veredito: não.",
+     "narracao": "Veredito: não. Sem chão, sem calor e sem ar pra respirar.",
      "quadro": "sistema",
      "foco": "netuno",
      "placar": {
@@ -1104,7 +1170,7 @@
      "traje": 0.8
     },
     {
-     "narracao": "A gente sabe disso porque já mandou sondas pra lá.",
+     "narracao": "A gente sabe disso porque já mandou sondas pra lá: as sondas Venera.",
      "quadro": "planeta",
      "nome": "venus",
      "zoom": [
@@ -1155,6 +1221,14 @@
       "calor"
      ],
      "rotulo": "dia: 243 dias / ano: 225 dias"
+    },
+    {
+     "narracao": "Um dia lá dura duzentos e quarenta e três dias da Terra. O ano, duzentos e vinte e cinco.",
+     "quadro": "superficie",
+     "nome": "venus",
+     "efeitos": [
+      "calor"
+     ]
     },
     {
      "narracao": "E ele gira ao contrário: lá, o Sol nasce no oeste.",
@@ -1210,7 +1284,8 @@
       ]
      }
     }
-   ]
+   ],
+   "tomadas": 3
   },
   {
    "capitulo": "Terra",
@@ -1267,6 +1342,12 @@
     },
     {
      "narracao": "Aqui, você pode finalmente respirar fundo.",
+     "quadro": "superficie",
+     "nome": "terra",
+     "pose": "acenando"
+    },
+    {
+     "narracao": "Sem traje, sem capacete, sem pressa.",
      "quadro": "superficie",
      "nome": "terra",
      "pose": "acenando"

@@ -570,7 +570,7 @@ def montar(r: dict, pasta: Path) -> tuple[Path, list]:
             continue
         log(f"Bloco {bi + 1}/{len(r['blocos'])}: {b['capitulo']} ({len(b['cenas'])} cenas)")
         sub = {"cenas": b["cenas"], "voz": r.get("voz", "Puck"), "clima": r.get("clima", "curioso"), "canal": "esfr",
-               "formato": "voce", "tomadas": r.get("tomadas", 2)}
+               "formato": "voce", "tomadas": b.get("tomadas", r.get("tomadas", 2))}
         vozes = narrar_roteiro(sub, cfg, pasta / f"audio_{bi:02d}")
         capitulos.append((t0, b["capitulo"]))
         for ci, (cena, voz) in enumerate(zip(b["cenas"], vozes)):
@@ -631,8 +631,8 @@ def main():
     nome = Path(arq).stem
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(final), "-vf", "fps=1/4,scale=320:-1,tile=6x8",
                     "-frames:v", "1", "-q:v", "4", str(previas / f"{nome}.jpg")])
-    capa = thumb(r, trab / "thumb_longo.jpg")
     try:
+        capa = thumb(r, trab / "thumb_longo.jpg")
         telegram.enviar_foto(capa, "[E Se Fosse Real?] Thumb do vídeo longo: toque e salve na galeria")
         telegram.enviar_arquivo(capa, "Thumb do vídeo longo: arquivo original, sem compressão")
     except Exception as e:  # noqa: BLE001
@@ -656,9 +656,6 @@ def main():
     except Exception as e:  # noqa: BLE001
         log(f"Telegram falhou: {e}")
 
-
-if __name__ == "__main__":
-    main()
 
 
 def thumb(r: dict, destino: Path) -> Path:
@@ -693,3 +690,7 @@ def thumb(r: dict, destino: Path) -> Path:
     destino.parent.mkdir(parents=True, exist_ok=True)
     img.resize((1280, 720), Image.LANCZOS).save(destino, quality=92)
     return destino
+
+
+if __name__ == "__main__":
+    main()
