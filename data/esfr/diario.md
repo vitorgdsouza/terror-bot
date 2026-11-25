@@ -231,3 +231,26 @@
 - **Run 45675455221** (re-render, 15h28): morreu no 1º bloco com **429 "You exceeded your current quota"** (cota diária do TTS esgotada: Fermi de manhã + cerca de 17 chamadas do 1º render). Não insisti.
 - **Conclusão:** o longo gasta cerca de 20 chamadas de voz, a cota inteira de um dia. Ele precisa de um dia **sem nenhum Short renderizado**. Proposta: render na **Sex 27/11 de manhã**, porque na quinta a cota vai para o Apophis. O post de sábado às 11h continua possível.
 - 25/11 16h05 (reserva da fila, faixa das 16h17): 1 post hoje (anéis), o último há mais de 2 h, e o Upload-Post segue no limite do mês (429, reinicia por volta de 17/12). Mandei no Telegram (run 45681585774, `acao=telegram`, 16h05) "E se você descesse no buraco mais fundo já cavado?" para o Vitor postar à mão. Fila intacta com 5; passa para `postados` na próxima faixa.
+
+## 25/11 (16h40): revisão da v1 do longo e plano até sábado
+- **O NameError da thumb foi culpa minha**: eu acrescentei a função `thumb` no fim do arquivo, depois do `__main__`. A rodada da tarde já tinha corrigido.
+- **Agora**, um ensaio completo aqui (as 9 partes, narração falsa e Telegram desligado) roda do começo ao fim: vídeo, capítulos, prévia, thumb e `vozes.json`. Não deve mais morrer no último passo.
+- **Proteção da cota:**
+  - A narração de cada bloco agora vira artefato (`narracao-longo`), mesmo se o job falhar.
+  - O `longo-esfr.yml` tem o input `reusar_narracao=<run>`, que reaproveita a voz dos blocos cujo texto não mudou. Assim, refazer o visual não gasta cota.
+  - O vídeo também é guardado mesmo com falha. Teste local do reaproveitamento: ok.
+- **Voz dos blocos fracos** (Mercúrio 87%, Marte 87%, Urano 85%): os números falados mais longos ficaram mais simples, e a tela continua mostrando o valor exato:
+  - "quase seis meses" (176 dias);
+  - "mais de cento e cinquenta graus negativos" (-153);
+  - "quase dois anos da Terra" (687 dias);
+  - "praticamente deitado" (97,8°);
+  - "passa de duzentos e vinte graus negativos" (-224);
+  - "uns oito meses e uns sete meses e meio" (243 e 225 dias).
+- **Visual:**
+  - Planeta em várias cenas seguidas agora alterna o enquadramento sozinho (`_variar`).
+  - Eixo de rotação tracejado em Urano (deitado) e em Marte (25°).
+- **Fatos:** os números que faltavam (687 dias, 84 anos, 21% de oxigênio, gravidade de Júpiter, metano, 50 km em Vênus etc.) foram anotados com a fonte em `docs/esfr/longo_01_fatos.md`.
+- **Plano da cota até sábado:**
+  - **Qui 26/11:** só o re-render do Apophis (3 chamadas). **NADA do longo.**
+  - **Sex 27/11:** o longo inteiro às **08h11** (tarefa agendada). A rodada diária de sexta (09h41) **não renderiza Short nenhum antes de o longo terminar**. Se a fila precisar, renderiza depois, só se sobrar cota.
+  - Se a v2 precisar de ajuste só visual, re-renderizar com `reusar_narracao=<run da sexta>`, sem gastar voz.

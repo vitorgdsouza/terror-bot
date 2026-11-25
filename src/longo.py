@@ -158,6 +158,16 @@ def _q_planeta(img, c, t, dur):
     R = int(300 * z)
     cx = W * c.get("x", 0.5)
     _colar(img, planeta(c["nome"], R, t), cx, H * 0.5)
+    if c.get("eixo") is not None:                        # eixo de rotação (graus a partir da vertical), tracejado
+        d = ImageDraw.Draw(img, "RGBA")
+        a = math.radians(float(c["eixo"]))
+        dx, dy = math.sin(a), -math.cos(a)
+        cresce = _suave(t / max(0.1, dur * 0.5))
+        for k in range(-16, 17):
+            if k % 2:
+                continue
+            f0, f1 = k / 16 * 1.45 * R * cresce, (k + 1) / 16 * 1.45 * R * cresce
+            d.line((cx + dx * f0, H * 0.5 + dy * f0, cx + dx * f1, H * 0.5 + dy * f1), fill=AMARELO + (230,), width=8)
     if c.get("nave"):                                    # nave chegando pelo canto, com rastro
         d = ImageDraw.Draw(img, "RGBA")
         f = _suave(t / max(0.1, dur * 0.9))
@@ -585,6 +595,26 @@ def _narracao(sub: dict, cfg: dict, pasta: Path, bi: int, narrar) -> list:
     return vozes
 
 
+def _variar(cenas: list) -> None:
+    """Planeta em várias cenas seguidas cansa: alterna o enquadramento (lado e direção da câmera) quando o roteiro
+    não pediu um. Não muda nada que o roteiro já definiu."""
+    seq = 0
+    for i, c in enumerate(cenas):
+        ant = cenas[i - 1] if i else {}
+        if c.get("quadro") == "planeta" and ant.get("quadro") == "planeta" and ant.get("nome") == c.get("nome"):
+            seq += 1
+        else:
+            seq = 0
+        if c.get("quadro") != "planeta" or seq == 0:
+            continue
+        if "x" not in c:
+            c["x"] = (0.36, 0.64, 0.5)[seq % 3]
+        if "camera" not in c:
+            lado = 0.42 if c["x"] < 0.5 else 0.58 if c["x"] > 0.5 else 0.5
+            c["camera"] = ({"zoom": [1.0, 1.12], "pan": [[0.5, 0.5], [lado, 0.5]]} if seq % 2 else
+                           {"zoom": [1.15, 1.0], "pan": [[lado, 0.48], [0.5, 0.5]]})
+
+
 def montar(r: dict, pasta: Path) -> tuple[Path, list]:
     from .util import carregar_config, duracao
     from .voz_gemini import narrar_roteiro
@@ -602,6 +632,7 @@ def montar(r: dict, pasta: Path) -> tuple[Path, list]:
                "formato": "voce", "tomadas": b.get("tomadas", r.get("tomadas", 2))}
         vozes = _narracao(sub, cfg, pasta / f"audio_{bi:02d}", bi, narrar_roteiro)
         capitulos.append((t0, b["capitulo"]))
+        _variar(b["cenas"])
         for ci, (cena, voz) in enumerate(zip(b["cenas"], vozes)):
             cena.update(_capitulos=caps, _capitulo=b.get("marca", b["capitulo"]), _fade=ci in (0, len(b["cenas"]) - 1),
                         _titulo_cap=b["capitulo"] if ci == 0 and bi > 0 else None)

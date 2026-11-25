@@ -483,7 +483,9 @@
       0.9,
       1.1
      ],
-     "rotulo": "eixo de 25°"
+     "rotulo": "eixo de 25°",
+     "eixo": 25,
+     "x": 0.5
     },
     {
      "narracao": "Só que cada ano marciano dura quase dois anos da Terra.",
@@ -844,7 +846,9 @@
       0.85,
       1.05
      ],
-     "rotulo": "eixo de 97,8°"
+     "rotulo": "eixo de 97,8°",
+     "eixo": 98,
+     "x": 0.5
     },
     {
      "narracao": "E ele tem umas quatro vezes a largura da Terra.",
