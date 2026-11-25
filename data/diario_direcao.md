@@ -460,3 +460,13 @@
 - **Mesa do Gerente:** "Aguardando" tem agora os nº 23, 22, 21, 20 e 19 (saíram os roteiros 18, 17 e 14, já aprovados). O Histórico ganhou as aprovações dos nº 18 (07h30), 17 (07h40) e 14 (07h49).
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Sem subagentes; os papéis foram feitos em sequência.
 - 25/11 13h26: **o Vitor postou o Protocolo Assobiador (nº 14) à mão**, na faixa das 11h47. NÃO re-renderizar: o nº 14 está como "postado". Mapa novo: hoje 18h47 Pisadeira (nº 20); 26/11 Farmácia 03 (nº 22) e Câmera 4 (nº 21); 27/11 Garagem (nº 18) e Turno (nº 23); 28/11 11h47 Fita do Terreiro (nº 19, que fecha o buraco).
+
+## 25/11 (15h55): rodada do Revisor e do Publicador
+- **Revisor:** o único item "renderizado" sem vídeo proposto é o nº 18 Garagem (run 45630752976). O log confirma: 429 "You exceeded your current quota" no flash e no pro, então saiu sem a Enceladus. Não renderizei de novo: a cota ainda está esgotada (o render do canal 2 às 18h28 UTC bateu no mesmo limite). Falta 1 refação; fazer na rodada das 07h23 de 26/11. Os outros "renderizado" (12, 13, 15, 16, 17) já estão com o Vitor como vídeos 19 a 23. Nada "renderizando".
+- **Publicador:** nenhum vídeo novo para mandar. `itens` da fila vazia.
+- **Principal de hoje (25/11 18h47):** a Pisadeira (nº 20) espera o /aprovar, então não é faixa sem candidato.
+- **Faixa vazia nova:** Sex 27/11 18h47 (protocolo). O Assobiador, que ocupava a faixa, saiu hoje à mão às 11h47. Mapa: 26/11 nº 22 + nº 21 | 27/11 nº 18 Garagem (re-render) + **vazia** | 28/11 nº 19 Terreiro + nº 23 Turno. Fila aprovada: 0 de 6.
+- **Roteirista:** nada com status "refazer". Pauta de 26/11: um protocolo para 27/11 18h47 (ou o Vitor põe o Turno nela e a vaga vira 28/11).
+- **Mesa do Gerente:** no "Aguardando", o nº 19 passou para a faixa Sáb 28/11 11h47. O Histórico ganhou "25/11 #14 Assobiador postado à mão às 13h26".
+- **Aviso no Telegram:** mandado (run 45680224105): faixa de 27/11 18h47 vazia + lembrete do /aprovar 20.
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Sem subagentes; os papéis foram feitos em sequência.
