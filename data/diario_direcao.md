@@ -470,3 +470,7 @@
 - **Mesa do Gerente:** no "Aguardando", o nº 19 passou para a faixa Sáb 28/11 11h47. O Histórico ganhou "25/11 #14 Assobiador postado à mão às 13h26".
 - **Aviso no Telegram:** mandado (run 45680224105): faixa de 27/11 18h47 vazia + lembrete do /aprovar 20.
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Sem subagentes; os papéis foram feitos em sequência.
+
+## 25/11 (18h35): reserva da fila (Publicador, turno tarde)
+- Hoje saiu 1 post (Assobiador, à mão às 13h26). `itens` da fila vazia: sem principal para 18h47. Não mandei outro tipo no lugar.
+- Aviso mandado (run 45705540453 + push) com /aprovar 20 (Pisadeira), 21 (Câmera 4 Ep. 1) ou 23 (Turno Ep. 1). Upload-Post segue no limite: aprovado, vai pelo Telegram.
