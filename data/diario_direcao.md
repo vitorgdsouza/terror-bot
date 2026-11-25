@@ -444,3 +444,18 @@
 - **Aviso no Telegram:** mandado (run 45595485206) com /aprovar 19 e 20 para hoje e 18, 14 e 17 para 27 e 28/11.
 - **Aprendizado (Analista):** escrever a isca para 18 s, porque o render soma 5 a 15 s (20 s → 1.194 views; 26 s → 1.114; 35 s → 522).
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido.
+
+## 25/11 (10h55): rodada do Revisor e do Publicador
+- **Revisor:** conferiu os 5 renders novos (nº 14, 15, 16, 17 e 18), com a folha de quadros e o log de cada um. Os nº 12 e 13 já estavam com o Vitor como vídeos nº 19 e 20 (as ressalvas de duração e voz seguem no resumo deles).
+  - **nº 15 Câmera 4 Ep. 1:** passou. 55 s, Gemini 88% (a nota baixa vem de 1301, "treze zero" e Seu Joaquim; as legendas estão certas). Cenário no máximo 3x, susto esp_moradora. Ressalva: o close de costas do Seu Joaquim na escada é grande.
+  - **nº 17 Turno Ep. 1:** passou. 44 s, Gemini 96%. Ressalva: abaixo do alvo de 50 s de história.
+  - **nº 16 Farmácia 03:** reprovada por 26 s (teto da isca 25 s). Refeita com `ritmo` 1.1 e `pausa_extra` 0.5 no susto (run 45628901016): **23 s, Gemini 91%**, aprovada.
+  - **nº 18 Garagem:** reprovada. O render saiu sem a Enceladus (429 no Gemini; a reserva Edge também falhou). A busca "slow footsteps concrete" virou "slow footsteps". O 2º render (run 45630752976) também falhou: a **cota diária do Gemini TTS acabou** ("You exceeded your current quota", flash e pro). Não mandei ao Vitor.
+  - **nº 14 Assobiador:** reprovado. 51 s, Gemini 92%, mas o Freesound não achou os assobios das cenas 2 e 13, e o da cena 6 virou "Whistle and Explosion Single_Firework" (som de fogos). O final "Você contou quantos assobios ouviu?" ficaria sem sentido. As buscas viraram "human whistling" (as 3), "footsteps leaves" e "window close". **Não renderizei de novo** porque a cota do Gemini acabou. Falta 1 refação para cada um.
+- **Publicador:** títulos e legendas afinados: Câmera 4 com "Ela aparece mais perto a cada câmera... escada ou elevador?" e Turno mais curto; as duas legendas agora dizem qual é o A e qual é o B. Propostos ao Vitor: **nº 21 Câmera 4 Ep. 1 (Qui 26/11 18h47)**, **nº 22 Farmácia 03 (Qui 26/11 11h47)** e **nº 23 Turno Ep. 1 (Sáb 28/11 18h47)**.
+- **Erro meu (corrigido):** mandei as propostas da Câmera 4 e do Turno com 20 s de intervalo. As duas pegaram o nº 21; a do Turno não gravou (conflito no push), mas a mensagem com botões "/aprovar 21" chegou ao Vitor. Reenviei o Turno como nº 23 e avisei. **Regra:** mandar uma proposta por vez e esperar o aprovacao.yml terminar antes da próxima.
+- **Fila:** `itens` vazia. Hoje 11h47 (nº 19) e 18h47 (nº 20) esperam o Vitor, então não mandei aviso de faixa vazia. Mapa: 26/11 nº 22 + nº 21; 27/11 Garagem + Assobiador (re-render pendente); 28/11 11h47 **vazia**, 18h47 nº 23.
+- **Próximo passo:** a cota do Gemini volta por volta das 05h (meia-noite do Pacífico). A rodada das 07h23 de 26/11 deve renderizar **primeiro a Garagem (nº 18) e depois o Assobiador (nº 14)**, um por vez, conferir a voz no log e se os sons dos assobios são de assobio humano. Na rodada das 15h23 de hoje, a cota provavelmente ainda não voltou: não renderizar.
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** "Aguardando" tem agora os nº 23, 22, 21, 20 e 19 (saíram os roteiros 18, 17 e 14, já aprovados). O Histórico ganhou as aprovações dos nº 18 (07h30), 17 (07h40) e 14 (07h49).
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Sem subagentes; os papéis foram feitos em sequência.
