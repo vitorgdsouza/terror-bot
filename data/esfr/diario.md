@@ -188,3 +188,9 @@
 - 24/11 13h35: o Vitor topa a thumb própria como padrão **se fizer efeito**. O critério está em `docs/ESFR.md` ("Thumbs (em teste)"): comparar o 08 com os de thumb simples quando ele tiver uns 3 dias no ar.
 - 24/11 13h10 (16h10 UTC): thumb nova posta no YouTube no "E se você caísse num buraco negro?" (fila-esfr `thumbs`, run 45433844331, ok). As primeiras imagens mandadas na conversa chegaram corrompidas para o Vitor; reenviadas em PNG e pelo Telegram (run 45433506057).
 - 24/11 13h20: post da aba Comunidade pedindo ideias de "E se...?" (imagem em `data/esfr/comunidade/2026-11-24_ideias.jpg`). Ler as respostas nos próximos dias e usar as boas na pauta, citando quem sugeriu no vídeo.
+- 24/11 22h: **pedido do Vitor: vídeo sobre o Paradoxo de Fermi.** Leve, chamativo e feito para engajar. Prioridade da próxima produção. Plano combinado:
+  - **Gancho:** "Tem mais estrelas no universo do que grãos de areia nas praias da Terra. Então... cadê todo mundo?"
+  - **Miolo:** Fermi, 1950, no almoço: "onde está todo mundo?". A galáxia tem 13 bilhões de anos e poderia ser atravessada em poucos milhões. Depois, 3 respostas rápidas: (1) somos os primeiros; (2) o Grande Filtro, que pode estar à nossa frente; (3) floresta escura: eles estão quietos de propósito, e nós estamos gritando.
+  - **Final:** "Qual você acha? 1, 2 ou 3?" para puxar comentário.
+  - **Visual:** no padrão do asteroide, com quadros novos (galáxia, olhos no escuro, filtro), no máximo 1 cartão de número.
+  - **Thumb:** a Terra pequena no escuro, cercada de olhos brilhando, com a frase "CADÊ / TODO MUNDO?".
