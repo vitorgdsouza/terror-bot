@@ -1,5 +1,5 @@
 {
- "proximo": 23,
+ "proximo": 24,
  "itens": [
   {
    "id": 1,
@@ -351,6 +351,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-25 14:08",
+   "decidido": ""
+  },
+  {
+   "id": 23,
+   "tipo": "video",
+   "agente": "Publicador",
+   "titulo": "Turno da Madrugada, Ep. 1: Duas Vezes",
+   "arquivo": "roteiros/turno_01.json",
+   "run_id": "45597232447",
+   "resumo": "Revisor: VHS 44 s, voz Enceladus (Gemini) 96%, continua da Fita 03 e honra as duas escolhas; susto esp_cliente_balcao2 (sem gore); voto A volta pela irmã / B liga pra casa. Ressalva: 44 s fica abaixo do alvo de 50 s de história. Reenviado: a mensagem anterior do Turno saiu com o nº 21 por engano (o 21 é a Câmera 4). Faixa: Sáb 28/11 18h47.",
+   "titulo_youtube": "Ela trancou os fundos... e a campainha tocou duas vezes 📼 Turno da Madrugada Ep. 1 #shorts",
+   "legenda": "Turno da Madrugada, Ep. 1: Duas Vezes (história de ficção). Continua da Fita 03: a Bia trancou os fundos, a campainha da frente tocou duas vezes e a irmã ligou às 3h17... ela que só liga às 2h. A Bia fugiu pela frente, mas lá dentro, no vidro, a irmã dela acenava. Ela volta pela irmã (A) ou liga pra casa (B)? Comenta A ou B 👇",
+   "tipo_video": "historia",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-25 14:18",
    "decidido": ""
   }
  ]
