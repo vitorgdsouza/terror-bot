@@ -1,0 +1,108 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se você gritasse pro universo e ninguém respondesse?",
+ "titulo_youtube": "CADÊ todo mundo no universo? O Paradoxo de Fermi 👽 #shorts",
+ "legenda_post": "Só a nossa galáxia tem uns 100 bilhões de estrelas e mais de 13 bilhões de anos. Dava tempo de sobra pra alguém aparecer... e ninguém apareceu. Pra você, é a 1, a 2 ou a 3? Comenta 👇\n\nFontes: Britannica (Fermi paradox); Smithsonian Magazine (abr/2024, trecho do livro Exoplanets); Universe Today (abr/2015 e jan/2021); National Geographic (mai/2024, atualizado out/2025); BBC Sky at Night Magazine (mar/2024); Big Think (fev/2023).\n#ciencia #espaco #aliens #paradoxodefermi #curiosidades #ese",
+ "thumb_texto": "CADÊ|TODO MUNDO?",
+ "thumb_arte": "fermi",
+ "cenas": [
+  {
+   "narracao": "E se você gritasse pro universo, e ninguém respondesse?",
+   "quadro": "fermi",
+   "floresta": true,
+   "grita": true
+  },
+  {
+   "narracao": "Só a nossa galáxia tem uns cem bilhões de estrelas.",
+   "quadro": "fermi",
+   "conta": true,
+   "rotulo": "100 bilhões de estrelas"
+  },
+  {
+   "narracao": "E centenas de bilhões de planetas em volta delas.",
+   "quadro": "fermi",
+   "planetas": true
+  },
+  {
+   "narracao": "Então... cadê todo mundo?",
+   "quadro": "fermi",
+   "busca": true
+  },
+  {
+   "narracao": "Um físico perguntou isso num almoço, há mais de setenta anos.",
+   "quadro": "fermi",
+   "almoco": true
+  },
+  {
+   "narracao": "A galáxia tem mais de treze bilhões de anos.",
+   "quadro": "fermi",
+   "rotulo": "+ de 13 bilhões de anos"
+  },
+  {
+   "narracao": "Naves lentas ocupariam ela toda em uns dez milhões de anos.",
+   "quadro": "fermi",
+   "onda": true,
+   "rotulo": "uns 10 milhões de anos"
+  },
+  {
+   "narracao": "Isso é um piscar de olhos perto da idade dela.",
+   "quadro": "fermi",
+   "tempo": true
+  },
+  {
+   "narracao": "Mesmo assim, ninguém apareceu. É o Paradoxo de Fermi.",
+   "quadro": "fermi",
+   "busca": true,
+   "rotulo": "paradoxo de Fermi"
+  },
+  {
+   "narracao": "Resposta um: nós somos os primeiros. Ou os únicos.",
+   "quadro": "fermi",
+   "primeiros": true,
+   "rotulo": "1. somos os primeiros"
+  },
+  {
+   "narracao": "Resposta dois: um Grande Filtro, que quase ninguém passa.",
+   "quadro": "fermi",
+   "filtro": true,
+   "rotulo": "2. o grande filtro"
+  },
+  {
+   "narracao": "E esse filtro pode estar na nossa frente.",
+   "quadro": "fermi",
+   "filtro": true,
+   "frente": true
+  },
+  {
+   "narracao": "Resposta três: a floresta escura.",
+   "quadro": "fermi",
+   "floresta": true,
+   "rotulo": "3. a floresta escura"
+  },
+  {
+   "narracao": "Eles estão quietos de propósito, com medo dos vizinhos.",
+   "quadro": "fermi",
+   "floresta": true,
+   "rotulo": "quietos de propósito"
+  },
+  {
+   "narracao": "E a gente vaza sinal de rádio há décadas.",
+   "quadro": "fermi",
+   "floresta": true,
+   "grita": true
+  },
+  {
+   "narracao": "Qual você acha? Um, dois ou três? Comenta.",
+   "quadro": "fermi",
+   "votar": true
+  }
+ ]
+}

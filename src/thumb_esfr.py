@@ -57,7 +57,7 @@ def _ceu(W: int, H: int) -> Image.Image:
     return img
 
 
-ARTE_HORIZONTAL = {"lua_some", "sem_traje", "buraco_negro"}                               # artes que têm composição própria em 16:9
+ARTE_HORIZONTAL = {"lua_some", "sem_traje", "buraco_negro", "fermi"}                               # artes que têm composição própria em 16:9
 
 
 def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
@@ -150,6 +150,8 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
             d.text((x, y), txt, font=fl, fill=(255, 196, 40), stroke_width=4, stroke_fill=(0, 0, 0))
     elif tipo == "buraco_negro":
         _buraco_negro_thumb(img, W, H)
+    elif tipo == "fermi":
+        _fermi_thumb(img, W, H)
     elif tipo == "pulo":
         t = terra(380)
         cy = int(H * 0.64)
@@ -594,3 +596,43 @@ def _dino_assustado(tam, ex, ey, R, x):
     out = Image.new("RGBA", tam, (0, 0, 0, 0))
     out.alpha_composite(G, (int(x - T), int(ey - dy - T + 18)))
     return out
+
+
+def _fermi_thumb(img: Image.Image, W: int, H: int) -> None:
+    """A Terra pequena no escuro, soltando ondas de rádio, cercada de olhos brilhando que olham para ela."""
+    import math
+    import random
+    from .voce import _olho
+    deitado = W > H
+    cx, cy = (W * 0.75, H * 0.52) if deitado else (W * 0.5, H * 0.62)
+    R = int(H * 0.1) if deitado else int(W * 0.13)
+    esc = Image.new("RGBA", (W, H), (0, 0, 0, 0))                   # escurece tudo em volta (floresta escura)
+    de = ImageDraw.Draw(esc)
+    de.rectangle((0, 0, W, H), fill=(0, 0, 0, 120))
+    img.alpha_composite(esc)
+    gl = Image.new("RGBA", (W, H), (0, 0, 0, 0))                     # halo azul da Terra
+    ImageDraw.Draw(gl).ellipse((cx - R * 2, cy - R * 2, cx + R * 2, cy + R * 2), fill=(80, 170, 255, 110))
+    img.alpha_composite(gl.filter(ImageFilter.GaussianBlur(R * 0.5)))
+    d = ImageDraw.Draw(img, "RGBA")
+    for k in range(3):                                               # ondas de rádio saindo
+        rr = R * (1.45 + k * 0.55)
+        d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), outline=(90, 215, 255, 200 - k * 45), width=max(3, R // 18))
+    t = terra(R)
+    img.alpha_composite(t, (int(cx - t.width / 2), int(cy - t.height / 2)))
+    d = ImageDraw.Draw(img, "RGBA")
+    rnd = random.Random(5)
+    n = 14
+    for k in range(n * 2):                                           # olhos em roda (duas voltas), de tamanhos variados
+        ang = (k / n) * 2 * math.pi + rnd.random() * 0.3 + (0.2 if k >= n else 0)
+        dist = R * ((3.2 if k < n else 4.3) + rnd.random() * 0.5)
+        x, y = cx + math.cos(ang) * dist * (1.1 if deitado else 0.95), cy + math.sin(ang) * dist * (0.85 if deitado else 1.15)
+        if not (20 < x < W - 20 and 20 < y < H - 20):
+            continue
+        if deitado and x < W * 0.6:
+            continue
+        if not deitado and (y < H * 0.34 or y > H * 0.87):
+            continue
+        cor = rnd.choice([(255, 214, 60), (255, 214, 60), (255, 80, 60), (120, 255, 160)])
+        s_ = R * (0.17 + rnd.random() * 0.12)
+        if 30 + s_ < x < W - 30 - s_:
+            _olho(d, x, y, s_, 1.0, k, cor)

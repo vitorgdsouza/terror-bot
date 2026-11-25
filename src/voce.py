@@ -38,6 +38,7 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   apophis      o asteroide que passa em 2029; vista em escala com o anel dos satélites ("de"/"ate", "orbita", "espreme", "medida", "mira"); modos "perto", "data", "tamanho", "risco" (+ "recorde", "valor"), "ceu" (+ "gente"), "mapa"
   estrela      Betelgeuse em Órion ("linhas", "destaca", "explode", "brilha", "apaga", "lua"); modos "tamanho", "neutrinos", "supernova", "dia", "sombra", "longe", "meses" (+ "ate")
   oceano       descida pelas camadas do mar ("de"/"ate" em metros; "peixes", "lulas", "brilho", "cachalote", "paredes", "peixe_caracol", "fundo", "nome_zona": false); modo "zonas" (o mar em corte)
+  fermi        Paradoxo de Fermi; a galáxia ("conta", "planetas", "busca", "onda"); modos "almoco", "tempo", "primeiros", "filtro" (+ "frente"), "floresta" (+ "grita"), "votar"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
 import math
@@ -46,7 +47,7 @@ import subprocess
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from .util import RAIZ
 
@@ -2296,3 +2297,335 @@ def _oceano(img, cena, t, dur, n, p):
 
 
 QUADROS.update({"oceano": _oceano})
+
+
+# ---------------------------------------------------------------- Paradoxo de Fermi (cadê todo mundo?)
+def _galaxia_pts():
+    """Pontos fixos de uma galáxia espiral de 2 braços (raio 0 a 1), com cor e brilho de cada estrela."""
+    k = ("galaxia_pts",)
+    if k not in _cache:
+        rng = np.random.default_rng(11)
+        n = 1500
+        braco = rng.integers(0, 2, n)
+        r = rng.random(n) ** 0.7
+        ang = braco * math.pi + r * 4.2 + rng.normal(0, 0.28, n) * (1.2 - r)
+        r = r + rng.normal(0, 0.03, n)
+        nb = 350                                        # bojo no meio
+        rb = np.abs(rng.normal(0, 0.12, nb))
+        ab = rng.random(nb) * 2 * math.pi
+        r = np.concatenate([r, rb])
+        ang = np.concatenate([ang, ab])
+        cor = np.where(r[:, None] < 0.25, np.array([255, 226, 170]), np.array([200, 226, 255]))
+        bri = 0.45 + 0.55 * rng.random(len(r))
+        _cache[k] = (r, ang, cor, bri, rng.random(len(r)))
+    return _cache[k]
+
+
+def _galaxia(img, cx, cy, R, t, inclina=0.55, giro=0.05, mostra=1.0, apaga=0.0):
+    """Galáxia espiral girando devagar. "mostra" (0 a 1): quantas estrelas já acenderam; "apaga": escurece tudo."""
+    r, ang, cor, bri, ordem = _galaxia_pts()
+    kg = ("galaxia_brilho", int(R))
+    if kg not in _cache:                                # brilho do miolo e névoa dos braços, feito uma vez
+        g = Image.new("RGBA", (int(R * 2.6), int(R * 2.6)), (0, 0, 0, 0))
+        dg = ImageDraw.Draw(g)
+        c = g.width / 2
+        dg.ellipse((c - R * 0.32, c - R * 0.32, c + R * 0.32, c + R * 0.32), fill=(255, 220, 160, 150))
+        dg.ellipse((c - R * 0.9, c - R * 0.9, c + R * 0.9, c + R * 0.9), fill=(90, 120, 200, 40))
+        _cache[kg] = g.filter(ImageFilter.GaussianBlur(R * 0.12))
+    g = _cache[kg]
+    gg = g.resize((g.width, max(2, int(g.height * inclina))))
+    alfa = (1 - apaga) * min(1.0, mostra * 1.4)
+    if alfa > 0.02:
+        a = gg.getchannel("A").point(lambda v: int(v * alfa))
+        gg.putalpha(a)
+        img.paste(gg, (int(cx - gg.width / 2), int(cy - gg.height / 2)), gg)
+    d = ImageDraw.Draw(img, "RGBA")
+    a2 = ang + t * giro
+    xs = cx + np.cos(a2) * r * R
+    ys = cy + np.sin(a2) * r * R * inclina
+    for i in range(len(r)):
+        if ordem[i] > mostra:
+            continue
+        b = bri[i] * (1 - apaga) * (0.75 + 0.25 * math.sin(t * 3 + i))
+        if b < 0.05:
+            continue
+        s = 2.4 if bri[i] > 0.9 else 1.6
+        c_ = tuple(int(v) for v in cor[i]) + (int(255 * b),)
+        d.ellipse((xs[i] - s, ys[i] - s, xs[i] + s, ys[i] + s), fill=c_)
+    return xs, ys
+
+
+def _olho(d, x, y, s, t, k, cor=(255, 214, 60)):
+    """Par de olhos brilhando no escuro: amendoados e inclinados (bravos), com pupila de fenda; piscam de vez em quando."""
+    fase = (t * 0.7 + k * 0.37) % 3.0
+    aberto = 1.0 if fase > 0.18 else abs(fase - 0.09) / 0.09
+    for lado in (-1, 1):
+        ex = x + lado * s * 1.05
+        h = s * 0.36 * max(0.08, aberto)
+        pts_c, pts_b = [], []
+        for i in range(13):                             # amêndoa: o canto de dentro mais baixo
+            u = i / 12
+            px = ex + (u - 0.5) * s * 1.4
+            incl = (u - 0.5) * lado * s * 0.32
+            pts_c.append((px, y - h * math.sin(math.pi * u) + incl))
+            pts_b.append((px, y + h * 0.75 * math.sin(math.pi * u) + incl))
+        forma = pts_c + pts_b[::-1]
+        for g in range(3, 0, -1):                       # brilho em volta
+            gg = g * s * 0.1
+            d.ellipse((ex - s * 0.7 - gg, y - h - gg, ex + s * 0.7 + gg, y + h + gg), fill=cor + (18,))
+        d.polygon(forma, fill=cor + (255,))
+        if aberto > 0.4:
+            d.ellipse((ex - s * 0.09, y - h * 0.8, ex + s * 0.09, y + h * 0.7), fill=(10, 8, 4, 255))
+
+
+def _arvore(d, x, chao, alt, cor):
+    """Pinheiro escuro em silhueta."""
+    d.rectangle((x - alt * 0.03, chao - alt * 0.2, x + alt * 0.03, chao), fill=cor)
+    for k in range(4):
+        y0 = chao - alt * (0.15 + k * 0.22)
+        larg = alt * (0.32 - k * 0.06)
+        d.polygon([(x - larg, y0), (x + larg, y0), (x, y0 - alt * 0.34)], fill=cor)
+
+
+def _ondas_radio(d, x, y, t, cor, n=4, vel=150, max_r=520, larg=6):
+    for k in range(n):
+        rr = ((t * vel + k * max_r / n) % max_r) + 10
+        a = int(220 * (1 - rr / max_r))
+        d.ellipse((x - rr, y - rr, x + rr, y + rr), outline=cor + (a,), width=larg)
+
+
+def _fermi(img, cena, t, dur, n, p):
+    """Paradoxo de Fermi. Sem modo: a galáxia ("conta": as estrelas acendendo aos poucos; "planetas": alguns pontos
+    ganham planetas girando em volta; "busca": um radar varre a galáxia e só acha silêncio, com "?"; "onda": colônias
+    se espalhando de um ponto até cobrir a galáxia). Modos: "almoco" (mesa de almoço de três cientistas genéricos e o
+    balão "CADÊ TODO MUNDO?"), "tempo" (régua da idade da galáxia e o fiozinho vermelho do tempo para ocupá-la),
+    "primeiros" (a Terra sozinha com luz em cima, a galáxia escura em volta), "filtro" (muralha brilhante; os pontos
+    batem e somem, quase nenhum passa; "frente": a Terra embaixo, indo na direção dela), "floresta" (árvores escuras
+    com olhos brilhando; "grita": a Terra no meio soltando ondas de rádio e os olhos se virando), "votar" (cartões
+    1, 2 e 3). "rotulo" em qualquer um."""
+    d = ImageDraw.Draw(img, "RGBA")
+    rot = str(cena.get("rotulo", "")).upper()
+    f_ = t / max(0.1, dur)
+    if cena.get("almoco"):
+        _estrelas(d, t, 40)
+        d.rectangle((0, H * 0.18, W, H * 0.5), fill=(30, 60, 120))          # janela com o deserto lá fora
+        d.polygon([(0, H * 0.44), (W * 0.25, H * 0.36), (W * 0.5, H * 0.42), (W * 0.78, H * 0.33), (W, H * 0.4),
+                   (W, H * 0.5), (0, H * 0.5)], fill=(150, 96, 70))
+        d.ellipse((W * 0.72, H * 0.21, W * 0.82, H * 0.21 + W * 0.1), fill=(255, 220, 120))
+        for x in (W * 0.33, W * 0.66):
+            d.rectangle((x - 8, H * 0.18, x + 8, H * 0.5), fill=(20, 26, 48))
+        d.rectangle((0, H * 0.17, W, H * 0.19), fill=(20, 26, 48))
+        d.rectangle((0, H * 0.5, W, H * 0.52), fill=(20, 26, 48))
+        chao = H * 0.7
+        for k, x in enumerate((W * 0.2, W * 0.5, W * 0.8)):
+            fala = k == 1
+            _pessoa(d, x, chao, 360, (236, 240, 250) if fala else (150, 170, 210), t, "parado", fundo=(22, 50, 104))
+        d.rounded_rectangle((W * 0.04, H * 0.62, W * 0.96, H * 0.655), radius=10, fill=(150, 104, 70))   # mesa
+        d.rectangle((W * 0.1, H * 0.655, W * 0.13, H * 0.72), fill=(110, 76, 50))
+        d.rectangle((W * 0.87, H * 0.655, W * 0.9, H * 0.72), fill=(110, 76, 50))
+        for x in (W * 0.2, W * 0.5, W * 0.8):                                 # bandejas e xícaras
+            d.rounded_rectangle((x - 90, H * 0.605, x + 90, H * 0.623), radius=6, fill=(200, 205, 215))
+            d.rounded_rectangle((x + 40, H * 0.58, x + 76, H * 0.607), radius=6, fill=(250, 250, 250))
+            for k in range(2):                                                 # vapor
+                vy = H * 0.57 - ((t * 60 + k * 40) % 80)
+                d.ellipse((x + 52 + math.sin(t * 3 + k) * 8, vy - 8, x + 64 + math.sin(t * 3 + k) * 8, vy + 8),
+                          fill=(255, 255, 255, 90))
+        txt = "CADÊ TODO MUNDO?"
+        mostra = txt[:int(len(txt) * min(1.0, max(0.0, (f_ - 0.15) / 0.45)))]
+        if f_ > 0.12:
+            bx, by = W / 2, H * 0.36
+            d.rounded_rectangle((W * 0.05, by - 80, W * 0.95, by + 80), radius=40, fill=(255, 255, 255, 245), outline=p["acento"], width=6)
+            d.polygon([(W * 0.47, by + 78), (W * 0.53, by + 78), (W * 0.5, by + 150)], fill=(255, 255, 255, 245))
+            _centro_texto(d, bx, by, mostra or " ", _fit(d, txt, 78), (14, 24, 54))
+        if rot:
+            _rotulo_caixa(d, H * 0.13, rot, p)
+        return
+    if cena.get("tempo"):
+        _estrelas(d, t, 60)
+        x0, x1, y = W * 0.08, W * 0.92, H * 0.42
+        cresce = _suave(f_ / 0.45)
+        d.rounded_rectangle((x0, y - 50, x1, y + 50), radius=50, outline=p["apagado"], width=6)
+        d.rounded_rectangle((x0, y - 50, x0 + (x1 - x0) * cresce, y + 50), radius=50, fill=p["acento2"])
+        _centro_texto(d, W / 2, y - 120, "IDADE DA GALÁXIA", _f(62), p["acento2"])
+        if f_ > 0.5:                                    # o fio vermelho: o tempo para ocupar tudo
+            g = _suave((f_ - 0.5) / 0.2)
+            xs_ = x1 - 10
+            d.rectangle((xs_ - 3, y - 50, xs_ + 3, y + 50), fill=(232, 60, 60, int(255 * g)))
+            d.line((xs_, y + 60, xs_ - 140, y + 230), fill=(232, 60, 60, int(255 * g)), width=8)
+            d.ellipse((xs_ - 70, y - 70, xs_ + 40, y + 70), outline=(232, 60, 60, int(255 * g)), width=6)
+            ft = _f(60)
+            d.text((W * 0.16, y + 250), "TEMPO PARA", font=ft, fill=(255, 110, 100, int(255 * g)))
+            d.text((W * 0.16, y + 320), "OCUPAR TUDO", font=ft, fill=(255, 110, 100, int(255 * g)))
+        if rot:
+            _rotulo_caixa(d, H * 0.13, rot, p)
+        return
+    if cena.get("primeiros"):
+        _estrelas(d, t, 50)
+        _galaxia(img, W / 2, H * 0.47, 520, t, apaga=0.75)
+        d = ImageDraw.Draw(img, "RGBA")
+        cx, cy = W / 2, H * 0.47
+        luz = Image.new("RGBA", (W, H), (0, 0, 0, 0))   # cone de luz de cima até a Terra
+        ImageDraw.Draw(luz).polygon([(cx - 60, 0), (cx + 60, 0), (cx + 300, cy + 40), (cx - 300, cy + 40)], fill=(255, 240, 190, 60))
+        luz = luz.filter(ImageFilter.GaussianBlur(30))
+        img.paste(luz, (0, 0), luz)
+        d = ImageDraw.Draw(img, "RGBA")
+        R = 150 + 20 * _suave(f_)
+        _globo(d, cx, cy, R, t * 0.6)
+        d = ImageDraw.Draw(img, "RGBA")
+        pulso = 1 + 0.06 * math.sin(t * 4)
+        d.ellipse((cx - R * 1.3 * pulso, cy - R * 1.3 * pulso, cx + R * 1.3 * pulso, cy + R * 1.3 * pulso), outline=p["acento"], width=5)
+        if rot:
+            _rotulo_caixa(d, H * 0.15, rot, p)
+        return
+    if cena.get("filtro"):
+        _estrelas(d, t, 60)
+        wy = H * 0.34                                   # a muralha brilhante atravessando a tela
+        for k in range(6, 0, -1):
+            d.rectangle((0, wy - 30 - k * 14, W, wy + 30 + k * 14), fill=(255, 80, 70, 14))
+        d.rectangle((0, wy - 30, W, wy + 30), fill=(255, 96, 80))
+        for k in range(0, W, 90):                       # tijolos
+            d.line((k + (wy % 2) * 45, wy - 30, k, wy + 30), fill=(170, 40, 40), width=4)
+        d.line((0, wy, W, wy), fill=(170, 40, 40), width=4)
+        frente = cena.get("frente")
+        for k in range(24 if not frente else 10):       # pontos (civilizações) subindo e batendo na muralha
+            rnd = random.Random(k * 13)
+            x = W * (0.06 + rnd.random() * 0.88)
+            vel = 220 + rnd.random() * 160
+            ciclo = (H * 0.75 - wy) / vel + 1.0
+            tt = (t + rnd.random() * ciclo) % ciclo
+            y = H * 0.72 - tt * vel
+            passa = k == 7 and not frente
+            if y < wy + 40 and not passa:
+                g = min(1.0, (wy + 40 - y) / 60)
+                r = 12 + 30 * g
+                d.ellipse((x - r, wy + 40 - r, x + r, wy + 40 + r), outline=(255, 200, 120, int(200 * (1 - g))), width=4)
+                continue
+            d.ellipse((x - 12, y - 12, x + 12, y + 12), fill=p["acento2"] + (230,))
+            d.line((x, y + 14, x, y + 60), fill=p["acento2"] + (90,), width=6)
+        if not frente:
+            rnd = random.Random(7 * 13)
+            x = W * (0.06 + rnd.random() * 0.88)
+            d.ellipse((x - 14, wy - 130 - 14, x + 14, wy - 130 + 14), fill=(120, 255, 140))   # o único que passou
+        if frente:                                      # a Terra embaixo, chegando mais perto
+            cy = H * 0.64 - 80 * _suave(f_)
+            _globo(d, W / 2, cy, 140, t * 0.5)
+            d = ImageDraw.Draw(img, "RGBA")
+            for k in range(3):
+                yy = cy - 190 - k * 60 - (t * 80 % 60)
+                d.polygon([(W / 2 - 40, yy + 30), (W / 2 + 40, yy + 30), (W / 2, yy - 10)], fill=p["acento"] + (200 - k * 60,))
+        _centro_texto(d, W / 2, wy - 110 if frente else wy + 120, "GRANDE FILTRO", _f(74), (255, 236, 220))
+        if rot:
+            _rotulo_caixa(d, H * 0.12, rot, p)
+        return
+    if cena.get("floresta"):
+        d.rectangle((0, 0, W, H), fill=(4, 8, 20, 170))
+        _estrelas(d, t, 60)
+        grita = cena.get("grita")
+        cx, cy = W / 2, H * 0.4
+        if not grita:                                   # fileira de trás, um pouco mais clara
+            for k in range(8):
+                rnd = random.Random(k * 5 + 2)
+                _arvore(d, W * (k / 7) + (rnd.random() - 0.5) * 80, H * 0.7, 760 + rnd.random() * 200, (14, 26, 52))
+        if grita:
+            _ondas_radio(d, cx, cy, t, p["acento2"], n=5, vel=220, max_r=640, larg=7)
+            _globo(d, cx, cy, 130, t * 0.6)
+            d = ImageDraw.Draw(img, "RGBA")
+        for k in range(18):                             # olhos no escuro
+            rnd = random.Random(k * 29)
+            if grita:                                   # em roda, olhando para a Terra
+                ang = rnd.random() * 2 * math.pi
+                dist = 330 + rnd.random() * 200
+                x, y = cx + math.cos(ang) * dist, cy + math.sin(ang) * dist * 0.9
+            else:
+                x, y = W * (0.08 + rnd.random() * 0.84), H * (0.3 + rnd.random() * 0.34)
+            aparece = min(1.0, max(0.0, (f_ * 1.6 - rnd.random() * 0.6) / 0.3))
+            if aparece <= 0 or y > H * 0.68 or y < H * 0.14:
+                continue
+            s = 20 + rnd.random() * 14
+            cor = rnd.choice([(255, 214, 60), (255, 90, 70), (120, 255, 160)])
+            _olho(d, x, y, s * aparece, t, k, cor)
+        for k in range(11):                             # árvores da frente, baixas
+            rnd = random.Random(k * 3 + 1)
+            x = W * (k / 10) + (rnd.random() - 0.5) * 60
+            _arvore(d, x, H * 0.8 + rnd.random() * 40, 330 + rnd.random() * 160, (4, 9, 20))
+        d.rectangle((0, H * 0.8, W, H), fill=(4, 9, 20))
+        if rot:
+            _rotulo_caixa(d, H * 0.13, rot, p)
+        return
+    if cena.get("votar"):
+        _estrelas(d, t, 60)
+        icones = ("primeiros", "filtro", "floresta")
+        nomes = ("SOMOS OS|PRIMEIROS", "GRANDE|FILTRO", "FLORESTA|ESCURA")
+        for k in range(3):
+            aparece = _suave((f_ - k * 0.12) / 0.2)
+            if aparece <= 0:
+                continue
+            y = H * (0.2 + k * 0.19)
+            pul = 1 + 0.03 * math.sin(t * 4 + k * 2)
+            x0, x1 = W * 0.08, W * 0.92
+            h = 150 * pul
+            off = (1 - aparece) * W
+            d.rounded_rectangle((x0 + off, y - h / 2 * 1.1, x1 + off, y + h / 2 * 1.1), radius=30, fill=(14, 30, 70, 235),
+                                outline=p["acento"] if (int(t * 1.5) % 3) == k else p["acento2"], width=6)
+            d.ellipse((x0 + 30 + off, y - 60, x0 + 150 + off, y + 60), fill=p["acento"])
+            _centro_texto(d, x0 + 90 + off, y, str(k + 1), _f(90), p["fundo"])
+            l1, l2 = nomes[k].split("|")
+            d.text((x0 + 190 + off, y - 70), l1, font=_f(56), fill=p["fig"])
+            d.text((x0 + 190 + off, y - 6), l2, font=_f(56), fill=p["acento2"])
+            ix = x1 - 110 + off
+            if icones[k] == "primeiros":
+                _globo(d, ix, y, 50, t * 0.6)
+                d = ImageDraw.Draw(img, "RGBA")
+            elif icones[k] == "filtro":
+                d.rectangle((ix - 70, y - 14, ix + 70, y + 14), fill=(255, 96, 80))
+                d.ellipse((ix - 12, y + 30, ix + 12, y + 54), fill=p["acento2"])
+            else:
+                _olho(d, ix, y, 26, t, k, (255, 214, 60))
+        if rot:
+            _rotulo_caixa(d, H * 0.13, rot, p)
+        return
+    # ---- a galáxia
+    _estrelas(d, t, 50)
+    cx, cy, R = W / 2, H * 0.46, 500
+    mostra = _suave(f_ / 0.7) if cena.get("conta") else 1.0
+    xs, ys = _galaxia(img, cx, cy, R, t, mostra=mostra, apaga=0.35 if cena.get("onda") else 0.0)
+    d = ImageDraw.Draw(img, "RGBA")
+    if cena.get("planetas"):                            # alguns pontos com planetas girando
+        for k in range(7):
+            rnd = random.Random(k * 17)
+            i = rnd.randrange(0, 1500)
+            if not (0 < xs[i] < W and H * 0.2 < ys[i] < H * 0.7):
+                continue
+            ap = _suave((f_ - k * 0.08) / 0.2)
+            if ap <= 0:
+                continue
+            rr = 40 * ap
+            d.ellipse((xs[i] - rr, ys[i] - rr * 0.6, xs[i] + rr, ys[i] + rr * 0.6), outline=p["acento2"] + (160,), width=3)
+            a = t * 2 + k
+            px, py = xs[i] + math.cos(a) * rr, ys[i] + math.sin(a) * rr * 0.6
+            d.ellipse((px - 8, py - 8, px + 8, py + 8), fill=(90, 200, 120))
+            d.ellipse((xs[i] - 6, ys[i] - 6, xs[i] + 6, ys[i] + 6), fill=(255, 236, 170))
+    if cena.get("busca"):                               # radar varrendo e nada respondendo
+        a = t * 1.6
+        d.pieslice((cx - R * 1.05, cy - R * 0.6, cx + R * 1.05, cy + R * 0.6), math.degrees(a) - 40, math.degrees(a),
+                   fill=(86, 214, 255, 50))
+        d.line((cx, cy, cx + math.cos(a) * R * 1.05, cy + math.sin(a) * R * 0.6), fill=p["acento2"] + (200,), width=5)
+        if f_ > 0.35:
+            g = _suave((f_ - 0.35) / 0.2)
+            fq = _f(int(320 * (0.7 + 0.3 * g)))
+            _centro_texto(d, cx, cy - 20, "?", fq, p["acento"])
+    if cena.get("onda"):                                # colônias se espalhando a partir de um ponto
+        ox, oy = cx + R * 0.55, cy + R * 0.12
+        prog = _suave(f_ / 0.85) * 1.25
+        for i in range(0, len(xs), 3):
+            dd = math.hypot((xs[i] - ox) / R, (ys[i] - oy) / (R * 0.55))
+            if dd < prog * 1.6:
+                d.ellipse((xs[i] - 4, ys[i] - 4, xs[i] + 4, ys[i] + 4), fill=(120, 255, 150, 220))
+        rr = prog * 1.6 * R
+        d.ellipse((ox - rr, oy - rr * 0.55, ox + rr, oy + rr * 0.55), outline=(120, 255, 150, 120), width=4)
+        d.ellipse((ox - 12, oy - 12, ox + 12, oy + 12), fill=(255, 255, 255))
+    if rot:
+        _rotulo_caixa(d, H * 0.15, rot, p)
+
+
+QUADROS.update({"fermi": _fermi})
