@@ -513,3 +513,4 @@
 ## 26/11 (18h34): reserva da fila (Publicador, turno tarde)
 - Nenhum post hoje (11h47 passou sem isca). `itens` da fila vazia: sem principal para 18h47. Não mandei outro tipo no lugar.
 - Aviso mandado (run 45899024960 + push) com /aprovar 21 (Câmera 4 Ep. 1, faixa de hoje), 23 (Turno Ep. 1) ou 20 (Pisadeira). Upload-Post segue no limite: aprovado, vai pelo Telegram.
+- 26/11 19h: **o Vitor aprovou o agendamento direto no YouTube para o terror.** O fila.yml roda às 11h31 e 18h31 (cron) com `agendar`: o vídeo sobe privado e sai sozinho às 11h47 e 18h47. O Publicador confere às 11h40 e 18h40. O Telegram fica só como plano B (cota da API). A aprovação do Vitor continua obrigatória para entrar na fila.
