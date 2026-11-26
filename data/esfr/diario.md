@@ -261,3 +261,21 @@
   - **Conceito pesado:** 3 hipóteses em 60 s. A Lua, o melhor do canal, tem 91 palavras e uns 40 s.
   - **Regra nova:** 35 a 45 s (no máximo cerca de 100 palavras), um objeto concreto em perigo já na 1ª frase e uma ideia só por vídeo.
   - **Próximo teste do tema "aliens"** (concreto e em segunda pessoa): "E se um sinal alienígena chegasse hoje?" ou "E se os aliens já estivessem vendo a Terra?". Não repostar nem apagar o Fermi; esperar 72 h, porque Shorts às vezes ganham uma 2ª onda.
+
+## 26/11 (manhã, tarefa diária)
+- **Conexões (fila-esfr testar, run 45822384970):** YouTube conectado com **43 inscritos** (eram 39 ontem), Upload-Post ok (200, segue no limite do mês até ~17/12), chave Gemini própria com TTS. O `gh` voltou a funcionar neste ambiente.
+- **Números:** sem views novas (a análise só roda nos workflows). Último print segue o de 25/11 (todos os 8 primeiros passaram de mil).
+- **Fila:** o Fermi (postado ontem às 21h) passou para `postados`.
+- **Render do longo (1,2,5) às 09h29 (run 45820084741)**, disparado pelo Vitor, terminou ok. Os Shorts de hoje esperaram ele acabar.
+- **Vídeos novos, já na regra do Fermi** (objeto concreto em perigo na 1ª frase, uma ideia, ~40 s, poucos números falados):
+  - 16 "E se o SOL desligasse a internet do mundo?" (tempestade solar de 1859; run **45824177115**, 41,8 s, voz Puck **99% na 1ª tomada**). Fontes: Space.com/The Conversation (David Wallace, abr/2022), IFLScience (dez/2020), EarthSky (mai/2024). Só 1 número falado ("quinhentos anos", Space.com). O ano 1859 virou "na época do telégrafo". Ficaram de fora: a hora de viagem da nuvem e o "quase acertou em 2012" (nenhuma fonte aberta dava o número).
+  - 17 "E se o gelo da ANTÁRTIDA derretesse inteiro?" (run **45824764161**, 40,9 s, voz 97% na 2ª tomada; a 1ª deu 93%, e houve dois 429 de minuto, que passaram sozinhos). Fontes: NSIDC (Quick Facts: 58 m, quase 4,9 km no ponto mais grosso, área de EUA + México; Why Ice Sheets Matter: uns 400 lagos sob o gelo), NASA Sea Level (58 m; rocha abaixo do nível do mar na Antártida Ocidental), AntarcticGlaciers.org, PolarTREC/NSF ("milhares de anos"). O gancho "prédio de vinte andares" é a conta 58 m ≈ 20 andares de 3 m. As fontes discordam (58 x 60 m): usei 58 (NSIDC Quick Facts e NASA).
+- **Apophis (13) re-renderizado:** run **45825799729**, 51,9 s, voz 96%. O medidor descendo agora mostra "•••" no lugar dos números de passagem. `run_id` trocado na fila, no mesmo lugar.
+- **Quadros novos em `src/voce.py`** (testados com folha de prova antes):
+  - `solar`: o Sol no alto soltando a nuvem até a Terra com o escudo magnético (`choque` espreme as linhas e acende auroras nos polos); `telegrafo` (chave batendo, fita de papel, `faiscas`, `fogo`, `choque` no operador, `sem_bateria`); `aurora` (cortinas verde e rosa, casas antigas, `jornal`); `cidade` (janelas apagando em onda, `transformador` com faíscas e fumaça, `sem_internet`); `gps` (celular com o ponto pulando e o círculo de erro).
+  - `gelo`: litoral com o mar subindo e régua em metros (prédio de 20 andares com você no teto); `mapa` (Antártida de cima, `derrete`, `solta`); `corte` (gelo sobre a rocha, `medida`, `abaixo`, `lagos`).
+- **Fila com 6 (meta batida):** buraco mais fundo, Fossa, Betelgeuse, Apophis, tempestade solar, Antártida. O Vênus (10, run 45396326379) segue fora, para a tarefa de sábado.
+- **Cota de voz hoje:** 3 renders de Short (4 chamadas de TTS + 2 tentativas com 429 de minuto) depois do teste do longo do Vitor. Nada mais hoje, para a cota de amanhã ficar livre para o longo das 08h11.
+- **Duração:** a tarefa diária pede 45 a 60 s, mas a lição do Fermi (`docs/ESFR.md`) pede 35 a 45 s. Os dois novos ficaram em ~41 s, seguindo a lição, que é mais nova e veio dos números.
+- **Testar depois:** comparar os dois novos (gancho concreto, ~41 s) com o Fermi (abstrato, 60 s) e com a Lua (91 palavras). Se segurarem melhor, ~40 s vira o padrão. Ideias sem uso: sinal alienígena chegando hoje (o próximo do tema aliens, concreto), a Terra sem a Lua desde o começo, um dia em Mercúrio. A "gravidade sumindo por 5 s" foi descartada por enquanto: as fontes abertas são fracas, falam muito do corpo (saúde) e um texto até diz que a água "viraria hidrogênio".
+- **Vídeo longo:** hoje é quinta (o planejamento semanal é no domingo). Render completo amanhã às 08h11, como combinado.
