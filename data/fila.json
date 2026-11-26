@@ -1,15 +1,5 @@
 {
- "itens": [
-  {
-   "run_id": "45592062852",
-   "titulo": "Protocolo Pisadeira",
-   "titulo_youtube": "Se o seu gato encarar o teto de madrugada... não abra os olhos 🐈‍⬛ Protocolo Pisadeira #shorts",
-   "legenda": "Protocolo Pisadeira, das Férias na Roça (história de ficção, inspirada no folclore brasileiro). Se o seu gato encarar o teto às 2h51, siga cada passo. O que você jantou hoje? 👇",
-   "tipo": "protocolo",
-   "adicionado": "2026-11-26 22:00",
-   "aprovacao": 20
-  }
- ],
+ "itens": [],
  "postados": [
   {
    "run_id": "44233575763",
@@ -123,6 +113,16 @@
    "postado_em": "2026-11-23",
    "youtube_id": "iseuGKOPE5M",
    "obs": "postado à mão pelo Vitor; tirado de itens em 24/11 com o OK dele"
+  },
+  {
+   "run_id": "45592062852",
+   "titulo": "Protocolo Pisadeira",
+   "titulo_youtube": "Se o seu gato encarar o teto de madrugada... não abra os olhos 🐈‍⬛ Protocolo Pisadeira #shorts",
+   "legenda": "Protocolo Pisadeira, das Férias na Roça (história de ficção, inspirada no folclore brasileiro). Se o seu gato encarar o teto às 2h51, siga cada passo. O que você jantou hoje? 👇",
+   "tipo": "protocolo",
+   "adicionado": "2026-11-26 22:00",
+   "aprovacao": 20,
+   "postado_em": "2026-11-26 22:01"
   }
  ]
 }
