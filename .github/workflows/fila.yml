@@ -2,12 +2,12 @@ name: Fila de postagem (YouTube)
 
 on:
   schedule:
-    - cron: "47 14,21 * * *"    # 11h47 (isca) e 18h47 (protocolo ou história) de Brasília
+    - cron: "31 14,21 * * *"    # 11h31 e 18h31: AGENDA no YouTube o vídeo da faixa (sai sozinho às 11h47 / 18h47)
   workflow_dispatch:
     inputs:
       acao:
-        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram) | telegram (manda o próximo da fila no Telegram para postar à mão, sem postar)"
-        default: postar
+        description: "agendar (padrão: sobe direto no YouTube agendado para a faixa) | postar (Upload-Post) | aviso (manda o texto abaixo no Telegram) | telegram (manda o próximo da fila no Telegram para postar à mão, sem postar)"
+        default: agendar
       turno:
         description: "postar: manha (isca) ou tarde (principal)"
         default: manha
@@ -77,8 +77,23 @@ jobs:
           TITULO_YOUTUBE: ${{ steps.prox.outputs.titulo_youtube }}
           LEGENDA_POST: ${{ steps.prox.outputs.legenda }}
         run: python -m src.postar telegram
+      - name: Agendar direto no YouTube
+        id: agendar
+        if: steps.prox.outputs.run_id != '' && (github.event_name == 'schedule' || github.event.inputs.acao == 'agendar')
+        env:
+          TITULO_YOUTUBE: ${{ steps.prox.outputs.titulo_youtube }}
+          LEGENDA_POST: ${{ steps.prox.outputs.legenda }}
+        run: |
+          H=$(date -u +%H)
+          T="${{ github.event.inputs.turno }}"
+          if [ -z "$T" ]; then if [ "$H" -lt 19 ]; then T=manha; else T=tarde; fi; fi
+          if [ "$T" = manha ]; then SLOT="$(date -u +%Y-%m-%d)T14:47:00Z"; else SLOT="$(date -u +%Y-%m-%d)T21:47:00Z"; fi
+          # faixa já passou: sai daqui a 10 minutos
+          if [ "$(date -u -d "$SLOT" +%s)" -lt "$(( $(date -u +%s) + 300 ))" ]; then SLOT="$(date -u -d '+10 minutes' +%Y-%m-%dT%H:%M:00Z)"; fi
+          echo "publicar em: $SLOT"
+          PUBLICAR_EM="$SLOT" python -m src.agendar_yt
       - name: Postar
-        if: steps.prox.outputs.run_id != '' && github.event.inputs.acao != 'telegram'
+        if: steps.prox.outputs.run_id != '' && github.event_name != 'schedule' && github.event.inputs.acao != 'telegram' && github.event.inputs.acao != 'agendar'
         env:
           DA_FILA: "1"
           TITULO_YOUTUBE: ${{ steps.prox.outputs.titulo_youtube }}
