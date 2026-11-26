@@ -501,3 +501,11 @@
 ## 26/11 (11h35): reserva da fila (Publicador, turno manhã)
 - Nenhum post hoje ainda. `itens` da fila vazia: sem isca para 11h47. Não mandei outro tipo no lugar.
 - Aviso mandado (run 45840318065 + push) com /aprovar 22 (Farmácia 03, faixa de hoje), 24 (Garagem, Sex 27/11) e 19 (Terreiro, Sáb 28/11). Upload-Post segue no limite: aprovado, vai pelo Telegram.
+
+## 26/11 (15h58): rodada do Revisor e do Publicador (tarde)
+- **Decisões do Vitor desde as 10h55:** nenhuma. Os vídeos nº 19 a 24 continuam pendentes; nada com status "refazer".
+- **Revisor:** todos os "renderizado" (12, 13, 15, 16, 17, 18) já têm vídeo proposto (19 a 24). Nada "renderizando" e nenhum render de mais de 40 min (último refazer-video: 45833867073, ok). Nada a refazer.
+- **Publicador:** nenhum vídeo novo. `itens` da fila vazia. A faixa de hoje 11h47 passou sem isca (nº 22 sem /aprovar). O principal de hoje 18h47 tem candidato esperando (nº 21), então não é "faltando sem nada pendente". Mapa: Sex 27/11 nº 24 + nº 20 | Sáb 28/11 nº 19 + nº 23 | Dom 29/11 o nº 22 pode cobrir a isca; falta o protocolo de Dom 29/11 (rodada de amanhã 07h23).
+- **Mesa do Gerente:** no "Aguardando", o nº 22 passou para "próxima isca livre: Dom 29/11 11h47". Histórico sem linha nova.
+- **Aviso no Telegram:** não mandado (nada novo; os lembretes do nº 21 e do nº 22 já foram às 10h55 e 11h35).
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git; gh CLI funcionou. Sem subagentes; papéis em sequência.
