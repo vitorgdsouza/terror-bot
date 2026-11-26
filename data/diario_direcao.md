@@ -497,3 +497,7 @@
 - **Mesa do Gerente:** "Aguardando" ganhou o nº 24 em cima, e o prazo do nº 22 passou para ~11h30. Histórico sem linha nova (nenhuma decisão do Vitor).
 - **Aviso no Telegram:** mandado, com o nº 24 novo e a lembrança do nº 22, que sai às 11h47.
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer que o token é inválido. Sem subagentes; os papéis foram feitos em sequência.
+
+## 26/11 (11h35): reserva da fila (Publicador, turno manhã)
+- Nenhum post hoje ainda. `itens` da fila vazia: sem isca para 11h47. Não mandei outro tipo no lugar.
+- Aviso mandado (run 45840318065 + push) com /aprovar 22 (Farmácia 03, faixa de hoje), 24 (Garagem, Sex 27/11) e 19 (Terreiro, Sáb 28/11). Upload-Post segue no limite: aprovado, vai pelo Telegram.
