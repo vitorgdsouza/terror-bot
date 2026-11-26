@@ -85,5 +85,17 @@ def subir():
     Path(os.environ.get("GITHUB_OUTPUT", "/dev/null")).open("a").write(f"video_id={vid}\n")
 
 
+def status(vid: str):
+    from .analise import _token, _get, DATA
+    d = _get(f"{DATA}/videos", _token(), part="status,statistics,snippet", id=vid)
+    for v in d.get("items", []):
+        print("STATUS", vid, json.dumps(v["status"]), json.dumps(v.get("statistics")))
+
+
 if __name__ == "__main__":
-    escopo() if sys.argv[1:] == ["escopo"] else subir()
+    if sys.argv[1:2] == ["escopo"]:
+        escopo()
+    elif sys.argv[1:2] == ["status"]:
+        status(sys.argv[2])
+    else:
+        subir()
