@@ -29,3 +29,9 @@
 ## Meta de monetização
 - **Até 31/01/2027:** 1.000 inscritos e (10 milhões de views em Shorts em 90 dias OU 4.000 horas assistidas em 12 meses).
 - **A partir de 01/02/2027**, a barra dobra para 8.000 horas ou 20 milhões de views.
+
+
+## Lição de 26/11 (Fermi)
+- **Duração:** 35 a 45 s, no máximo cerca de 100 palavras.
+- **Gancho:** a 1ª frase põe um objeto concreto em perigo, agora e com você (a Lua sumindo, o Sol apagando, você sem traje). Tema abstrato só funciona traduzido para uma ameaça concreta.
+- **Uma ideia por vídeo.** Hipóteses múltiplas viram uma série, com um vídeo para cada uma.

@@ -256,3 +256,8 @@
   - Se a v2 precisar de ajuste só visual, re-renderizar com `reusar_narracao=<run da sexta>`, sem gastar voz.
 - 25/11 20h05 (reserva da fila, faixa das 20h17): "buraco mais fundo" (Telegram 16h05) passou para `postados` como postado. 2 posts hoje, o último há mais de 2 h, e o Upload-Post segue no limite do mês (429, reinicia por volta de 17/12). Mandei no Telegram (run 45718551793, `acao=telegram`, 20h05) "E se você descesse até o fundo da Fossa das Marianas?" para o Vitor postar à mão. Fila com 4; passa para `postados` na próxima faixa.
 - 25/11 20h57: o print do Vitor mostra que só os 'anéis' estão no ar hoje: o buraco mais fundo (mandado às 16h05) e a Fossa (20h05) ainda não foram postados. O buraco mais fundo voltou para a fila. A pedido do Vitor, que quer um vídeo diferente para furar a bolha, o **Fermi sai agora (21h)**. Ordem nova: qui 12h17 buraco mais fundo, 16h17 Fossa, 20h17 Betelgeuse; sex Apophis.
+- 26/11 07h10: **o Fermi rendeu pouco** (palavra do Vitor, cerca de 10 h depois do post das 21h). Leitura:
+  - **Gancho abstrato:** "gritasse pro universo" não ameaça nada concreto no mundo de quem assiste. Os campeões ameaçam algo concreto e agora: a Lua (2,4 mil), o Sol (1,7 mil), o traje (1,4 mil).
+  - **Conceito pesado:** 3 hipóteses em 60 s. A Lua, o melhor do canal, tem 91 palavras e uns 40 s.
+  - **Regra nova:** 35 a 45 s (no máximo cerca de 100 palavras), um objeto concreto em perigo já na 1ª frase e uma ideia só por vídeo.
+  - **Próximo teste do tema "aliens"** (concreto e em segunda pessoa): "E se um sinal alienígena chegasse hoje?" ou "E se os aliens já estivessem vendo a Terra?". Não repostar nem apagar o Fermi; esperar 72 h, porque Shorts às vezes ganham uma 2ª onda.
