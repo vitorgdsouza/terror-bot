@@ -279,3 +279,5 @@
 - **Duração:** a tarefa diária pede 45 a 60 s, mas a lição do Fermi (`docs/ESFR.md`) pede 35 a 45 s. Os dois novos ficaram em ~41 s, seguindo a lição, que é mais nova e veio dos números.
 - **Testar depois:** comparar os dois novos (gancho concreto, ~41 s) com o Fermi (abstrato, 60 s) e com a Lua (91 palavras). Se segurarem melhor, ~40 s vira o padrão. Ideias sem uso: sinal alienígena chegando hoje (o próximo do tema aliens, concreto), a Terra sem a Lua desde o começo, um dia em Mercúrio. A "gravidade sumindo por 5 s" foi descartada por enquanto: as fontes abertas são fracas, falam muito do corpo (saúde) e um texto até diz que a água "viraria hidrogênio".
 - **Vídeo longo:** hoje é quinta (o planejamento semanal é no domingo). Render completo amanhã às 08h11, como combinado.
+
+- 26/11 12h06 (reserva da fila, faixa das 12h17): nenhum post hoje, o último foi o Fermi (25/11 21h). Upload-Post segue no limite do mês (429, reinicia por volta de 17/12). Mandei no Telegram (run 45845511997, `acao=telegram`, 12h06) "E se você descesse no buraco mais fundo já cavado?" para o Vitor postar à mão. Fila com 6; passa para `postados` na próxima faixa.
