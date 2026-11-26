@@ -620,19 +620,41 @@ def _fermi_thumb(img: Image.Image, W: int, H: int) -> None:
     t = terra(R)
     img.alpha_composite(t, (int(cx - t.width / 2), int(cy - t.height / 2)))
     d = ImageDraw.Draw(img, "RGBA")
-    rnd = random.Random(5)
-    n = 14
-    for k in range(n * 2):                                           # olhos em roda (duas voltas), de tamanhos variados
-        ang = (k / n) * 2 * math.pi + rnd.random() * 0.3 + (0.2 if k >= n else 0)
-        dist = R * ((3.2 if k < n else 4.3) + rnd.random() * 0.5)
+    rnd = random.Random(11)
+    olhos = []
+    n = 13
+    for k in range(n * 2):                                           # posições em duas voltas em torno da Terra
+        ang = (k / n) * 2 * math.pi + rnd.random() * 0.35 + (0.24 if k >= n else 0)
+        dist = R * ((3.0 if k < n else 4.2) + rnd.random() * 0.6)
         x, y = cx + math.cos(ang) * dist * (1.1 if deitado else 0.95), cy + math.sin(ang) * dist * (0.85 if deitado else 1.15)
-        if not (20 < x < W - 20 and 20 < y < H - 20):
+        s_ = R * (0.2 + rnd.random() * 0.16) * (1.0 if k < n else 0.8)
+        if not (s_ * 2.6 < x < W - s_ * 2.6):
             continue
-        if deitado and x < W * 0.6:
+        if deitado and x < W * 0.58:
             continue
-        if not deitado and (y < H * 0.34 or y > H * 0.87):
+        if not deitado and (y < H * 0.36 or y > H * 0.86):
             continue
-        cor = rnd.choice([(255, 214, 60), (255, 214, 60), (255, 80, 60), (120, 255, 160)])
-        s_ = R * (0.17 + rnd.random() * 0.12)
-        if 30 + s_ < x < W - 30 - s_:
-            _olho(d, x, y, s_, 1.0, k, cor)
+        olhos.append((x, y, s_, rnd.choice([(255, 205, 40), (255, 205, 40), (255, 60, 40), (110, 255, 150)]), 0.55 if k >= n else 1.0))
+    brilho = Image.new("RGBA", (W, H), (0, 0, 0, 0))                 # brilho atrás de cada par de olhos
+    db = ImageDraw.Draw(brilho)
+    for x, y, s_, cor, f in olhos:
+        db.ellipse((x - s_ * 2.6, y - s_ * 1.3, x + s_ * 2.6, y + s_ * 1.3), fill=cor + (int(120 * f),))
+    img.alpha_composite(brilho.filter(ImageFilter.GaussianBlur(R * 0.12)))
+    d = ImageDraw.Draw(img, "RGBA")
+    for x, y, s_, cor, f in olhos:
+        olhar = math.atan2(cy - y, cx - x)                           # as pupilas apontam para a Terra
+        for lado in (-1, 1):
+            ox = x + lado * s_ * 1.15
+            a, b = s_, s_ * 0.55                                     # amêndoa: duas curvas fechando nas pontas
+            pts = []
+            for t_ in range(0, 361, 12):
+                tt = math.radians(t_)
+                yy = math.sin(tt) * b * (abs(math.sin(tt)) ** 0.25)
+                pts.append((ox + math.cos(tt) * a, y + yy))
+            inc = 0.35 * lado                                        # inclinação "desconfiada": cantos de dentro mais baixos
+            pts = [(px, py + (px - ox) / a * inc * b * -1) for px, py in pts]
+            al = int(255 * f)
+            d.polygon(pts, fill=cor + (al,))
+            px_, py_ = ox + math.cos(olhar) * a * 0.35, y + math.sin(olhar) * b * 0.35
+            d.ellipse((px_ - a * 0.13, py_ - b * 0.85, px_ + a * 0.13, py_ + b * 0.85), fill=(10, 6, 8, al))   # pupila em fenda
+            d.ellipse((ox - a * 0.45, y - b * 0.55, ox - a * 0.25, y - b * 0.2), fill=(255, 255, 255, int(170 * f)))  # brilho
