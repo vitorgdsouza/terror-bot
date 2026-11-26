@@ -474,3 +474,16 @@
 ## 25/11 (18h35): reserva da fila (Publicador, turno tarde)
 - Hoje saiu 1 post (Assobiador, à mão às 13h26). `itens` da fila vazia: sem principal para 18h47. Não mandei outro tipo no lugar.
 - Aviso mandado (run 45705540453 + push) com /aprovar 20 (Pisadeira), 21 (Câmera 4 Ep. 1) ou 23 (Turno Ep. 1). Upload-Post segue no limite: aprovado, vai pelo Telegram.
+
+## 26/11 (07h25): rodada da manhã da equipe
+- **Analista** (subagente): pauta em `data/pauta/2026-11-26.md`, relatório novo (run 45801155470, ~13 min por causa da instalação do FFmpeg). Canal com 13.702 views (+1.797) e 45 inscritos (+6), 21 vídeos. Assobiador com 938 views em menos de 1 dia (provável fonte dos +6). Retenção nova: Dashcam (35 s) 43,0% assistido e 39% no início (CFTV fixa: 59 a 61%), 0 inscrito; Grupo Pt 2 (64 s) 30,5%. Pisadeira e Terreiro **não** estão no ar (o canal bate com `aprovacoes.json`).
+- **Em 25/11 saiu só 1 post** (Assobiador, à mão, faixa 11h47); 18h47 ficou vazia (Pisadeira nº 20 sem /aprovar).
+- **Alternância:** último principal = Assobiador (protocolo) → Qui 26 história, Sex 27 protocolo, Sáb 28 história.
+- **Mapa:** Qui 26/11 nº 22 Farmácia 03 + nº 21 Câmera 4 Ep. 1 | Sex 27/11 nº 18 Garagem (roteiro aprovado, falta render válido) + nº 20 Pisadeira (passou de 25/11) | Sáb 28/11 nº 19 Terreiro + nº 23 Turno Ep. 1. Fila aprovada: 0 de 6. Próximas faixas vazias: Dom 29/11 (isca e protocolo), prioridade da rodada de amanhã.
+- **Roteirista:** 0 roteiros hoje (as 6 faixas têm candidato; regra de não acumular o que o Vitor não viu). Nada com status "refazer". Reserva para Dom 29/11 11h47: nova noite da Câmera da Campainha (18 s no roteiro), confirmar com a retenção da 01:58.
+- **Render:** não renderizei (a rodada da manhã não renderiza). **A Garagem (nº 18) precisa ser refeita pelo Revisor na rodada das 10h53**, com a cota do Gemini já renovada, conferindo a Enceladus no log.
+- **Diretor de Arte:** não acionado (nenhuma imagem faltando).
+- **Mesa do Gerente:** "Aguardando" com as faixas novas (nº 22 e 21 HOJE com prazo, nº 20 para Sex 27/11 18h47, nº 19 Sáb 28/11 11h47). Histórico sem linha nova: nenhuma decisão do Vitor desde o Assobiador (25/11 13h26, já registrado).
+- **Aviso no Telegram:** mandado (run 45803727688) com /aprovar 22 e 21 para hoje, 20 para amanhã 18h47, 19 e 23 para sábado.
+- **Aprendizado (Analista):** o primeiro segundo decide e câmera fixa ganha: o 1º quadro precisa do carimbo de lugar e horário e de algo errado à vista antes da primeira fala.
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Analista como subagente; os outros papéis feitos em sequência.
