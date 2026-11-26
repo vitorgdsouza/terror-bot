@@ -282,3 +282,4 @@
 
 - 26/11 12h06 (reserva da fila, faixa das 12h17): nenhum post hoje, o último foi o Fermi (25/11 21h). Upload-Post segue no limite do mês (429, reinicia por volta de 17/12). Mandei no Telegram (run 45845511997, `acao=telegram`, 12h06) "E se você descesse no buraco mais fundo já cavado?" para o Vitor postar à mão. Fila com 6; passa para `postados` na próxima faixa.
 - 26/11 12h57: **TESTE de agendamento direto no YouTube** (`acao=agendar`): a Fossa subiu privada e agendada para hoje às 16h17 (id 62h4CPs7r3M, thumb ok). **A reserva das 16h03 NÃO deve mandar nada hoje: a faixa das 16h17 é da Fossa agendada.** A das 20h03 segue o normal (Betelgeuse).
+- 26/11 16h25: **o agendamento direto no YouTube FUNCIONOU.** A Fossa (62h4CPs7r3M) ficou pública sozinha às 16h17. Daqui em diante a reserva AGENDA cada faixa (`acao=agendar`). Cota: 1.600 unidades da API por envio (10 mil por dia no projeto, compartilhado com o terror), até 6 envios por dia somando os canais.
