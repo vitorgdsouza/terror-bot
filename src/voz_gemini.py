@@ -106,13 +106,49 @@ def _tempos_whisper(wav: Path) -> list[dict]:
     return [{"t": w.word.strip(), "i": w.start, "f": w.end} for s in segs for w in (s.words or []) if w.word.strip()]
 
 
+_UN = "zero um dois tres quatro cinco seis sete oito nove dez onze doze treze catorze quinze dezesseis dezessete dezoito dezenove".split()
+_DZ = "_ _ vinte trinta quarenta cinquenta sessenta setenta oitenta noventa".split()
+_CT = "_ cento duzentos trezentos quatrocentos quinhentos seiscentos setecentos oitocentos novecentos".split()
+
+
+def _extenso(n: int) -> list[str]:
+    """Número inteiro por extenso, em palavras sem acento (como o _norm deixa). Até 999.999."""
+    if n < 20:
+        return [_UN[n]]
+    if n < 100:
+        d, u = divmod(n, 10)
+        return [_DZ[d]] + (["e", _UN[u]] if u else [])
+    if n < 1000:
+        c, r = divmod(n, 100)
+        if n == 100:
+            return ["cem"]
+        return [_CT[c]] + (["e"] + _extenso(r) if r else [])
+    m, r = divmod(n, 1000)
+    return ([] if m == 1 else _extenso(m)) + ["mil"] + ((["e"] if r < 100 or r % 100 == 0 else []) + _extenso(r) if r else [])
+
+
+def _expande(token: str) -> list[str]:
+    """O Whisper escreve números com algarismos ("88", "38%", "-180°C"); o roteiro, por extenso. Converte para comparar."""
+    import re
+    t = token.lower().replace(".", "").replace(",", "")
+    m = re.fullmatch(r"(-?)(\d{1,6})(%|°c|°|ºc|º)?", t)
+    if not m:
+        return [_norm(token)]
+    out = _extenso(int(m.group(2)))
+    if m.group(3) == "%":
+        out += ["por", "cento"]
+    elif m.group(3):
+        out += ["graus"]
+    return out
+
+
 def _nota_fala(palavras: list[str], reconhecidas: list[dict]) -> float:
-    """Quanto do roteiro o Whisper reconheceu na fala (1.0 = tudo)."""
+    """Quanto do roteiro o Whisper reconheceu na fala (1.0 = tudo). Números em algarismos contam como por extenso."""
     import difflib
     if not reconhecidas:
         return 0.0
     a = [_norm(p) for p in palavras]
-    b = [_norm(r["t"]) for r in reconhecidas]
+    b = [w for r in reconhecidas for w in _expande(r["t"].strip(" .,!?;:"))]
     casadas = sum(bl.size for bl in difflib.SequenceMatcher(None, a, b, autojunk=False).get_matching_blocks())
     return casadas / max(1, len(a))
 
