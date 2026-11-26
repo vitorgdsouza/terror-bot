@@ -152,6 +152,9 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
         _buraco_negro_thumb(img, W, H)
     elif tipo == "fermi":
         _fermi_thumb(img, W, H)
+    elif tipo == "fossa":
+        img = _fossa(W, H)
+        d = ImageDraw.Draw(img)
     elif tipo == "pulo":
         t = terra(380)
         cy = int(H * 0.64)
@@ -658,3 +661,65 @@ def _fermi_thumb(img: Image.Image, W: int, H: int) -> None:
             px_, py_ = ox + math.cos(olhar) * a * 0.35, y + math.sin(olhar) * b * 0.35
             d.ellipse((px_ - a * 0.13, py_ - b * 0.85, px_ + a * 0.13, py_ + b * 0.85), fill=(10, 6, 8, al))   # pupila em fenda
             d.ellipse((ox - a * 0.45, y - b * 0.55, ox - a * 0.25, y - b * 0.2), fill=(255, 255, 255, int(170 * f)))  # brilho
+
+
+def _fossa(W, H):
+    """Corte do oceano: superfície clara no alto, escuridão total no fundo da fossa, o Everest cabendo lá dentro,
+    o submarino lá embaixo com o farol aceso e um peixe-abissal surgindo no escuro. Régua de profundidade à esquerda."""
+    import math
+    yy = np.linspace(0, 1, H)[:, None]
+    top, mid, bot = np.array([60, 160, 230]), np.array([12, 50, 120]), np.array([2, 4, 14])
+    a = np.where(yy < 0.45, top + (mid - top) * (yy / 0.45), mid + (bot - mid) * np.clip((yy - 0.45) / 0.55, 0, 1) ** 0.7)
+    a = np.repeat(a[:, None, :], W, axis=1).reshape(H, W, 3)
+    img = Image.fromarray(a.clip(0, 255).astype("uint8")).convert("RGBA")
+    raios = Image.new("RGBA", (W, H), (0, 0, 0, 0))              # raios de sol que somem com a profundidade
+    dr = ImageDraw.Draw(raios)
+    for k, x in enumerate((150, 420, 700, 930)):
+        dr.polygon([(x - 40, 0), (x + 40, 0), (x + 160 - k * 30, int(H * 0.55)), (x + 60 - k * 30, int(H * 0.55))], fill=(255, 255, 255, 40))
+    img.alpha_composite(raios.filter(ImageFilter.GaussianBlur(25)))
+    d = ImageDraw.Draw(img)
+    # paredes da fossa e o Everest dentro dela, em escala: 8,8 km de 11 km (régua de 0.30H a 0.86H)
+    d.polygon([(0, int(H * 0.36)), (170, int(H * 0.38)), (200, H), (0, H)], fill=(8, 10, 18))
+    d.polygon([(W, int(H * 0.34)), (900, int(H * 0.37)), (880, H), (W, H)], fill=(8, 10, 18))
+    pico = int(H * (0.78 - 8.8 / 11 * 0.51))
+    ev = [(190, int(H * 0.78)), (330, int(H * 0.58)), (420, int(H * 0.51)), (505, pico), (560, pico + 40), (640, int(H * 0.49)), (760, int(H * 0.61)), (890, int(H * 0.78)), (890, int(H * 0.86)), (190, int(H * 0.86))]
+    d.polygon(ev, fill=(30, 36, 52))
+    d.polygon([(505, pico), (560, pico + 40), (590, pico + 95), (548, pico + 78), (520, pico + 100), (470, pico + 80)], fill=(215, 225, 240))
+    fl = ImageFont.truetype(str(FONTE), 44)
+    d.text((585, pico - 20), "EVEREST CABE", font=fl, fill=(230, 236, 248), stroke_width=4, stroke_fill=(0, 0, 0))
+    d.text((585, pico + 30), "E SOBRA 2 KM", font=fl, fill=(255, 196, 40), stroke_width=4, stroke_fill=(0, 0, 0))
+    # submarino lá embaixo, com farol
+    sx, sy = 770, int(H * 0.815)
+    luz = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(luz).polygon([(sx - 70, sy), (sx - 520, sy - 150), (sx - 520, sy + 150)], fill=(255, 240, 170, 120))
+    img.alpha_composite(luz.filter(ImageFilter.GaussianBlur(18)))
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle((sx - 80, sy - 40, sx + 110, sy + 40), radius=40, fill=(255, 200, 40), outline=(30, 20, 5), width=5)
+    d.rounded_rectangle((sx - 10, sy - 70, sx + 45, sy - 30), radius=10, fill=(255, 200, 40), outline=(30, 20, 5), width=5)
+    d.ellipse((sx - 40, sy - 18, sx - 4, sy + 18), fill=(120, 230, 255), outline=(30, 20, 5), width=4)
+    d.ellipse((sx + 18, sy - 18, sx + 54, sy + 18), fill=(120, 230, 255), outline=(30, 20, 5), width=4)
+    # peixe-abissal surgindo na luz
+    px, py = 330, sy
+    d.ellipse((px - 90, py - 60, px + 90, py + 60), fill=(35, 30, 40))
+    d.polygon([(px + 80, py), (px + 150, py - 50), (px + 150, py + 50)], fill=(35, 30, 40))
+    d.polygon([(px - 85, py - 5), (px - 30, py + 40), (px - 85, py + 30)], fill=(10, 5, 8))
+    for k in range(5):
+        tx = px - 80 + k * 11
+        d.polygon([(tx, py + 2), (tx + 5, py + 18), (tx + 10, py + 2)], fill=(240, 240, 235))
+    d.ellipse((px - 40, py - 30, px - 14, py - 4), fill=(255, 255, 255))
+    d.ellipse((px - 32, py - 22, px - 20, py - 10), fill=(0, 0, 0))
+    d.line((px - 30, py - 55, px - 70, py - 120, px - 110, py - 120), fill=(35, 30, 40), width=6)
+    g = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(g).ellipse((px - 140, py - 150, px - 80, py - 90), fill=(140, 255, 220, 230))
+    img.alpha_composite(g.filter(ImageFilter.GaussianBlur(10)))
+    d = ImageDraw.Draw(img)
+    d.ellipse((px - 122, py - 132, px - 98, py - 108), fill=(220, 255, 240))
+    # régua de profundidade
+    fr = ImageFont.truetype(str(FONTE), 40)
+    x0 = 46
+    d.line((x0, int(H * 0.27), x0, int(H * 0.78)), fill=(255, 255, 255), width=5)
+    for frac, txt in ((0.27, "0 KM"), (0.27 + 5 / 11 * 0.51, "5 KM"), (0.78, "11 KM")):
+        y = int(H * frac)
+        d.line((x0 - 14, y, x0 + 14, y), fill=(255, 255, 255), width=5)
+        d.text((x0 + 26, y - 26), txt, font=fr, fill=(255, 196, 40) if txt == "11 KM" else (255, 255, 255), stroke_width=4, stroke_fill=(0, 0, 0))
+    return img

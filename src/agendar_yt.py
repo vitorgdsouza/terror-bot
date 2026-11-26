@@ -95,6 +95,10 @@ def status(vid: str):
 if __name__ == "__main__":
     if sys.argv[1:2] == ["escopo"]:
         escopo()
+    elif sys.argv[1:2] == ["thumb"]:                 # thumb <video_id> <roteiro.json>
+        from .thumb_youtube import _gerar_thumb, definir
+        img = _gerar_thumb(json.loads(Path(sys.argv[3]).read_text(encoding="utf-8")), RAIZ / "trabalho" / "thumbs")
+        print("THUMB", sys.argv[2], definir(sys.argv[2], img).get("_status"))
     elif sys.argv[1:2] == ["status"]:
         status(sys.argv[2])
     else:

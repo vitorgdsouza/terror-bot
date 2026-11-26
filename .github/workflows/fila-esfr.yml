@@ -58,6 +58,9 @@ jobs:
       - name: Escopos do token
         if: github.event.inputs.acao == 'escopo'
         run: python -m src.agendar_yt escopo
+      - name: Thumb de um vídeo (texto = "<id> <roteiro>")
+        if: github.event.inputs.acao == 'thumb_id'
+        run: python -m src.agendar_yt thumb ${{ github.event.inputs.texto }}
       - name: Status de um vídeo
         if: github.event.inputs.acao == 'status'
         run: python -m src.agendar_yt status "${{ github.event.inputs.texto }}"
@@ -104,7 +107,7 @@ jobs:
         run: python -m src.fila aviso
       - name: Qual é o próximo
         id: prox
-        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar' && github.event.inputs.acao != 'thumbs' && github.event.inputs.acao != 'escopo' && github.event.inputs.acao != 'status'
+        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar' && github.event.inputs.acao != 'thumbs' && github.event.inputs.acao != 'escopo' && github.event.inputs.acao != 'status' && github.event.inputs.acao != 'thumb_id'
         env:
           TURNO: ${{ github.event.inputs.turno }}
           AGENDADO: ${{ github.event_name == 'schedule' && '1' || '0' }}
