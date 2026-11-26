@@ -38,6 +38,7 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   apophis      o asteroide que passa em 2029; vista em escala com o anel dos satélites ("de"/"ate", "orbita", "espreme", "medida", "mira"); modos "perto", "data", "tamanho", "risco" (+ "recorde", "valor"), "ceu" (+ "gente"), "mapa"
   estrela      Betelgeuse em Órion ("linhas", "destaca", "explode", "brilha", "apaga", "lua"); modos "tamanho", "neutrinos", "supernova", "dia", "sombra", "longe", "meses" (+ "ate")
   oceano       descida pelas camadas do mar ("de"/"ate" em metros; "peixes", "lulas", "brilho", "cachalote", "paredes", "peixe_caracol", "fundo", "nome_zona": false); modo "zonas" (o mar em corte)
+  solar        tempestade solar; o Sol solta a nuvem até a Terra ("de"/"ate", "choque"); modos "telegrafo" ("faiscas", "fogo", "choque", "sem_bateria"), "aurora" ("jornal"), "cidade" ("apaga", "apagado", "transformador", "sem_internet", "aurora"), "gps"
   fermi        Paradoxo de Fermi; a galáxia ("conta", "planetas", "busca", "onda"); modos "almoco", "tempo", "primeiros", "filtro" (+ "frente"), "floresta" (+ "grita"), "votar"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
@@ -2629,3 +2630,307 @@ def _fermi(img, cena, t, dur, n, p):
 
 
 QUADROS.update({"fermi": _fermi})
+
+
+# ---------------------------------------------------------------- tempestade solar (Carrington, 1859)
+AURORA_V, AURORA_R = (90, 255, 160), (255, 96, 186)
+
+
+def _faisca(d, x, y, t, k, tam=60, cor=(255, 240, 150)):
+    """Faísca em zigue-zague que pisca (k muda o desenho)."""
+    rnd = random.Random(int(t * 12) * 31 + k)
+    if rnd.random() < 0.35:
+        return
+    a = rnd.random() * 2 * math.pi
+    pts = [(x, y)]
+    for _ in range(4):
+        a += (rnd.random() - 0.5) * 1.6
+        x, y = x + math.cos(a) * tam / 4, y + math.sin(a) * tam / 4
+        pts.append((x, y))
+    d.line(pts, fill=cor + (255,), width=6)
+    d.line(pts, fill=(255, 255, 255, 255), width=2)
+    d.ellipse((pts[0][0] - 10, pts[0][1] - 10, pts[0][0] + 10, pts[0][1] + 10), fill=cor + (160,))
+
+
+def _cortina_aurora(d, t, topo, base, forca=1.0):
+    """Cortinas de aurora ondulando: verde embaixo e rosa no alto."""
+    for faixa in range(3):
+        y0 = topo + faixa * 70
+        for x in range(0, W, 6):
+            onda = math.sin(x * 0.006 + t * 0.9 + faixa * 2.1) * 90 + math.sin(x * 0.017 - t * 1.7 + faixa) * 35
+            alto = y0 + onda
+            baixo = base - faixa * 40 + math.sin(x * 0.01 + t * 1.3) * 40
+            luz = 0.55 + 0.45 * math.sin(x * 0.05 + t * 3 + faixa * 4)
+            a = int((22 + 40 * luz) * forca)
+            meio = alto + (baixo - alto) * 0.3
+            d.line((x, alto, x, meio), fill=AURORA_R + (int(a * 0.7),), width=6)
+            d.line((x, meio, x, baixo - (baixo - meio) * 0.35), fill=AURORA_V + (a,), width=6)
+            d.line((x, baixo - (baixo - meio) * 0.35, x, baixo), fill=AURORA_V + (a // 2,), width=6)
+            if (x // 6 + faixa) % 7 == 0:                    # raios verticais mais fortes
+                d.line((x, meio, x, baixo), fill=(170, 255, 200, int(a * 1.4)), width=4)
+
+
+def _jornal(d, x, y, s, t):
+    d.polygon([(x - s, y - s * 0.7), (x + s, y - s * 0.75), (x + s * 1.02, y + s * 0.7), (x - s * 0.98, y + s * 0.72)],
+              fill=(236, 236, 224), outline=(60, 60, 60))
+    d.rectangle((x - s * 0.85, y - s * 0.6, x + s * 0.85, y - s * 0.38), fill=(40, 40, 40))
+    for k in range(6):
+        yy = y - s * 0.25 + k * s * 0.15
+        d.line((x - s * 0.85, yy, x - s * 0.08, yy), fill=(110, 110, 110), width=5)
+        d.line((x + s * 0.08, yy, x + s * 0.85, yy), fill=(110, 110, 110), width=5)
+    d.line((x, y - s * 0.72, x, y + s * 0.7), fill=(170, 170, 160), width=3)
+
+
+def _predios(n=11):
+    k = ("predios", n)
+    if k not in _cache:
+        rnd = random.Random(77)
+        lista, x = [], -20
+        while x < W + 20:
+            w_ = rnd.randint(110, 190)
+            h_ = rnd.randint(260, 640)
+            lista.append((x, w_, h_, rnd.random()))
+            x += w_ + rnd.randint(6, 22)
+        _cache[k] = lista
+    return _cache[k]
+
+
+def _solar(img, cena, t, dur, n, p):
+    """Tempestade solar. Sem modo: o Sol no alto solta uma nuvem de partículas que desce até a Terra ("de"/"ate" de 0 a 1;
+    com "choque" ela bate no escudo magnético, que se espreme, e acendem as auroras nos polos).
+    Modos: "telegrafo" (aparelho de telégrafo com a fita de papel; "faiscas", "fogo" (a fita pega fogo), "choque" (o
+    operador leva choque), "sem_bateria" (a bateria desligada e o aparelho ainda batendo), "janela" (aurora pela janela));
+    "aurora" (céu com cortinas de aurora sobre casas antigas; "jornal": você lendo jornal com a luz do céu);
+    "cidade" (prédios à noite; "apaga": as janelas apagam em onda; "apagado"; "transformador": o poste solta faíscas e
+    fumaça; "sem_internet": sinal de wi-fi cortado no alto; "aurora": aurora no céu); "gps" (celular com o mapa e o ponto
+    azul pulando, o círculo de erro crescendo). "rotulo" em todos."""
+    d = ImageDraw.Draw(img, "RGBA")
+    modo = cena.get("modo", "")
+    rot_y = H * 0.14
+    if modo == "telegrafo":
+        d.rectangle((0, 0, W, H), fill=(26, 20, 18))
+        for k in range(0, W, 90):                            # parede de tábuas
+            d.line((k, 0, k, H * 0.6), fill=(40, 30, 26), width=4)
+        jx0, jy0, jx1, jy1 = W * 0.56, H * 0.2, W * 0.92, H * 0.4      # janela
+        d.rectangle((jx0, jy0, jx1, jy1), fill=(8, 12, 30))
+        if cena.get("janela", True):
+            for x in range(int(jx0), int(jx1), 5):
+                onda = math.sin(x * 0.02 + t * 1.2) * 40
+                a = int(110 + 60 * math.sin(x * 0.07 + t * 3))
+                d.line((x, jy0 + 40 + onda, x, jy1 - 20), fill=AURORA_V + (a,), width=5)
+        d.rectangle((jx0, jy0, jx1, jy1), outline=(70, 52, 40), width=14)
+        d.line(((jx0 + jx1) / 2, jy0, (jx0 + jx1) / 2, jy1), fill=(70, 52, 40), width=10)
+        mesa = H * 0.6
+        d.rectangle((0, mesa, W, H), fill=(92, 58, 34))
+        d.rectangle((0, mesa, W, mesa + 26), fill=(120, 78, 46))
+        # chave de telégrafo
+        kx, ky = W * 0.38, mesa - 10
+        d.rounded_rectangle((kx - 170, ky - 50, kx + 170, ky), radius=10, fill=(70, 44, 26), outline=(30, 20, 12), width=4)
+        bate = (t * 5) % 1 < 0.35 if (cena.get("faiscas") or cena.get("sem_bateria") or cena.get("bate", True)) else False
+        ang = -0.16 if not bate else -0.04
+        px_, py_ = kx - 120, ky - 70
+        ex, ey = px_ + math.cos(ang) * 260, py_ + math.sin(ang) * 260
+        d.line((px_, py_, ex, ey), fill=(196, 160, 80), width=18)
+        d.ellipse((px_ - 22, py_ - 22, px_ + 22, py_ + 22), fill=(150, 120, 60))
+        d.ellipse((ex - 34, ey - 22, ex + 34, ey + 18), fill=(20, 20, 20))
+        d.rectangle((kx + 60, ky - 66, kx + 80, ky - 50), fill=(196, 160, 80))
+        # fios subindo pela parede
+        d.line((kx - 160, ky - 30, W * 0.08, ky - 30, W * 0.08, H * 0.12), fill=(30, 30, 30), width=8)
+        d.line((kx + 160, ky - 30, W * 0.5, ky - 30), fill=(30, 30, 30), width=8)
+        # registrador com a fita de papel
+        rx, ry = W * 0.7, mesa - 10
+        d.rounded_rectangle((rx - 110, ry - 150, rx + 110, ry), radius=14, fill=(60, 64, 70), outline=(20, 20, 20), width=4)
+        d.ellipse((rx - 60, ry - 250, rx + 60, ry - 130), fill=(230, 226, 210), outline=(120, 110, 90), width=4)
+        d.ellipse((rx - 16, ry - 206, rx + 16, ry - 174), fill=(120, 110, 90))
+        fy = ry - 70
+        d.rectangle((rx + 110, fy - 22, W + 10, fy + 22), fill=(236, 232, 214))
+        corre = (t * 120) % 80
+        for k in range(12):
+            x = rx + 130 + k * 80 - corre
+            traco = random.Random(k + int((t * 120) // 80)).random() < 0.5
+            d.rectangle((x, fy - 6, x + (42 if traco else 12), fy + 6), fill=(30, 30, 30))
+        if cena.get("sem_bateria"):                         # bateria com o fio solto, e o aparelho ainda batendo
+            bx, by = W * 0.12, mesa - 82
+            d.line((bx - 35, by - 90, bx - 35, by - 150, W * 0.04, by - 150, W * 0.04, H * 0.12), fill=(30, 30, 30), width=8)
+            d.rounded_rectangle((bx - 90, by - 70, bx + 90, by + 70), radius=12, fill=(40, 40, 46), outline=(200, 200, 200), width=5)
+            d.rectangle((bx - 50, by - 90, bx - 20, by - 70), fill=(200, 200, 200))
+            d.rectangle((bx + 20, by - 90, bx + 50, by - 70), fill=(200, 200, 200))
+            _centro_texto(d, bx, by, "BATERIA", _f(34), (230, 230, 230))
+            d.line((bx + 35, by - 90, bx + 110, by - 190), fill=(30, 30, 30), width=8)      # fio solto
+            cx_, cy_ = bx + 150, by - 260
+            d.line((cx_ - 45, cy_ - 45, cx_ + 45, cy_ + 45), fill=(232, 44, 56), width=16)
+            d.line((cx_ - 45, cy_ + 45, cx_ + 45, cy_ - 45), fill=(232, 44, 56), width=16)
+            if bate:
+                for k in range(3):
+                    _faisca(d, ex, ey + 10, t, k + 40, 50, (150, 220, 255))
+        if cena.get("faiscas") or cena.get("choque"):
+            for k in range(6):
+                _faisca(d, ex + (k - 3) * 10, ey + 20, t, k, 110)
+            for k in range(4):
+                _faisca(d, W * 0.08, H * 0.2 + k * 140, t, k + 10, 90)
+        if cena.get("choque"):                              # o operador leva choque e dá um pulo para trás
+            pula = abs(math.sin(t * 20)) * 14
+            ox, oc = W * 0.13, mesa + 10
+            cor_op = (176, 150, 128)
+            d.line((ox + 40, oc - 260 - pula, ex - 20, ey), fill=cor_op, width=26)
+            _pessoa(d, ox + math.sin(t * 40) * 8, oc - pula, 420, cor_op, t, acao="tremendo", fundo=(26, 20, 18))
+            for k in range(3):
+                _faisca(d, (ox + ex) / 2, (oc - 260 + ey) / 2, t, k + 20, 90, (150, 220, 255))
+        if cena.get("fogo"):                                # a fita de papel pegando fogo
+            for k in range(9):
+                fx = rx + 150 + k * 50
+                alt = 60 + 50 * abs(math.sin(t * 9 + k * 1.7))
+                d.polygon([(fx - 26, fy), (fx + 26, fy), (fx + math.sin(t * 13 + k) * 10, fy - alt)], fill=(255, 140, 30, 230))
+                d.polygon([(fx - 12, fy), (fx + 12, fy), (fx, fy - alt * 0.55)], fill=(255, 230, 90, 255))
+    elif modo == "aurora":
+        horiz = H * 0.6
+        _ceu_noite(d, t, horiz)
+        _cortina_aurora(d, t, H * 0.2, horiz - 40)
+        d.polygon([(0, H), (0, horiz + 40), (W * 0.35, horiz - 20), (W * 0.7, horiz + 20), (W, horiz - 10), (W, H)], fill=(10, 22, 20))
+        for k, (x, w_) in enumerate(((W * 0.06, 150), (W * 0.74, 190))):   # casas antigas com telhado
+            b = horiz + 30 + k * 10
+            d.rectangle((x, b - 150, x + w_, b + 40), fill=(8, 14, 14))
+            d.polygon([(x - 20, b - 150), (x + w_ + 20, b - 150), (x + w_ / 2, b - 250)], fill=(8, 14, 14))
+            d.rectangle((x + w_ * 0.38, b - 100, x + w_ * 0.62, b - 50), fill=(255, 196, 90, 200))
+        if cena.get("jornal"):                              # você lendo jornal só com a luz do céu
+            chao = H * 0.73
+            for dx_ in (-6, 6):                             # contorno verde da luz da aurora
+                _pessoa(d, W * 0.5 + dx_, chao, 446, (90, 200, 150), t, olhos=False)
+            _pessoa(d, W * 0.5, chao, 440, (14, 30, 26), t, olhos=False)
+            _jornal(d, W * 0.5, chao - 270, 120 + math.sin(t * 2) * 2, t)
+            d.ellipse((W * 0.5 - 260, chao - 420, W * 0.5 + 260, chao - 120), fill=AURORA_V + (28,))
+    elif modo == "cidade":
+        horiz = H * 0.7
+        _ceu_noite(d, t, horiz)
+        if cena.get("aurora"):
+            _cortina_aurora(d, t, H * 0.16, H * 0.42, 0.8)
+        frente = -1.0
+        if cena.get("apagado"):
+            frente = W * 2
+        elif cena.get("apaga"):
+            frente = -100 + (W + 200) * _suave((t - dur * 0.15) / max(0.1, dur * 0.6))
+        pisca = cena.get("transformador") and (t % 0.5) < 0.12
+        for (x, w_, h_, s) in _predios():
+            topo = horiz - h_
+            d.rectangle((x, topo, x + w_, horiz), fill=(14, 20, 40))
+            d.rectangle((x, topo, x + w_, topo + 8), fill=(30, 40, 70))
+            for jy in range(int(topo + 30), int(horiz - 30), 46):
+                for jx in range(int(x + 16), int(x + w_ - 26), 36):
+                    r_ = random.Random(jx * 7 + jy)
+                    if r_.random() < 0.35:
+                        continue
+                    acesa = jx > frente and not pisca
+                    cor = (255, 206, 96) if acesa else (24, 30, 52)
+                    d.rectangle((jx, jy, jx + 20, jy + 26), fill=cor)
+        d.rectangle((0, horiz, W, H), fill=(10, 12, 22))
+        if cena.get("transformador"):                       # poste com o transformador queimando
+            px_, base = W * 0.8, horiz + 90
+            d.rectangle((px_ - 14, H * 0.3, px_ + 14, base), fill=(40, 36, 34))
+            d.rectangle((px_ - 120, H * 0.33, px_ + 120, H * 0.33 + 14), fill=(40, 36, 34))
+            d.line((-10, H * 0.33 + 40, px_ - 110, H * 0.33), fill=(20, 20, 20), width=5)
+            tx, ty = px_ - 70, H * 0.4
+            d.rounded_rectangle((tx - 50, ty - 80, tx + 50, ty + 80), radius=20, fill=(110, 116, 124), outline=(50, 54, 60), width=5)
+            for k in range(3):
+                d.line((tx - 40, ty - 50 + k * 50, tx + 40, ty - 50 + k * 50), fill=(70, 74, 80), width=5)
+            for k in range(6):                              # fumaça subindo
+                fy_ = ty - 100 - ((t * 80 + k * 70) % 420)
+                rr = 30 + ((t * 80 + k * 70) % 420) * 0.15
+                d.ellipse((tx - rr + math.sin(t + k) * 20, fy_ - rr, tx + rr + math.sin(t + k) * 20, fy_ + rr), fill=(90, 90, 96, 90))
+            for k in range(5):
+                _faisca(d, tx + (k - 2) * 20, ty - 80, t, k, 120)
+            if pisca:
+                d.rectangle((0, 0, W, H), fill=(200, 230, 255, 40))
+        if cena.get("sem_internet"):                        # wi-fi cortado
+            cx_, cy_ = W / 2, H * 0.3
+            cor = (230, 236, 248, 255)
+            for k in range(3):
+                rr = 60 + k * 55
+                d.arc((cx_ - rr, cy_ - rr, cx_ + rr, cy_ + rr), 225, 315, fill=cor, width=22)
+            d.ellipse((cx_ - 20, cy_ - 20, cx_ + 20, cy_ + 20), fill=cor)
+            if (t % 1.0) < 0.75 or t > dur * 0.5:
+                d.line((cx_ - 140, cy_ - 220, cx_ + 140, cy_ + 40), fill=(232, 44, 56, 255), width=24)
+    elif modo == "gps":
+        _estrelas(d, t, 60)
+        cx_, cy_, w_, h_ = W / 2, H * 0.44, 600, 1000
+        x0, y0 = cx_ - w_ / 2, cy_ - h_ / 2
+        d.rounded_rectangle((x0, y0, x0 + w_, y0 + h_), radius=70, fill=(20, 22, 30), outline=(200, 206, 220), width=10)
+        sx0, sy0, sx1, sy1 = x0 + 30, y0 + 90, x0 + w_ - 30, y0 + h_ - 60
+        d.rectangle((sx0, sy0, sx1, sy1), fill=(222, 230, 222))
+        for k in range(8):                                  # quarteirões
+            for j in range(10):
+                bx = sx0 + 20 + k * 70
+                by = sy0 + 20 + j * 82
+                if bx + 50 < sx1 and by + 62 < sy1:
+                    d.rounded_rectangle((bx, by, bx + 50, by + 62), radius=6, fill=(196, 206, 196))
+        d.line((sx0, sy0 + 430, sx1, sy0 + 430), fill=(255, 210, 110), width=26)
+        d.line((sx0 + 300, sy0, sx0 + 300, sy1), fill=(255, 255, 255), width=22)
+        d.rectangle((sx0, sy0, sx1, sy0 + 60), fill=(40, 46, 60))
+        _centro_texto(d, cx_, sy0 + 30, "GPS", _f(38), (255, 255, 255))
+        erro = _suave(t / max(0.1, dur * 0.7)) if cena.get("erro", True) else 0.0
+        rnd = random.Random(int(t * 3))
+        jx = (rnd.random() - 0.5) * 300 * erro
+        jy = (rnd.random() - 0.5) * 360 * erro
+        mx, my = sx0 + 300 + jx, sy0 + 430 + jy
+        rr = 40 + 200 * erro
+        d.ellipse((mx - rr, my - rr, mx + rr, my + rr), fill=(66, 133, 244, 60), outline=(66, 133, 244, 160), width=4)
+        d.ellipse((mx - 26, my - 26, mx + 26, my + 26), fill=(255, 255, 255))
+        d.ellipse((mx - 19, my - 19, mx + 19, my + 19), fill=(66, 133, 244))
+        d.ellipse((sx0 + 300 - 12, sy0 + 430 - 12, sx0 + 300 + 12, sy0 + 430 + 12), outline=(232, 44, 56), width=6)
+    else:                                                   # o Sol soltando a nuvem até a Terra
+        _estrelas(d, t)
+        sx, sy, rs = W / 2, -80, 400
+        for k in range(7, 0, -1):
+            rr = rs * (1 + k * 0.08)
+            d.ellipse((sx - rr, sy - rr, sx + rr, sy + rr), fill=(255, 170, 40, 26))
+        d.ellipse((sx - rs, sy - rs, sx + rs, sy + rs), fill=(255, 186, 46))
+        for k in range(26):                                 # manchas e granulação
+            rnd = random.Random(k)
+            a = rnd.random() * math.pi
+            l = rnd.random() * rs * 0.9
+            x, y = sx + math.cos(a) * l, sy + math.sin(a) * l
+            rr = 10 + rnd.random() * 26
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(255, 220, 110, int(80 + 60 * math.sin(t * 2 + k))))
+        for k in range(3):                                  # laços de plasma na borda
+            a = math.pi * (0.25 + k * 0.25) + math.sin(t + k) * 0.05
+            bx, by = sx + math.cos(a) * rs, sy + math.sin(a) * rs
+            rr = 60 + 20 * math.sin(t * 2 + k)
+            d.arc((bx - rr, by - rr, bx + rr, by + rr), 0, 360, fill=(255, 120, 40, 200), width=10)
+        ex, ey, re = W / 2, H * 0.6, 120
+        prog = cena.get("de", 0.0) + (cena.get("ate", 1.0) - cena.get("de", 0.0)) * _suave(t / max(0.1, dur * 0.85))
+        choque = cena.get("choque") or prog >= 0.99
+        espreme = 0.4 if choque else 0.0
+        for L in (1.7, 2.4, 3.2):                            # escudo magnético (linhas de campo)
+            for lado in (-1, 1):
+                pts = []
+                for i in range(41):
+                    lat = -math.pi / 2 + math.pi * i / 40
+                    r_ = L * re * math.cos(lat) ** 2
+                    x, y = ex + lado * r_ * math.cos(lat), ey - r_ * math.sin(lat)
+                    if y < ey:
+                        y = ey - (ey - y) * (1 - espreme * (0.6 + 0.4 * math.sin(t * 8)) * 0.6)
+                    pts.append((x, y))
+                al = 170 if not choque else int(170 + 80 * abs(math.sin(t * 6)))
+                d.line(pts, fill=(86, 214, 255, al), width=4)
+        if choque:                                          # auroras nos polos
+            for s in (-1, 1):
+                d.ellipse((ex - 70, ey + s * re * 0.92 - 18, ex + 70, ey + s * re * 0.92 + 18), outline=AURORA_V + (230,), width=10)
+        _globo(d, ex, ey, re, t)
+        cy0, cy1 = sy + rs, ey - re * 2.0
+        cy = cy0 + (cy1 - cy0) * min(1.0, prog)
+        larg = 120 + 380 * min(1.0, prog)
+        for k in range(260):                                # a nuvem de partículas
+            rnd = random.Random(k * 13)
+            ang = (rnd.random() - 0.5) * 1.4
+            dist = rnd.random()
+            x = W / 2 + math.sin(ang) * larg * dist + math.sin(t * 3 + k) * 6
+            y = cy - (1 - dist) * 140 + math.cos(ang) * 60 * dist + rnd.random() * 30
+            rr = 3 + rnd.random() * 6
+            cor = (255, 150 + int(rnd.random() * 90), 60)
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=cor + (int(150 + 100 * rnd.random()),))
+        if choque:
+            d.ellipse((ex - 380, cy - 100, ex + 380, cy + 160), fill=(255, 180, 70, int(40 + 30 * math.sin(t * 9))))
+    if cena.get("rotulo"):
+        _rotulo_caixa(d, rot_y if modo else H * 0.25, str(cena["rotulo"]).upper(), p)
+
+
+QUADROS.update({"solar": _solar})

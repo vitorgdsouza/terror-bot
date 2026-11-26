@@ -1,0 +1,112 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se você ficasse sem luz e sem internet por culpa do Sol?",
+ "titulo_youtube": "E se o SOL desligasse a internet do mundo? ☀️⚡ #shorts",
+ "legenda_post": "Já aconteceu uma vez: o Sol mandou uma tempestade que fez telégrafos soltarem faíscas e acendeu auroras até na Colômbia. Hoje, a mesma tempestade poderia apagar cidades por semanas. Sem luz, o que você faria primeiro? 👇\n\nFontes: Space.com / The Conversation (David Wallace, abr/2022); IFLScience (dez/2020); EarthSky (mai/2024).\n#ciencia #espaco #sol #tempestadesolar #curiosidades #ese",
+ "cenas": [
+  {
+   "narracao": "E se o Sol deixasse você sem luz e sem internet?",
+   "quadro": "solar",
+   "modo": "cidade",
+   "apaga": true,
+   "sem_internet": true,
+   "aurora": true,
+   "thumb": true,
+   "thumb_momento": 0.8
+  },
+  {
+   "narracao": "Isso já aconteceu, na época do telégrafo.",
+   "quadro": "solar",
+   "modo": "telegrafo"
+  },
+  {
+   "narracao": "O Sol cuspiu uma nuvem gigante de partículas na nossa direção.",
+   "quadro": "solar",
+   "de": 0.0,
+   "ate": 0.8
+  },
+  {
+   "narracao": "Ela bateu no escudo magnético da Terra.",
+   "quadro": "solar",
+   "de": 0.8,
+   "ate": 1.0,
+   "choque": true
+  },
+  {
+   "narracao": "E os telégrafos soltaram faíscas.",
+   "quadro": "solar",
+   "modo": "telegrafo",
+   "faiscas": true
+  },
+  {
+   "narracao": "Operadores levaram choque, e o papel pegou fogo.",
+   "quadro": "solar",
+   "modo": "telegrafo",
+   "choque": true,
+   "fogo": true
+  },
+  {
+   "narracao": "Alguns aparelhos funcionaram até sem bateria.",
+   "quadro": "solar",
+   "modo": "telegrafo",
+   "sem_bateria": true
+  },
+  {
+   "narracao": "A aurora apareceu até na Colômbia, perto do equador.",
+   "quadro": "solar",
+   "modo": "aurora",
+   "rotulo": "até na Colômbia"
+  },
+  {
+   "narracao": "Dava pra ler jornal só com a luz do céu.",
+   "quadro": "solar",
+   "modo": "aurora",
+   "jornal": true
+  },
+  {
+   "narracao": "Hoje, essa tempestade poderia queimar transformadores.",
+   "quadro": "solar",
+   "modo": "cidade",
+   "transformador": true,
+   "aurora": true
+  },
+  {
+   "narracao": "E deixar cidades no escuro por semanas.",
+   "quadro": "solar",
+   "modo": "cidade",
+   "apaga": true,
+   "rotulo": "por semanas"
+  },
+  {
+   "narracao": "O GPS do seu celular erraria por dezenas de metros.",
+   "quadro": "solar",
+   "modo": "gps",
+   "rotulo": "dezenas de metros"
+  },
+  {
+   "narracao": "Tempestades assim vêm, em média, a cada quinhentos anos.",
+   "quadro": "numero",
+   "de": 0,
+   "ate": 500,
+   "antes": "a cada",
+   "unidade": "anos"
+  },
+  {
+   "narracao": "Sem luz por semanas, o que você faria? Comenta.",
+   "quadro": "solar",
+   "modo": "cidade",
+   "apagado": true,
+   "aurora": true,
+   "rotulo": "o que você faria?"
+  }
+ ],
+ "thumb_texto": "E SE O SOL|APAGASSE TUDO?"
+}
