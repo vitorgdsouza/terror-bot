@@ -1,5 +1,5 @@
 {
- "proximo": 24,
+ "proximo": 25,
  "itens": [
   {
    "id": 1,
@@ -367,6 +367,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-25 14:18",
+   "decidido": ""
+  },
+  {
+   "id": 24,
+   "tipo": "video",
+   "agente": "Publicador",
+   "titulo": "CAM 02 | GARAGEM | 03:13",
+   "arquivo": "roteiros/iscas/isca_13_garagem.json",
+   "run_id": "45833867073",
+   "resumo": "Revisor: refeita 2x (os 2 renders de 25/11 saíram sem a Enceladus por cota). Agora voz Enceladus (Gemini) 100%, 24 s, CFTV com 6 cenas, susto esp_moradora no 13º, virada da planta de 1979, sem gore. Ressalvas: o 'ding' do elevador saiu como um som de elevador desligando; a planta escurece no último segundo; 24 s fica perto do teto de isca. Faixa: Sex 27/11 11h47.",
+   "titulo_youtube": "3h13: o elevador subiu sozinho até o 13º... o prédio só tem 12 📼 #shorts",
+   "legenda": "Câmera 4, fita da noite anterior (história de ficção). A câmera 2 da garagem do prédio do Seu Joaquim gravou passos às 3h13. O elevador subiu sozinho até o 13º andar de um prédio de 12... e a planta antiga tinha 13. Quem morava no 13º? 👇",
+   "tipo_video": "isca",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-26 14:02",
    "decidido": ""
   }
  ]
