@@ -1,14 +1,6 @@
 {
  "itens": [
   {
-   "run_id": "45180147143",
-   "titulo": "E se você descesse no buraco mais fundo já cavado?",
-   "titulo_youtube": "E se você descesse no BURACO MAIS FUNDO do mundo? 🕳️ #shorts",
-   "legenda": "Mais de 12 km para baixo, 180 °C lá no fundo e fósseis onde ninguém imaginava. E mesmo assim não chegou nem a um centésimo do caminho até o centro da Terra. Até onde você desceria? 👇\n\nFontes: ZME Science (jun/2014, atualizado out/2023); IFLScience (mai/2021); WorldAtlas (jun/2017).\n#ciencia #terra #curiosidades #ese #geologia",
-   "tipo": "historia",
-   "adicionado": "2026-11-23 10:12"
-  },
-  {
    "run_id": "45400197981",
    "titulo": "E se você descesse até o fundo da Fossa das Marianas?",
    "titulo_youtube": "E se você descesse até o PONTO MAIS FUNDO do mar? 🌊 #shorts",
@@ -150,6 +142,16 @@
    "adicionado": "2026-11-25 10:05",
    "postado_em": "2026-11-25 21:00",
    "obs": "postado à mão pelo Vitor (diário 25/11 20h57 e 26/11 07h10)"
+  },
+  {
+   "run_id": "45180147143",
+   "titulo": "E se você descesse no buraco mais fundo já cavado?",
+   "titulo_youtube": "E se você descesse no BURACO MAIS FUNDO do mundo? 🕳️ #shorts",
+   "legenda": "Mais de 12 km para baixo, 180 °C lá no fundo e fósseis onde ninguém imaginava. E mesmo assim não chegou nem a um centésimo do caminho até o centro da Terra. Até onde você desceria? 👇\n\nFontes: ZME Science (jun/2014, atualizado out/2023); IFLScience (mai/2021); WorldAtlas (jun/2017).\n#ciencia #terra #curiosidades #ese #geologia",
+   "tipo": "historia",
+   "adicionado": "2026-11-23 10:12",
+   "postado_em": "2026-11-26 15:06",
+   "obs": "mandado no Telegram às 12h06; considerado postado"
   }
  ]
 }
