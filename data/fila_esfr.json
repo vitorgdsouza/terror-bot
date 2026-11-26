@@ -1,14 +1,6 @@
 {
  "itens": [
   {
-   "run_id": "45400197981",
-   "titulo": "E se você descesse até o fundo da Fossa das Marianas?",
-   "titulo_youtube": "E se você descesse até o PONTO MAIS FUNDO do mar? 🌊 #shorts",
-   "legenda": "Quase 11 km de água, cinco camadas de mar, um cachalote caçando no escuro e um peixe filmado a mais de 8 km. Você desceria até o fundo? 👇\n\nFontes: NOAA JetStream (Layers of the Ocean, mar/2023), WHOI (Ocean Zones), Royal Museums Greenwich (Challenger Deep), Live Science (How deep is the Mariana Trench?), Natural History Museum de Londres (abr/2023).\n#ciencia #oceano #curiosidades #ese #mar",
-   "tipo": "historia",
-   "adicionado": "2026-11-24 10:25"
-  },
-  {
    "run_id": "45401260191",
    "titulo": "E se você visse uma estrela explodir no céu?",
    "titulo_youtube": "E se você visse uma ESTRELA EXPLODIR no céu? 💥 #shorts",
@@ -152,6 +144,15 @@
    "adicionado": "2026-11-23 10:12",
    "postado_em": "2026-11-26 15:06",
    "obs": "mandado no Telegram às 12h06; considerado postado"
+  },
+  {
+   "run_id": "45400197981",
+   "titulo": "E se você descesse até o fundo da Fossa das Marianas?",
+   "titulo_youtube": "E se você descesse até o PONTO MAIS FUNDO do mar? 🌊 #shorts",
+   "legenda": "Quase 11 km de água, cinco camadas de mar, um cachalote caçando no escuro e um peixe filmado a mais de 8 km. Você desceria até o fundo? 👇\n\nFontes: NOAA JetStream (Layers of the Ocean, mar/2023), WHOI (Ocean Zones), Royal Museums Greenwich (Challenger Deep), Live Science (How deep is the Mariana Trench?), Natural History Museum de Londres (abr/2023).\n#ciencia #oceano #curiosidades #ese #mar",
+   "tipo": "historia",
+   "adicionado": "2026-11-24 10:25",
+   "postado_em": "2026-11-26 15:57"
   }
  ]
 }
