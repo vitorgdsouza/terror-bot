@@ -509,3 +509,7 @@
 - **Mesa do Gerente:** no "Aguardando", o nº 22 passou para "próxima isca livre: Dom 29/11 11h47". Histórico sem linha nova.
 - **Aviso no Telegram:** não mandado (nada novo; os lembretes do nº 21 e do nº 22 já foram às 10h55 e 11h35).
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git; gh CLI funcionou. Sem subagentes; papéis em sequência.
+
+## 26/11 (18h34): reserva da fila (Publicador, turno tarde)
+- Nenhum post hoje (11h47 passou sem isca). `itens` da fila vazia: sem principal para 18h47. Não mandei outro tipo no lugar.
+- Aviso mandado (run 45899024960 + push) com /aprovar 21 (Câmera 4 Ep. 1, faixa de hoje), 23 (Turno Ep. 1) ou 20 (Pisadeira). Upload-Post segue no limite: aprovado, vai pelo Telegram.
