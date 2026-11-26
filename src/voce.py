@@ -39,6 +39,7 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   estrela      Betelgeuse em Órion ("linhas", "destaca", "explode", "brilha", "apaga", "lua"); modos "tamanho", "neutrinos", "supernova", "dia", "sombra", "longe", "meses" (+ "ate")
   oceano       descida pelas camadas do mar ("de"/"ate" em metros; "peixes", "lulas", "brilho", "cachalote", "paredes", "peixe_caracol", "fundo", "nome_zona": false); modo "zonas" (o mar em corte)
   solar        tempestade solar; o Sol solta a nuvem até a Terra ("de"/"ate", "choque"); modos "telegrafo" ("faiscas", "fogo", "choque", "sem_bateria"), "aurora" ("jornal"), "cidade" ("apaga", "apagado", "transformador", "sem_internet", "aurora"), "gps"
+  gelo         gelo da Antártida; o litoral com o mar subindo ("de"/"ate" em metros, prédio de 20 andares); modos "mapa" ("derrete", "solta") e "corte" ("medida", "abaixo", "lagos")
   fermi        Paradoxo de Fermi; a galáxia ("conta", "planetas", "busca", "onda"); modos "almoco", "tempo", "primeiros", "filtro" (+ "frente"), "floresta" (+ "grita"), "votar"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
@@ -2934,3 +2935,145 @@ def _solar(img, cena, t, dur, n, p):
 
 
 QUADROS.update({"solar": _solar})
+
+
+# ---------------------------------------------------------------- gelo da Antártida
+def _antartida_pts(R, t=0.0, encolhe=0.0):
+    pts = []
+    for i in range(72):
+        a = 2 * math.pi * i / 72
+        r_ = 1.0 + 0.10 * math.sin(3 * a + 0.6) + 0.06 * math.sin(7 * a + 1.1) + 0.04 * math.sin(13 * a)
+        if 3.4 < a < 4.4:                                  # a península apontando para a América do Sul
+            r_ += 0.38 * math.exp(-((a - 3.85) / 0.09) ** 2)
+        r_ *= 1 - encolhe * (0.45 + 0.15 * math.sin(5 * a + t))
+        pts.append((r_ * R, a))
+    return pts
+
+
+def _gelo(img, cena, t, dur, n, p):
+    """Gelo da Antártida. Sem modo: o litoral visto de lado ("de"/"ate" em metros: o mar subindo; prédio de 20 andares
+    com você no teto; "medidor": false esconde a régua). Modos: "mapa" (a Antártida vista de cima girando devagar;
+    "derrete": o gelo encolhe; "solta": um bloco se solta da borda e vai embora) e "corte" (o gelo em corte sobre a rocha;
+    "medida": a seta da espessura; "abaixo": a rocha abaixo do nível do mar em destaque; "lagos": lagos escondidos sob o
+    gelo). "rotulo" em todos."""
+    d = ImageDraw.Draw(img, "RGBA")
+    modo = cena.get("modo", "")
+    if modo == "mapa":
+        _estrelas(d, t, 60)
+        cx, cy, R = W / 2, H * 0.46, 330
+        d.ellipse((cx - 470, cy - 470, cx + 470, cy + 470), fill=(18, 60, 120))
+        for k in range(5):
+            rr = 470 - k * 4
+            d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), outline=(86, 214, 255, 40), width=3)
+        enc = _suave(t / max(0.1, dur * 0.8)) * 0.5 if cena.get("derrete") else 0.0
+        giro = t * 0.05
+        pts = [(cx + r_ * math.cos(a + giro), cy + r_ * math.sin(a + giro)) for r_, a in _antartida_pts(R, t, enc)]
+        if enc > 0:                                         # a água do degelo em volta
+            borda = [(cx + r_ * 1.05 * math.cos(a + giro), cy + r_ * 1.05 * math.sin(a + giro)) for r_, a in _antartida_pts(R)]
+            d.polygon(borda, fill=(60, 140, 200, 120))
+        d.polygon(pts, fill=(236, 244, 252), outline=(160, 200, 235))
+        for k in range(18):                                 # textura do gelo
+            rnd = random.Random(k)
+            a, l = rnd.random() * 2 * math.pi, rnd.random() * R * 0.7 * (1 - enc)
+            x, y = cx + math.cos(a + giro) * l, cy + math.sin(a + giro) * l
+            d.arc((x - 60, y - 30, x + 60, y + 30), 200, 340, fill=(190, 214, 236), width=4)
+        if cena.get("solta"):                               # um bloco se soltando
+            a = 0.4 + giro
+            sai = _suave(t / max(0.1, dur * 0.9))
+            bx = cx + math.cos(a) * (R * 1.0 + 30 + sai * 220)
+            by = cy + math.sin(a) * (R * 1.0 + 30 + sai * 220)
+            d.polygon([(bx - 60, by - 30), (bx + 50, by - 44), (bx + 70, by + 26), (bx - 40, by + 40)], fill=(236, 244, 252), outline=(160, 200, 235))
+            for k in range(3):
+                rr = 80 + k * 30 + (t * 40) % 30
+                d.arc((bx - rr, by - rr * 0.5, bx + rr, by + rr * 0.5), 20, 160, fill=(200, 230, 255, 120), width=3)
+        _centro_texto(d, cx, cy + 520, "POLO SUL", _f(40), (180, 200, 230))
+    elif modo == "corte":
+        _estrelas(d, t, 50)
+        mar = H * 0.5
+        d.rectangle((0, mar, W, H), fill=(14, 50, 104))
+        for k in range(4):
+            y = mar + 6 + k * 3
+            d.line([(x, y + math.sin(x * 0.02 + t * 2 + k) * 4) for x in range(0, W + 20, 20)], fill=(120, 190, 240, 120), width=2)
+        def rocha(x):                                       # a rocha: afundada à esquerda (abaixo do mar), alta à direita
+            return mar + 180 - 300 * _suave((x - W * 0.25) / (W * 0.5)) + 30 * math.sin(x * 0.03)
+        def gelo_topo(x):
+            u = (x - W * 0.14) / (W * 0.84)
+            return mar - 420 * max(0.0, math.sin(math.pi * min(1, max(0, u)))) ** 0.35 + 6
+        base = [(x, rocha(x)) for x in range(0, W + 1, 12)]
+        d.polygon(base + [(W, H), (0, H)], fill=(86, 66, 56))
+        agua = [(x, mar) for x in range(0, int(W * 0.15), 12)]
+        d.polygon(agua + [(x, max(mar, rocha(x))) for x, _ in reversed(agua)], fill=(14, 50, 104))
+        topo = [(x, min(gelo_topo(x), rocha(x))) for x in range(int(W * 0.14), int(W * 0.98) + 1, 12)]
+        d.polygon(topo + [(x, rocha(x)) for x, _ in reversed(topo)], fill=(228, 240, 252))
+        for k in range(1, 7):                                # camadas no gelo
+            ys = [(x, y + (rocha(x) - y) * k / 7) for x, y in topo]
+            d.line(ys, fill=(190, 214, 236), width=2)
+        for x in range(0, W, 40):                           # nível do mar tracejado por cima de tudo
+            d.line((x, mar, x + 20, mar), fill=(86, 214, 255, 220), width=5)
+        d.text((24, mar + 12), "NÍVEL DO MAR", font=_f(34), fill=(86, 214, 255))
+        if cena.get("abaixo"):
+            pisca = 150 + int(100 * math.sin(t * 5))
+            pts = [(x, rocha(x)) for x in range(int(W * 0.14), int(W * 0.6), 12) if rocha(x) > mar]
+            if len(pts) > 2:
+                d.line(pts, fill=(232, 44, 56, pisca), width=14)
+        if cena.get("lagos"):
+            for k, u in enumerate((0.3, 0.48, 0.62, 0.78)):
+                x = W * u
+                y = rocha(x) - 18
+                br = 140 + int(100 * abs(math.sin(t * 2 + k)))
+                d.ellipse((x - 70, y - 16, x + 70, y + 16), fill=(40, 120, 220, 255), outline=(br, 220, 255), width=4)
+        if cena.get("medida"):
+            x = W * 0.62
+            y0, y1 = gelo_topo(x), rocha(x)
+            cresce = _suave(t / max(0.1, dur * 0.6))
+            ym = y1 - (y1 - y0) * cresce
+            d.line((x, y1, x, ym), fill=p["acento"], width=10)
+            d.polygon([(x - 26, ym + 10), (x + 26, ym + 10), (x, ym - 26)], fill=p["acento"])
+            d.polygon([(x - 26, y1 - 10), (x + 26, y1 - 10), (x, y1 + 26)], fill=p["acento"])
+    else:                                                   # o litoral visto de lado, com o mar subindo
+        ceu = Image.new("RGB", (W, H))
+        _ceu_noite(ImageDraw.Draw(ceu), t, H)
+        img.paste(ceu.crop((0, 0, W, H)), (0, 0))
+        d = ImageDraw.Draw(img, "RGBA")
+        chao, px_m = H * 0.72, 13.0                         # 1 metro = 13 px (prédio de 20 andares = 60 m)
+        d.polygon([(0, chao + 60), (W * 0.3, chao + 30), (W * 0.42, chao), (W, chao), (W, H), (0, H)], fill=(196, 170, 120))
+        d.rectangle((W * 0.42, chao, W, H), fill=(60, 62, 70))
+        rnd = random.Random(5)
+        x = W * 0.36
+        while x < W:                                        # prédios do litoral
+            w_ = rnd.randint(80, 140)
+            andares = rnd.choice((3, 5, 8, 12))
+            alt = andares * 3 * px_m
+            d.rectangle((x, chao - alt, x + w_, chao), fill=(40, 50, 80))
+            for a in range(andares):
+                yy = chao - (a + 1) * 3 * px_m
+                for jx in range(int(x + 12), int(x + w_ - 20), 30):
+                    d.rectangle((jx, yy + 10, jx + 16, yy + 28), fill=(255, 206, 96) if (a * 7 + jx) % 5 else (60, 70, 100))
+            x += w_ + 14
+        bx0, bx1 = W * 0.6, W * 0.78                        # o prédio de 20 andares, na frente
+        topo = chao - 60 * px_m
+        d.rectangle((bx0, topo, bx1, chao), fill=(70, 86, 130), outline=(20, 26, 44), width=4)
+        for a in range(20):
+            yy = chao - (a + 1) * 3 * px_m
+            d.line((bx0, yy, bx1, yy), fill=(40, 50, 80), width=2)
+            for jx in range(int(bx0 + 14), int(bx1 - 20), 32):
+                d.rectangle((jx, yy + 8, jx + 18, yy + 30), fill=(255, 220, 130))
+        _pessoa(d, (bx0 + bx1) / 2, topo, 70, p["fig"], t, olhos=True, fundo=p["fundo"])
+        de, ate = cena.get("de", 0.0), cena.get("ate", 0.0)
+        nivel = de + (ate - de) * _suave(t / max(0.1, dur * 0.85))
+        yagua = chao + 40 - nivel * px_m
+        onda = [(x, yagua + math.sin(x * 0.015 + t * 2.5) * 10) for x in range(0, W + 20, 20)]
+        d.polygon(onda + [(W, H), (0, H)], fill=(30, 110, 200, 175))
+        d.line(onda, fill=(170, 220, 255, 230), width=6)
+        if cena.get("medidor", True) and ate > 0:          # régua dos metros
+            rx = W * 0.9
+            d.line((rx, chao + 40, rx, topo), fill=(230, 236, 248), width=6)
+            for m in range(0, 61, 10):
+                yy = chao + 40 - m * px_m
+                d.line((rx - 20, yy, rx + 20, yy), fill=(230, 236, 248), width=5)
+            _centro_texto(d, rx - 10, min(yagua, chao) - 60, f"+{int(round(nivel))} m", _f(54), p["acento"])
+    if cena.get("rotulo"):
+        _rotulo_caixa(d, H * 0.14, str(cena["rotulo"]).upper(), p)
+
+
+QUADROS.update({"gelo": _gelo})
