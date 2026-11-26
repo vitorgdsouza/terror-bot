@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       acao:
-        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram) | telegram (manda o próximo da fila no Telegram para postar à mão, sem postar) | testar (confere a conexão com o canal) | thumbs (troca a thumb dos vídeos cujo título contém o texto abaixo)"
+        description: "postar (padrão) | aviso (manda o texto abaixo no Telegram) | telegram (manda o próximo da fila no Telegram para postar à mão, sem postar) | testar (confere a conexão com o canal) | thumbs (troca a thumb dos vídeos cujo título contém o texto abaixo) | agendar (sobe o próximo da fila direto no YouTube, agendado para o horário em texto, ex.: 2026-11-26T19:17:00Z) | escopo"
         default: postar
       turno:
         description: "postar: manha (isca) ou tarde (principal)"
@@ -55,6 +55,9 @@ jobs:
         env:
           TROCAR: ${{ github.event.inputs.texto }}
         run: python -m src.thumb_youtube antigas
+      - name: Escopos do token
+        if: github.event.inputs.acao == 'escopo'
+        run: python -m src.agendar_yt escopo
       - name: Testar a conexão com o canal
         if: github.event.inputs.acao == 'testar'
         run: |
@@ -98,7 +101,7 @@ jobs:
         run: python -m src.fila aviso
       - name: Qual é o próximo
         id: prox
-        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar' && github.event.inputs.acao != 'thumbs'
+        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar' && github.event.inputs.acao != 'thumbs' && github.event.inputs.acao != 'escopo'
         env:
           TURNO: ${{ github.event.inputs.turno }}
           AGENDADO: ${{ github.event_name == 'schedule' && '1' || '0' }}
@@ -120,8 +123,15 @@ jobs:
           TITULO_YOUTUBE: ${{ steps.prox.outputs.titulo_youtube }}
           LEGENDA_POST: ${{ steps.prox.outputs.legenda }}
         run: python -m src.postar telegram
+      - name: Agendar direto no YouTube
+        if: steps.prox.outputs.run_id != '' && github.event.inputs.acao == 'agendar'
+        env:
+          TITULO_YOUTUBE: ${{ steps.prox.outputs.titulo_youtube }}
+          LEGENDA_POST: ${{ steps.prox.outputs.legenda }}
+          PUBLICAR_EM: ${{ github.event.inputs.texto }}
+        run: python -m src.agendar_yt
       - name: Postar
-        if: steps.prox.outputs.run_id != '' && github.event.inputs.acao != 'telegram'
+        if: steps.prox.outputs.run_id != '' && github.event.inputs.acao != 'telegram' && github.event.inputs.acao != 'agendar'
         env:
           DA_FILA: "1"
           TITULO_YOUTUBE: ${{ steps.prox.outputs.titulo_youtube }}
