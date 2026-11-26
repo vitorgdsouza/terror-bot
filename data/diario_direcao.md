@@ -487,3 +487,13 @@
 - **Aviso no Telegram:** mandado (run 45803727688) com /aprovar 22 e 21 para hoje, 20 para amanhã 18h47, 19 e 23 para sábado.
 - **Aprendizado (Analista):** o primeiro segundo decide e câmera fixa ganha: o 1º quadro precisa do carimbo de lugar e horário e de algo errado à vista antes da primeira fala.
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer token inválido. Analista como subagente; os outros papéis feitos em sequência.
+
+## 26/11 (10h55): rodada do Revisor e do Publicador
+- **Decisões do Vitor desde a manhã:** nenhuma. Os vídeos nº 19 a 23 continuam pendentes.
+- **Revisor:** o único "renderizado" sem vídeo proposto era o nº 18 Garagem. Com a cota do Gemini renovada, fiz a 2ª e última refação (run 45833867073): **voz Enceladus (gemini-2.5-flash-preview-tts), tomada 2 com 100%** (a tomada 1 tinha 52% e foi descartada), **24 s**, 6 cenas. Checklist: garagem e elevador 2x cada; susto esp_moradora no 13º; legenda sem tapar o rosto; sem personagem, então nada flutuando; sem gore. **Passou**, com ressalvas: o "elevator ding" virou "snd_elevator_power_down" (som de elevador desligando, não um ding); a planta_andar escurece no último segundo; 24 s fica perto do teto de 25 s; o 1º quadro não mostra nada errado antes da fala (aprendizado de hoje do Analista). Nada "renderizando" e nenhum render de mais de 40 min.
+- **Publicador:** título trocado para "3h13: o elevador subiu sozinho até o 13º... o prédio só tem 12 📼 #shorts", que repete o gancho da CAM 04 (1.131 views); legenda mantida. Proposto como **vídeo nº 24** (run 45834926885), faixa **Sex 27/11 11h47**.
+- **Fila:** `itens` vazia. As duas faixas de hoje têm candidato esperando o Vitor (nº 22 às 11h47 e nº 21 às 18h47), então o principal de hoje não está "sem nada". Mapa: Qui 26/11 nº 22 + nº 21 | Sex 27/11 nº 24 Garagem + nº 20 Pisadeira | Sáb 28/11 nº 19 Terreiro + nº 23 Turno. Faltam Dom 29/11 (isca e protocolo), para a rodada de amanhã às 07h23.
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** "Aguardando" ganhou o nº 24 em cima, e o prazo do nº 22 passou para ~11h30. Histórico sem linha nova (nenhuma decisão do Vitor).
+- **Aviso no Telegram:** mandado, com o nº 24 novo e a lembrança do nº 22, que sai às 11h47.
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git. gh CLI funcionou apesar de `gh auth status` dizer que o token é inválido. Sem subagentes; os papéis foram feitos em sequência.
