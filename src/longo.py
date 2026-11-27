@@ -282,7 +282,7 @@ def _q_superficie(img, c, t, dur):
             d.polygon([(x2 - math.cos(aa) * 8, y2 - math.sin(aa) * 8), (x2 + math.cos(aa) * 40 + px, y2 + math.sin(aa) * 40 + py),
                        (x2 + math.cos(aa) * 40 - px, y2 + math.sin(aa) * 40 - py)], fill=VERMELHO)
     if c.get("medidor"):
-        _medidor(d, c["medidor"], t, dur, W * 0.78, H * 0.5)
+        _medidor(d, c["medidor"], t, dur, W * 0.78, H * 0.44)   # mais alto: o rótulo não encosta na legenda
 
 
 def _medidor(d, m, t, dur, cx, cy):
@@ -290,7 +290,7 @@ def _medidor(d, m, t, dur, cx, cy):
     de, ate = float(m.get("de", 0)), float(m["ate"])
     f = _suave(t / max(0.1, dur * 0.7))
     v = de + (ate - de) * f
-    alto, larg = 520, 70
+    alto, larg = 470, 70
     topo = cy - alto / 2
     d.rounded_rectangle((cx - larg / 2, topo, cx + larg / 2, topo + alto), radius=35, fill=(255, 255, 255, 50),
                         outline=BRANCO, width=5)
@@ -303,7 +303,7 @@ def _medidor(d, m, t, dur, cx, cy):
     txt = f"{v:,.0f}".replace(",", ".") + " " + m.get("unidade", "")
     _texto(d, cx, topo - 70, txt, 76, AMARELO)
     if m.get("rotulo"):
-        _texto(d, cx, topo + alto + 150, str(m["rotulo"]).upper(), 32, BRANCO)
+        _texto(d, cx, topo + alto + 135, str(m["rotulo"]).upper(), 32, BRANCO)
 
 
 CAMADAS = {"jupiter": [(236, 222, 196), (222, 186, 146), (186, 128, 84), (160, 104, 72), (120, 60, 40), (70, 30, 24)],
@@ -689,7 +689,9 @@ def main():
     previas = RAIZ / "data" / "previas"
     previas.mkdir(parents=True, exist_ok=True)
     nome = Path(arq).stem
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(final), "-vf", "fps=1/4,scale=320:-1,tile=6x8",
+    from .util import duracao as _dur
+    passo = max(4.0, _dur(final) / 64)                  # a folha cobre o vídeo inteiro (64 quadros)
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(final), "-vf", f"fps=1/{passo:.2f},scale=320:-1,tile=8x8",
                     "-frames:v", "1", "-q:v", "4", str(previas / f"{nome}.jpg")])
     try:
         capa = thumb(r, trab / "thumb_longo.jpg")
