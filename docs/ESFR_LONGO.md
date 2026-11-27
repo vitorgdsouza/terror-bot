@@ -63,3 +63,19 @@ Fontes da pesquisa: vidiq.com (estatísticas dos canais What If e Ciência Todo 
   5:49 Netuno
   6:38 Vênus
   7:51 Terra
+
+### VERSÃO FINAL (27/11, 10h55): run 46003770264, 8,5 min, conferida
+- **Esta é a versão para sábado.** Ela substitui a v1 (45988557168). A v2 (45998057330) falhou.
+- **Narração:** juntada de 3 runs, sem gastar cota. Notas: Início 98%, Mercúrio 96%, Marte 97%, Júpiter 99%, Saturno 97%, Urano 87% (nota da régua antiga, com muitos números; ouvido sem erro), Netuno 98%, Vênus 97%, Terra 95%.
+- **Prévia:** 64 quadros conferidos. Nada fora da tela, placar e barra de capítulos certos, "SE INSCREVE" no final.
+- **Capítulos para a descrição (USE ESTES):**
+  0:00 Início
+  0:40 Mercúrio
+  1:43 Marte
+  2:56 Júpiter
+  4:02 Saturno
+  4:57 Urano
+  5:46 Netuno
+  6:35 Vênus
+  7:48 Terra
+- **Post:** em vez de mandar o pacote para o Vitor postar à mão, AGENDAR direto no YouTube (como os Shorts desde 26/11), com o vídeo deste run, a thumb 16:9, a descrição com os capítulos e publicação no sáb 28/11 às 11h (14:00Z).
