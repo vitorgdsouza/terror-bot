@@ -139,7 +139,12 @@ if __name__ == "__main__":
         subir_longo(sys.argv[2], sys.argv[3], sys.argv[4])
     elif sys.argv[1:2] == ["thumb"]:                 # thumb <video_id> <roteiro.json>
         from .thumb_youtube import _gerar_thumb, definir
-        img = _gerar_thumb(json.loads(Path(sys.argv[3]).read_text(encoding="utf-8")), RAIZ / "trabalho" / "thumbs")
+        rr = json.loads(Path(sys.argv[3]).read_text(encoding="utf-8"))
+        if rr.get("blocos"):                          # vídeo longo: thumb 16:9 própria
+            from .longo import thumb as thumb_longo
+            img = thumb_longo(rr, RAIZ / "trabalho" / "thumbs" / "thumb_longo.jpg")
+        else:
+            img = _gerar_thumb(rr, RAIZ / "trabalho" / "thumbs")
         print("THUMB", sys.argv[2], definir(sys.argv[2], img).get("_status"))
     elif sys.argv[1:2] == ["status"]:
         status(sys.argv[2])

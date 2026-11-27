@@ -743,7 +743,7 @@ def thumb(r: dict, destino: Path) -> Path:
     for k in range(10, 0, -1):                            # brilho de calor em volta de Vênus
         rr = 300 + k * 14
         d.ellipse((W * 0.8 - rr, H * 0.37 - rr, W * 0.8 + rr, H * 0.37 + rr), outline=(255, 120, 30, 10), width=14)
-    astronauta(d, W * 0.5, H * 0.9, 420, 0.0, 0.5, "acenando")
+    astronauta(d, W * 0.56, H * 0.66, 330, 0.0, 0.5, "acenando")
     linhas = [(l.strip().upper(), AMARELO if k == 1 else BRANCO)
               for k, l in enumerate(str(r.get("thumb_texto", "DÁ PRA|SOBREVIVER?")).split("|"))]
     y = 120
