@@ -1,0 +1,1703 @@
+[
+ {
+  "id": "WI8oUod9U4E",
+  "publicar_em": "2026-11-27T15:39:00Z",
+  "canal": "terror",
+  "roteiro": {
+   "titulo": "Fita da Farmácia 03:17 (Fita 03)",
+   "tipo": "isca",
+   "serie": "Turno da Madrugada",
+   "estilo": "vhs",
+   "pixel": 6,
+   "data_fita": "NOV 20 2003",
+   "hora_fita": [
+    3,
+    16,
+    40
+   ],
+   "protagonista": null,
+   "clima": "suspense",
+   "ritmo": 1.1,
+   "selo": "FITA 03",
+   "pergunta_thumb": "Fecha ou foge?",
+   "trilha": "dark ambient drone hum",
+   "trilha_volume": 0.45,
+   "final": true,
+   "titulo_youtube": "A porta dos fundos da farmácia abriu sozinha às 3h16... 📼 #shorts",
+   "legenda_post": "Fita 03 (história de ficção). Na noite depois do \"boa noite, mãe\", a porta dos fundos da farmácia abriu sozinha. A Bia viu ele no fim do corredor... e a câmera não. Você fechava os fundos ou fugia pela frente? 👇",
+   "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#terror",
+    "#farmacia"
+   ],
+   "resumo": "Noite seguinte à Fita 02 (o 'boa noite, mãe' foi o convite). A porta de emergência do depósito abre sozinha; a Bia está sozinha no caixa; ouve passos; às 3h17 ela vê o Cliente na porta dos fundos (esp_cliente_estoque, sem texto de câmera: é o olho dela). Virada: na câmera, o mesmo corredor está vazio (cânone: ele não aparece na câmera). Pergunta A/B: fecha os fundos ou foge pela frente.",
+   "cenas": [
+    {
+     "narracao": "A porta dos fundos abriu sozinha.",
+     "cenario": "farmacia_deposito",
+     "personagem": null,
+     "camera": "zoom_in",
+     "foco": [
+      0.48,
+      0.48,
+      1.5
+     ],
+     "efeito": "luz_piscando",
+     "texto_tela": "CAM 03 | DEPÓSITO | 03:16",
+     "som": {
+      "busca": "metal door creak",
+      "palavra": "abriu"
+     }
+    },
+    {
+     "narracao": "Bia, sozinha no caixa.",
+     "cenario": "farmacia_balcao_escuro",
+     "personagem": null,
+     "camera": "parada"
+    },
+    {
+     "narracao": "Passos no fim do corredor.",
+     "cenario": "farmacia_corredor2",
+     "personagem": null,
+     "camera": "zoom_in",
+     "foco": [
+      0.5,
+      0.45,
+      1.25
+     ],
+     "som": {
+      "busca": "slow footsteps",
+      "palavra": "Passos"
+     }
+    },
+    {
+     "narracao": "Três e dezessete. Ele estava lá.",
+     "cenario": "esp_cliente_estoque",
+     "personagem": null,
+     "camera": "zoom_in",
+     "efeito": "tremor",
+     "thumb": true,
+     "pausa_extra": 0.5,
+     "som": {
+      "busca": "horror stinger hit",
+      "palavra": "lá"
+     }
+    },
+    {
+     "narracao": "Na câmera... corredor vazio.",
+     "cenario": "farmacia_corredor2",
+     "personagem": null,
+     "camera": "parada",
+     "efeito": "luz_piscando",
+     "texto_tela": "CAM 02 | CORREDOR | 03:17",
+     "som": {
+      "busca": "static noise",
+      "palavra": "câmera"
+     }
+    },
+    {
+     "narracao": "Fecha os fundos... ou foge pela frente?",
+     "cenario": "farmacia_balcao2",
+     "personagem": null,
+     "camera": "zoom_in",
+     "foco": [
+      0.76,
+      0.43,
+      1.8
+     ],
+     "efeito": "tremor",
+     "corte_preto": true,
+     "som": {
+      "busca": "knock on glass",
+      "palavra": "frente"
+     }
+    }
+   ]
+  },
+  "thumb_reaplicada": false
+ },
+ {
+  "id": "KHE6ceGN-Ww",
+  "publicar_em": "2026-11-27T15:17:00Z",
+  "canal": "esfr",
+  "roteiro": {
+   "formato": "voce",
+   "paleta": "ciencia",
+   "parte": "E SE...",
+   "tipo": "historia",
+   "clima": "curioso",
+   "voz": "Puck",
+   "canal": "esfr",
+   "trilha": "propria",
+   "trilha_volume": 0.3,
+   "titulo": "E se você visse um asteroide passar mais perto que os satélites?",
+   "titulo_youtube": "E se um ASTEROIDE passasse mais perto que os satélites? ☄️ #shorts",
+   "legenda_post": "Ele é quase da altura da Torre Eiffel, já foi o asteroide mais temido da história e vai passar mais perto que os satélites numa sexta-feira 13. Você sairia de casa pra ver? 👇\n\nFontes: Live Science (set/2025 e 2026), Space.com (set/2025), BBC Sky at Night Magazine (abr/2026).\n#ciencia #espaco #asteroide #apophis #curiosidades #ese",
+   "thumb_texto": "ELE VAI PASSAR|RASPANDO",
+   "cenas": [
+    {
+     "narracao": "E se você visse um asteroide passar mais perto que os satélites?",
+     "quadro": "apophis",
+     "perto": true,
+     "de": 0.0,
+     "ate": 0.55,
+     "thumb": true,
+     "thumb_momento": 0.8
+    },
+    {
+     "narracao": "Isso vai acontecer de verdade, numa sexta-feira treze.",
+     "quadro": "apophis",
+     "data": true
+    },
+    {
+     "narracao": "Ele se chama Apophis, e tem mais ou menos a altura da Torre Eiffel.",
+     "quadro": "apophis",
+     "tamanho": true,
+     "rotulo": "Apophis"
+    },
+    {
+     "narracao": "Quando foi descoberto, parecia que ia bater na Terra.",
+     "quadro": "apophis",
+     "de": 0.0,
+     "ate": 0.42,
+     "rotulo": "rota de colisão?",
+     "mira": true
+    },
+    {
+     "narracao": "A chance de batida chegou a quase três por cento.",
+     "quadro": "apophis",
+     "risco": true,
+     "de": 0,
+     "ate": 2.7,
+     "valor": "QUASE 3%"
+    },
+    {
+     "narracao": "Foi a maior nota de perigo que um asteroide já recebeu.",
+     "quadro": "apophis",
+     "risco": true,
+     "recorde": true
+    },
+    {
+     "narracao": "Mas anos de telescópio e radar zeraram esse risco.",
+     "quadro": "apophis",
+     "risco": true,
+     "de": 2.7,
+     "ate": 0
+    },
+    {
+     "narracao": "Ele não bate, nem agora, nem neste século.",
+     "quadro": "apophis",
+     "ceu": true,
+     "gente": 4
+    },
+    {
+     "narracao": "Só que vai passar a uns trinta mil quilômetros daqui.",
+     "quadro": "apophis",
+     "de": 0.42,
+     "ate": 0.5,
+     "medida": true,
+     "rotulo": "~30 mil km"
+    },
+    {
+     "narracao": "Mais perto que os satélites que ficam parados no céu.",
+     "quadro": "apophis",
+     "perto": true,
+     "de": 0.3,
+     "ate": 0.75,
+     "rotulo": "satélites"
+    },
+    {
+     "narracao": "Bilhões de pessoas vão poder ver, sem telescópio.",
+     "quadro": "apophis",
+     "ceu": true
+    },
+    {
+     "narracao": "Dá pra ver até do leste da América do Sul.",
+     "quadro": "apophis",
+     "mapa": true
+    },
+    {
+     "narracao": "Vai parecer uma estrela andando no meio das outras.",
+     "quadro": "apophis",
+     "ceu": true,
+     "gente": 3,
+     "seta": false
+    },
+    {
+     "narracao": "A gravidade da Terra vai puxar e espremer o asteroide.",
+     "quadro": "apophis",
+     "de": 0.48,
+     "ate": 0.52,
+     "espreme": true
+    },
+    {
+     "narracao": "E a órbita dele vai mudar.",
+     "quadro": "apophis",
+     "orbita": true
+    },
+    {
+     "narracao": "Isso só acontece uma vez a cada sete mil e quinhentos anos.",
+     "quadro": "numero",
+     "de": 7500,
+     "ate": 7500,
+     "unidade": "anos",
+     "antes": "uma vez a cada"
+    },
+    {
+     "narracao": "Você sairia de casa pra ver ele passar?",
+     "quadro": "apophis",
+     "ceu": true,
+     "rotulo": "você iria ver?"
+    }
+   ]
+  },
+  "thumb_reaplicada": false
+ },
+ {
+  "id": "7DfyxhtBuw0",
+  "publicar_em": "2026-11-28T14:00:00Z",
+  "canal": "esfr",
+  "roteiro": {
+   "formato": "longo",
+   "canal": "esfr",
+   "voz": "Puck",
+   "clima": "curioso",
+   "tomadas": 2,
+   "trilha": "propria",
+   "trilha_volume": 0.25,
+   "titulo": "E se você pousasse em cada planeta do Sistema Solar?",
+   "titulo_youtube": "E se você POUSASSE em cada planeta do Sistema Solar?",
+   "legenda_post": "Você vai pousar em cada planeta do Sistema Solar e descobrir onde dá (ou não dá) para sobreviver.\n\nFontes: NASA Science (fichas de cada planeta), NASA NSSDC Planetary Fact Sheet.\n#ciencia #espaco #planetas #sistemasolar #ese",
+   "capitulos": [
+    "Início",
+    "Mercúrio",
+    "Marte",
+    "Júpiter",
+    "Saturno",
+    "Urano",
+    "Netuno",
+    "Vênus",
+    "Terra"
+   ],
+   "blocos": [
+    {
+     "capitulo": "Início",
+     "cenas": [
+      {
+       "narracao": "Imagina pousar num lugar tão quente que derrete chumbo.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor"
+       ],
+       "traje": 0.3,
+       "camera": {
+        "zoom": [
+         1.12,
+         1.0
+        ]
+       }
+      },
+      {
+       "narracao": "Isso é Vênus. E ele nem é o planeta mais perto do Sol.",
+       "quadro": "planeta",
+       "nome": "venus",
+       "zoom": [
+        0.9,
+        1.15
+       ]
+      },
+      {
+       "narracao": "Hoje, você vai pousar em cada planeta do Sistema Solar.",
+       "quadro": "sistema",
+       "camera": {
+        "zoom": [
+         1.0,
+         1.08
+        ]
+       }
+      },
+      {
+       "narracao": "E em cada um, a mesma pergunta: dá pra sobreviver?",
+       "quadro": "placar",
+       "titulo": "Dá pra sobreviver?",
+       "itens": [
+        [
+         "Mercúrio",
+         "?"
+        ],
+        [
+         "Marte",
+         "?"
+        ],
+        [
+         "Júpiter",
+         "?"
+        ],
+        [
+         "Saturno",
+         "?"
+        ],
+        [
+         "Urano",
+         "?"
+        ],
+        [
+         "Netuno",
+         "?"
+        ],
+        [
+         "Vênus",
+         "?"
+        ],
+        [
+         "Terra",
+         "?"
+        ]
+       ]
+      },
+      {
+       "narracao": "E vai marcar aqui, planeta por planeta, quanto tempo você aguentaria.",
+       "quadro": "sistema",
+       "placar": {
+        "mercurio": "?",
+        "marte": "?",
+        "jupiter": "?",
+        "saturno": "?",
+        "urano": "?",
+        "netuno": "?",
+        "venus": "?",
+        "terra": "?"
+       },
+       "camera": {
+        "zoom": [
+         1.0,
+         1.08
+        ],
+        "pan": [
+         [
+          0.45,
+          0.5
+         ],
+         [
+          0.55,
+          0.5
+         ]
+        ]
+       }
+      },
+      {
+       "narracao": "Você vai cair dentro de um gigante que não tem chão.",
+       "quadro": "descida",
+       "nome": "jupiter",
+       "medidores": false
+      },
+      {
+       "narracao": "Vai ver tempestades maiores que o nosso planeta inteiro.",
+       "quadro": "escala",
+       "tipo": "dentro",
+       "nome": "jupiter"
+      },
+      {
+       "narracao": "E vai visitar um mundo que gira deitado.",
+       "quadro": "planeta",
+       "nome": "urano",
+       "zoom": [
+        0.8,
+        1.0
+       ]
+      },
+      {
+       "narracao": "No final, você vai entender por que Vênus é o pior de todos.",
+       "quadro": "planeta",
+       "nome": "venus",
+       "zoom": [
+        1.3,
+        1.6
+       ],
+       "x": 0.5
+      },
+      {
+       "narracao": "Primeira parada: o planeta mais perto do Sol.",
+       "quadro": "sistema",
+       "foco": "mercurio",
+       "camera": {
+        "zoom": [
+         1.0,
+         1.5
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.12,
+          0.5
+         ]
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "capitulo": "Mercúrio",
+     "cenas": [
+      {
+       "narracao": "Mercúrio. Ele tem pouco mais de um terço da largura da Terra.",
+       "quadro": "planeta",
+       "nome": "mercurio",
+       "nave": true,
+       "rotulo": "Mercúrio",
+       "zoom": [
+        0.8,
+        1.0
+       ]
+      },
+      {
+       "narracao": "É o planeta mais rápido: dá uma volta no Sol a cada oitenta e oito dias.",
+       "quadro": "planeta",
+       "nome": "mercurio",
+       "zoom": [
+        1.0,
+        1.2
+       ],
+       "rotulo": "1 ano = 88 dias"
+      },
+      {
+       "narracao": "Do lado da Terra, parece uma bolinha.",
+       "quadro": "escala",
+       "nome": "mercurio"
+      },
+      {
+       "narracao": "Você pousa no lado da noite. Sem ar, sem som, céu preto.",
+       "quadro": "superficie",
+       "nome": "mercurio",
+       "efeitos": [
+        "noite",
+        "frio"
+       ],
+       "camera": {
+        "zoom": [
+         1.15,
+         1.0
+        ]
+       },
+       "pose": "andando"
+      },
+      {
+       "narracao": "Aqui, você pesa só uns trinta e oito por cento do seu peso na Terra.",
+       "quadro": "superficie",
+       "nome": "mercurio",
+       "efeitos": [
+        "noite"
+       ],
+       "medidor": {
+        "de": 100,
+        "ate": 38,
+        "unidade": "%",
+        "rotulo": "do seu peso"
+       }
+      },
+      {
+       "narracao": "Mercúrio quase não tem ar. Só uma camada finíssima de gás.",
+       "quadro": "superficie",
+       "nome": "mercurio",
+       "efeitos": [
+        "noite",
+        "vento"
+       ]
+      },
+      {
+       "narracao": "E o termômetro despenca: cento e oitenta graus negativos.",
+       "quadro": "superficie",
+       "nome": "mercurio",
+       "efeitos": [
+        "noite",
+        "frio"
+       ],
+       "medidor": {
+        "de": 15,
+        "ate": -180,
+        "unidade": "°C",
+        "rotulo": "à noite"
+       }
+      },
+      {
+       "narracao": "Aqui, de um nascer do Sol ao outro, passam quase seis meses da Terra.",
+       "quadro": "superficie",
+       "nome": "mercurio",
+       "efeitos": [
+        "noite"
+       ],
+       "rotulo": "1 dia = 176 dias da Terra"
+      },
+      {
+       "narracao": "Até que, bem devagar, o Sol começa a nascer...",
+       "quadro": "superficie",
+       "nome": "mercurio",
+       "efeitos": [
+        "sol_nasce"
+       ]
+      },
+      {
+       "narracao": "E ele parece mais de três vezes maior do que no céu daqui.",
+       "quadro": "superficie",
+       "nome": "mercurio",
+       "efeitos": [
+        "calor"
+       ],
+       "camera": {
+        "zoom": [
+         1.0,
+         1.35
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.2,
+          0.4
+         ]
+        ]
+       }
+      },
+      {
+       "narracao": "Agora o chão chega a quatrocentos e trinta graus.",
+       "quadro": "superficie",
+       "nome": "mercurio",
+       "efeitos": [
+        "calor"
+       ],
+       "traje": 0.4,
+       "medidor": {
+        "de": -180,
+        "ate": 430,
+        "unidade": "°C",
+        "rotulo": "de dia"
+       }
+      },
+      {
+       "narracao": "Sem atmosfera, nada segura o calor: a noite congela e o dia cozinha.",
+       "quadro": "superficie",
+       "nome": "mercurio",
+       "efeitos": [
+        "calor"
+       ],
+       "traje": 0.7
+      },
+      {
+       "narracao": "Veredito: sem uma base protegida, Mercúrio não perdoa.",
+       "quadro": "sistema",
+       "foco": "mercurio",
+       "placar": {
+        "mercurio": "não"
+       }
+      },
+      {
+       "narracao": "Próxima parada: o planeta vermelho... onde, talvez, dê pra ficar de pé.",
+       "quadro": "sistema",
+       "foco": "marte",
+       "placar": {
+        "mercurio": "não"
+       },
+       "camera": {
+        "zoom": [
+         1.0,
+         1.4
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.38,
+          0.5
+         ]
+        ]
+       }
+      }
+     ],
+     "tomadas": 3
+    },
+    {
+     "capitulo": "Marte",
+     "cenas": [
+      {
+       "narracao": "Marte. O planeta vermelho tem mais ou menos metade do tamanho da Terra.",
+       "quadro": "planeta",
+       "nome": "marte",
+       "nave": true,
+       "rotulo": "Marte",
+       "zoom": [
+        0.8,
+        1.05
+       ]
+      },
+      {
+       "narracao": "Lado a lado, dá pra ver a diferença.",
+       "quadro": "escala",
+       "nome": "marte"
+      },
+      {
+       "narracao": "Você pousa num deserto cor de ferrugem.",
+       "quadro": "superficie",
+       "nome": "marte",
+       "efeitos": [
+        "poeira"
+       ],
+       "camera": {
+        "zoom": [
+         1.2,
+         1.0
+        ]
+       }
+      },
+      {
+       "narracao": "E aqui vem a boa notícia: dá pra ficar de pé e andar.",
+       "quadro": "superficie",
+       "nome": "marte",
+       "pose": "pulando"
+      },
+      {
+       "narracao": "Pela primeira vez, o seu traje não é o problema.",
+       "quadro": "superficie",
+       "nome": "marte",
+       "pose": "pulando"
+      },
+      {
+       "narracao": "Com a gravidade fraca, você pesa só uns trinta e oito por cento do seu peso.",
+       "quadro": "superficie",
+       "nome": "marte",
+       "medidor": {
+        "de": 100,
+        "ate": 38,
+        "unidade": "%",
+        "rotulo": "do seu peso"
+       },
+       "pose": "pulando"
+      },
+      {
+       "narracao": "Mas o ar é fino e quase todo de gás carbônico.",
+       "quadro": "superficie",
+       "nome": "marte",
+       "efeitos": [
+        "poeira"
+       ]
+      },
+      {
+       "narracao": "A pressão é só cerca de um por cento da que existe na Terra.",
+       "quadro": "superficie",
+       "nome": "marte",
+       "medidor": {
+        "de": 100,
+        "ate": 1,
+        "unidade": "%",
+        "rotulo": "da pressão da Terra"
+       }
+      },
+      {
+       "narracao": "De dia, a temperatura pode chegar a vinte graus.",
+       "quadro": "superficie",
+       "nome": "marte",
+       "medidor": {
+        "de": 0,
+        "ate": 20,
+        "unidade": "°C",
+        "rotulo": "no máximo"
+       }
+      },
+      {
+       "narracao": "Mas à noite despenca para mais de cento e cinquenta graus negativos.",
+       "quadro": "superficie",
+       "nome": "marte",
+       "efeitos": [
+        "noite",
+        "frio"
+       ],
+       "medidor": {
+        "de": 20,
+        "ate": -153,
+        "unidade": "°C",
+        "rotulo": "à noite"
+       }
+      },
+      {
+       "narracao": "E um dia aqui dura quase o mesmo que o nosso: pouco mais de vinte e quatro horas e meia.",
+       "quadro": "superficie",
+       "nome": "marte",
+       "efeitos": [
+        "sol_nasce"
+       ],
+       "rotulo": "1 dia = 24,6 horas"
+      },
+      {
+       "narracao": "O eixo de Marte é inclinado quase como o da Terra, então ele também tem estações.",
+       "quadro": "planeta",
+       "nome": "marte",
+       "zoom": [
+        0.9,
+        1.1
+       ],
+       "rotulo": "eixo de 25°",
+       "eixo": 25,
+       "x": 0.5
+      },
+      {
+       "narracao": "Só que cada ano marciano dura quase dois anos da Terra.",
+       "quadro": "planeta",
+       "nome": "marte",
+       "zoom": [
+        1.1,
+        1.25
+       ],
+       "rotulo": "1 ano = 687 dias"
+      },
+      {
+       "narracao": "O ar é tão fino que, sem traje, não dá pra respirar.",
+       "quadro": "planeta",
+       "nome": "marte",
+       "zoom": [
+        1.25,
+        1.4
+       ]
+      },
+      {
+       "narracao": "A própria NASA resume: Marte é inóspito para humanos.",
+       "quadro": "planeta",
+       "nome": "marte",
+       "zoom": [
+        1.1,
+        1.3
+       ]
+      },
+      {
+       "narracao": "Veredito: com traje e abrigo, Marte é o lugar menos ruim até agora.",
+       "quadro": "sistema",
+       "foco": "marte",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje"
+       }
+      },
+      {
+       "narracao": "Mas a próxima parada não tem nem chão pra pousar.",
+       "quadro": "sistema",
+       "foco": "jupiter",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje"
+       },
+       "camera": {
+        "zoom": [
+         1.0,
+         1.4
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.62,
+          0.5
+         ]
+        ]
+       }
+      }
+     ],
+     "tomadas": 3
+    },
+    {
+     "capitulo": "Júpiter",
+     "cenas": [
+      {
+       "narracao": "Júpiter. O gigante do Sistema Solar.",
+       "quadro": "planeta",
+       "nome": "jupiter",
+       "nave": true,
+       "rotulo": "Júpiter",
+       "zoom": [
+        0.7,
+        1.0
+       ]
+      },
+      {
+       "narracao": "Ele é onze vezes mais largo que a Terra.",
+       "quadro": "escala",
+       "nome": "jupiter"
+      },
+      {
+       "narracao": "Caberiam umas mil Terras aqui dentro.",
+       "quadro": "planeta",
+       "nome": "jupiter",
+       "zoom": [
+        1.0,
+        1.4
+       ]
+      },
+      {
+       "narracao": "Mil planetas como o seu, cabendo num só.",
+       "quadro": "planeta",
+       "nome": "jupiter",
+       "zoom": [
+        1.0,
+        1.4
+       ]
+      },
+      {
+       "narracao": "E ele gira rápido: um dia em Júpiter dura menos de dez horas.",
+       "quadro": "planeta",
+       "nome": "jupiter",
+       "zoom": [
+        1.4,
+        1.6
+       ],
+       "rotulo": "1 dia = 9,9 horas"
+      },
+      {
+       "narracao": "Só essa tempestade, a Grande Mancha Vermelha, tem duas vezes a largura da Terra.",
+       "quadro": "escala",
+       "tipo": "dentro",
+       "nome": "jupiter"
+      },
+      {
+       "narracao": "E não adianta procurar onde pousar: Júpiter não tem uma superfície de verdade.",
+       "quadro": "descida",
+       "nome": "jupiter",
+       "medidores": false
+      },
+      {
+       "narracao": "Você só cai, atravessando nuvem atrás de nuvem.",
+       "quadro": "descida",
+       "nome": "jupiter",
+       "de": 0.1,
+       "medidores": false
+      },
+      {
+       "narracao": "Ventos de até quinhentos e trinta e nove quilômetros por hora te jogam de um lado pro outro.",
+       "quadro": "descida",
+       "nome": "jupiter",
+       "de": 0.2,
+       "rotulo": "ventos de até 539 km/h"
+      },
+      {
+       "narracao": "E quanto mais fundo, maior a pressão e o calor.",
+       "quadro": "descida",
+       "nome": "jupiter",
+       "de": 0.3
+      },
+      {
+       "narracao": "No topo das nuvens, a gravidade é quase duas vezes e meia a da Terra.",
+       "quadro": "descida",
+       "nome": "jupiter",
+       "de": 0.35,
+       "medidores": false,
+       "rotulo": "gravidade 2,4x"
+      },
+      {
+       "narracao": "E lá no fundo existe o maior oceano do Sistema Solar... só que de hidrogênio, não de água.",
+       "quadro": "descida",
+       "nome": "jupiter",
+       "de": 0.45
+      },
+      {
+       "narracao": "A NASA diz que isso esmaga, derrete e vaporiza qualquer nave.",
+       "quadro": "descida",
+       "nome": "jupiter",
+       "de": 0.4,
+       "esmaga": true
+      },
+      {
+       "narracao": "Veredito: em Júpiter, você nunca chega ao fundo.",
+       "quadro": "sistema",
+       "foco": "jupiter",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não"
+       }
+      },
+      {
+       "narracao": "E o vizinho dele parece calmo... só parece.",
+       "quadro": "sistema",
+       "foco": "saturno",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não"
+       },
+       "camera": {
+        "zoom": [
+         1.0,
+         1.4
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.72,
+          0.5
+         ]
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "capitulo": "Saturno",
+     "cenas": [
+      {
+       "narracao": "Saturno, o planeta dos anéis.",
+       "quadro": "planeta",
+       "nome": "saturno",
+       "nave": true,
+       "rotulo": "Saturno",
+       "zoom": [
+        0.6,
+        0.85
+       ]
+      },
+      {
+       "narracao": "Ele é nove vezes mais largo que a Terra.",
+       "quadro": "escala",
+       "nome": "saturno"
+      },
+      {
+       "narracao": "E tem uma curiosidade incrível: é o único planeta menos denso que a água.",
+       "quadro": "planeta",
+       "nome": "saturno",
+       "zoom": [
+        0.85,
+        1.1
+       ]
+      },
+      {
+       "narracao": "Ou seja: numa banheira grande o bastante, em teoria, ele boiaria.",
+       "quadro": "planeta",
+       "nome": "saturno",
+       "zoom": [
+        1.1,
+        1.3
+       ],
+       "x": 0.5
+      },
+      {
+       "narracao": "No polo norte dele, os ventos desenham um hexágono gigante.",
+       "quadro": "planeta",
+       "nome": "saturno",
+       "zoom": [
+        1.0,
+        1.2
+       ],
+       "rotulo": "o hexágono de Saturno"
+      },
+      {
+       "narracao": "Um dia lá dura umas dez horas e meia. Um ano, quase trinta anos nossos.",
+       "quadro": "planeta",
+       "nome": "saturno",
+       "zoom": [
+        0.9,
+        1.05
+       ],
+       "rotulo": "1 ano = 29,4 anos"
+      },
+      {
+       "narracao": "Quem nascesse lá quase nunca faria aniversário.",
+       "quadro": "planeta",
+       "nome": "saturno",
+       "zoom": [
+        0.9,
+        1.05
+       ]
+      },
+      {
+       "narracao": "E a temperatura média fica em cento e quarenta graus negativos.",
+       "quadro": "descida",
+       "nome": "saturno",
+       "medidores": false,
+       "rotulo": "média de -140 °C"
+      },
+      {
+       "narracao": "Mas, assim como Júpiter, ele não tem chão.",
+       "quadro": "descida",
+       "nome": "saturno",
+       "medidores": false
+      },
+      {
+       "narracao": "E os ventos no equador chegam a mil e oitocentos quilômetros por hora.",
+       "quadro": "descida",
+       "nome": "saturno",
+       "de": 0.15,
+       "rotulo": "ventos de 1.800 km/h"
+      },
+      {
+       "narracao": "Lá no fundo, a pressão é tanta que espreme o gás até ele virar líquido.",
+       "quadro": "descida",
+       "nome": "saturno",
+       "de": 0.3,
+       "esmaga": true
+      },
+      {
+       "narracao": "Veredito: lindo de longe, impossível de perto.",
+       "quadro": "sistema",
+       "foco": "saturno",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não",
+        "saturno": "não"
+       }
+      },
+      {
+       "narracao": "Próximo: um planeta que gira deitado.",
+       "quadro": "sistema",
+       "foco": "urano",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não",
+        "saturno": "não"
+       },
+       "camera": {
+        "zoom": [
+         1.0,
+         1.4
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.8,
+          0.5
+         ]
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "capitulo": "Urano",
+     "cenas": [
+      {
+       "narracao": "Urano. Ele gira de lado, como uma bola rolando.",
+       "quadro": "planeta",
+       "nome": "urano",
+       "nave": true,
+       "rotulo": "Urano",
+       "zoom": [
+        0.6,
+        0.85
+       ]
+      },
+      {
+       "narracao": "O eixo dele é tão inclinado que ele fica praticamente deitado.",
+       "quadro": "planeta",
+       "nome": "urano",
+       "zoom": [
+        0.85,
+        1.05
+       ],
+       "rotulo": "eixo de 97,8°",
+       "eixo": 98,
+       "x": 0.5
+      },
+      {
+       "narracao": "E ele tem umas quatro vezes a largura da Terra.",
+       "quadro": "escala",
+       "nome": "urano"
+      },
+      {
+       "narracao": "Por girar deitado, cada metade do planeta passa um inverno escuro de vinte e um anos.",
+       "quadro": "planeta",
+       "nome": "urano",
+       "zoom": [
+        1.05,
+        1.3
+       ],
+       "rotulo": "inverno de 21 anos"
+      },
+      {
+       "narracao": "Imagina: vinte e um anos no escuro.",
+       "quadro": "planeta",
+       "nome": "urano",
+       "zoom": [
+        1.05,
+        1.3
+       ]
+      },
+      {
+       "narracao": "Ele ainda gira ao contrário, como Vênus.",
+       "quadro": "planeta",
+       "nome": "urano",
+       "zoom": [
+        1.3,
+        1.45
+       ]
+      },
+      {
+       "narracao": "E uma volta em torno do Sol leva oitenta e quatro anos.",
+       "quadro": "planeta",
+       "nome": "urano",
+       "zoom": [
+        1.0,
+        1.15
+       ],
+       "rotulo": "1 ano = 84 anos"
+      },
+      {
+       "narracao": "Sem superfície sólida, você desce por uma névoa azulada.",
+       "quadro": "descida",
+       "nome": "urano",
+       "medidores": false
+      },
+      {
+       "narracao": "Com ventos de até novecentos quilômetros por hora.",
+       "quadro": "descida",
+       "nome": "urano",
+       "de": 0.15,
+       "rotulo": "ventos de até 900 km/h"
+      },
+      {
+       "narracao": "E um frio que passa de duzentos e vinte graus negativos.",
+       "quadro": "descida",
+       "nome": "urano",
+       "de": 0.25,
+       "rotulo": "até -224 °C"
+      },
+      {
+       "narracao": "Segundo a NASA, lá dentro uma nave de metal seria destruída.",
+       "quadro": "descida",
+       "nome": "urano",
+       "de": 0.35,
+       "esmaga": true
+      },
+      {
+       "narracao": "Veredito: frio, escuro e sem chão.",
+       "quadro": "sistema",
+       "foco": "urano",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não",
+        "saturno": "não",
+        "urano": "não"
+       }
+      },
+      {
+       "narracao": "E o último planeta é ainda mais longe.",
+       "quadro": "sistema",
+       "foco": "netuno",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não",
+        "saturno": "não",
+        "urano": "não"
+       },
+       "camera": {
+        "zoom": [
+         1.0,
+         1.4
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.88,
+          0.5
+         ]
+        ]
+       }
+      }
+     ],
+     "tomadas": 3
+    },
+    {
+     "capitulo": "Netuno",
+     "cenas": [
+      {
+       "narracao": "Netuno. Uma volta dele em torno do Sol leva cento e sessenta e cinco anos.",
+       "quadro": "planeta",
+       "nome": "netuno",
+       "nave": true,
+       "rotulo": "Netuno",
+       "zoom": [
+        0.7,
+        0.95
+       ]
+      },
+      {
+       "narracao": "Ele tem umas quatro vezes a largura da Terra.",
+       "quadro": "escala",
+       "nome": "netuno"
+      },
+      {
+       "narracao": "E o azul vem de um pouco de metano no ar.",
+       "quadro": "planeta",
+       "nome": "netuno",
+       "zoom": [
+        1.0,
+        1.25
+       ]
+      },
+      {
+       "narracao": "Em mil novecentos e oitenta e nove, apareceu aqui uma mancha escura em que cabia a Terra inteira.",
+       "quadro": "escala",
+       "tipo": "dentro",
+       "nome": "netuno"
+      },
+      {
+       "narracao": "Aquela mancha escura? Já sumiu. O tempo em Netuno muda o tempo todo.",
+       "quadro": "planeta",
+       "nome": "netuno",
+       "zoom": [
+        1.25,
+        1.45
+       ]
+      },
+      {
+       "narracao": "Também não tem superfície sólida.",
+       "quadro": "descida",
+       "nome": "netuno",
+       "medidores": false
+      },
+      {
+       "narracao": "E os ventos são supersônicos: mais de dois mil quilômetros por hora.",
+       "quadro": "descida",
+       "nome": "netuno",
+       "de": 0.15,
+       "rotulo": "mais de 2.000 km/h"
+      },
+      {
+       "narracao": "Com uns duzentos graus negativos, é frio e ventania sem fim.",
+       "quadro": "descida",
+       "nome": "netuno",
+       "de": 0.3,
+       "esmaga": true,
+       "rotulo": "cerca de -200 °C"
+      },
+      {
+       "narracao": "Veredito: não. Sem chão, sem calor e sem ar pra respirar.",
+       "quadro": "sistema",
+       "foco": "netuno",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não",
+        "saturno": "não",
+        "urano": "não",
+        "netuno": "não"
+       }
+      },
+      {
+       "narracao": "Agora, a volta prometida. Vênus: o pior de todos.",
+       "quadro": "sistema",
+       "foco": "venus",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não",
+        "saturno": "não",
+        "urano": "não",
+        "netuno": "não"
+       },
+       "camera": {
+        "zoom": [
+         1.0,
+         1.5
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.2,
+          0.5
+         ]
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "capitulo": "Vênus",
+     "cenas": [
+      {
+       "narracao": "Vênus é quase do tamanho da Terra.",
+       "quadro": "planeta",
+       "nome": "venus",
+       "nave": true,
+       "rotulo": "Vênus",
+       "zoom": [
+        0.8,
+        1.0
+       ]
+      },
+      {
+       "narracao": "Lado a lado, parecem irmãos.",
+       "quadro": "escala",
+       "nome": "venus"
+      },
+      {
+       "narracao": "Mas o ar é quase todo de gás carbônico, com nuvens de ácido sulfúrico.",
+       "quadro": "planeta",
+       "nome": "venus",
+       "zoom": [
+        1.0,
+        1.3
+       ]
+      },
+      {
+       "narracao": "Você pousa... e a temperatura média é de quatrocentos e sessenta e quatro graus.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor"
+       ],
+       "medidor": {
+        "de": 15,
+        "ate": 464,
+        "unidade": "°C",
+        "rotulo": "média"
+       }
+      },
+      {
+       "narracao": "Mais quente que Mercúrio, mesmo estando mais longe do Sol.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor"
+       ],
+       "traje": 0.3
+      },
+      {
+       "narracao": "Quente o bastante para derreter chumbo.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor"
+       ],
+       "traje": 0.4,
+       "camera": {
+        "zoom": [
+         1.0,
+         1.3
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.42,
+          0.45
+         ]
+        ]
+       }
+      },
+      {
+       "narracao": "E a pressão é umas noventa e duas vezes a daqui.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor",
+        "pressao"
+       ],
+       "traje": 0.5,
+       "medidor": {
+        "de": 1,
+        "ate": 92,
+        "unidade": "x",
+        "rotulo": "a pressão da Terra"
+       }
+      },
+      {
+       "narracao": "É como se o ar te apertasse de todos os lados ao mesmo tempo.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor",
+        "pressao"
+       ],
+       "traje": 0.8
+      },
+      {
+       "narracao": "A gente sabe disso porque já mandou sondas pra lá: as sondas Venera.",
+       "quadro": "planeta",
+       "nome": "venus",
+       "zoom": [
+        0.9,
+        1.1
+       ],
+       "nave": true
+      },
+      {
+       "narracao": "Curioso é que, lá no alto, a uns cinquenta quilômetros, a pressão é parecida com a da Terra.",
+       "quadro": "planeta",
+       "nome": "venus",
+       "zoom": [
+        1.1,
+        1.25
+       ]
+      },
+      {
+       "narracao": "Mas lá embaixo, no chão, nenhuma nave aguenta muito tempo.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor",
+        "pressao"
+       ],
+       "traje": 0.9
+      },
+      {
+       "narracao": "A que mais aguentou durou duas horas. A que menos, vinte e três minutos.",
+       "quadro": "placar",
+       "titulo": "Sondas que pousaram em Vênus",
+       "itens": [
+        [
+         "A que mais durou",
+         "2 horas"
+        ],
+        [
+         "A que menos durou",
+         "23 minutos"
+        ]
+       ]
+      },
+      {
+       "narracao": "E tem mais: em Vênus, um dia dura mais que um ano inteiro.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor"
+       ],
+       "rotulo": "dia: 243 dias / ano: 225 dias"
+      },
+      {
+       "narracao": "Um dia lá dura uns oito meses da Terra. E o ano, uns sete meses e meio.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor"
+       ]
+      },
+      {
+       "narracao": "E ele gira ao contrário: lá, o Sol nasce no oeste.",
+       "quadro": "superficie",
+       "nome": "venus",
+       "efeitos": [
+        "calor",
+        "sol_nasce"
+       ],
+       "traje": 0.9
+      },
+      {
+       "narracao": "Veredito: de todos os chãos onde dá pra pousar, Vênus é o pior.",
+       "quadro": "sistema",
+       "foco": "venus",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não",
+        "saturno": "não",
+        "urano": "não",
+        "netuno": "não",
+        "venus": "o pior"
+       }
+      },
+      {
+       "narracao": "Depois disso tudo... só resta um lugar.",
+       "quadro": "sistema",
+       "foco": "terra",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não",
+        "saturno": "não",
+        "urano": "não",
+        "netuno": "não",
+        "venus": "o pior"
+       },
+       "camera": {
+        "zoom": [
+         1.0,
+         1.5
+        ],
+        "pan": [
+         [
+          0.5,
+          0.5
+         ],
+         [
+          0.3,
+          0.5
+         ]
+        ]
+       }
+      }
+     ],
+     "tomadas": 3
+    },
+    {
+     "capitulo": "Terra",
+     "cenas": [
+      {
+       "narracao": "E aí você volta pra casa.",
+       "quadro": "planeta",
+       "nome": "terra",
+       "nave": true,
+       "rotulo": "Terra",
+       "zoom": [
+        0.7,
+        1.0
+       ]
+      },
+      {
+       "narracao": "O único planeta com água líquida na superfície.",
+       "quadro": "planeta",
+       "nome": "terra",
+       "zoom": [
+        1.0,
+        1.25
+       ]
+      },
+      {
+       "narracao": "E o único lugar onde a gente conhece vida.",
+       "quadro": "planeta",
+       "nome": "terra",
+       "zoom": [
+        1.25,
+        1.5
+       ]
+      },
+      {
+       "narracao": "Com uma temperatura média de quinze graus.",
+       "quadro": "planeta",
+       "nome": "terra",
+       "zoom": [
+        1.5,
+        1.7
+       ],
+       "rotulo": "média de 15 °C",
+       "pose": "acenando"
+      },
+      {
+       "narracao": "E um ar com vinte e um por cento de oxigênio.",
+       "quadro": "planeta",
+       "nome": "terra",
+       "zoom": [
+        1.0,
+        1.2
+       ],
+       "rotulo": "21% de oxigênio"
+      },
+      {
+       "narracao": "Aqui, você pode finalmente respirar fundo.",
+       "quadro": "superficie",
+       "nome": "terra",
+       "pose": "acenando"
+      },
+      {
+       "narracao": "Sem traje, sem capacete, sem pressa.",
+       "quadro": "superficie",
+       "nome": "terra",
+       "pose": "acenando"
+      },
+      {
+       "narracao": "Depois de oito planetas, só um tem a resposta: sim.",
+       "quadro": "placar",
+       "titulo": "Dá pra sobreviver?",
+       "destaque": "Terra",
+       "itens": [
+        [
+         "Mercúrio",
+         "não"
+        ],
+        [
+         "Marte",
+         "com traje"
+        ],
+        [
+         "Júpiter",
+         "não"
+        ],
+        [
+         "Saturno",
+         "não"
+        ],
+        [
+         "Urano",
+         "não"
+        ],
+        [
+         "Netuno",
+         "não"
+        ],
+        [
+         "Vênus",
+         "o pior"
+        ],
+        [
+         "Terra",
+         "sim"
+        ]
+       ]
+      },
+      {
+       "narracao": "Então, da próxima vez que reclamar do calor... lembra de Vênus.",
+       "quadro": "sistema",
+       "foco": "terra",
+       "placar": {
+        "mercurio": "não",
+        "marte": "com traje",
+        "jupiter": "não",
+        "saturno": "não",
+        "urano": "não",
+        "netuno": "não",
+        "venus": "o pior",
+        "terra": "sim"
+       }
+      },
+      {
+       "narracao": "E me conta nos comentários: em qual planeta você teria coragem de pousar?",
+       "quadro": "planeta",
+       "nome": "terra",
+       "zoom": [
+        1.0,
+        1.15
+       ],
+       "x": 0.5
+      },
+      {
+       "narracao": "Se quiser a próxima viagem, pelas luas do Sistema Solar, se inscreve.",
+       "quadro": "sistema",
+       "camera": {
+        "zoom": [
+         1.0,
+         1.1
+        ]
+       },
+       "inscricao": true
+      }
+     ]
+    }
+   ],
+   "thumb_texto": "EM QUAL PLANETA|VOCÊ SOBREVIVERIA?"
+  },
+  "thumb_reaplicada": false
+ }
+]

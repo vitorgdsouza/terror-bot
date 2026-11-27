@@ -1,0 +1,47 @@
+name: Thumbs depois de publicar
+
+# O YouTube às vezes não mostra a thumb enviada enquanto o vídeo está privado/agendado.
+# Depois que o vídeo fica público, a thumb é aplicada de novo (data/agendados.json).
+on:
+  schedule:
+    - cron: "25,55 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: thumbs-pos
+  cancel-in-progress: false
+
+jobs:
+  reaplicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      max-parallel: 1
+      matrix:
+        canal: [terror, esfr]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+      - name: Reaplicar thumbs
+        env:
+          CANAL: ${{ matrix.canal == 'esfr' && 'esfr' || '' }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ matrix.canal == 'esfr' && secrets.YT_REFRESH_TOKEN_ESE || secrets.YT_REFRESH_TOKEN }}
+        run: python -m src.agendar_yt reaplicar
+      - name: Guardar
+        run: |
+          git config user.name "bot-terror"
+          git config user.email "bot-terror@users.noreply.github.com"
+          git add data/agendados.json data/thumbs_feitas.json 2>/dev/null || true
+          git diff --cached --quiet && exit 0
+          git commit -m "Thumbs reaplicadas depois de publicar"
+          for t in 1 2 3; do git pull --rebase -X theirs --autostash && git push && exit 0; sleep 7; done

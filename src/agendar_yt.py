@@ -122,7 +122,47 @@ def subir():
            + f"\n{thumb}")
     telegram.enviar_mensagem(msg[:3800])
     print(msg)
+    _registrar(vid, quando, os.environ.get("ROTEIRO_ARQ", ""), r)
     Path(os.environ.get("GITHUB_OUTPUT", "/dev/null")).open("a").write(f"video_id={vid}\n")
+
+
+AGENDADOS = RAIZ / "data" / "agendados.json"
+
+
+def _registrar(vid: str, quando: str, arq: str, r: dict):
+    """Guarda o vídeo agendado: depois de público, a thumb é aplicada de novo (no privado o YouTube às vezes não mostra)."""
+    lst = json.loads(AGENDADOS.read_text(encoding="utf-8")) if AGENDADOS.exists() else []
+    lst.append({"id": vid, "publicar_em": quando, "canal": r.get("canal", "terror"), "roteiro": r, "thumb_reaplicada": False})
+    AGENDADOS.write_text(json.dumps(lst, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def reaplicar():
+    """Para cada vídeo deste canal já publicado (publicar_em passou) e com a thumb ainda não reaplicada: aplica de novo."""
+    from datetime import datetime, timezone
+    from .analise import _token
+    from .thumb_youtube import _gerar_thumb, definir
+    if not AGENDADOS.exists():
+        return
+    canal = "esfr" if os.environ.get("CANAL") == "esfr" else "terror"
+    lst = json.loads(AGENDADOS.read_text(encoding="utf-8"))
+    agora = datetime.now(timezone.utc)
+    tok = None
+    for a in lst:
+        if a.get("thumb_reaplicada") or a.get("canal", "terror") != canal or not a.get("publicar_em"):
+            continue
+        if datetime.fromisoformat(a["publicar_em"].replace("Z", "+00:00")) > agora:
+            continue
+        tok = tok or _token()
+        if a["roteiro"].get("blocos"):
+            from .longo import thumb as thumb_longo
+            img = thumb_longo(a["roteiro"], RAIZ / "trabalho" / "thumbs" / "thumb_longo.jpg")
+        else:
+            img = _gerar_thumb(a["roteiro"], RAIZ / "trabalho" / "thumbs")
+        st = definir(a["id"], img, tok).get("_status", 500) if img else 0
+        print("REAPLICADA", a["id"], st)
+        if st and st < 300:
+            a["thumb_reaplicada"] = True
+    AGENDADOS.write_text(json.dumps(lst, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 def status(vid: str):
@@ -135,6 +175,8 @@ def status(vid: str):
 if __name__ == "__main__":
     if sys.argv[1:2] == ["escopo"]:
         escopo()
+    elif sys.argv[1:2] == ["reaplicar"]:
+        reaplicar()
     elif sys.argv[1:2] == ["longo"]:                 # longo <pasta> <roteiro> <publishAt>
         subir_longo(sys.argv[2], sys.argv[3], sys.argv[4])
     elif sys.argv[1:2] == ["thumb"]:                 # thumb <video_id> <roteiro.json>

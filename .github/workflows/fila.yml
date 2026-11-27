@@ -109,7 +109,7 @@ jobs:
         run: |
           git config user.name "bot-terror"
           git config user.email "bot-terror@users.noreply.github.com"
-          for f in data/fila.json data/thumbs_feitas.json; do [ -e "$f" ] && git add "$f"; done
+          for f in data/fila.json data/thumbs_feitas.json data/agendados.json; do [ -e "$f" ] && git add "$f"; done
           git diff --cached --quiet && exit 0
           git commit -m "Fila: postado"
           for t in 1 2 3; do git pull --rebase -X theirs --autostash && git push && exit 0; sleep 7; done
