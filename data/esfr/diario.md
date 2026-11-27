@@ -312,3 +312,7 @@
 - **Vídeo longo:** hoje é sexta (o planejamento é no domingo). A v1 está pronta; o post é amanhã às 11h.
 - **v2, 1ª tentativa (run 45998057330): falhou no Urano com 429 (cota do dia esgotada).** Bug: na v1, os blocos reaproveitados não guardaram o `vozes.json` de novo. Por isso a v2 narrou de novo Mercúrio (96%) e Marte (97%), que pelo menos ficaram melhores, e a cota acabou no Urano. Correção (a34fdd4): a narração reaproveitada é guardada de novo; o cache aceita vários runs (`reusar_narracao=a,b,c`) e fica com a maior nota.
 - **v2, 2ª tentativa (cota 0):** narração juntada de 3 runs (45820084741, 45988557168, 45998057330), com Mercúrio e Marte nas versões novas. A v1 já está no Telegram e continua valendo como plano B.
+- **v2 FINAL: run 46003770264** (10h03 às 10h59), **8,5 min**, **sem gastar voz**: as 9 partes foram reaproveitadas, com Mercúrio 96% e Marte 97% (novas), Urano 87%, e o resto da v1 (de 95% a 99%). Mandada no Telegram (cópia de 47 MB) com a thumb.
+  - **Prévia** (agora o vídeo inteiro): os termômetros ficaram longe da legenda; títulos de capítulo, placar, botão "SE INSCREVE" no final e trilha própria, tudo ok.
+  - **Capítulos (v2):** 0:00 Início · 0:40 Mercúrio · 1:43 Marte · 2:56 Júpiter · 4:02 Saturno · 4:57 Urano · 5:46 Netuno · 6:35 Vênus · 7:48 Terra. Já estão em `docs/ESFR_LONGO.md` para a tarefa de sábado.
+- **Cota de voz:** acabou hoje (8 chamadas da v1, mais 2 da 1ª tentativa da v2, mais o que já tinha). **Nenhum render de Short hoje.**

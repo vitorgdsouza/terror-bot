@@ -51,24 +51,10 @@ Fontes da pesquisa: vidiq.com (estatísticas dos canais What If e Ciência Todo 
 - **Sáb 28/11:** sem Short às 12h17. O Short "E se você pousasse em Vênus?" (`esfr_10_venus.json`) sai às 16h17, com o longo como "vídeo relacionado".
 - **Depois:** um longo por semana, sempre sábado às 11h, até o Studio mostrar o horário real do público (Análises → Público → "Quando seus espectadores estão no YouTube").
 
-### Render (27/11)
-- v1: run 45988557168, 8,5 min. v2 (correção visual, mesma narração): run 45998057330. Use a mais nova que tiver dado certo.
-- Capítulos para a descrição:
-  0:00 Início
-  0:40 Mercúrio
-  1:48 Marte
-  2:59 Júpiter
-  4:05 Saturno
-  5:00 Urano
-  5:49 Netuno
-  6:38 Vênus
-  7:51 Terra
-
-### VERSÃO FINAL (27/11, 10h55): run 46003770264, 8,5 min, conferida
-- **Esta é a versão para sábado.** Ela substitui a v1 (45988557168). A v2 (45998057330) falhou.
-- **Narração:** juntada de 3 runs, sem gastar cota. Notas: Início 98%, Mercúrio 96%, Marte 97%, Júpiter 99%, Saturno 97%, Urano 87% (nota da régua antiga, com muitos números; ouvido sem erro), Netuno 98%, Vênus 97%, Terra 95%.
-- **Prévia:** 64 quadros conferidos. Nada fora da tela, placar e barra de capítulos certos, "SE INSCREVE" no final.
-- **Capítulos para a descrição (USE ESTES):**
+### Render (27/11): VERSÃO FINAL = v2, run 46003770264
+- 8,5 min; vídeo e thumb mandados no Telegram (cópia de 47 MB; o original de 107 MB fica no artefato `video-longo` desse run).
+- A v1 (run 45988557168) ficou como plano B; não usar.
+- Capítulos para a descrição (v2):
   0:00 Início
   0:40 Mercúrio
   1:43 Marte
@@ -78,4 +64,3 @@ Fontes da pesquisa: vidiq.com (estatísticas dos canais What If e Ciência Todo 
   5:46 Netuno
   6:35 Vênus
   7:48 Terra
-- **Post:** em vez de mandar o pacote para o Vitor postar à mão, AGENDAR direto no YouTube (como os Shorts desde 26/11), com o vídeo deste run, a thumb 16:9, a descrição com os capítulos e publicação no sáb 28/11 às 11h (14:00Z).
