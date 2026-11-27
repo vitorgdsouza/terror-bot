@@ -316,3 +316,4 @@
   - **Prévia** (agora o vídeo inteiro): os termômetros ficaram longe da legenda; títulos de capítulo, placar, botão "SE INSCREVE" no final e trilha própria, tudo ok.
   - **Capítulos (v2):** 0:00 Início · 0:40 Mercúrio · 1:43 Marte · 2:56 Júpiter · 4:02 Saturno · 4:57 Urano · 5:46 Netuno · 6:35 Vênus · 7:48 Terra. Já estão em `docs/ESFR_LONGO.md` para a tarefa de sábado.
 - **Cota de voz:** acabou hoje (8 chamadas da v1, mais 2 da 1ª tentativa da v2, mais o que já tinha). **Nenhum render de Short hoje.**
+- 27/11 12h06 (faixa das 12h17): **agendado direto no YouTube** "E se você visse um asteroide passar mais perto que os satélites?" (Apophis), id KHE6ceGN-Ww, sai sozinho às 12h17 (run 46021684349; Subiu, Agendado, thumb ok). Fila com 2 (tempestade solar 16h17, Antártida 20h17).
