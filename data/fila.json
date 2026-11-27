@@ -1,15 +1,6 @@
 {
  "itens": [
   {
-   "run_id": "45628901016",
-   "titulo": "Fita da Farmácia 03:17 (Fita 03)",
-   "titulo_youtube": "A porta dos fundos da farmácia abriu sozinha às 3h16... 📼 #shorts",
-   "legenda": "Fita 03 (história de ficção). Na noite depois do \"boa noite, mãe\", a porta dos fundos da farmácia abriu sozinha. A Bia viu ele no fim do corredor... e a câmera não. Você fechava os fundos ou fugia pela frente? 👇",
-   "tipo": "isca",
-   "adicionado": "2026-11-27 15:25",
-   "aprovacao": 22
-  },
-  {
    "run_id": "45593828707",
    "titulo": "Câmera 4, Ep. 1: O 13º Andar",
    "titulo_youtube": "Ela aparece mais perto a cada câmera... escada ou elevador? 📼 Câmera 4 Ep. 1 #shorts",
@@ -160,6 +151,16 @@
    "adicionado": "2026-11-26 22:00",
    "aprovacao": 20,
    "postado_em": "2026-11-26 22:01"
+  },
+  {
+   "run_id": "45628901016",
+   "titulo": "Fita da Farmácia 03:17 (Fita 03)",
+   "titulo_youtube": "A porta dos fundos da farmácia abriu sozinha às 3h16... 📼 #shorts",
+   "legenda": "Fita 03 (história de ficção). Na noite depois do \"boa noite, mãe\", a porta dos fundos da farmácia abriu sozinha. A Bia viu ele no fim do corredor... e a câmera não. Você fechava os fundos ou fugia pela frente? 👇",
+   "tipo": "isca",
+   "adicionado": "2026-11-27 15:25",
+   "aprovacao": 22,
+   "postado_em": "2026-11-27 15:29"
   }
  ]
 }
