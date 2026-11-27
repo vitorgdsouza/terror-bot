@@ -3,8 +3,13 @@ name: Thumbs depois de publicar
 # O YouTube às vezes não mostra a thumb enviada enquanto o vídeo está privado/agendado.
 # Depois que o vídeo fica público, a thumb é aplicada de novo (data/agendados.json).
 on:
-  schedule:
-    - cron: "25,55 * * * *"
+  schedule:                       # 3 e 9 min depois de cada faixa (UTC): 11h47, 12h17, 16h17, 18h47, 20h17 e o longo de sábado às 11h
+    - cron: "50,56 14 * * *"
+    - cron: "20,26 15 * * *"
+    - cron: "20,26 19 * * *"
+    - cron: "50,56 21 * * *"
+    - cron: "20,26 23 * * *"
+    - cron: "3,9 14 * * 6"
   workflow_dispatch:
 
 permissions:
