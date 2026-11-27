@@ -1,5 +1,5 @@
 {
- "proximo": 25,
+ "proximo": 26,
  "itens": [
   {
    "id": 1,
@@ -383,6 +383,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-26 14:02",
+   "decidido": ""
+  },
+  {
+   "id": 25,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Protocolo 13º Andar",
+   "arquivo": "roteiros/protocolo_07_13andar.json",
+   "run_id": "",
+   "resumo": "Protocolo 13º Andar (Câmera 4) para Sáb 28/11 18h47, a única faixa sem candidato. Gancho do elevador no 13 num prédio de 12 (o da CAM 04, 1.209 views); 3 regras do cânone + gato, virada 'nunca diga que não' em esp_moradora. 14 cenas, ~92 palavras (~48 s). Ícones novos: elevador, interfone, moradora.",
+   "titulo_youtube": "Se o elevador parar no 13º andar... e o prédio só tem 12 🛗 Protocolo 13º Andar #shorts",
+   "legenda": "Protocolo 13º Andar, da Câmera 4 (história de ficção). Se o elevador do seu prédio parar num andar que não existe, siga cada passo. O seu prédio tem 13º andar? 👇",
+   "tipo_video": "protocolo",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-27 10:28",
    "decidido": ""
   }
  ]
