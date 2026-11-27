@@ -514,3 +514,18 @@
 - Nenhum post hoje (11h47 passou sem isca). `itens` da fila vazia: sem principal para 18h47. Não mandei outro tipo no lugar.
 - Aviso mandado (run 45899024960 + push) com /aprovar 21 (Câmera 4 Ep. 1, faixa de hoje), 23 (Turno Ep. 1) ou 20 (Pisadeira). Upload-Post segue no limite: aprovado, vai pelo Telegram.
 - 26/11 19h: **o Vitor aprovou o agendamento direto no YouTube para o terror.** O fila.yml roda às 11h31 e 18h31 (cron) com `agendar`: o vídeo sobe privado e sai sozinho às 11h47 e 18h47. O Publicador confere às 11h40 e 18h40. O Telegram fica só como plano B (cota da API). A aprovação do Vitor continua obrigatória para entrar na fila.
+
+## 27/11 (07h25): rodada da manhã da equipe
+- **Decisões do Vitor desde a última rodada:** em 26/11 às 19h00 aprovou o nº 20 Pisadeira, que saiu às 19h01. Também postou à mão a **Garagem (nº 24)** em 26/11, com 1.159 views em menos de 1 dia. Marquei o nº 24 como "postado" em `aprovacoes.json` para não sair duplicado. Nada com status "refazer".
+- **Analista** (papel feito por mim, sem subagente): pauta em `data/pauta/2026-11-27.md`, com relatório novo. Canal com 15.014 views (+1.312), 52 inscritos (+7) e 23 vídeos. A Campainha 01:58 teve 68,7% assistido e 4 inscritos. Assobiador com 1.084 views; Pisadeira com 577 em ~12 h.
+- **Alternância:** o último principal foi a Pisadeira (protocolo) → Sex 27 história, Sáb 28 protocolo, Dom 29 história.
+- **Mapa:** Sex 27/11 nº 22 Fita 03 + nº 21 Câmera 4 Ep. 1 | Sáb 28/11 nº 19 Terreiro + **nº 25 Protocolo 13º Andar** | Dom 29/11 **nº 26 Fita 00** + nº 23 Turno Ep. 1. Fila aprovada: 0 de 6, mas todas as faixas têm candidato.
+- **Roteirista:** 2 roteiros, para as 2 faixas sem candidato.
+  - **nº 25 Protocolo 13º Andar** (`roteiros/protocolo_07_13andar.json`): 14 cenas e 92 palavras, sombra "moradora". Criei os ícones novos `elevador`, `interfone` e `moradora` em `src/protocolo.py`, testados num quadro de prova.
+  - **nº 26 Fita 00** (`roteiros/iscas/isca_14_farmacia0.json`): prequel com 30 palavras e só arte que já existe.
+  - Não acumulei além das 6 faixas.
+- **Render:** não renderizei. Os nº 25 e 26 renderizam sozinhos quando o Vitor aprovar, um por vez. O nº 25 precisa de aprovação até Sáb ~15h.
+- **Diretor de Arte:** não acionado (nenhuma imagem faltando).
+- **Mesa do Gerente:** "Aguardando" refeita com a coluna "Faixa" (22, 21, 19, 25, 26, 23); a Garagem saiu. O Histórico ganhou o nº 20 (aprovado e postado) e o nº 24 (postado à mão).
+- **Lembrete:** o roteiro do vídeo longo "As Fitas da Madrugada" é escrito amanhã, Sáb 28/11 (`docs/LONGO_TERROR.md`).
+- **Ferramenta:** clone em /home/claude/terror-bot-git. Workflows disparados pelo GitHub MCP (actions_run_trigger), em vez do gh CLI.
