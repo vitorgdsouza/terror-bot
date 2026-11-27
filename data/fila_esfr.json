@@ -1,14 +1,5 @@
 {
- "itens": [
-  {
-   "run_id": "45824764161",
-   "titulo": "E se você visse o mar cobrir um prédio de vinte andares?",
-   "titulo_youtube": "E se o gelo da ANTÁRTIDA derretesse inteiro? 🧊🌊 #shorts",
-   "legenda": "Se todo o gelo da Antártida derretesse, o mar subiria uns 58 metros, quase a altura de um prédio de 20 andares. Embaixo do gelo tem rocha abaixo do nível do mar e uns 400 lagos escondidos. Até onde o mar chegaria na sua cidade? 👇\n\nFontes: NSIDC (Ice Sheet Quick Facts e Why Ice Sheets Matter); NASA Sea Level Change (Ice Sheets); AntarcticGlaciers.org (Bethan Davies, 2013, atualizado 2021); PolarTREC (NSF).\n#ciencia #antartida #gelo #oceano #curiosidades #ese",
-   "tipo": "historia",
-   "adicionado": "2026-11-26 10:25"
-  }
- ],
+ "itens": [],
  "postados": [
   {
    "run_id": "44775541697",
@@ -159,6 +150,15 @@
    "adicionado": "2026-11-26 10:15",
    "postado_em": "2026-11-27 19:17",
    "obs": "AGENDADO direto no YouTube (id HmN6bDjr_uo), sai às 16h17"
+  },
+  {
+   "run_id": "45824764161",
+   "titulo": "E se você visse o mar cobrir um prédio de vinte andares?",
+   "titulo_youtube": "E se o gelo da ANTÁRTIDA derretesse inteiro? 🧊🌊 #shorts",
+   "legenda": "Se todo o gelo da Antártida derretesse, o mar subiria uns 58 metros, quase a altura de um prédio de 20 andares. Embaixo do gelo tem rocha abaixo do nível do mar e uns 400 lagos escondidos. Até onde o mar chegaria na sua cidade? 👇\n\nFontes: NSIDC (Ice Sheet Quick Facts e Why Ice Sheets Matter); NASA Sea Level Change (Ice Sheets); AntarcticGlaciers.org (Bethan Davies, 2013, atualizado 2021); PolarTREC (NSF).\n#ciencia #antartida #gelo #oceano #curiosidades #ese",
+   "tipo": "historia",
+   "adicionado": "2026-11-26 10:25",
+   "postado_em": "2026-11-27 23:18"
   }
  ]
 }
