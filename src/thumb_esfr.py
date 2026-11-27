@@ -192,6 +192,12 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
     elif tipo == "raspando":
         img = _raspando(img, W, H)
         d = ImageDraw.Draw(img)
+    elif tipo == "tempestade":
+        img = _tempestade(img, W, H)
+        d = ImageDraw.Draw(img)
+    elif tipo == "mar_sobe":
+        img = _mar_sobe(W, H)
+        d = ImageDraw.Draw(img)
     elif tipo == "fossa":
         img = _fossa(W, H)
         d = ImageDraw.Draw(img)
@@ -971,4 +977,98 @@ def _raspando(img, W, H):
     y0 = int(H * 0.36)
     d.rounded_rectangle(((W - tw) / 2 - 36, y0, (W + tw) / 2 + 36, y0 + 82), radius=20, fill=(220, 30, 40))
     d.text(((W - tw) / 2, y0 + 10), txt, font=fs, fill=(255, 255, 255))
+    return img
+
+
+def _tempestade(img, W, H):
+    """Tempestade solar: o Sol cospe uma língua de fogo que bate na Terra; o lado noturno fica sem luz (cidades apagando)."""
+    import math
+    sx, sy, sr = int(W * 0.95), int(H * 0.36), 330
+    for k, (rr, a) in enumerate(((620, 50), (480, 80), (380, 130))):
+        g = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ImageDraw.Draw(g).ellipse((sx - rr, sy - rr, sx + rr, sy + rr), fill=(255, 140 + k * 30, 30, a))
+        img.alpha_composite(g.filter(ImageFilter.GaussianBlur(50)))
+    S = sr * 2 + 4
+    X = (np.arange(S)[None, :] - S / 2) / sr
+    Y = (np.arange(S)[:, None] - S / 2) / sr
+    m2 = X ** 2 + Y ** 2
+    gr = _ruido(S, S, 14, 9)
+    cor = np.stack([255 + 0 * gr, 150 + 90 * gr, 20 + 60 * gr], -1) * (1 - 0.35 * m2)[..., None]
+    a = np.clip((1 - np.sqrt(m2)) * sr * 1.2, 0, 1) * 255
+    sol = Image.fromarray(np.dstack([cor.clip(0, 255), a]).astype("uint8"), "RGBA")
+    img.alpha_composite(sol, (sx - S // 2, sy - S // 2))
+    R = 300                                                                  # a Terra
+    t = terra(R, seed=61)
+    ex, ey = int(W * 0.3), int(H * 0.72)
+    # a ejeção: um jato largo de plasma do Sol até a Terra
+    jato = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    dj = ImageDraw.Draw(jato)
+    for k in range(60):
+        f = k / 59
+        x = sx - 260 + (ex + R * 0.9 - (sx - 260)) * f
+        y = sy + 60 + (ey - R * 0.4 - (sy + 60)) * f + math.sin(f * 7) * 25
+        rr = 150 - 70 * f
+        dj.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(255, int(200 - 80 * f), 40, int(120 - 40 * f)))
+    img.alpha_composite(jato.filter(ImageFilter.GaussianBlur(28)))
+    d = ImageDraw.Draw(img, "RGBA")
+    for k in range(4):                                                       # escudo magnético (linhas de campo)
+        rr = R * (1.35 + k * 0.22)
+        d.arc((ex - rr * 1.2, ey - rr, ex + rr * 1.2, ey + rr), 200, 340, fill=(120, 220, 255, 170 - k * 30), width=6)
+    img.alpha_composite(t, (ex - t.width // 2, ey - t.height // 2))
+    d = ImageDraw.Draw(img, "RGBA")
+    for k in range(9):                                                       # faíscas no impacto
+        a_ = math.radians(-60 + k * 14)
+        x0, y0 = ex + math.cos(a_) * R * 1.05, ey + math.sin(a_) * R * 1.05
+        d.line((x0, y0, x0 + math.cos(a_) * 70, y0 + math.sin(a_) * 70), fill=(255, 240, 150), width=6)
+    # selo: sem luz e sem internet
+    fs = ImageFont.truetype(str(FONTE), 50)
+    txt = "SEM LUZ E SEM INTERNET"
+    tw = fs.getlength(txt)
+    y0 = int(H * 0.88) - 120
+    d.rounded_rectangle(((W - tw) / 2 - 36, y0, (W + tw) / 2 + 36, y0 + 84), radius=20, fill=(220, 30, 40))
+    d.text(((W - tw) / 2, y0 + 10), txt, font=fs, fill=(255, 255, 255))
+    return img
+
+
+def _mar_sobe(W, H):
+    """O mar subindo 58 m: corte de uma cidade com o prédio de 20 andares engolido e uma pessoa no telhado."""
+    yy = np.linspace(0, 1, H)[:, None]
+    ceu = np.array([255, 150, 80]) * (1 - yy) ** 2 + np.array([30, 40, 90]) * (1 - (1 - yy) ** 2)
+    img = Image.fromarray(np.repeat(ceu[:, None, :], W, axis=1).reshape(H, W, 3).clip(0, 255).astype("uint8")).convert("RGBA")
+    d = ImageDraw.Draw(img, "RGBA")
+    nivel = int(H * 0.5)
+    import random
+    rnd = random.Random(4)
+    for x0, w, hh in ((-20, 200, 0.26), (170, 170, 0.20), (330, 230, 0.33), (760, 180, 0.22), (920, 200, 0.28)):
+        top = int(H * 0.82 - H * hh)
+        d.rectangle((x0, top, x0 + w, H), fill=(40, 46, 70))
+        for yy_ in range(top + 30, H, 70):
+            for xx in range(x0 + 22, x0 + w - 30, 52):
+                d.rectangle((xx, yy_, xx + 26, yy_ + 36), fill=(255, 220, 120) if rnd.random() < 0.4 else (60, 70, 100))
+    px0, px1, ptop = 560, 760, int(H * 0.44)                                 # o prédio de 20 andares
+    d.rectangle((px0, ptop, px1, H), fill=(70, 78, 110), outline=(20, 22, 40), width=6)
+    for k, yy_ in enumerate(range(ptop + 24, H, 62)):
+        for xx in range(px0 + 22, px1 - 30, 50):
+            d.rectangle((xx, yy_, xx + 26, yy_ + 34), fill=(255, 220, 120))
+    from .voce import _pessoa
+    _pessoa(d, (px0 + px1) // 2, ptop - 6, 120, (250, 250, 250), 0.0, "assustado" if False else "parado", fundo=(30, 40, 90))
+    agua = Image.new("RGBA", (W, H), (0, 0, 0, 0))                           # a água cobrindo tudo
+    da = ImageDraw.Draw(agua)
+    import math
+    pts = [(x, nivel + math.sin(x / 70) * 14) for x in range(0, W + 20, 20)]
+    da.polygon(pts + [(W, H), (0, H)], fill=(20, 110, 200, 205))
+    da.line(pts, fill=(200, 240, 255, 255), width=8)
+    for k in range(30):
+        x = rnd.randint(0, W)
+        y = rnd.randint(nivel + 40, H)
+        da.line((x, y, x + rnd.randint(30, 90), y), fill=(150, 210, 255, 90), width=3)
+    img.alpha_composite(agua)
+    d = ImageDraw.Draw(img, "RGBA")
+    x = 120                                                                   # régua: +58 m
+    d.line((x, nivel, x, H * 0.95), fill=(255, 196, 40), width=8)
+    d.polygon([(x - 22, nivel + 30), (x + 22, nivel + 30), (x, nivel - 2)], fill=(255, 196, 40))
+    fb = ImageFont.truetype(str(FONTE), 92)
+    d.text((x + 30, nivel + 50), "+58 M", font=fb, fill=(255, 196, 40), stroke_width=6, stroke_fill=(0, 0, 0))
+    fs = ImageFont.truetype(str(FONTE), 44)
+    d.text((x + 34, nivel + 160), "20 ANDARES", font=fs, fill=(255, 255, 255), stroke_width=4, stroke_fill=(0, 0, 0))
     return img

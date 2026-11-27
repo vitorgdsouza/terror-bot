@@ -12,18 +12,86 @@
  "titulo_youtube": "E se o gelo da ANTÁRTIDA derretesse inteiro? 🧊🌊 #shorts",
  "legenda_post": "Se todo o gelo da Antártida derretesse, o mar subiria uns 58 metros, quase a altura de um prédio de 20 andares. Embaixo do gelo tem rocha abaixo do nível do mar e uns 400 lagos escondidos. Até onde o mar chegaria na sua cidade? 👇\n\nFontes: NSIDC (Ice Sheet Quick Facts e Why Ice Sheets Matter); NASA Sea Level Change (Ice Sheets); AntarcticGlaciers.org (Bethan Davies, 2013, atualizado 2021); PolarTREC (NSF).\n#ciencia #antartida #gelo #oceano #curiosidades #ese",
  "cenas": [
-  {"narracao": "E se você visse o mar cobrir um prédio de vinte andares?", "quadro": "gelo", "de": 0, "ate": 58, "medidor": false, "thumb": true, "thumb_momento": 0.9},
-  {"narracao": "É o que aconteceria se o gelo da Antártida derretesse inteiro.", "quadro": "gelo", "modo": "mapa", "derrete": true},
-  {"narracao": "Esse gelo cobre uma área do tamanho dos Estados Unidos com o México.", "quadro": "gelo", "modo": "mapa", "rotulo": "EUA + México"},
-  {"narracao": "No ponto mais grosso, ele tem quase cinco quilômetros.", "quadro": "gelo", "modo": "corte", "medida": true, "rotulo": "quase 5 km"},
-  {"narracao": "Se tudo isso derretesse, o mar subiria uns cinquenta e oito metros.", "quadro": "gelo", "de": 0, "ate": 58},
-  {"narracao": "Tudo no litoral abaixo dessa altura ficaria debaixo d'água.", "quadro": "gelo", "de": 58, "ate": 58, "medidor": false},
-  {"narracao": "E o gelo esconde segredos.", "quadro": "gelo", "modo": "corte"},
-  {"narracao": "Parte da Antártida fica abaixo do nível do mar.", "quadro": "gelo", "modo": "corte", "abaixo": true},
-  {"narracao": "E existem uns quatrocentos lagos escondidos lá embaixo.", "quadro": "gelo", "modo": "corte", "lagos": true, "rotulo": "uns 400 lagos"},
-  {"narracao": "A boa notícia: derreter tudo levaria milhares de anos.", "quadro": "gelo", "modo": "mapa", "rotulo": "milhares de anos"},
-  {"narracao": "Mas ela já perde gelo todo ano.", "quadro": "gelo", "modo": "mapa", "solta": true},
-  {"narracao": "Até onde o mar chegaria na sua cidade? Comenta.", "quadro": "gelo", "de": 20, "ate": 40, "medidor": false, "rotulo": "e na sua cidade?"}
+  {
+   "narracao": "E se você visse o mar cobrir um prédio de vinte andares?",
+   "quadro": "gelo",
+   "de": 0,
+   "ate": 58,
+   "medidor": false,
+   "thumb": true,
+   "thumb_momento": 0.9
+  },
+  {
+   "narracao": "É o que aconteceria se o gelo da Antártida derretesse inteiro.",
+   "quadro": "gelo",
+   "modo": "mapa",
+   "derrete": true
+  },
+  {
+   "narracao": "Esse gelo cobre uma área do tamanho dos Estados Unidos com o México.",
+   "quadro": "gelo",
+   "modo": "mapa",
+   "rotulo": "EUA + México"
+  },
+  {
+   "narracao": "No ponto mais grosso, ele tem quase cinco quilômetros.",
+   "quadro": "gelo",
+   "modo": "corte",
+   "medida": true,
+   "rotulo": "quase 5 km"
+  },
+  {
+   "narracao": "Se tudo isso derretesse, o mar subiria uns cinquenta e oito metros.",
+   "quadro": "gelo",
+   "de": 0,
+   "ate": 58
+  },
+  {
+   "narracao": "Tudo no litoral abaixo dessa altura ficaria debaixo d'água.",
+   "quadro": "gelo",
+   "de": 58,
+   "ate": 58,
+   "medidor": false
+  },
+  {
+   "narracao": "E o gelo esconde segredos.",
+   "quadro": "gelo",
+   "modo": "corte"
+  },
+  {
+   "narracao": "Parte da Antártida fica abaixo do nível do mar.",
+   "quadro": "gelo",
+   "modo": "corte",
+   "abaixo": true
+  },
+  {
+   "narracao": "E existem uns quatrocentos lagos escondidos lá embaixo.",
+   "quadro": "gelo",
+   "modo": "corte",
+   "lagos": true,
+   "rotulo": "uns 400 lagos"
+  },
+  {
+   "narracao": "A boa notícia: derreter tudo levaria milhares de anos.",
+   "quadro": "gelo",
+   "modo": "mapa",
+   "rotulo": "milhares de anos"
+  },
+  {
+   "narracao": "Mas ela já perde gelo todo ano.",
+   "quadro": "gelo",
+   "modo": "mapa",
+   "solta": true
+  },
+  {
+   "narracao": "Até onde o mar chegaria na sua cidade? Comenta.",
+   "quadro": "gelo",
+   "de": 20,
+   "ate": 40,
+   "medidor": false,
+   "rotulo": "e na sua cidade?"
+  }
  ],
- "thumb_texto": "E SE O MAR|SUBISSE ISSO?"
+ "thumb_texto": "E SE O MAR|SUBISSE ISSO?",
+ "thumb_arte": "mar_sobe"
 }

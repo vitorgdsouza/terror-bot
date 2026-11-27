@@ -63,6 +63,18 @@ def subir_longo(run_dir: str, roteiro: str, quando: str):
     print(msg)
 
 
+def _versao_do_repo(r: dict) -> dict:
+    """O roteiro que vem no artefato do render é de quando o vídeo foi feito; o do repositório pode ter thumb nova."""
+    for f in (RAIZ / "roteiros").rglob("*.json"):
+        try:
+            x = json.loads(f.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if isinstance(x, dict) and x.get("titulo") == r.get("titulo") and x.get("canal", "") == r.get("canal", ""):
+            return x
+    return r
+
+
 def subir():
     from . import telegram
     from .analise import _token
@@ -72,6 +84,7 @@ def subir():
         sys.exit("sem vídeo em baixado/")
     roteiros = sorted(base.rglob("roteiro.json"))
     r = json.loads(roteiros[0].read_text(encoding="utf-8")) if roteiros else {}
+    r = _versao_do_repo(r)
     titulo = (os.environ.get("TITULO_YOUTUBE") or r.get("titulo_youtube") or r.get("titulo", "")).strip()[:100]
     desc = (os.environ.get("LEGENDA_POST") or r.get("legenda_post", "")).strip()[:4900]
     quando = os.environ.get("PUBLICAR_EM", "").strip()
@@ -153,6 +166,7 @@ def reaplicar():
         if datetime.fromisoformat(a["publicar_em"].replace("Z", "+00:00")) > agora:
             continue
         tok = tok or _token()
+        a["roteiro"] = _versao_do_repo(a["roteiro"])
         if a["roteiro"].get("blocos"):
             from .longo import thumb as thumb_longo
             img = thumb_longo(a["roteiro"], RAIZ / "trabalho" / "thumbs" / "thumb_longo.jpg")
