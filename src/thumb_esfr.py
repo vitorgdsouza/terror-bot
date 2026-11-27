@@ -189,6 +189,9 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
         _bussola_thumb(img, W, H)
     elif tipo == "sinal":
         _sinal_thumb(img, W, H)
+    elif tipo == "raspando":
+        img = _raspando(img, W, H)
+        d = ImageDraw.Draw(img)
     elif tipo == "fossa":
         img = _fossa(W, H)
         d = ImageDraw.Draw(img)
@@ -891,3 +894,81 @@ def _sinal_thumb(img, W, H):
     fw = ImageFont.truetype(str(FONTE), int(s * 0.32))
     wx, wy = (int(W * 0.4), int(H * 0.5)) if deitado else (int(W * 0.08), int(H * 0.36))
     d.text((wx, wy), "Wow!", font=fw, fill=(230, 30, 40), stroke_width=8, stroke_fill=(255, 255, 255))
+
+
+def _rocha(ar, seed=5, luz_dir=(-0.55, -0.6)):
+    S = ar * 2 + 4
+    X = (np.arange(S)[None, :] - S / 2) / ar
+    Y = (np.arange(S)[:, None] - S / 2) / ar
+    m2 = X ** 2 + Y ** 2
+    rug = _ruido(S, S, max(6, ar // 6), seed)
+    borda = 1 + (rug - 0.5) * 0.3
+    Z = np.sqrt(np.clip(1 - m2, 0, 1))
+    luz = np.clip(X * luz_dir[0] + Y * luz_dir[1] + Z * 0.6, 0, 1)
+    base = (95 + 90 * rug)[..., None] * np.array([1.0, 0.92, 0.85])
+    for ux, uy, rr in ((-0.3, -0.2, 0.22), (0.25, 0.3, 0.18), (0.35, -0.35, 0.12), (-0.2, 0.45, 0.1)):
+        base = np.where(((X - ux) ** 2 + (Y - uy) ** 2 < rr * rr)[..., None], base * 0.6, base)
+    cor = base * (0.25 + 0.95 * luz)[..., None]
+    a = np.clip((borda - np.sqrt(m2)) * ar * 1.2, 0, 1) * 255
+    return Image.fromarray(np.dstack([cor.clip(0, 255), a]).astype("uint8"), "RGBA")
+
+
+def _satelite(d, x, y, s, ang=0):
+    import math
+    c, si = math.cos(ang), math.sin(ang)
+    def p(dx, dy):
+        return (x + dx * c - dy * si, y + dx * si + dy * c)
+    for lado in (-1, 1):
+        d.polygon([p(lado * s * 0.45, -s * 0.18), p(lado * s * 1.35, -s * 0.18), p(lado * s * 1.35, s * 0.18), p(lado * s * 0.45, s * 0.18)],
+                  fill=(40, 110, 220), outline=(200, 230, 255))
+        d.line([p(lado * s * 0.9, -s * 0.18), p(lado * s * 0.9, s * 0.18)], fill=(200, 230, 255), width=2)
+    d.polygon([p(-s * 0.4, -s * 0.35), p(s * 0.4, -s * 0.35), p(s * 0.4, s * 0.35), p(-s * 0.4, s * 0.35)], fill=(230, 190, 70), outline=(60, 40, 10))
+    d.ellipse((x - s * 0.15, y - s * 0.6, x + s * 0.15, y - s * 0.3), fill=(235, 235, 240))
+
+
+def _raspando(img, W, H):
+    """Apophis: a rocha passando por DENTRO do anel dos satélites, rente à Terra."""
+    import math
+    R = 520
+    t = terra(R, seed=52)
+    ex, ey = W // 2, int(H * 1.0)
+    img.alpha_composite(t, (ex - t.width // 2, ey - t.height // 2))
+    d = ImageDraw.Draw(img, "RGBA")
+    ra, rb = R * 1.75, R * 1.75                                  # anel dos satélites (geoestacionários), tracejado
+    for k in range(0, 180, 6):
+        a0, a1 = math.radians(180 + k), math.radians(180 + k + 3.5)
+        d.line([(ex + math.cos(a0) * ra, ey + math.sin(a0) * rb), (ex + math.cos(a1) * ra, ey + math.sin(a1) * rb)], fill=(120, 200, 255, 230), width=7)
+    for ang in (205, 250, 300, 335):
+        a = math.radians(ang)
+        _satelite(d, ex + math.cos(a) * ra, ey + math.sin(a) * rb, 34, a + math.pi / 2)
+    fl = ImageFont.truetype(str(FONTE), 44)
+    d.text((ex - 430, ey - rb * 0.97 - 80), "SATÉLITES", font=fl, fill=(150, 215, 255), stroke_width=4, stroke_fill=(0, 0, 0))
+    ax, ay, ar = int(W * 0.6), int(ey - R * 1.36), 120                     # a rocha, DENTRO do anel
+    rastro = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    dr = ImageDraw.Draw(rastro)
+    for k in range(1, 26):
+        x, y = ax + k * 26, ay - k * 9
+        rr = ar * (1 - k / 30)
+        dr.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(255, 255, 255, int(70 * (1 - k / 26))))
+    img.alpha_composite(rastro.filter(ImageFilter.GaussianBlur(10)))
+    halo = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(halo).ellipse((ax - ar * 1.6, ay - ar * 1.6, ax + ar * 1.6, ay + ar * 1.6), fill=(255, 60, 40, 120))
+    img.alpha_composite(halo.filter(ImageFilter.GaussianBlur(35)))
+    rocha = _rocha(ar)
+    img.alpha_composite(rocha, (ax - rocha.width // 2, ay - rocha.height // 2))
+    d = ImageDraw.Draw(img, "RGBA")
+    # seta da distância até a Terra
+    topo = ey - R
+    d.line((ax - 190, ay + 30, ax - 190, topo - 10), fill=(255, 196, 40), width=8)
+    d.polygon([(ax - 212, topo - 10), (ax - 168, topo - 10), (ax - 190, topo + 22)], fill=(255, 196, 40))
+    d.polygon([(ax - 212, ay + 30), (ax - 168, ay + 30), (ax - 190, ay - 2)], fill=(255, 196, 40))
+    fb = ImageFont.truetype(str(FONTE), 58)
+    d.text((ax - 520, (ay + topo) / 2 - 40), "30 MIL KM", font=fb, fill=(255, 196, 40), stroke_width=5, stroke_fill=(0, 0, 0))
+    # selo vermelho: a data
+    fs = ImageFont.truetype(str(FONTE), 48)
+    txt = "SEXTA-FEIRA 13"
+    tw = fs.getlength(txt)
+    y0 = int(H * 0.36)
+    d.rounded_rectangle(((W - tw) / 2 - 36, y0, (W + tw) / 2 + 36, y0 + 82), radius=20, fill=(220, 30, 40))
+    d.text(((W - tw) / 2, y0 + 10), txt, font=fs, fill=(255, 255, 255))
+    return img

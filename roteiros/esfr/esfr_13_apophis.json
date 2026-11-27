@@ -11,7 +11,7 @@
  "titulo": "E se você visse um asteroide passar mais perto que os satélites?",
  "titulo_youtube": "E se um ASTEROIDE passasse mais perto que os satélites? ☄️ #shorts",
  "legenda_post": "Ele é quase da altura da Torre Eiffel, já foi o asteroide mais temido da história e vai passar mais perto que os satélites numa sexta-feira 13. Você sairia de casa pra ver? 👇\n\nFontes: Live Science (set/2025 e 2026), Space.com (set/2025), BBC Sky at Night Magazine (abr/2026).\n#ciencia #espaco #asteroide #apophis #curiosidades #ese",
- "thumb_texto": "ELE VAI PASSAR|RASPANDO",
+ "thumb_texto": "E SE ELE PASSASSE|RASPANDO?",
  "cenas": [
   {
    "narracao": "E se você visse um asteroide passar mais perto que os satélites?",
@@ -127,5 +127,6 @@
    "ceu": true,
    "rotulo": "você iria ver?"
   }
- ]
+ ],
+ "thumb_arte": "raspando"
 }
