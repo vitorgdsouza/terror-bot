@@ -61,6 +61,14 @@ jobs:
       - name: Thumb de um vídeo (texto = "<id> <roteiro>")
         if: github.event.inputs.acao == 'thumb_id'
         run: python -m src.agendar_yt thumb ${{ github.event.inputs.texto }}
+      - name: Agendar o vídeo longo (texto = "<run_id> <roteiro> <publishAt>")
+        if: github.event.inputs.acao == 'agendar_longo'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -- ${{ github.event.inputs.texto }}
+          gh run download "$1" -n video-longo -D longo_baixado
+          python -m src.agendar_yt longo longo_baixado "$2" "$3"
       - name: Status de um vídeo
         if: github.event.inputs.acao == 'status'
         run: python -m src.agendar_yt status "${{ github.event.inputs.texto }}"
@@ -107,7 +115,7 @@ jobs:
         run: python -m src.fila aviso
       - name: Qual é o próximo
         id: prox
-        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar' && github.event.inputs.acao != 'thumbs' && github.event.inputs.acao != 'escopo' && github.event.inputs.acao != 'status' && github.event.inputs.acao != 'thumb_id'
+        if: github.event.inputs.acao != 'aviso' && github.event.inputs.acao != 'testar' && github.event.inputs.acao != 'thumbs' && github.event.inputs.acao != 'escopo' && github.event.inputs.acao != 'status' && github.event.inputs.acao != 'thumb_id' && github.event.inputs.acao != 'agendar_longo'
         env:
           TURNO: ${{ github.event.inputs.turno }}
           AGENDADO: ${{ github.event_name == 'schedule' && '1' || '0' }}
