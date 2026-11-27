@@ -241,6 +241,47 @@ def _ic_cliente():
     return img
 
 
+# ---- Câmera 4 (Protocolo 13º Andar): o elevador, o interfone e a Moradora do 13º
+def _ic_elevador():
+    """Porta de elevador fechada (duas folhas), com o visor em cima mostrando 13."""
+    img, d = _tela()
+    d.rectangle((90, 110, 310, 390), outline=255, width=14)          # batente
+    d.line((200, 118, 200, 384), fill=255, width=8)                   # junção das duas folhas
+    d.rounded_rectangle((140, 20, 260, 88), radius=10, fill=255)      # visor do andar
+    try:
+        f = ImageFont.truetype(MONO, 54)
+    except OSError:
+        f = ImageFont.load_default()
+    d.text((200, 55), "13", fill=0, font=f, anchor="mm")
+    d.polygon([(322, 230), (346, 200), (370, 230)], fill=255)         # botão de subir, ao lado
+    return img
+
+
+def _ic_interfone():
+    """Interfone de parede com o fone no gancho e a grade do alto-falante."""
+    img, d = _tela()
+    d.rounded_rectangle((110, 30, 290, 370), radius=22, outline=255, width=14)
+    d.rounded_rectangle((136, 60, 196, 340), radius=26, fill=255)    # o fone
+    for y in range(90, 200, 26):                                      # grade do alto-falante
+        d.line((220, y, 262, y), fill=255, width=8)
+    for y in (240, 280, 320):                                         # botões
+        d.ellipse((228, y - 12, 252, y + 12), fill=255)
+    return img
+
+
+def _ic_moradora():
+    """A Moradora do 13º: mulher magra de camisola comprida, cabelo longo caído na frente do rosto, braços colados."""
+    img, d = _tela()
+    d.ellipse((164, 24, 236, 104), fill=255)                          # cabeça
+    d.polygon([(160, 50), (240, 50), (250, 190), (150, 190)], fill=255)    # cabelo comprido caído
+    d.polygon([(166, 104), (234, 104), (290, 390), (110, 390)], fill=255)  # camisola até o chão
+    d.line((172, 112, 150, 300), fill=255, width=12)                  # braços colados no corpo
+    d.line((228, 112, 250, 300), fill=255, width=12)
+    for x in (176, 200, 224):                                          # fios do cabelo na frente do rosto
+        d.line((x, 60, x - 4, 186), fill=0, width=3)
+    return img
+
+
 # ---- Pode Entrar? (Protocolo Geada): os sinais dos Ocos e o Primeiro
 def _ic_vapor():
     """Cabeça de perfil soltando vapor pela boca (o humano no frio)."""
@@ -334,7 +375,8 @@ ICONES = {"cama": _ic_cama, "janela": _ic_janela, "olho": _ic_olho, "porta": _ic
           "parar": _ic_parar, "coleira": _ic_coleira, "pegadas": _ic_pegadas, "escada": _ic_escada,
           "sino": _ic_sino, "camera": _ic_camera, "celular": _ic_celular, "cliente": _ic_cliente,
           "vapor": _ic_vapor, "olho_magico": _ic_olho_magico, "vidro_embacado": _ic_vidro_embacado,
-          "geada": _ic_geada, "oco": _ic_oco, "primeiro": _ic_primeiro, "porta_derrubada": _ic_porta_derrubada}
+          "geada": _ic_geada, "oco": _ic_oco, "primeiro": _ic_primeiro, "porta_derrubada": _ic_porta_derrubada,
+          "elevador": _ic_elevador, "interfone": _ic_interfone, "moradora": _ic_moradora}
 
 
 def icone(nome: str) -> Image.Image:
@@ -372,6 +414,8 @@ def _fundo(sombra: str = "abismo") -> Image.Image:
             ab = _ic_cliente().resize((700, 700))
         elif sombra == "primeiro":                          # o Primeiro (Pode Entrar?), enorme e apagado
             ab = _ic_primeiro().resize((700, 700))
+        elif sombra == "moradora":                          # a Moradora do 13º (Câmera 4), enorme e apagada
+            ab = _ic_moradora().resize((700, 700))
         else:
             from . import abismo_anim as AB
             p = AB.animar("parado", 1.0, 4)

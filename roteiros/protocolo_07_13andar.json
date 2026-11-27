@@ -1,0 +1,162 @@
+{
+  "titulo": "Protocolo 13º Andar",
+  "tipo": "protocolo",
+  "formato": "protocolo",
+  "serie": "Câmera 4",
+  "rotulo": "PROTOCOLO 13º ANDAR",
+  "selo": "PROTOCOLO",
+  "sombra": "moradora",
+  "pergunta_thumb": "...e o prédio só tem 12?",
+  "clima": "alerta",
+  "ritmo": 1.1,
+  "final": true,
+  "trilha": "dark ambient drone hum elevator hum fluorescent light buzz",
+  "trilha_volume": 0.6,
+  "titulo_youtube": "Se o elevador parar no 13º andar... e o prédio só tem 12 🛗 Protocolo 13º Andar #shorts",
+  "legenda_post": "Protocolo 13º Andar, da Câmera 4 (história de ficção). Se o elevador do seu prédio parar num andar que não existe, siga cada passo. O seu prédio tem 13º andar? 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#protocolo",
+    "#terror",
+    "#elevador",
+    "#camera4"
+  ],
+  "resumo": "Protocolo da Moradora do 13º (Câmera 4), para Sáb 28/11 18h47. Gancho do elevador no 13 num prédio de 12 (o mesmo da CAM 04, 1.209 views). 3 regras dentro do cânone (não apertar botão; atender o interfone do 1301 sem olhar a tela, porque encarar traz ela mais perto; olhar o gato, que vê a tela antes de você) e a parte mais importante: quando ela perguntar se você lembra dela, nunca diga que não (corte seco em esp_moradora). Fecho que acusa: o seu prédio tem 13 andares... ou 12? Não revela o segredo de 1979 nem resolve o voto do Ep. 1 (escada ou elevador). Ícones novos: elevador, interfone e moradora (+ sombra moradora).",
+  "cenas": [
+    {
+      "narracao": "Se o elevador parar no treze...",
+      "ambiente": "nenhum",
+      "icones": [
+        "elevador",
+        "alerta"
+      ],
+      "thumb": true,
+      "som": {
+        "busca": "emergency alert beep",
+        "palavra": "Se"
+      }
+    },
+    {
+      "narracao": "...num prédio de doze andares, siga cada passo.",
+      "ambiente": "nenhum",
+      "destaque": "o prédio só tem 12",
+      "som": {
+        "busca": "elevator ding",
+        "palavra": "doze"
+      }
+    },
+    {
+      "narracao": "Primeiro: não aperte nenhum botão.",
+      "ambiente": "nenhum",
+      "icones": [
+        "elevador",
+        "parar"
+      ]
+    },
+    {
+      "narracao": "Deixe a porta fechar sozinha.",
+      "ambiente": "nenhum",
+      "icones": [
+        "porta",
+        "relogio"
+      ],
+      "som": {
+        "busca": "elevator door closing",
+        "palavra": "fechar"
+      }
+    },
+    {
+      "narracao": "Segundo: o interfone toca do treze zero um.",
+      "ambiente": "nenhum",
+      "icones": [
+        "interfone",
+        "alerta"
+      ],
+      "som": {
+        "busca": "intercom buzzer",
+        "palavra": "toca"
+      }
+    },
+    {
+      "narracao": "Atenda. Mas não olhe para a tela.",
+      "ambiente": "nenhum",
+      "icones": [
+        "olho",
+        "parar"
+      ]
+    },
+    {
+      "narracao": "Quem encara, puxa ela um andar mais perto.",
+      "ambiente": "nenhum",
+      "icones": [
+        "moradora",
+        "escada"
+      ]
+    },
+    {
+      "narracao": "Terceiro: olhe para o seu gato.",
+      "ambiente": "nenhum",
+      "icones": [
+        "pessoa:parado",
+        "gato:sentado"
+      ]
+    },
+    {
+      "narracao": "Se ele encarar o interfone, desligue a tela.",
+      "ambiente": "nenhum",
+      "icones": [
+        "gato:assustado",
+        "interfone"
+      ]
+    },
+    {
+      "narracao": "Ele vê ela antes de você.",
+      "ambiente": "nenhum",
+      "icones": [
+        "gato:assustado",
+        "olho"
+      ]
+    },
+    {
+      "narracao": "E a parte mais importante.",
+      "ambiente": "nenhum",
+      "destaque": "a parte mais importante"
+    },
+    {
+      "narracao": "Ela vai perguntar se você lembra dela.",
+      "ambiente": "nenhum",
+      "destaque": "você lembra de mim?",
+      "som": {
+        "busca": "radio static",
+        "palavra": "lembra"
+      }
+    },
+    {
+      "narracao": "Nunca diga que não.",
+      "cenario": "esp_moradora",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true,
+      "pausa_extra": 0.5,
+      "ambiente": "nenhum",
+      "som": {
+        "busca": "horror stinger hit",
+        "palavra": "não"
+      }
+    },
+    {
+      "narracao": "O seu prédio tem treze andares... ou doze?",
+      "ambiente": "nenhum",
+      "icones": [
+        "elevador",
+        "alerta"
+      ],
+      "som": {
+        "busca": "emergency alert beep",
+        "palavra": "prédio"
+      }
+    }
+  ],
+  "titulo_thumb": "Se o elevador|parar no 13º"
+}
