@@ -1,0 +1,84 @@
+{
+  "titulo": "Fita da Farmácia 03:17 (Fita 00)",
+  "tipo": "isca",
+  "serie": "Turno da Madrugada",
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "NOV 03 2003",
+  "hora_fita": [
+    3,
+    16,
+    58
+  ],
+  "protagonista": null,
+  "clima": "suspense",
+  "ritmo": 1.1,
+  "selo": "FITA 00",
+  "pergunta_thumb": "Você daria boa noite?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "final": true,
+  "titulo_youtube": "Fita 00: a câmera gravou a venda das 3h17... mas o balcão estava vazio 📼 #shorts",
+  "legenda_post": "Fita 00 (história de ficção). A primeira noite do Cliente das 3h17: a Bia vendeu hortelã e esparadrapo, sorriu, deu o troco... e na câmera não tinha ninguém no balcão. Você daria boa noite? 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#terror",
+    "#farmacia"
+  ],
+  "resumo": "Isca para Dom 29/11 11h47 (abre o dia do Turno Ep. 1 às 18h47). Prequel das Fitas 01 a 03, como a Garagem foi para a Câmera 4 (1.159 views em menos de 1 dia): a PRIMEIRA noite do Cliente, 3/11/2003. O 1º quadro já tem a câmera do caixa com carimbo e a venda registrada; a Bia atende, mas na câmera o balcão está vazio (cânone: ele não aparece na câmera). Susto em esp_cliente_balcao: ela disse 'boa noite' (cânone: é convite). Pergunta: você daria boa noite? Só arte que já existe.",
+  "cenas": [
+    {
+      "narracao": "Três e dezessete. A Bia atende alguém.",
+      "cenario": "farmacia_cftv2",
+      "personagem": null,
+      "camera": "parada",
+      "texto_tela": "CAM 01 | CAIXA | 03:17",
+      "som": {
+        "busca": "door bell chime",
+        "palavra": "Três"
+      }
+    },
+    {
+      "narracao": "Hortelã e esparadrapo. Ela sorri.",
+      "cenario": "farmacia_balcao_luz",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "VENDA 03:17 | HORTELÃ + ESPARADRAPO",
+      "som": {
+        "busca": "cash register",
+        "palavra": "sorri"
+      }
+    },
+    {
+      "narracao": "Mas na câmera... o balcão está vazio.",
+      "cenario": "farmacia_cftv",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "CAM 02 | SALÃO | 03:17",
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "E ela disse: boa noite.",
+      "cenario": "esp_cliente_balcao",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "thumb": true,
+      "pausa_extra": 0.5,
+      "som": {
+        "busca": "horror stinger hit",
+        "palavra": "noite"
+      }
+    },
+    {
+      "narracao": "Primeira noite. Você daria boa noite?",
+      "cenario": "farmacia_cftv2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "CAM 01 | CAIXA | 03:18",
+      "corte_preto": true
+    }
+  ]
+}
