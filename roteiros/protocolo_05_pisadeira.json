@@ -5,7 +5,7 @@
   "serie": "Férias na Roça",
   "rotulo": "PROTOCOLO PISADEIRA",
   "selo": "PROTOCOLO",
-  "pergunta_thumb": "Seu gato já encarou o teto?",
+  "pergunta_thumb": "...não abra os olhos.",
   "clima": "alerta",
   "ritmo": 1.1,
   "final": true,
@@ -153,5 +153,6 @@
         "palavra": "jantou"
       }
     }
-  ]
+  ],
+  "titulo_thumb": "Se o seu gato|encarar o teto"
 }
