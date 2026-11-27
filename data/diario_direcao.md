@@ -552,3 +552,6 @@
 - **Mesa do Gerente:** "Aguardando" ficou só com os roteiros nº 25 e 26 (a faixa do nº 25 explica a ordem). Histórico ganhou 5 linhas de 27/11 (19, 23, 24, 21, 22).
 - **Aviso no Telegram:** mandado, com a questão da ordem e os nº 25 e 26 pendentes.
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git; gh CLI funcionou. Sem subagentes; papéis em sequência.
+
+## 27/11 (18h55): conferência do agendamento da tarde (Publicador)
+- O cron das 18h31 do fila.yml não tinha rodado às 18h41 (atraso do GitHub). Disparei `acao=agendar turno=tarde` (run 46071943734): a Câmera 4 Ep. 1 (nº 21) subiu como xo2vmMFveMg, agendada para 18h52 (faixa já perto, +10 min), saiu pública e a thumb foi reaplicada. Se o cron atrasado rodar depois, a trava do `fila.py` barra o 2º principal do dia.
