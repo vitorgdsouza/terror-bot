@@ -11,7 +11,7 @@ on:
         description: "Só alguns blocos, para teste (ex.: 0,1). Vazio = todos"
         default: ""
       reusar_narracao:
-        description: "Número de um render anterior do longo: reaproveita a narração dos blocos que não mudaram (não gasta cota de voz)"
+        description: "Números de renders anteriores do longo, separados por vírgula: reaproveita a narração dos blocos que não mudaram (não gasta cota de voz)"
         default: ""
 
 permissions:
@@ -36,14 +36,16 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
       - name: Instalar dependências
         run: pip install -r requirements.txt
-      - name: Baixar a narração do render anterior
+      - name: Baixar a narração dos renders anteriores
         if: inputs.reusar_narracao != ''
-        uses: actions/download-artifact@v4
-        with:
-          name: narracao-longo
-          run-id: ${{ inputs.reusar_narracao }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path: cache_narracao
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUNS: ${{ inputs.reusar_narracao }}
+        run: |
+          for id in ${RUNS//,/ }; do
+            gh run download "$id" -n narracao-longo -D "cache_narracao/run_$id" || echo "sem narração no run $id"
+          done
+          find cache_narracao -name vozes.json | sort
       - name: Montar o vídeo longo
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

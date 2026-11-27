@@ -574,18 +574,25 @@ def _narracao(sub: dict, cfg: dict, pasta: Path, bi: int, narrar) -> list:
     assinatura = hashlib.sha1(texto.encode("utf-8")).hexdigest()
     cache = os.environ.get("NARRACAO_CACHE", "").strip()
     if cache:
-        achado = next(iter(sorted(Path(cache).rglob(f"audio_{bi:02d}/vozes.json"))), None)
-        if achado:
+        mudou = False
+        candidatos = []                                   # pode haver vários renders no cache: fica com a melhor nota
+        for achado in Path(cache).rglob(f"audio_{bi:02d}/vozes.json"):
             dados = json.loads(achado.read_text(encoding="utf-8"))
-            if dados.get("assinatura") == assinatura:
-                pasta.mkdir(parents=True, exist_ok=True)
-                vozes = []
-                for v in dados["vozes"]:
-                    destino = pasta / v["arquivo"]
-                    shutil.copy(achado.parent / v["arquivo"], destino)
-                    vozes.append({"arquivo": destino, "duracao": v["duracao"], "palavras": v.get("palavras", [])})
-                log(f"  narração reaproveitada do render anterior ({len(vozes)} falas, nota {dados.get('nota', '?')})")
-                return vozes
+            candidatos.append((-(dados.get("nota") or 0), str(achado), achado, dados))
+        for _, _, achado, dados in sorted(candidatos):
+            if dados.get("assinatura") != assinatura:
+                mudou = True
+                continue
+            pasta.mkdir(parents=True, exist_ok=True)
+            vozes = []
+            for v in dados["vozes"]:
+                destino = pasta / v["arquivo"]
+                shutil.copy(achado.parent / v["arquivo"], destino)
+                vozes.append({"arquivo": destino, "duracao": v["duracao"], "palavras": v.get("palavras", [])})
+            shutil.copy(achado, pasta / "vozes.json")     # guarda de novo: o próximo render também pode reaproveitar
+            log(f"  narração reaproveitada de {achado.parent.parent.name} ({len(vozes)} falas, nota {dados.get('nota', '?')})")
+            return vozes
+        if mudou:
             log("  o texto do bloco mudou: narrando de novo")
     vozes = narrar(sub, cfg, pasta)
     (pasta / "vozes.json").write_text(json.dumps({
