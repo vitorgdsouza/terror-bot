@@ -1,15 +1,6 @@
 {
  "itens": [
   {
-   "run_id": "45825799729",
-   "titulo": "E se você visse um asteroide passar mais perto que os satélites?",
-   "titulo_youtube": "E se um ASTEROIDE passasse mais perto que os satélites? ☄️ #shorts",
-   "legenda": "Ele é quase da altura da Torre Eiffel, já foi o asteroide mais temido da história e vai passar mais perto que os satélites numa sexta-feira 13. Você sairia de casa pra ver? 👇\n\nFontes: Live Science (set/2025 e 2026), Space.com (set/2025), BBC Sky at Night Magazine (abr/2026).\n#ciencia #espaco #asteroide #apophis #curiosidades #ese",
-   "tipo": "historia",
-   "adicionado": "2026-11-24 10:25",
-   "obs": "re-render 26/11 (medidor de risco sem números de passagem)"
-  },
-  {
    "run_id": "45824177115",
    "titulo": "E se você ficasse sem luz e sem internet por culpa do Sol?",
    "titulo_youtube": "E se o SOL desligasse a internet do mundo? ☀️⚡ #shorts",
@@ -156,6 +147,16 @@
    "adicionado": "2026-11-24 10:25",
    "postado_em": "2026-11-26 23:17",
    "obs": "AGENDADO direto no YouTube (id _x7yN5gaVZo), sai às 20h17"
+  },
+  {
+   "run_id": "45825799729",
+   "titulo": "E se você visse um asteroide passar mais perto que os satélites?",
+   "titulo_youtube": "E se um ASTEROIDE passasse mais perto que os satélites? ☄️ #shorts",
+   "legenda": "Ele é quase da altura da Torre Eiffel, já foi o asteroide mais temido da história e vai passar mais perto que os satélites numa sexta-feira 13. Você sairia de casa pra ver? 👇\n\nFontes: Live Science (set/2025 e 2026), Space.com (set/2025), BBC Sky at Night Magazine (abr/2026).\n#ciencia #espaco #asteroide #apophis #curiosidades #ese",
+   "tipo": "historia",
+   "adicionado": "2026-11-24 10:25",
+   "obs": "re-render 26/11 (medidor de risco sem números de passagem)",
+   "postado_em": "2026-11-27 15:06"
   }
  ]
 }
