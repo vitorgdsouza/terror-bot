@@ -50,3 +50,16 @@ Fontes da pesquisa: vidiq.com (estatísticas dos canais What If e Ciência Todo 
 - **Sáb 28/11, 11h:** o Vitor posta o longo à mão no YouTube (Upload-Post no limite até por volta de 17/12): título, descrição com os capítulos, thumb 16:9 (`thumb_longo.jpg`, que vai no Telegram).
 - **Sáb 28/11:** sem Short às 12h17. O Short "E se você pousasse em Vênus?" (`esfr_10_venus.json`) sai às 16h17, com o longo como "vídeo relacionado".
 - **Depois:** um longo por semana, sempre sábado às 11h, até o Studio mostrar o horário real do público (Análises → Público → "Quando seus espectadores estão no YouTube").
+
+### Render (27/11)
+- v1: run 45988557168, 8,5 min. v2 (correção visual, mesma narração): run 45998057330. Use a mais nova que tiver dado certo.
+- Capítulos para a descrição:
+  0:00 Início
+  0:40 Mercúrio
+  1:48 Marte
+  2:59 Júpiter
+  4:05 Saturno
+  5:00 Urano
+  5:49 Netuno
+  6:38 Vênus
+  7:51 Terra

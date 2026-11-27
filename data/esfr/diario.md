@@ -284,3 +284,10 @@
 - 26/11 12h57: **TESTE de agendamento direto no YouTube** (`acao=agendar`): a Fossa subiu privada e agendada para hoje às 16h17 (id 62h4CPs7r3M, thumb ok). **A reserva das 16h03 NÃO deve mandar nada hoje: a faixa das 16h17 é da Fossa agendada.** A das 20h03 segue o normal (Betelgeuse).
 - 26/11 16h25: **o agendamento direto no YouTube FUNCIONOU.** A Fossa (62h4CPs7r3M) ficou pública sozinha às 16h17. Daqui em diante a reserva AGENDA cada faixa (`acao=agendar`). Cota: 1.600 unidades da API por envio (10 mil por dia no projeto, compartilhado com o terror), até 6 envios por dia somando os canais.
 - 26/11 20h05 (reserva, faixa das 20h17): Betelgeuse ("E se você visse uma estrela explodir no céu?") AGENDADO direto no YouTube (run 45908690714, id _x7yN5gaVZo, thumb ok), sai às 20h17. 3 posts hoje (meta batida). Fila com 3.
+
+## 27/11 (manhã): render do 1º vídeo longo
+- **v1 pronta: run 45988557168** (08h12 às 09h12), **8,5 min**. Mandada no Telegram como cópia de 47 MB (593 kbps); o original de 108 MB fica no artefato `video-longo`. A voz de Mercúrio, Marte e Urano veio do teste do Vitor de 26/11 (run 45820084741), sem gastar voz. Hoje foram só 8 chamadas de TTS.
+- **Voz por bloco (Whisper):** Início 98%, Mercúrio 86,9%*, Marte 92%*, Júpiter 99%, Saturno 97%, Urano 87,2%*, Netuno 98%, Vênus 97%, Terra 95%. (*) Notas reaproveitadas, medidas antes da correção que conta números em algarismos como por extenso. Na regra nova, Mercúrio e Urano devem passar de 88%. Ficou assim.
+- **Capítulos (v1):** 0:00 Início · 0:40 Mercúrio · 1:48 Marte · 2:59 Júpiter · 4:05 Saturno · 5:00 Urano · 5:49 Netuno · 6:38 Vênus · 7:51 Terra.
+- **Revisão da prévia:** o rótulo do termômetro ("DO SEU PESO", "DA PRESSÃO DA TERRA") encostava na legenda. O medidor foi para cima. A prévia agora cobre o vídeo inteiro (antes só ia até 3 min).
+- **v2 (só visual, reaproveitando toda a narração da v1, cota 0):** run 45998057330, disparado às 09h22. Os capítulos devem sair iguais.
