@@ -137,6 +137,40 @@ def subir():
     print(msg)
     _registrar(vid, quando, os.environ.get("ROTEIRO_ARQ", ""), r)
     Path(os.environ.get("GITHUB_OUTPUT", "/dev/null")).open("a").write(f"video_id={vid}\n")
+    _esperar_e_reaplicar(vid, quando, r)
+
+
+def _esperar_e_reaplicar(vid: str, quando: str, r: dict):
+    """O cron do GitHub atrasa ou nem roda. Então o próprio job espera o vídeo ficar público e reaplica a thumb
+    (1 min e 4 min depois da hora). Repositório público: os minutos do Actions são grátis."""
+    import time
+    from datetime import datetime, timezone
+    from .analise import _token, _get, DATA
+    from .thumb_youtube import _gerar_thumb, definir
+    if not quando:
+        return
+    alvo = datetime.fromisoformat(quando.replace("Z", "+00:00")).timestamp()
+    espera = alvo + 60 - time.time()
+    if espera > 40 * 60:
+        return
+    if espera > 0:
+        log(f"Esperando {int(espera)} s para o vídeo ficar público e reaplicar a thumb")
+        time.sleep(espera)
+    for tentativa in range(4):
+        tok = _token()
+        st = (_get(f"{DATA}/videos", tok, part="status", id=vid).get("items") or [{}])[0].get("status", {})
+        if st.get("privacyStatus") == "public":
+            img = _gerar_thumb(r, RAIZ / "trabalho" / "thumbs")
+            res = definir(vid, img, tok).get("_status") if img else None
+            log(f"Thumb reaplicada no vídeo público {vid}: {res}")
+            if res and res < 300:
+                lst = json.loads(AGENDADOS.read_text(encoding="utf-8"))
+                for a in lst:
+                    if a["id"] == vid:
+                        a["thumb_reaplicada"] = True
+                AGENDADOS.write_text(json.dumps(lst, ensure_ascii=False, indent=1), encoding="utf-8")
+                return
+        time.sleep(90)
 
 
 AGENDADOS = RAIZ / "data" / "agendados.json"
