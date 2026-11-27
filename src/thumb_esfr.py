@@ -57,7 +57,7 @@ def _ceu(W: int, H: int) -> Image.Image:
     return img
 
 
-ARTE_HORIZONTAL = {"lua_some", "sem_traje", "buraco_negro", "fermi"}                               # artes que têm composição própria em 16:9
+ARTE_HORIZONTAL = {"lua_some", "sem_traje", "buraco_negro", "fermi", "bussola", "sinal", "megatsunami"}                               # artes que têm composição própria em 16:9
 
 
 def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
@@ -182,6 +182,13 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
         px = int(W * 0.3)
         py = int(ey - math.sqrt(R * R - (px - ex) ** 2)) + 12
         _pessoa(d, px, py, 150, (245, 245, 250), 0.0, "parado", fundo=(10, 16, 40))
+    elif tipo == "megatsunami":
+        img = _megatsunami_thumb(W, H)
+        d = ImageDraw.Draw(img)
+    elif tipo == "bussola":
+        _bussola_thumb(img, W, H)
+    elif tipo == "sinal":
+        _sinal_thumb(img, W, H)
     elif tipo == "fossa":
         img = _fossa(W, H)
         d = ImageDraw.Draw(img)
@@ -753,3 +760,134 @@ def _fossa(W, H):
         d.line((x0 - 14, y, x0 + 14, y), fill=(255, 255, 255), width=5)
         d.text((x0 + 26, y - 26), txt, font=fr, fill=(255, 196, 40) if txt == "11 KM" else (255, 255, 255), stroke_width=4, stroke_fill=(0, 0, 0))
     return img
+
+
+def _seta(d, x0, y0, x1, y1, larg=34, cor=(230, 30, 40)):
+    """Seta vermelha grossa de (x0, y0) até a ponta em (x1, y1), com contorno branco."""
+    import math
+    a = math.atan2(y1 - y0, x1 - x0)
+    ux, uy = math.cos(a), math.sin(a)
+    px, py = -uy, ux
+    cab = larg * 2.4
+    bx, by = x1 - ux * cab, y1 - uy * cab
+    pts = [(x0 + px * larg / 2, y0 + py * larg / 2), (bx + px * larg / 2, by + py * larg / 2), (bx + px * larg * 1.4, by + py * larg * 1.4), (x1, y1),
+           (bx - px * larg * 1.4, by - py * larg * 1.4), (bx - px * larg / 2, by - py * larg / 2), (x0 - px * larg / 2, y0 - py * larg / 2)]
+    d.polygon(pts, fill=cor, outline=(255, 255, 255), width=6)
+
+
+def _megatsunami_thumb(W, H):
+    """Parede d'água gigante subindo por trás de um arranha-céu e de um barquinho, à noite, com a seta vermelha."""
+    import math
+    img = _ceu(W, H).convert("RGBA")
+    d = ImageDraw.Draw(img)
+    mar = int(H * 0.86)
+    crista = int(H * 0.34)
+    pts = [(0, mar)]
+    for k in range(0, 101):                                     # a parede, curvando no alto como uma onda quebrando
+        u = k / 100
+        x = u * W
+        y = crista + (mar - crista) * (0.15 + 0.35 * (1 - math.sin(u * math.pi)) ** 2) - 60 * math.sin(u * 9)
+        pts.append((x, y))
+    pts.append((W, mar))
+    agua = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    da = ImageDraw.Draw(agua)
+    da.polygon(pts + [(W, H), (0, H)], fill=(24, 100, 190, 255))
+    for k in range(1, 7):                                       # listras de profundidade
+        yy = [(x, y + k * (mar - y) / 7) for x, y in pts[1:-1]]
+        da.line(yy, fill=(40, 130, 220, 160), width=6)
+    da.line(pts[1:-1], fill=(235, 248, 255, 255), width=22)
+    img.alpha_composite(agua)
+    esp = Image.new("RGBA", (W, H), (0, 0, 0, 0))                # espuma no topo
+    de = ImageDraw.Draw(esp)
+    import random
+    rnd = random.Random(4)
+    for x, y in pts[1:-1:2]:
+        for _ in range(3):
+            rr = rnd.randint(14, 34)
+            xx, yy = x + rnd.randint(-20, 20), y + rnd.randint(-40, 6)
+            de.ellipse((xx - rr, yy - rr, xx + rr, yy + rr), fill=(240, 250, 255, 230))
+    img.alpha_composite(esp.filter(ImageFilter.GaussianBlur(3)))
+    d = ImageDraw.Draw(img)
+    bx, alt = int(W * (0.64 if W > H else 0.3)), int((mar - crista) * 443 / 524 * 0.82)    # arranha-céu em escala com a onda
+    cor = (20, 26, 44)
+    d.rectangle((bx - 60, mar - alt * 0.6, bx + 60, mar), fill=cor)
+    d.rectangle((bx - 42, mar - alt * 0.8, bx + 42, mar - alt * 0.6), fill=cor)
+    d.rectangle((bx - 26, mar - alt * 0.92, bx + 26, mar - alt * 0.8), fill=cor)
+    d.rectangle((bx - 5, mar - alt, bx + 5, mar - alt * 0.92), fill=cor)
+    for yy in range(int(mar - alt * 0.6) + 10, mar, 26):
+        for jx in (-36, -12, 12, 36):
+            d.rectangle((bx + jx - 6, yy, bx + jx + 6, yy + 10), fill=(255, 210, 110))
+    d.rectangle((0, mar, W, H), fill=(14, 40, 90))
+    sx, sy = int(W * (0.84 if W > H else 0.72)), mar - 10       # barquinho na frente
+    d.polygon([(sx - 70, sy - 16), (sx + 80, sy - 16), (sx + 60, sy + 18), (sx - 56, sy + 18)], fill=(232, 74, 50), outline=(0, 0, 0))
+    d.rectangle((sx - 24, sy - 56, sx + 22, sy - 16), fill=(240, 240, 244), outline=(0, 0, 0))
+    from .voce import _pessoa
+    _pessoa(d, sx + 45, sy - 16, 60, (250, 250, 252), 0.0, "parado", fundo=(10, 16, 40))
+    fl = ImageFont.truetype(str(FONTE), int(min(W, H) * 0.065))
+    d.text((int(W * (0.72 if W > H else 0.56)), crista + 20), "524 m", font=fl, fill=(255, 196, 40), stroke_width=5, stroke_fill=(0, 0, 0))
+    _seta(d, min(W - 40, sx + 200), mar - int(H * 0.14), sx + 60, sy - 60, larg=int(min(W, H) * 0.03))
+    return img
+
+
+def _bussola_thumb(img, W, H):
+    """A Terra realista com as linhas do campo, e uma bússola gigante na frente com a agulha vermelha apontando pro S."""
+    import math
+    deitado = W > H
+    R = int(H * 0.34) if deitado else int(W * 0.36)
+    ex, ey = (int(W * 0.86), int(H * 0.6)) if deitado else (W // 2, int(H * 0.78))
+    d = ImageDraw.Draw(img, "RGBA")
+    for k, L in enumerate((1.5, 2.0, 2.7)):                      # linhas do campo, bagunçadas
+        for lado in (-1, 1):
+            pts = []
+            for i in range(61):
+                th = 0.15 + (math.pi - 0.3) * i / 60
+                r = R * L * math.sin(th) ** 2
+                if r < R * 1.02:
+                    continue
+                pts.append((ex + lado * r * math.sin(th) + math.sin(th * 6 + k) * R * 0.12, ey - r * math.cos(th) + math.cos(th * 5 + k) * R * 0.1))
+            if len(pts) > 1:
+                d.line(pts, fill=(90, 215, 255, 200), width=max(4, R // 40))
+    t = terra(R)
+    img.alpha_composite(t, (ex - t.width // 2, ey - t.height // 2))
+    from .voce import _bussola, PALETAS
+    if deitado:
+        cx, cy, r = int(W * 0.77), int(H * 0.5), int(H * 0.3)
+    else:
+        cx, cy, r = W // 2, int(H * 0.56), int(W * 0.3)
+    som = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(som).ellipse((cx - r * 1.2, cy - r * 1.1, cx + r * 1.2, cy + r * 1.3), fill=(0, 0, 0, 150))
+    img.alpha_composite(som.filter(ImageFilter.GaussianBlur(r * 0.15)))
+    d = ImageDraw.Draw(img)
+    _bussola(d, cx, cy, r, math.pi - 0.08, PALETAS["ciencia"])
+    _seta(d, cx + r * 1.25, cy + r * 1.3, cx + r * 0.12, cy + r * 0.86, larg=max(20, r // 9))
+
+
+def _sinal_thumb(img, W, H):
+    """Radiotelescópio na beira da Terra realista, o sinal chegando de uma estrela, e o "Wow!" em vermelho."""
+    import math
+    deitado = W > H
+    R = int(H * 0.9) if deitado else int(W * 0.75)
+    ex, ey = (int(W * 0.78), int(H * 1.55)) if deitado else (W // 2, int(H * 1.12))
+    t = terra(R, seed=52)
+    img.alpha_composite(t, (ex - t.width // 2, ey - t.height // 2))
+    d = ImageDraw.Draw(img, "RGBA")
+    from .voce import _radiotelescopio, PALETAS
+    p = PALETAS["ciencia"]
+    s = int(H * 0.5) if deitado else int(W * 0.62)
+    cx = int(W * 0.8) if deitado else int(W * 0.42)
+    chao = ey - R + int(s * 0.06)
+    fx, fy = _radiotelescopio(d, cx, chao, s, 0.0, p)
+    sx, sy = (int(W * 0.95), int(H * 0.08)) if deitado else (int(W * 0.88), int(H * 0.36))
+    gl = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(gl).ellipse((sx - 60, sy - 60, sx + 60, sy + 60), fill=(255, 240, 180, 220))
+    img.alpha_composite(gl.filter(ImageFilter.GaussianBlur(20)))
+    d = ImageDraw.Draw(img, "RGBA")
+    d.ellipse((sx - 22, sy - 22, sx + 22, sy + 22), fill=(255, 250, 230))
+    for k in range(6):                                           # o sinal descendo
+        f = (k + 1) / 7
+        x, y = sx + (fx - sx) * f, sy + (fy - sy) * f
+        rr = 20 + k * 6
+        d.ellipse((x - rr, y - rr, x + rr, y + rr), outline=(90, 215, 255, 240), width=max(5, s // 80))
+    fw = ImageFont.truetype(str(FONTE), int(s * 0.32))
+    wx, wy = (int(W * 0.4), int(H * 0.5)) if deitado else (int(W * 0.08), int(H * 0.36))
+    d.text((wx, wy), "Wow!", font=fw, fill=(230, 30, 40), stroke_width=8, stroke_fill=(255, 255, 255))

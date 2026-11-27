@@ -1,0 +1,101 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se uma onda mais alta que um arranha-céu viesse até você?",
+ "titulo_youtube": "A MAIOR ONDA já vista era mais alta que um arranha-céu 🌊 #shorts",
+ "legenda_post": "Em 1958, um terremoto derrubou um pedaço de montanha dentro da baía de Lituya, no Alasca. A água subiu a encosta do outro lado até 524 metros de altura, mais que o Empire State, e arrancou a floresta inteira. Dentro da baía tinha barcos de pesca. Você ficaria no barco ou correria pro morro? 👇\n\nFontes: NASA Earth Observatory (Adam Voiland, nov/2020); Live Science (\"What's the tallest wave ever recorded on Earth?\"); EARTH Magazine (Sam Lemonick, jul/2016); Geology.com (World's Biggest Tsunami); Guinness World Records (Highest tsunami wash).\n#ciencia #tsunami #alasca #oceano #curiosidades #ese",
+ "cenas": [
+  {
+   "narracao": "E se uma onda mais alta que um arranha-céu viesse até você?",
+   "quadro": "tsunami",
+   "sobe": true,
+   "de": 0,
+   "ate": 524,
+   "medidor": false,
+   "thumb": true
+  },
+  {
+   "narracao": "Isso já aconteceu, numa baía estreita do Alasca.",
+   "quadro": "tsunami",
+   "modo": "mapa"
+  },
+  {
+   "narracao": "Era noite, e um terremoto sacudiu as montanhas.",
+   "quadro": "tsunami",
+   "treme": true,
+   "susto": true
+  },
+  {
+   "narracao": "Um pedaço gigante de montanha despencou dentro da água.",
+   "quadro": "tsunami",
+   "queda": true
+  },
+  {
+   "narracao": "A onda correu pela baía inteira.",
+   "quadro": "tsunami",
+   "modo": "mapa",
+   "onda": true
+  },
+  {
+   "narracao": "E do outro lado, a água subiu pela encosta...",
+   "quadro": "tsunami",
+   "sobe": true,
+   "de": 0,
+   "ate": 300,
+   "medidor": false
+  },
+  {
+   "narracao": "até quinhentos e vinte e quatro metros de altura.",
+   "quadro": "tsunami",
+   "sobe": true,
+   "de": 300,
+   "ate": 524
+  },
+  {
+   "narracao": "Mais alto que o Empire State.",
+   "quadro": "tsunami",
+   "marca": 524,
+   "predio": true,
+   "rotulo": "mais alto que o arranha-céu"
+  },
+  {
+   "narracao": "E tinha barcos de pesca dentro da baía.",
+   "quadro": "tsunami",
+   "barcos": true,
+   "modo": "mapa"
+  },
+  {
+   "narracao": "Um deles foi jogado por cima das árvores.",
+   "quadro": "tsunami",
+   "modo": "barco",
+   "por_cima": true
+  },
+  {
+   "narracao": "Outro, com pai e filho, aguentou a onda.",
+   "quadro": "tsunami",
+   "modo": "barco",
+   "surfa": true
+  },
+  {
+   "narracao": "É a maior onda já vista por testemunhas.",
+   "quadro": "tsunami",
+   "marca": 524,
+   "rotulo": "maior onda já vista"
+  },
+  {
+   "narracao": "Você ficaria no barco ou correria pro morro? Comenta.",
+   "quadro": "tsunami",
+   "modo": "barco",
+   "surfa": true
+  }
+ ],
+ "thumb_arte": "megatsunami",
+ "thumb_texto": "MAIS ALTA QUE|UM ARRANHA-CÉU"
+}

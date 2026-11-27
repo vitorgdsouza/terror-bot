@@ -1,0 +1,86 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se o seu rádio captasse um sinal vindo de outra estrela?",
+ "titulo_youtube": "O SINAL do espaço que ninguém conseguiu explicar 📡 #shorts",
+ "legenda_post": "Em 1977, o radiotelescópio Big Ear, em Ohio, captou um sinal 30 vezes mais forte que o ruído do céu, na frequência do hidrogênio. Ele durou os 72 segundos em que a antena conseguia ouvir aquele ponto, e nunca mais foi captado. Uma ideia nova diz que foi uma nuvem de hidrogênio acesa por uma estrela de nêutrons, mas ainda é hipótese. Natureza ou alguém chamando? 👇\n\nFontes: National Geographic (jun/2026); EarthSky (Paul Scott Anderson, ago/2025); BBC Sky at Night Magazine (out/2026); Scientific American (\"The Wow! Signal SETI mystery might at last be solved\"); Universe Today (Evan Gough, ago/2024).\n#ciencia #espaco #sinalwow #aliens #curiosidades #ese",
+ "cenas": [
+  {
+   "narracao": "E se o seu rádio captasse um sinal de outra estrela?",
+   "quadro": "sinal",
+   "modo": "radio",
+   "chega": true
+  },
+  {
+   "narracao": "Isso já aconteceu com um radiotelescópio americano.",
+   "quadro": "sinal",
+   "onda": true,
+   "thumb": true
+  },
+  {
+   "narracao": "Ele procurava sinais de vida lá fora.",
+   "quadro": "sinal"
+  },
+  {
+   "narracao": "De repente, veio um sinal trinta vezes mais forte que o ruído.",
+   "quadro": "sinal",
+   "modo": "grafico",
+   "pico": 30
+  },
+  {
+   "narracao": "Durou setenta e dois segundos, o tempo todo que a antena escutava.",
+   "quadro": "sinal",
+   "modo": "tempo",
+   "ate": 72
+  },
+  {
+   "narracao": "Na frequência do hidrogênio, a aposta pra um recado alienígena.",
+   "quadro": "sinal",
+   "modo": "nuvem"
+  },
+  {
+   "narracao": "Um astrônomo viu a folha e escreveu do lado: Wow!",
+   "quadro": "sinal",
+   "modo": "papel",
+   "circula": true
+  },
+  {
+   "narracao": "E ninguém nunca mais captou esse sinal.",
+   "quadro": "sinal",
+   "modo": "procura"
+  },
+  {
+   "narracao": "Uma ideia nova: uma nuvem de hidrogênio brilhou de repente,",
+   "quadro": "sinal",
+   "modo": "nuvem",
+   "clarao": true
+  },
+  {
+   "narracao": "acesa pelo clarão de uma estrela de nêutrons.",
+   "quadro": "sinal",
+   "modo": "nuvem",
+   "clarao": true,
+   "rotulo": "estrela de nêutrons"
+  },
+  {
+   "narracao": "Mas isso ainda é só uma hipótese.",
+   "quadro": "sinal",
+   "modo": "procura",
+   "rotulo": "hipótese"
+  },
+  {
+   "narracao": "Natureza ou alguém chamando? Vota: um ou dois.",
+   "quadro": "sinal",
+   "modo": "votar"
+  }
+ ],
+ "thumb_arte": "sinal",
+ "thumb_texto": "O SINAL QUE|NINGUÉM EXPLICA"
+}

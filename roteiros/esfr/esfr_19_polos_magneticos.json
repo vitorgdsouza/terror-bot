@@ -1,0 +1,99 @@
+{
+ "formato": "voce",
+ "paleta": "ciencia",
+ "parte": "E SE...",
+ "tipo": "historia",
+ "clima": "curioso",
+ "voz": "Puck",
+ "canal": "esfr",
+ "trilha": "propria",
+ "trilha_volume": 0.3,
+ "titulo": "E se a sua bússola começasse a apontar pro sul?",
+ "titulo_youtube": "E se a sua BÚSSOLA começasse a apontar pro SUL? 🧭 #shorts",
+ "legenda_post": "O campo magnético da Terra já virou de cabeça pra baixo muitas vezes. A última virada completa foi há uns 780 mil anos, e cada uma leva milhares de anos. No meio do caminho, aparecem vários polos, a bússola se perde e o escudo contra o vento do Sol enfraquece. Você ia perceber se a bússola virasse? 👇\n\nFontes: JSTOR Daily (James MacDonald, fev/2018, atualizado jan/2025); Live Science (Natalie Wolchover, fev/2012); Live Science / The Conversation (Phil Livermore e Jon Mound, Univ. de Leeds); Scripps Institution of Oceanography (Cathy Constable); ScienceAlert (jan/2026).\n#ciencia #terra #campomagnetico #bussola #curiosidades #ese",
+ "cenas": [
+  {
+   "narracao": "E se a sua bússola começasse a apontar pro sul?",
+   "quadro": "magnetico",
+   "modo": "bussola",
+   "aponta": "vira",
+   "thumb": true,
+   "thumb_momento": 0.95
+  },
+  {
+   "narracao": "O ímã da Terra pode virar de cabeça pra baixo.",
+   "quadro": "magnetico",
+   "vira": true
+  },
+  {
+   "narracao": "Já virou muitas vezes, umas duas a cada milhão de anos.",
+   "quadro": "magnetico",
+   "modo": "tempo",
+   "rotulo": "2 vezes a cada milhão de anos"
+  },
+  {
+   "narracao": "A última virada completa foi há uns setecentos e oitenta mil anos.",
+   "quadro": "magnetico",
+   "modo": "tempo",
+   "marca": "780 mil anos atrás"
+  },
+  {
+   "narracao": "E cada virada leva milhares de anos.",
+   "quadro": "magnetico",
+   "vira": true,
+   "rotulo": "milhares de anos"
+  },
+  {
+   "narracao": "No meio do caminho, surgem vários polos norte e sul.",
+   "quadro": "magnetico",
+   "bagunca": true,
+   "rotulo": "vários polos"
+  },
+  {
+   "narracao": "E a sua bússola fica perdida.",
+   "quadro": "magnetico",
+   "modo": "bussola",
+   "aponta": "gira"
+  },
+  {
+   "narracao": "Com o escudo mais fraco, o vento do Sol chega mais perto.",
+   "quadro": "magnetico",
+   "vento": true,
+   "fraco": true
+  },
+  {
+   "narracao": "E satélites e redes de energia correriam mais risco.",
+   "quadro": "magnetico",
+   "satelites": true,
+   "fraco": true
+  },
+  {
+   "narracao": "A aurora poderia aparecer longe dos polos.",
+   "quadro": "magnetico",
+   "modo": "aurora",
+   "longe": true
+  },
+  {
+   "narracao": "Tartarugas e aves que usam o campo ficariam desorientadas.",
+   "quadro": "magnetico",
+   "modo": "animais",
+   "confuso": true
+  },
+  {
+   "narracao": "Hoje, o campo enfraquece uns cinco por cento por século.",
+   "quadro": "magnetico",
+   "modo": "forca",
+   "de": 100,
+   "ate": 95,
+   "rotulo": "-5% por século"
+  },
+  {
+   "narracao": "Você ia perceber se a bússola virasse? Comenta.",
+   "quadro": "magnetico",
+   "modo": "bussola",
+   "aponta": "sul"
+  }
+ ],
+ "thumb_arte": "bussola",
+ "thumb_texto": "E SE A BÚSSOLA|APONTASSE PRO SUL?"
+}

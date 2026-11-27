@@ -41,6 +41,9 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   solar        tempestade solar; o Sol solta a nuvem até a Terra ("de"/"ate", "choque"); modos "telegrafo" ("faiscas", "fogo", "choque", "sem_bateria"), "aurora" ("jornal"), "cidade" ("apaga", "apagado", "transformador", "sem_internet", "aurora"), "gps"
   gelo         gelo da Antártida; o litoral com o mar subindo ("de"/"ate" em metros, prédio de 20 andares); modos "mapa" ("derrete", "solta") e "corte" ("medida", "abaixo", "lagos")
   fermi        Paradoxo de Fermi; a galáxia ("conta", "planetas", "busca", "onda"); modos "almoco", "tempo", "primeiros", "filtro" (+ "frente"), "floresta" (+ "grita"), "votar"
+  tsunami      megatsunami da baía de Lituya; de lado ("treme", "queda", "sobe" + "de"/"ate" em metros, "marca", "predio", "barcos"); modos "mapa" ("onda", "barcos") e "barco" ("por_cima", "surfa")
+  magnetico    inversão do campo magnético; a Terra com as linhas ("vira", "invertido", "bagunca", "fraco", "vento", "satelites"); modos "bussola" ("aponta": norte | sul | gira | vira), "tempo" ("marca"), "aurora" ("longe"), "animais" ("confuso"), "forca" ("de"/"ate" em %)
+  sinal        o sinal "Wow!"; radiotelescópio ("onda"); modos "radio" ("chega"), "grafico" ("pico"), "tempo" ("ate" segundos), "papel" ("circula"), "procura", "nuvem" ("clarao"), "votar"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
 import math
@@ -3077,3 +3080,644 @@ def _gelo(img, cena, t, dur, n, p):
 
 
 QUADROS.update({"gelo": _gelo})
+
+
+# ---------------------------------------------------------------- megatsunami da baía de Lituya
+_LIT_ESC = 1.3                                              # px por metro (524 m = ~680 px)
+
+
+def _arvore(d, x, chao, alt, cor=(28, 92, 60), caida=0.0):
+    """Pinheiro simples; "caida" de 0 a 1 tomba a árvore para a direita."""
+    if caida <= 0:
+        d.rectangle((x - alt * 0.05, chao - alt * 0.25, x + alt * 0.05, chao), fill=(70, 46, 30))
+        for k in range(3):
+            y0 = chao - alt * (0.2 + k * 0.27)
+            w_ = alt * (0.32 - k * 0.08)
+            d.polygon([(x - w_, y0), (x + w_, y0), (x, y0 - alt * 0.42)], fill=cor)
+        return
+    a = caida * math.pi / 2
+    ux, uy = math.sin(a), -math.cos(a)                     # direção do tronco
+    d.line((x, chao, x + ux * alt, chao + uy * alt), fill=(90, 60, 38), width=max(3, int(alt * 0.08)))
+    for k in range(3):
+        f_ = 0.35 + k * 0.22
+        bx, by = x + ux * alt * f_, chao + uy * alt * f_
+        w_ = alt * (0.24 - k * 0.06)
+        d.polygon([(bx - uy * w_, by + ux * w_), (bx + uy * w_, by - ux * w_), (bx + ux * alt * 0.3, by + uy * alt * 0.3)], fill=cor)
+
+
+def _lituya_lado(img, cena, t, dur, p):
+    """A baía vista de lado: a montanha da esquerda (de onde cai a rocha), a água e a encosta da direita com a floresta."""
+    d = ImageDraw.Draw(img, "RGBA")
+    rnd_t = random.Random(int(t * 24))
+    sx = sy = 0
+    if cena.get("treme"):
+        sx, sy = (rnd_t.random() - 0.5) * 26, (rnd_t.random() - 0.5) * 18
+    mar = H * 0.66
+    _ceu_noite(d, t, mar)
+    for k in range(4):                                     # montanhas com neve no fundo
+        x0 = -100 + k * 330
+        pico = H * (0.2 + 0.05 * (k % 2))
+        d.polygon([(x0 + sx, mar), (x0 + 220 + sx, pico + sy), (x0 + 480 + sx, mar)], fill=(44, 56, 90))
+        d.polygon([(x0 + 160 + sx, pico + 90 + sy), (x0 + 220 + sx, pico + sy), (x0 + 290 + sx, pico + 90 + sy)], fill=(210, 222, 240))
+
+    def encosta(x):                                        # encosta da direita: sobe da água até ~600 m
+        u = (x - W * 0.52) / (W * 0.48)
+        return mar - 920 * _suave(u) ** 0.8
+
+    pts = [(x, encosta(x)) for x in range(int(W * 0.5), W + 1, 10)]
+    d.polygon([(W * 0.5 + sx, mar + sy)] + [(x + sx, y + sy) for x, y in pts] + [(W + sx, H), (W * 0.5 + sx, H)], fill=(52, 46, 40))
+    sobe = 0.0
+    de, ate = float(cena.get("de", 0)), float(cena.get("ate", 0))
+    if cena.get("sobe"):
+        sobe = de + (ate - de) * _suave(t / max(0.1, dur * 0.8))
+    marca = float(cena.get("marca", 0))
+    limite = max(sobe, marca)
+    if limite > 0:                                         # a encosta raspada até onde a água chegou
+        yl = mar - limite * _LIT_ESC
+        raspa = [(x + sx, y + sy) for x, y in pts if y >= yl]
+        if len(raspa) > 1:                                 # faixa de terra pelada ao longo da encosta
+            d.line(raspa, fill=(150, 120, 84), width=34, joint="curve")
+    for k, (x, y) in enumerate(pts[::3]):                  # floresta na encosta
+        if x > W - 10:
+            continue
+        alt = 46 + (k % 3) * 10
+        alt_m = (mar - y) / _LIT_ESC
+        if limite > 0 and alt_m < limite:
+            if sobe > 0 and alt_m > sobe - 60:              # árvores tombando onde a água está chegando
+                _arvore(d, x + sx, y + sy, alt, caida=_suave((sobe - alt_m) / 60))
+            continue
+        _arvore(d, x + sx, y + sy, alt)
+    if marca > 0 and not sobe:
+        yl = mar - marca * _LIT_ESC
+        for x in range(int(W * 0.5), W, 34):
+            d.line((x, yl, x + 18, yl), fill=p["acento"] + (230,), width=5)
+    # montanha da esquerda (de onde cai a rocha)
+    mont = [(0, H * 0.16), (W * 0.12, H * 0.14), (W * 0.3, H * 0.38), (W * 0.4, mar)]
+    d.polygon([(0, mar + sy)] + [(x + sx, y + sy) for x, y in mont] + [(0, H)], fill=(60, 54, 48))
+    d.polygon([(sx, H * 0.16 + sy), (W * 0.12 + sx, H * 0.14 + sy), (W * 0.17 + sx, H * 0.2 + sy), (sx, H * 0.22 + sy)], fill=(214, 224, 240))
+    queda = 0.0
+    if cena.get("queda"):
+        queda = _suave(t / max(0.1, dur * 0.7))
+        bx = W * 0.14 + queda * W * 0.2                    # o bloco de rocha escorregando
+        by = H * 0.24 + queda * (mar - H * 0.24 - 40)
+        ang = queda * 0.6
+        bloco = [(-110, -60), (100, -80), (130, 50), (-90, 70)]
+        bloco = [(bx + x * math.cos(ang) - y * math.sin(ang), by + x * math.sin(ang) + y * math.cos(ang)) for x, y in bloco]
+        d.polygon(bloco, fill=(110, 96, 84), outline=(30, 26, 22))
+        for k in range(14):                                # poeira atrás
+            rnd = random.Random(k)
+            f_ = rnd.random() * queda
+            x = W * 0.14 + f_ * W * 0.2 + (rnd.random() - 0.5) * 120
+            y = H * 0.24 + f_ * (mar - H * 0.24) + (rnd.random() - 0.5) * 90
+            rr = 30 + rnd.random() * 40
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(150, 140, 130, 90))
+    # a água
+    agua_y = mar
+    onda = []
+    for x in range(0, W + 20, 20):
+        y = agua_y + math.sin(x * 0.02 + t * 2) * 6
+        if queda > 0.9:                                    # o espirro quando a rocha bate
+            f_ = (queda - 0.9) / 0.1
+            y -= 260 * f_ * math.exp(-((x - W * 0.36) / 130) ** 2)
+        onda.append((x, y))
+    if sobe > 0:                                           # a parede d'água subindo pela encosta
+        crista = mar - sobe * _LIT_ESC
+        xs = [x for x, y in pts if y >= crista]
+        xc = xs[-1] if xs else W * 0.52
+        topo_ag = [(x, max(encosta(x), crista) - 110 * _suave((x - W * 0.5) / 120) - 30) for x in range(int(W * 0.5), int(xc) + 1, 10)]
+        lingua = [(W * 0.36, mar)] + topo_ag + [(xc + 30, crista - 20)]
+        d.polygon(lingua + [(x, encosta(x)) for x in range(int(xc), int(W * 0.5) - 1, -10)] + [(W * 0.5, mar + 10)], fill=(40, 120, 200, 230))
+        d.line(topo_ag + [(xc + 30, crista - 20)], fill=(220, 240, 255), width=8)
+        for k in range(10):                                # espuma na frente
+            rnd = random.Random(k + int(t * 10))
+            fx = xc - rnd.random() * 120
+            fy = max(encosta(fx), crista) - 10 + (rnd.random() - 0.5) * 30
+            rr = 10 + rnd.random() * 16
+            d.ellipse((fx - rr, fy - rr, fx + rr, fy + rr), fill=(235, 245, 255, 220))
+        if cena.get("medidor", True):
+            rx = W * 0.07                                  # régua do lado de lá
+            _rotulo_num = f"{int(round(sobe))} m"
+            fx_ = max(W * 0.3, xc - 260)
+            d.rounded_rectangle((fx_ - 120, crista - 70, fx_ + 120, crista + 10), radius=20, fill=(8, 18, 46, 210))
+            _centro_texto(d, fx_, crista - 30, _rotulo_num, _f(62), p["acento"])
+    d.polygon(onda + [(W, H), (0, H)], fill=(24, 84, 160, 235))
+    d.line(onda, fill=(150, 210, 255), width=5)
+    if cena.get("predio"):                                 # arranha-céu de referência (sem nome de marca na tela)
+        alt = 443 * _LIT_ESC
+        x = W * 0.42
+        base = mar + 4
+        d.rectangle((x - 50, base - alt * 0.6, x + 50, base), fill=(150, 160, 190))
+        d.rectangle((x - 36, base - alt * 0.8, x + 36, base - alt * 0.6), fill=(150, 160, 190))
+        d.rectangle((x - 22, base - alt * 0.92, x + 22, base - alt * 0.8), fill=(150, 160, 190))
+        d.line((x, base - alt * 0.92, x, base - alt), fill=(150, 160, 190), width=8)
+        for yy in range(int(base - alt * 0.6), int(base), 24):
+            for jx in (-30, -10, 10, 30):
+                d.rectangle((x + jx - 5, yy + 6, x + jx + 5, yy + 14), fill=(255, 214, 120))
+        linha = mar - 524 * _LIT_ESC
+        for xx in range(int(W * 0.3), W, 34):
+            d.line((xx, linha, xx + 18, linha), fill=p["acento"] + (240,), width=5)
+    if cena.get("barcos"):
+        for k, x in enumerate((W * 0.18, W * 0.3, W * 0.43)):
+            _barco(d, x, mar + math.sin(t * 2 + k) * 6, 70, t + k)
+
+
+def _barco(d, x, y, tam, t, gente=2, cor=(232, 74, 50)):
+    """Barco de pesca de lado, com cabine e gente dentro."""
+    d.polygon([(x - tam, y - tam * 0.25), (x + tam * 1.1, y - tam * 0.25), (x + tam * 0.8, y + tam * 0.22), (x - tam * 0.8, y + tam * 0.22)], fill=cor, outline=(30, 12, 10))
+    d.rectangle((x - tam * 0.35, y - tam * 0.75, x + tam * 0.3, y - tam * 0.25), fill=(236, 236, 240), outline=(30, 12, 10))
+    d.rectangle((x - tam * 0.22, y - tam * 0.62, x + tam * 0.15, y - tam * 0.42), fill=(120, 200, 255))
+    d.line((x + tam * 0.6, y - tam * 0.25, x + tam * 0.6, y - tam * 1.3), fill=(236, 236, 240), width=max(3, int(tam * 0.06)))
+    for k in range(gente):
+        px = x + tam * (0.5 + k * 0.28) - tam * 0.1
+        _pessoa(d, px, y - tam * 0.25, tam * 0.5, (245, 247, 252), t + k, "tremendo", fundo=(8, 18, 46))
+
+
+def _tsunami(img, cena, t, dur, n, p):
+    """Megatsunami da baía de Lituya (Alasca). Sem modo: a baía vista de lado ("treme": terremoto; "queda": a rocha
+    despencando na água; "sobe" + "de"/"ate" em metros: a água subindo a encosta e derrubando a floresta, com o número;
+    "marca": metros até onde a encosta ficou raspada; "predio": arranha-céu de 443 m ao lado da linha dos 524 m;
+    "barcos": três barcos de pesca; "medidor": false esconde o número). Modos: "mapa" (a baía em T vista de cima;
+    "onda": a onda saindo do fundo até a boca; "barcos") e "barco" (close do barco na onda; "por_cima": levantado por
+    cima das árvores; "surfa": subindo a onda). "rotulo" em todos."""
+    d = ImageDraw.Draw(img, "RGBA")
+    modo = cena.get("modo", "")
+    if modo == "mapa":
+        d.rectangle((0, 0, W, H), fill=(40, 70, 52))
+        for k in range(60):                                # textura da floresta
+            rnd = random.Random(k)
+            x, y = rnd.random() * W, rnd.random() * H
+            d.ellipse((x - 40, y - 26, x + 40, y + 26), fill=(30, 58, 42))
+        d.rectangle((0, H * 0.76, W, H), fill=(18, 60, 120))  # o mar aberto embaixo
+        cx = W * 0.5
+        canal = [(cx - 120, H * 0.76), (cx - 150, H * 0.5), (cx - 170, H * 0.32), (cx + 170, H * 0.32), (cx + 150, H * 0.5), (cx + 120, H * 0.76)]
+        d.polygon(canal, fill=(30, 100, 180))
+        d.rectangle((cx - 60, H * 0.74, cx + 60, H * 0.78), fill=(30, 100, 180))
+        braco = [(cx - 420, H * 0.22), (cx + 420, H * 0.22), (cx + 420, H * 0.32), (cx - 420, H * 0.32)]   # o T no fundo
+        d.polygon(braco, fill=(30, 100, 180))
+        d.polygon([(cx - 420, H * 0.22), (cx - 470, H * 0.2), (cx - 470, H * 0.34), (cx - 420, H * 0.32)], fill=(200, 220, 240))   # geleiras
+        d.polygon([(cx + 420, H * 0.22), (cx + 470, H * 0.2), (cx + 470, H * 0.34), (cx + 420, H * 0.32)], fill=(200, 220, 240))
+        qx, qy = cx - 400, H * 0.2
+        pisca = 140 + int(110 * abs(math.sin(t * 5)))
+        d.ellipse((qx - 40, qy - 40, qx + 40, qy + 40), fill=(232, 44, 56, pisca))
+        if cena.get("onda"):
+            f_ = _suave(t / max(0.1, dur * 0.9))
+            for k in range(3):
+                g = max(0.0, f_ - k * 0.12)
+                if g <= 0:
+                    continue
+                y = H * 0.27 + g * (H * 0.47)
+                larg = 170 - 50 * g
+                d.line((cx - larg, y, cx + larg, y), fill=(235, 245, 255, 230 - k * 60), width=14 - k * 3)
+        if cena.get("barcos"):
+            for k, (bx, by) in enumerate(((cx - 60, H * 0.62), (cx + 70, H * 0.55), (cx - 20, H * 0.45))):
+                d.polygon([(bx - 26, by - 10), (bx + 30, by - 10), (bx + 20, by + 10), (bx - 20, by + 10)], fill=(232, 74, 50), outline=(255, 255, 255))
+        _centro_texto(d, W / 2, H * 0.12, "ALASCA", _f(56), (230, 236, 248))
+        _centro_texto(d, W / 2, H * 0.89, "OCEANO", _f(40), (150, 200, 240))
+    elif modo == "barco":
+        _ceu_noite(d, t, H * 0.7)
+        d.rectangle((0, H * 0.86, W, H), fill=(52, 46, 40))
+        f_ = _suave(t / max(0.1, dur * 0.9))
+        if cena.get("por_cima"):
+            for k in range(7):                             # floresta embaixo, vista através da água
+                _arvore(d, 40 + k * 170, H * 0.88, 300 + (k % 2) * 40, cor=(20, 80, 52))
+            nivel = H * 0.62 - f_ * H * 0.08
+        else:
+            nivel = H * 0.6
+        crista = [(x, nivel + math.sin(x * 0.012 - t * 3) * 40 - 120 * math.exp(-((x - W * 0.5) / 260) ** 2)) for x in range(0, W + 20, 20)]
+        d.polygon(crista + [(W, H), (0, H)], fill=(30, 110, 200, 150 if cena.get("por_cima") else 225))
+        d.line(crista, fill=(230, 245, 255), width=10)
+        bx = W * 0.5 + (math.sin(t * 1.5) * 40 if cena.get("surfa") else 0)
+        by = nivel - 120 * math.exp(-((bx - W * 0.5) / 260) ** 2) - 20
+        ang = math.sin(t * 2.4) * 0.12
+        bimg = Image.new("RGBA", (520, 420), (0, 0, 0, 0))
+        _barco(ImageDraw.Draw(bimg), 260, 300, 160, t)
+        bimg = bimg.rotate(math.degrees(ang), resample=Image.BICUBIC)
+        img.paste(bimg, (int(bx - 260), int(by - 300)), bimg)
+        d = ImageDraw.Draw(img, "RGBA")
+        for k in range(16):                                # respingos
+            rnd = random.Random(k + int(t * 8))
+            x = bx + (rnd.random() - 0.5) * 500
+            y = by + 40 - rnd.random() * 120
+            d.ellipse((x - 8, y - 8, x + 8, y + 8), fill=(235, 245, 255, 200))
+    else:
+        _lituya_lado(img, cena, t, dur, p)
+        d = ImageDraw.Draw(img, "RGBA")
+    if cena.get("rotulo"):
+        _rotulo_caixa(d, H * 0.1, str(cena["rotulo"]).upper(), p)
+
+
+QUADROS.update({"tsunami": _tsunami})
+
+
+# ---------------------------------------------------------------- inversão do campo magnético
+def _linhas_campo(d, cx, cy, R, t, inv=0.0, bagunca=0.0, forca=1.0, cor=(86, 214, 255)):
+    """Linhas do campo da Terra (dipolo). "inv" de 0 a 1 vira o campo; no meio ele some e embaralha."""
+    amp = abs(math.cos(inv * math.pi)) * forca
+    for k, L in enumerate((1.6, 2.1, 2.7, 3.4)):
+        for lado in (-1, 1):
+            pts = []
+            for i in range(0, 61):
+                th = 0.12 + (math.pi - 0.24) * i / 60          # do polo norte ao polo sul, por fora
+                r = R * L * math.sin(th) ** 2
+                if r < R * 1.02:
+                    continue
+                x = cx + lado * r * math.sin(th)
+                y = cy - r * math.cos(th)
+                if bagunca > 0:
+                    x += math.sin(th * 7 + t * 3 + k) * bagunca * R * 0.35
+                    y += math.cos(th * 5 + t * 2.5 + k * 2) * bagunca * R * 0.35
+                pts.append((x, y))
+            if len(pts) > 1:
+                al = int(220 * max(0.15, amp) * (1 - k * 0.15))
+                d.line(pts, fill=cor + (al,), width=6 - k)
+                if amp > 0.3 and len(pts) > 20:            # setinha mostrando o sentido
+                    i0 = len(pts) // 2 + int((t * 8) % 6)
+                    a_, b_ = pts[min(i0, len(pts) - 2)], pts[min(i0 + 1, len(pts) - 1)]
+                    sent = 1 if inv < 0.5 else -1
+                    ang = math.atan2((b_[1] - a_[1]) * sent, (b_[0] - a_[0]) * sent)
+                    x, y = a_
+                    d.polygon([(x + math.cos(ang) * 16, y + math.sin(ang) * 16), (x + math.cos(ang + 2.5) * 12, y + math.sin(ang + 2.5) * 12),
+                               (x + math.cos(ang - 2.5) * 12, y + math.sin(ang - 2.5) * 12)], fill=cor + (al,))
+
+
+def _bussola(d, cx, cy, r, ang, p):
+    d.ellipse((cx - r - 24, cy - r - 24, cx + r + 24, cy + r + 24), fill=(170, 120, 50), outline=(60, 40, 10), width=8)
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(240, 236, 222), outline=(90, 70, 30), width=6)
+    for k in range(36):
+        a = k * math.pi / 18
+        l_ = 0.12 if k % 9 == 0 else 0.06
+        d.line((cx + math.sin(a) * r * 0.93, cy - math.cos(a) * r * 0.93, cx + math.sin(a) * r * (0.93 - l_), cy - math.cos(a) * r * (0.93 - l_)), fill=(60, 50, 40), width=4)
+    for txt, a in (("N", 0), ("L", 90), ("S", 180), ("O", 270)):
+        ra = math.radians(a)
+        _centro_texto(d, cx + math.sin(ra) * r * 0.7, cy - math.cos(ra) * r * 0.7, txt, _f(int(r * 0.2)), (200, 40, 40) if txt == "N" else (40, 40, 50))
+    ux, uy = math.sin(ang), -math.cos(ang)
+    px, py = -uy, ux
+    w_ = r * 0.09
+    d.polygon([(cx + ux * r * 0.78, cy + uy * r * 0.78), (cx + px * w_, cy + py * w_), (cx - px * w_, cy - py * w_)], fill=(220, 40, 40))
+    d.polygon([(cx - ux * r * 0.78, cy - uy * r * 0.78), (cx + px * w_, cy + py * w_), (cx - px * w_, cy - py * w_)], fill=(230, 232, 240), outline=(120, 120, 130))
+    d.ellipse((cx - 16, cy - 16, cx + 16, cy + 16), fill=(60, 50, 40))
+
+
+def _tartaruga(d, x, y, s, ang, cor=(70, 170, 110)):
+    ux, uy = math.cos(ang), math.sin(ang)
+    px, py = -uy, ux
+    for sx_, sy_ in ((0.5, 1), (0.5, -1), (-0.5, 1), (-0.5, -1)):   # nadadeiras
+        fx, fy = x + ux * s * sx_ + px * s * 0.7 * sy_, y + uy * s * sx_ + py * s * 0.7 * sy_
+        d.ellipse((fx - s * 0.35, fy - s * 0.2, fx + s * 0.35, fy + s * 0.2), fill=cor)
+    hx, hy = x + ux * s * 1.15, y + uy * s * 1.15
+    d.ellipse((hx - s * 0.3, hy - s * 0.3, hx + s * 0.3, hy + s * 0.3), fill=cor)
+    d.ellipse((x - s * 0.85, y - s * 0.85, x + s * 0.85, y + s * 0.85), fill=(120, 90, 50), outline=(70, 50, 30), width=4)
+    d.ellipse((x - s * 0.4, y - s * 0.4, x + s * 0.4, y + s * 0.4), outline=(70, 50, 30), width=3)
+
+
+def _magnetico(img, cena, t, dur, n, p):
+    """Inversão do campo magnético da Terra. Sem modo: a Terra com as linhas de campo e os polos N e S ("vira": o campo
+    vira no meio da cena e os polos trocam; "bagunca": campo embaralhado com vários polos; "fraco": linhas apagadas;
+    "vento": partículas do Sol chegando (com "fraco", algumas passam e batem); "satelites": satélites em volta, que
+    soltam faísca com "fraco"). Modos: "bussola" ("aponta": norte | sul | gira | vira), "tempo" (o registro das
+    inversões em faixas, como num código de barras, andando; "marca": rótulo do ponto marcado), "aurora" (o céu à noite
+    com a aurora; "longe": aurora sobre uma cidade de clima quente, com palmeiras), "animais" (tartarugas e aves seguindo
+    as linhas; "confuso": cada um vai para um lado) e "forca" (medidor da força do campo; "de"/"ate" em %).
+    "rotulo" em todos."""
+    d = ImageDraw.Draw(img, "RGBA")
+    modo = cena.get("modo", "")
+    f_ = _suave(t / max(0.1, dur * 0.85))
+    if modo == "bussola":
+        _estrelas(d, t, 50)
+        ap = cena.get("aponta", "norte")
+        if ap == "sul":
+            ang = math.pi + math.sin(t * 3) * 0.05
+        elif ap == "gira":
+            ang = t * 4.2 + math.sin(t * 2.3) * 2
+        elif ap == "vira":
+            ang = math.pi * f_ + math.sin(t * 9) * 0.15 * (1 - abs(2 * f_ - 1))
+        else:
+            ang = math.sin(t * 3) * 0.06
+        _bussola(d, W / 2, H * 0.45, 360, ang, p)
+        if ap in ("sul", "vira") and f_ > 0.9 or ap == "sul":
+            _centro_texto(d, W / 2, H * 0.71, "?!", _f(110), p["acento"])
+    elif modo == "tempo":
+        _estrelas(d, t, 40)
+        y0, y1 = H * 0.3, H * 0.6
+        rnd = random.Random(7)
+        x = -((t * 120) % 400)
+        k = 0
+        while x < W + 400:                                 # faixas pretas e brancas de largura irregular
+            w_ = rnd.choice((30, 50, 80, 120, 160, 220))
+            d.rectangle((x, y0, x + w_, y1), fill=(240, 242, 248) if k % 2 == 0 else (20, 24, 40))
+            x += w_
+            k += 1
+        d.rectangle((0, y0, W, y1), outline=(86, 214, 255), width=6)
+        _centro_texto(d, W * 0.16, y1 + 60, "HOJE", _f(44), p["fig"])
+        _centro_texto(d, W * 0.76, y1 + 60, "PASSADO", _f(44), p["fig"])
+        d.line((W * 0.88, y1 + 60, W * 0.95, y1 + 60), fill=p["fig"], width=6)
+        d.polygon([(W * 0.95, y1 + 46), (W * 0.98, y1 + 60), (W * 0.95, y1 + 74)], fill=p["fig"])
+        if cena.get("marca"):
+            mx = W * 0.5
+            d.line((mx, y0 - 60, mx, y1 + 10), fill=p["acento"], width=10)
+            d.polygon([(mx - 26, y0 - 90), (mx + 26, y0 - 90), (mx, y0 - 50)], fill=p["acento"])
+            _rotulo_caixa(d, y0 - 160, str(cena["marca"]).upper(), p)
+    elif modo == "aurora":
+        horiz = H * 0.66
+        _ceu_noite(d, t, horiz)
+        for k in range(5):                                 # cortinas da aurora
+            pts_top = [(x, H * (0.12 + 0.04 * k) + math.sin(x * 0.006 + t * 1.2 + k) * 50) for x in range(0, W + 20, 20)]
+            for x, y in pts_top:
+                alt = 320 + 80 * math.sin(x * 0.01 + t + k)
+                cor = (80, 255, 160) if k % 2 == 0 else (255, 110, 200)
+                d.line((x, y, x, y + alt), fill=cor + (26,), width=22)
+        d.rectangle((0, horiz, W, H), fill=(16, 22, 36))
+        if cena.get("longe"):
+            for k, x in enumerate((W * 0.12, W * 0.82)):   # palmeiras
+                d.line((x, horiz, x + 20, horiz - 300), fill=(26, 30, 40), width=18)
+                for a in range(6):
+                    ang = -math.pi / 2 + (a - 2.5) * 0.5
+                    d.line((x + 20, horiz - 300, x + 20 + math.cos(ang) * 140, horiz - 300 + math.sin(ang) * 80 + 60), fill=(26, 30, 40), width=14)
+        for k in range(7):                                 # casas
+            x = W * 0.22 + k * 90
+            h_ = 90 + (k % 3) * 40
+            d.rectangle((x, horiz - h_, x + 76, horiz), fill=(26, 30, 44))
+            d.rectangle((x + 24, horiz - h_ + 26, x + 46, horiz - h_ + 50), fill=(255, 206, 96))
+        _morro_gente(d, t, horiz + 140, n=3)
+    elif modo == "animais":
+        _estrelas(d, t, 40)
+        cx, cy, R = W / 2, H * 0.46, 150
+        _linhas_campo(d, cx, cy, R, t, bagunca=0.6 if cena.get("confuso") else 0.0)
+        _globo(d, cx, cy, R, t)
+        for k in range(5):
+            if cena.get("confuso"):
+                ang = t * (1.5 + k * 0.4) * (1 if k % 2 else -1) + k
+                x = W * (0.2 + 0.15 * k) + math.cos(ang) * 50
+                y = H * 0.68 + math.sin(ang) * 40 - (k % 2) * 60
+            else:
+                ang = -0.3
+                x = (W * (0.1 + 0.18 * k) + t * 60) % W
+                y = H * 0.68 - (k % 2) * 60
+            _tartaruga(d, x, y, 52, ang)
+        for k in range(6):                                 # aves (bando em V)
+            if cena.get("confuso"):
+                x = W * 0.5 + math.cos(t * 2 + k * 1.3) * 300
+                y = H * 0.2 + math.sin(t * 2.6 + k) * 90
+            else:
+                x = W * 0.3 + t * 70 + abs(k - 2.5) * 50
+                y = H * 0.2 + abs(k - 2.5) * 30
+            asa = math.sin(t * 9 + k) * 14
+            d.line((x - 30, y - asa, x, y, x + 30, y - asa), fill=(240, 243, 250), width=6, joint="curve")
+        if cena.get("confuso"):
+            _centro_texto(d, W / 2, H * 0.58, "? ? ?", _f(70), p["acento"])
+    elif modo == "forca":
+        _estrelas(d, t, 40)
+        de, ate = float(cena.get("de", 100)), float(cena.get("ate", 95))
+        v = de + (ate - de) * f_
+        bx0, bx1, by0, by1 = W * 0.3, W * 0.7, H * 0.26, H * 0.68
+        d.rounded_rectangle((bx0, by0, bx1, by1), radius=30, outline=(230, 236, 248), width=8)
+        topo = by1 - (by1 - by0) * v / 100
+        d.rounded_rectangle((bx0 + 14, topo, bx1 - 14, by1 - 14), radius=20, fill=(86, 214, 255))
+        ytopo_de = by1 - (by1 - by0) * de / 100
+        for x in range(int(bx0), int(bx1), 30):
+            d.line((x, ytopo_de, x + 16, ytopo_de), fill=p["acento"], width=5)
+        _centro_texto(d, W / 2, H * 0.2, "FORÇA DO CAMPO", _f(56), p["fig"])
+    else:
+        _estrelas(d, t, 70)
+        cx, cy, R = W / 2, H * 0.46, 230
+        inv = f_ if cena.get("vira") else (1.0 if cena.get("invertido") else 0.0)
+        bag = 1.0 if cena.get("bagunca") else (math.sin(inv * math.pi) if cena.get("vira") else 0.0)
+        forca = 0.35 if cena.get("fraco") else 1.0
+        if cena.get("vento"):                              # partículas do Sol vindo da esquerda
+            for k in range(40):
+                rnd = random.Random(k)
+                y = cy + (rnd.random() - 0.5) * H * 0.6
+                x = ((rnd.random() * W + t * 500) % (W + 200)) - 200
+                limite = cx - R * (1.3 if cena.get("fraco") else 2.6)
+                if x > limite and not (cena.get("fraco") and k % 3 == 0):
+                    x = limite - (x - limite) * 0.2
+                    y += (y - cy) * 0.3
+                d.line((x - 60, y, x, y), fill=(255, 200, 80, 220), width=7)
+                d.ellipse((x - 7, y - 7, x + 7, y + 7), fill=(255, 230, 140))
+        _linhas_campo(d, cx, cy, R, t, inv=inv, bagunca=bag, forca=forca)
+        _globo(d, cx, cy, R, t)
+        if cena.get("satelites"):
+            for k in range(4):
+                a = t * 0.8 + k * math.pi / 2
+                x, y = cx + math.cos(a) * R * 1.5, cy + math.sin(a) * R * 0.5
+                d.rectangle((x - 14, y - 10, x + 14, y + 10), fill=(220, 224, 236))
+                d.rectangle((x - 46, y - 6, x - 16, y + 6), fill=(60, 110, 200))
+                d.rectangle((x + 16, y - 6, x + 46, y + 6), fill=(60, 110, 200))
+                if cena.get("fraco") and (int(t * 6) + k) % 3 == 0:
+                    for j in range(5):
+                        aa = j * 1.25 + t * 5
+                        d.line((x, y, x + math.cos(aa) * 40, y + math.sin(aa) * 40), fill=(255, 220, 90), width=4)
+        if cena.get("bagunca"):                            # vários polos ao mesmo tempo
+            for k, (ax, ay) in enumerate(((0.3, -0.75), (-0.6, 0.4), (0.75, 0.2), (-0.2, 0.85), (0.5, -0.1))):
+                x, y = cx + ax * R * 1.25, cy + ay * R * 1.25
+                txt = "N" if k % 2 == 0 else "S"
+                cor = (232, 44, 56) if txt == "N" else (86, 214, 255)
+                s_ = 40 + 6 * math.sin(t * 4 + k)
+                d.ellipse((x - s_, y - s_, x + s_, y + s_), fill=cor)
+                _centro_texto(d, x, y, txt, _f(48), (255, 255, 255))
+        else:
+            norte_em_cima = inv < 0.5
+            if not (cena.get("vira") and 0.35 < inv < 0.65):
+                for txt, yy in (("N", cy - R - 70), ("S", cy + R + 70)):
+                    real = txt if norte_em_cima else ("S" if txt == "N" else "N")
+                    cor = (232, 44, 56) if real == "N" else (86, 214, 255)
+                    d.ellipse((cx - 44, yy - 44, cx + 44, yy + 44), fill=cor)
+                    _centro_texto(d, cx, yy, real, _f(52), (255, 255, 255))
+    if cena.get("rotulo"):
+        _rotulo_caixa(d, H * 0.1, str(cena["rotulo"]).upper(), p)
+
+
+QUADROS.update({"magnetico": _magnetico})
+
+
+# ---------------------------------------------------------------- o sinal "Wow!"
+def _radiotelescopio(d, cx, chao, s, t, p):
+    """Antena parabólica grande, virada para o céu, com a torre e o receptor. Devolve a posição do receptor."""
+    cy = chao - s * 0.62
+    d.polygon([(cx - s * 0.2, chao), (cx - s * 0.06, cy), (cx + s * 0.06, cy), (cx + s * 0.2, chao)], fill=(150, 160, 186))
+    ang = 0.45 + math.sin(t * 0.4) * 0.04                  # inclinada, olhando para o alto à direita
+    def rot(x, y):
+        return cx + x * math.cos(ang) - y * math.sin(ang), cy + x * math.sin(ang) + y * math.cos(ang)
+    pts = [rot((-1 + 2 * i / 40) * s * 0.6, -((-1 + 2 * i / 40) ** 2) * s * 0.24) for i in range(41)]
+    fundo = [rot((-1 + 2 * i / 40) * s * 0.6, -((-1 + 2 * i / 40) ** 2) * s * 0.24 + s * 0.05) for i in range(41)]
+    d.polygon(fundo + pts[::-1], fill=(150, 160, 186))
+    d.polygon(pts, fill=(226, 232, 244), outline=(110, 120, 150))
+    for k in range(1, 6):                                  # nervuras da antena
+        u = -1 + 2 * k / 6
+        d.line((pts[20], rot(u * s * 0.6, -(u * u) * s * 0.24)), fill=(180, 190, 212), width=3)
+    fx, fy = rot(0, -s * 0.5)
+    for e in (pts[4], pts[-5]):
+        d.line((e[0], e[1], fx, fy), fill=(110, 120, 150), width=5)
+    d.ellipse((fx - 16, fy - 16, fx + 16, fy + 16), fill=p["acento"])
+    return fx, fy
+
+
+def _sinal(img, cena, t, dur, n, p):
+    """O sinal "Wow!" (1977). Sem modo: o radiotelescópio à noite ouvindo o céu ("onda": o sinal chegando de um ponto
+    do céu). Modos: "radio" (você com um rádio antigo; "chega": o rádio chiando com ondas), "grafico" (a linha do
+    ruído e o pico subindo; "pico": até quantas vezes o ruído, mostrado no eixo), "tempo" (cronômetro enchendo até
+    "ate" segundos), "papel" (a folha impressa de números; "circula": a caneta vermelha circulando o código e escrevendo
+    "Wow!"), "procura" (a antena varrendo o céu, sem nada; "?"), "nuvem" (a nuvem de hidrogênio e uma estrela de
+    nêutrons girando com feixes; "clarao": a estrela pisca e a nuvem acende) e "votar" (dois cartões: NATUREZA x
+    ALGUÉM?). "rotulo" em todos."""
+    d = ImageDraw.Draw(img, "RGBA")
+    modo = cena.get("modo", "")
+    f_ = _suave(t / max(0.1, dur * 0.85))
+    if modo == "radio":
+        _estrelas(d, t, 60)
+        cx, cy = W / 2, H * 0.5
+        d.rounded_rectangle((cx - 300, cy - 170, cx + 300, cy + 170), radius=40, fill=(150, 90, 50), outline=(70, 40, 20), width=8)
+        d.rounded_rectangle((cx - 260, cy - 130, cx + 40, cy + 130), radius=24, fill=(60, 40, 26))
+        for k in range(8):                                 # alto-falante
+            d.line((cx - 240, cy - 110 + k * 30, cx + 20, cy - 110 + k * 30), fill=(110, 76, 50), width=8)
+        d.rounded_rectangle((cx + 80, cy - 120, cx + 260, cy - 40), radius=12, fill=(240, 220, 150))
+        ponteiro = cx + 100 + 140 * (0.5 + 0.5 * math.sin(t * 1.3))
+        d.line((ponteiro, cy - 116, ponteiro, cy - 44), fill=(220, 40, 40), width=5)
+        for k, kx in enumerate((cx + 120, cx + 220)):
+            d.ellipse((kx - 40, cy + 20, kx + 40, cy + 100), fill=(60, 40, 26), outline=(30, 20, 10), width=4)
+            a = t * 2 + k
+            d.line((kx, cy + 60, kx + math.cos(a) * 30, cy + 60 + math.sin(a) * 30), fill=(240, 220, 150), width=6)
+        d.line((cx + 200, cy - 170, cx + 320, cy - 420), fill=(200, 200, 210), width=8)
+        if cena.get("chega"):
+            for k in range(4):
+                fase = (t * 0.8 + k / 4) % 1
+                rr = 60 + fase * 380
+                d.arc((cx + 320 - rr, cy - 420 - rr, cx + 320 + rr, cy - 420 + rr), 200, 340, fill=(86, 214, 255, int(230 * (1 - fase))), width=8)
+            sx, sy = W * 0.86, H * 0.08
+            d.ellipse((sx - 18, sy - 18, sx + 18, sy + 18), fill=(255, 240, 180))
+        _pessoa(d, cx - 360, cy + 380, 300, p["fig"], t, fundo=p["fundo"])
+    elif modo == "grafico":
+        _estrelas(d, t, 30)
+        x0, x1, y0, y1 = W * 0.1, W * 0.92, H * 0.2, H * 0.66
+        d.rectangle((x0, y0, x1, y1), fill=(4, 10, 28), outline=(86, 214, 255), width=5)
+        for k in range(1, 5):
+            y = y1 - (y1 - y0) * k / 5
+            d.line((x0, y, x1, y), fill=(40, 70, 120), width=2)
+        pico = float(cena.get("pico", 30))
+        base = y1 - 30
+        alto = y0 + 40
+        ate = int(x0 + (x1 - x0) * min(1.0, t / max(0.1, dur * 0.9)))
+        pts = []
+        rnd = random.Random(3)
+        for x in range(int(x0) + 4, ate, 6):
+            u = (x - x0) / (x1 - x0)
+            sobe = math.exp(-((u - 0.6) / 0.07) ** 2)
+            y = base - rnd.random() * 18 - sobe * (base - alto)
+            pts.append((x, y))
+        if len(pts) > 1:
+            d.line(pts, fill=(255, 196, 36), width=5)
+        if ate > x0 + (x1 - x0) * 0.62:
+            mx = x0 + (x1 - x0) * 0.6
+            d.line((mx + 60, alto, mx + 60, base), fill=p["fig"], width=4)
+            d.polygon([(mx + 46, alto + 20), (mx + 74, alto + 20), (mx + 60, alto)], fill=p["fig"])
+            d.text((mx + 80, (alto + base) / 2 - 40), f"{int(pico)}x", font=_f(80), fill=p["acento"])
+        d.text((x0 + 20, y1 + 20), "RUÍDO DO CÉU", font=_f(40), fill=(150, 170, 210))
+    elif modo == "tempo":
+        _estrelas(d, t, 50)
+        cx, cy, r = W / 2, H * 0.44, 300
+        ate = float(cena.get("ate", 72))
+        v = ate * f_
+        d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=(40, 70, 120), width=40)
+        d.arc((cx - r, cy - r, cx + r, cy + r), -90, -90 + 360 * f_, fill=(86, 214, 255), width=40)
+        _centro_texto(d, cx, cy - 10, f"{int(v)}", _f(200), p["fig"])
+        _centro_texto(d, cx, cy + 130, "SEGUNDOS", _f(48), p["acento"])
+    elif modo == "papel":
+        d.rectangle((0, 0, W, H), fill=(30, 26, 22))
+        px0, px1 = W * 0.08, W * 0.92
+        d.rectangle((px0, H * 0.08, px1, H * 0.7), fill=(244, 240, 226))
+        for y in range(int(H * 0.08) + 30, int(H * 0.7), 90):
+            d.ellipse((px0 + 14, y, px0 + 34, y + 20), fill=(30, 26, 22))
+            d.ellipse((px1 - 34, y, px1 - 14, y + 20), fill=(30, 26, 22))
+        rnd = random.Random(9)
+        fonte = _f(46, mono=True)
+        linhas = 14
+        alvo_col = 4
+        for li in range(linhas):
+            y = H * 0.11 + li * 62
+            for col in range(9):
+                x = px0 + 70 + col * 92
+                if col == alvo_col and 5 <= li <= 10:
+                    ch = "6EQUJ5"[li - 5]
+                else:
+                    ch = rnd.choice("  111111234")
+                d.text((x, y), ch, font=fonte, fill=(60, 60, 70))
+        if cena.get("circula"):
+            cx = px0 + 70 + alvo_col * 92 + 14
+            cy = H * 0.11 + 7.5 * 62 + 20
+            fim = int(360 * min(1.0, f_ * 1.6))
+            d.arc((cx - 70, cy - 230, cx + 70, cy + 230), -90, -90 + fim, fill=(210, 30, 40), width=9)
+            if f_ > 0.6:
+                letras = int(len("Wow!") * min(1.0, (f_ - 0.6) / 0.3)) + 1
+                d.text((cx + 110, cy - 200), "Wow!"[:letras], font=_f(130), fill=(210, 30, 40))
+    elif modo == "procura":
+        _ceu_noite(d, t, H * 0.72)
+        d.rectangle((0, H * 0.72, W, H), fill=(20, 30, 24))
+        fx, fy = _radiotelescopio(d, W * 0.42, H * 0.74, 520, t, p)
+        a = math.sin(t * 0.9) * 0.5 - math.pi / 2 + 0.45
+        d.polygon([(fx, fy), (fx + math.cos(a - 0.12) * 900, fy + math.sin(a - 0.12) * 900), (fx + math.cos(a + 0.12) * 900, fy + math.sin(a + 0.12) * 900)], fill=(86, 214, 255, 50))
+        _centro_texto(d, W * 0.78, H * 0.2, "?", _f(150), p["acento"])
+    elif modo == "nuvem":
+        _estrelas(d, t, 80)
+        cx, cy = W * 0.45, H * 0.4
+        acende = f_ if cena.get("clarao") else 0.0
+        for k in range(26):                                # a nuvem de hidrogênio
+            rnd = random.Random(k)
+            x = cx + (rnd.random() - 0.5) * 640
+            y = cy + (rnd.random() - 0.5) * 360
+            rr = 90 + rnd.random() * 90
+            al = int(40 + 90 * acende)
+            d.ellipse((x - rr, y - rr * 0.7, x + rr, y + rr * 0.7), fill=(170 + int(80 * acende), 90, 220, al))
+        sx, sy = W * 0.8, H * 0.18
+        giro = t * 3
+        flash = cena.get("clarao") and (t % 1.2) < 0.25
+        for s_ in (1, -1):                                 # os feixes da estrela de nêutrons girando
+            a = giro + (0 if s_ == 1 else math.pi)
+            d.polygon([(sx, sy), (sx + math.cos(a - 0.08) * 500, sy + math.sin(a - 0.08) * 500), (sx + math.cos(a + 0.08) * 500, sy + math.sin(a + 0.08) * 500)],
+                      fill=(255, 240, 160, 150 if flash else 70))
+        rr = 30 if not flash else 60
+        d.ellipse((sx - rr * 2, sy - rr * 2, sx + rr * 2, sy + rr * 2), fill=(140, 200, 255, 80))
+        d.ellipse((sx - rr, sy - rr, sx + rr, sy + rr), fill=(240, 248, 255))
+        if acende > 0.5:                                   # o sinal saindo da nuvem até a Terra
+            ex, ey = W * 0.3, H * 0.66
+            _globo(d, ex, ey, 70, t)
+            for k in range(3):
+                fase = (t * 0.9 + k / 3) % 1
+                x = cx + (ex - cx) * fase
+                y = cy + (ey - cy) * fase
+                d.ellipse((x - 16, y - 16, x + 16, y + 16), fill=(86, 214, 255, int(230 * (1 - fase))))
+        d.text((cx - 180, cy + 220), "HIDROGÊNIO", font=_f(44), fill=(220, 180, 255))
+    elif modo == "votar":
+        _estrelas(d, t, 60)
+        for k, (txt, cor) in enumerate((("NATUREZA", (86, 214, 255)), ("ALGUÉM?", (255, 196, 36)))):
+            cx = W * (0.28 + 0.44 * k)
+            cy = H * 0.45 + math.sin(t * 3 + k * 1.5) * 14
+            d.rounded_rectangle((cx - 210, cy - 260, cx + 210, cy + 260), radius=36, fill=(14, 30, 70), outline=cor, width=10)
+            _centro_texto(d, cx, cy - 150, str(k + 1), _f(150), cor)
+            _centro_texto(d, cx, cy + 150, txt, _fit(d, txt, 56) if len(txt) > 8 else _f(56), p["fig"])
+            if k == 0:
+                for j in range(5):                         # nuvem pequena
+                    d.ellipse((cx - 110 + j * 40, cy - 10 - (j % 2) * 30, cx - 30 + j * 40, cy + 50 - (j % 2) * 30), fill=(170, 90, 220, 150))
+            else:
+                _olho(d, cx, cy + 20, 40, t, 3)
+    else:
+        horiz = H * 0.72
+        _ceu_noite(d, t, horiz)
+        d.rectangle((0, horiz, W, H), fill=(20, 30, 24))
+        fx, fy = _radiotelescopio(d, W * 0.42, horiz + 20, 560, t, p)
+        if cena.get("onda"):
+            sx, sy = W * 0.88, H * 0.07
+            d.ellipse((sx - 20, sy - 20, sx + 20, sy + 20), fill=(255, 240, 180))
+            for k in range(5):
+                fase = (t * 0.7 + k / 5) % 1
+                x, y = sx + (fx - sx) * fase, sy + (fy - sy) * fase
+                d.ellipse((x - 26, y - 26, x + 26, y + 26), outline=(86, 214, 255, int(240 * (1 - fase * 0.6))), width=6)
+        else:
+            for k in range(3):                             # ouvindo: arcos fracos
+                fase = (t * 0.5 + k / 3) % 1
+                rr = 40 + fase * 200
+                d.arc((fx - rr, fy - rr, fx + rr, fy + rr), 200, 340, fill=(86, 214, 255, int(120 * (1 - fase))), width=4)
+    if cena.get("rotulo"):
+        _rotulo_caixa(d, H * 0.1, str(cena["rotulo"]).upper(), p)
+
+
+QUADROS.update({"sinal": _sinal})
