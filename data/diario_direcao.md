@@ -538,3 +538,7 @@
 - **Mesa do Gerente:** no "Aguardando", o prazo do nº 22 passou de ~10h30 para ~11h30 (quando o agendamento roda). Histórico sem linha nova.
 - **Aviso no Telegram:** não mandado (nada novo; a reserva das 11h35 lembra o nº 22 se ainda faltar).
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. `gh` com token inválido; leitura das runs pelo GitHub MCP. Sem subagentes; papéis em sequência.
+
+## 27/11 (11h45): conferência do agendamento da manhã (Publicador)
+- O cron das 11h31 do fila.yml ainda não tinha rodado às 11h41 (atraso do GitHub). `itens` da fila vazia: nenhuma isca aprovada.
+- Faixa das 11h47 vazia. Não mandei outro tipo. Avisei o Vitor (push + Telegram via `acao=aviso`): `/aprovar 22` (Fita 03) ou `/aprovar 19` (Terreiro).
