@@ -542,3 +542,13 @@
 ## 27/11 (11h45): conferência do agendamento da manhã (Publicador)
 - O cron das 11h31 do fila.yml ainda não tinha rodado às 11h41 (atraso do GitHub). `itens` da fila vazia: nenhuma isca aprovada.
 - Faixa das 11h47 vazia. Não mandei outro tipo. Avisei o Vitor (push + Telegram via `acao=aviso`): `/aprovar 22` (Fita 03) ou `/aprovar 19` (Terreiro).
+
+## 27/11 (15h55): rodada do Revisor e do Publicador (tarde)
+- **Decisões do Vitor desde as 10h55** (horários de Brasília; o bot grava em UTC): aprovou o nº 22 Fita 03 (12h25), o nº 21 Câmera 4 Ep. 1 (12h25), o nº 23 Turno Ep. 1 (12h27) e o nº 19 Terreiro (12h28). O /aprovar 24 (12h26) foi ignorado pela Mesa porque a Garagem já estava postada: sem duplicado. A Fita 03 foi agendada às 12h29 e saiu no YouTube às 12h39 (WI8oUod9U4E). Nada com status "refazer".
+- **Revisor:** todos os "renderizado" (12, 13, 15, 16, 17, 18) já têm vídeo aprovado, na fila ou postado. Nenhum render novo desde 45833867073 (26/11) e nada "renderizando". Nada a revisar.
+- **Publicador:** nenhum vídeo novo para mandar. Fila `itens`: Câmera 4 Ep. 1 (história), Turno Ep. 1 (história) e Terreiro (isca). O principal de hoje 18h47 está garantido (Câmera 4, agendamento das 18h31).
+- **Atenção à ordem:** o `fila.py` pega o primeiro principal da lista. Sem mexer, o Turno sai Sáb 28/11 18h47 (2 histórias seguidas, quebrando a alternância), e o nº 25 Protocolo 13º Andar, se aprovado, entra depois e vai para Dom 29/11. Não reordenei: o Vitor decide. Mapa: Sex 27 Fita 03 (postada) + Câmera 4 | Sáb 28 Terreiro + Turno (ou nº 25) | Dom 29 nº 26 (roteiro) + nº 25 ou Turno. Seg 30/11 sem candidato (rodada de amanhã 07h23).
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** "Aguardando" ficou só com os roteiros nº 25 e 26 (a faixa do nº 25 explica a ordem). Histórico ganhou 5 linhas de 27/11 (19, 23, 24, 21, 22).
+- **Aviso no Telegram:** mandado, com a questão da ordem e os nº 25 e 26 pendentes.
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git; gh CLI funcionou. Sem subagentes; papéis em sequência.
