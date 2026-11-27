@@ -11,7 +11,7 @@
  "titulo": "E se você visse uma estrela explodir no céu?",
  "titulo_youtube": "E se você visse uma ESTRELA EXPLODIR no céu? 💥 #shorts",
  "legenda_post": "Betelgeuse, o ombro vermelho de Órion, é tão gigante que o Sol vira um pontinho do lado. Quando ela explodir, vai brilhar como a meia-lua e dar pra ver até de dia. Você ia querer ver? 👇\n\nFontes: Astronomy.com (fev/2020, atualizado mai/2023), Discover (fev/2020), BBC Sky at Night Magazine (jan/2025), Scientific American.\n#ciencia #espaco #estrelas #supernova #curiosidades #ese",
- "thumb_texto": "ELA VAI|EXPLODIR",
+ "thumb_texto": "E SE ELA|EXPLODISSE?",
  "cenas": [
   {
    "narracao": "E se você visse uma estrela explodir no céu?",
@@ -108,5 +108,6 @@
    "linhas": true,
    "rotulo": "você ia querer ver?"
   }
- ]
+ ],
+ "thumb_arte": "supernova"
 }

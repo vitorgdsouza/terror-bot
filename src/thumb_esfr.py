@@ -152,6 +152,36 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
         _buraco_negro_thumb(img, W, H)
     elif tipo == "fermi":
         _fermi_thumb(img, W, H)
+    elif tipo == "supernova":
+        import math
+        R = 640
+        t = terra(R, seed=44)
+        ex, ey = W // 2, int(H * 1.12)
+        sx, sy = int(W * 0.56), int(H * 0.50)
+        for k, (rr, a) in enumerate(((560, 60), (420, 90), (300, 130), (190, 190))):     # clarão em camadas
+            g = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+            ImageDraw.Draw(g).ellipse((sx - rr, sy - rr, sx + rr, sy + rr), fill=(255, 70 + k * 40, 30 + k * 15, a + 20))
+            img.alpha_composite(g.filter(ImageFilter.GaussianBlur(40)))
+        raios = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        dr = ImageDraw.Draw(raios)
+        for k in range(16):
+            ang = k / 16 * 2 * math.pi + 0.1
+            L = 520 if k % 2 == 0 else 330
+            w = 0.05 if k % 2 == 0 else 0.035
+            dr.polygon([(sx, sy), (sx + math.cos(ang - w) * L, sy + math.sin(ang - w) * L), (sx + math.cos(ang + w) * L, sy + math.sin(ang + w) * L)], fill=(255, 245, 200, 230))
+        img.alpha_composite(raios.filter(ImageFilter.GaussianBlur(3)))
+        d = ImageDraw.Draw(img)
+        for rr, w in ((250, 10), (340, 6)):                                              # onda de choque
+            d.ellipse((sx - rr, sy - rr * 0.92, sx + rr, sy + rr * 0.92), outline=(255, 196, 40), width=w)
+        d.ellipse((sx - 95, sy - 95, sx + 95, sy + 95), fill=(255, 250, 230))
+        img.alpha_composite(t, (ex - t.width // 2, ey - t.height // 2))
+        d = ImageDraw.Draw(img)
+        fl = ImageFont.truetype(str(FONTE), 46)
+        d.text((sx - fl.getlength("BETELGEUSE") / 2, sy + 360), "BETELGEUSE", font=fl, fill=(255, 196, 40), stroke_width=4, stroke_fill=(0, 0, 0))
+        from .voce import _pessoa
+        px = int(W * 0.3)
+        py = int(ey - math.sqrt(R * R - (px - ex) ** 2)) + 12
+        _pessoa(d, px, py, 150, (245, 245, 250), 0.0, "parado", fundo=(10, 16, 40))
     elif tipo == "fossa":
         img = _fossa(W, H)
         d = ImageDraw.Draw(img)
