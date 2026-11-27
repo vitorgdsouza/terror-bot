@@ -529,3 +529,12 @@
 - **Mesa do Gerente:** "Aguardando" refeita com a coluna "Faixa" (22, 21, 19, 25, 26, 23); a Garagem saiu. O Histórico ganhou o nº 20 (aprovado e postado) e o nº 24 (postado à mão).
 - **Lembrete:** o roteiro do vídeo longo "As Fitas da Madrugada" é escrito amanhã, Sáb 28/11 (`docs/LONGO_TERROR.md`).
 - **Ferramenta:** clone em /home/claude/terror-bot-git. Workflows disparados pelo GitHub MCP (actions_run_trigger), em vez do gh CLI.
+
+## 27/11 (10h55): rodada do Revisor e do Publicador
+- **Decisões do Vitor desde as 07h25:** nenhuma. Os vídeos nº 19, 21, 22 e 23 e os roteiros nº 25 e 26 continuam pendentes; nada com status "refazer".
+- **Revisor:** todos os "renderizado" (12, 13, 15, 16, 17, 18) já têm vídeo proposto ou postado (19 a 24). Nada "renderizando". Último refazer-video do terror: 45833867073 (26/11, ok); nenhum render em andamento. Nada a revisar nem refazer.
+- **Publicador:** nenhum vídeo novo para mandar. `itens` da fila vazia. As duas faixas de hoje têm candidato esperando o Vitor (nº 22 às 11h47, nº 21 às 18h47), então o principal de hoje não está "faltando sem nada pendente". O agendamento das 11h31 só sobe a isca se o nº 22 for aprovado antes. Mapa sem mudança: Sex 27/11 nº 22 + nº 21 | Sáb 28/11 nº 19 + nº 25 (roteiro) | Dom 29/11 nº 26 (roteiro) + nº 23.
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** no "Aguardando", o prazo do nº 22 passou de ~10h30 para ~11h30 (quando o agendamento roda). Histórico sem linha nova.
+- **Aviso no Telegram:** não mandado (nada novo; a reserva das 11h35 lembra o nº 22 se ainda faltar).
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git. `gh` com token inválido; leitura das runs pelo GitHub MCP. Sem subagentes; papéis em sequência.
