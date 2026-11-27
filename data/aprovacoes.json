@@ -1,5 +1,5 @@
 {
- "proximo": 26,
+ "proximo": 27,
  "itens": [
   {
    "id": 1,
@@ -399,6 +399,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-27 10:28",
+   "decidido": ""
+  },
+  {
+   "id": 26,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Fita da Farmácia 03:17 (Fita 00)",
+   "arquivo": "roteiros/iscas/isca_14_farmacia0.json",
+   "run_id": "",
+   "resumo": "Isca VHS para Dom 29/11 11h47 (abre o dia do Turno Ep. 1): Fita 00, a primeira noite do Cliente. A Bia vende hortelã e esparadrapo, mas na câmera o balcão está vazio; susto em esp_cliente_balcao: ela disse 'boa noite'. Prequel como a Garagem (1.159 views em <1 dia). 30 palavras, 5 cenas, só arte existente.",
+   "titulo_youtube": "Fita 00: a câmera gravou a venda das 3h17... mas o balcão estava vazio 📼 #shorts",
+   "legenda": "Fita 00 (história de ficção). A primeira noite do Cliente das 3h17: a Bia vendeu hortelã e esparadrapo, sorriu, deu o troco... e na câmera não tinha ninguém no balcão. Você daria boa noite? 👇",
+   "tipo_video": "isca",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-27 10:30",
    "decidido": ""
   }
  ]
