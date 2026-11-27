@@ -35,3 +35,8 @@
 - **Duração:** 35 a 45 s, no máximo cerca de 100 palavras.
 - **Gancho:** a 1ª frase põe um objeto concreto em perigo, agora e com você (a Lua sumindo, o Sol apagando, você sem traje). Tema abstrato só funciona traduzido para uma ameaça concreta.
 - **Uma ideia por vídeo.** Hipóteses múltiplas viram uma série, com um vídeo para cada uma.
+
+## Padrão de thumb (Vitor, 26/11: "fora dos padrões")
+- **Todo roteiro precisa de `thumb_arte` própria** em `src/thumb_esfr.py`, com o desenho do assunto: Terra realista, céu estrelado e o objeto em perigo. As artes que existem são buraco, terra_parada, lua_some, asteroide, fossa, supernova, pulo e fermi. Se o assunto pedir, crie uma nova. Nunca use só o quadro do vídeo.
+- **`thumb_texto`** começa com "E SE..." ou é a pergunta do gancho, em 2 linhas (branco e depois amarelo).
+- **Antes de pôr na fila, gere a thumb e olhe com Read.** Se ela não seguir este padrão, não entra na fila.
