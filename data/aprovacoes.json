@@ -1,5 +1,5 @@
 {
- "proximo": 27,
+ "proximo": 28,
  "itens": [
   {
    "id": 1,
@@ -415,6 +415,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-27 10:30",
+   "decidido": ""
+  },
+  {
+   "id": 27,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Fita do Canil 01:40",
+   "arquivo": "roteiros/iscas/isca_15_canil.json",
+   "run_id": "",
+   "resumo": "Isca VHS para Seg 30/11 11h47: Fita do Canil 01:40, prequel das Fitas do Rufus (bicho é o tema mais forte; a Dashcam, 580 views e 0 inscrito, ficou de fora). 33 palavras (~20 s): 1º quadro já com o cão no corredor, virada com o Rufus de verdade no pé da cama, susto esp_pele_corredor e 'quantas patas você ouviu?'. Só arte que já existe.",
+   "titulo_youtube": "1h40: unhas no corredor... mas o cachorro estava do lado dela 📼 #shorts",
+   "legenda": "Fita de treino da Sargento Lena, fevereiro de 1998, a noite antes da primeira fita do Rufus (história de ficção). Unhas no corredor, no ritmo errado... e o Rufus rosnando do lado da cama. Quantas patas você ouviu? 👇",
+   "tipo_video": "isca",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-28 10:29",
    "decidido": ""
   }
  ]
