@@ -573,3 +573,12 @@
 - **Aviso no Telegram:** mandado (run 46136618354). Domingo está sem vídeo aprovado, com /aprovar 26 e 25 hoje, depois 27, 28 e 29.
 - **Aprendizado (Analista):** a história precisa abrir como isca (carimbo, algo errado à vista, frase de 5 a 6 palavras) e ficar perto de 50 s.
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git. O gh CLI funcionou apesar de `gh auth status` dizer token inválido. O longo foi feito pelo subagente roteirista; os outros papéis, em sequência.
+
+## 28/11 (10h55): rodada do Revisor e do Publicador
+- **Decisões do Vitor desde as 07h25:** nenhuma. Os roteiros nº 25, 26, 27, 28 e 29 seguem pendentes; nada com status "refazer".
+- **Revisor:** os "renderizado" (12, 13, 15, 16, 17, 18) já têm vídeo na fila ou postado (19 a 24). Nenhum refazer-video do terror desde 45833867073 (26/11) e nada "renderizando". Nada a revisar.
+- **Publicador:** nenhum vídeo novo para mandar. Fila `itens`: nº 23 Turno Ep. 1 (história) e nº 19 Terreiro (isca). As duas faixas de hoje estão cobertas (Terreiro 11h47, Turno 18h47), então o principal de hoje não está faltando. Domingo 29/11 continua sem vídeo aprovado (nº 26 e nº 25 esperam o Vitor; o nº 25 precisa de OK até ~15h).
+- **Roteirista:** nada com status "refazer".
+- **Mesa do Gerente:** sem mudança. O "Aguardando" já tinha só os nº 25 a 29, e o Histórico não ganhou linha nova.
+- **Aviso no Telegram:** não mandado (nada novo; o aviso das 07h25 já pediu /aprovar 26 e 25).
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git; gh CLI funcionou. Sem subagentes; papéis em sequência.
