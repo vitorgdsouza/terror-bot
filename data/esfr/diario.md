@@ -343,3 +343,6 @@
 - **Atenção:** o commit 25e945f saiu com o link de sessão errado na linha Claude-Session. Sem efeito no canal.
 - **Testar depois:** "recorde da natureza com número na tela" (megaflash 829 km, megatsunami 524 m) contra "mistério" (sinal Wow!, Tunguska). Os dois de mistério terminam com voto "1 ou 2": ver se puxam mais comentários que os de pergunta aberta. Ideias sem uso: a Terra sem a Lua desde o começo, raio globular, o maior granizo já medido (clima, não repetir logo depois do megaflash).
 - **Vídeo longo:** hoje é sábado (planejamento é amanhã, domingo). O 1º longo sai hoje às 11h. Para o 2º, o motor (`src/longo.py`) já faz capítulos, reaproveita narração e agenda; o que falta é escolher o tema e cuidar da cota (o longo gasta ~20 chamadas de TTS, um dia inteiro sem Short). Candidato: compilação "recordes da Terra" (megatsunami, megaflash, buraco mais fundo, Fossa, Antártida) reaproveitando quadros que já existem.
+
+- Sáb 28/11 (dia do vídeo longo): faixa das 12h17 SUSPENSA. A rodada das 12h03 não agenda Short hoje; o próximo sai às 16h17.
+- 28/11 10h15: Vênus (10, run 45396326379) posto no INÍCIO da fila para a faixa das 16h17. Fila com 6.
