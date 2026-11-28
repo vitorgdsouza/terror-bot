@@ -1,0 +1,2493 @@
+{
+  "titulo": "As Fitas da Madrugada",
+  "titulo_youtube": "5 fitas VHS achadas num brechó... a última grava quem assiste",
+  "tipo": "longo",
+  "formato": "longo_horizontal",
+  "estilo": "vhs",
+  "pixel": 6,
+  "voz": "Enceladus",
+  "clima": "suspense",
+  "trilha": "dark ambient drone hum vhs",
+  "trilha_volume": 0.4,
+  "selo": "FITAS",
+  "pergunta_thumb": "Que horas são aí?",
+  "thumb": "TV de tubo com a silhueta da filmadora na tela (esp_gravador_lente), pilha de fitas ao lado e a frase AS FITAS DA MADRUGADA em vermelho, VHS",
+  "legenda_post": "Você acha uma caixa com 5 fitas VHS no porão de um brechó. O dono só pede duas coisas: assiste na ordem e não assiste sozinho. Uma farmácia às 3h17, um sítio às 2h51, um prédio que tem um andar a mais... e uma fita sem etiqueta. História de ficção.\n\n0:00 A caixa\n1:04 Fita 1: Farmácia 03:17\n2:59 Fita 2: Terreiro 02:51\n4:43 Fita 3: CAM 04 03:13\n6:23 Fita 4: CAM 02 Garagem\n7:46 Fita 5: sem etiqueta\n9:04 Fim\n\nRepara no fim de cada fita. Que horas são aí agora? Comenta 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#terror",
+    "#historiadeterror",
+    "#creepypasta"
+  ],
+  "resumo": "Vídeo longo (16:9, ~9 min) do plano docs/LONGO_TERROR.md. Você acha 5 fitas num brechó ('assiste na ordem; não assiste sozinho'). Cada fita é recontada com narração e cenas novas (não é colagem dos Shorts): Farmácia (a 1ª noite, o 'boa noite' é convite; ele nunca aparece na câmera, o susto é fora_da_fita), Terreiro (barriga cheia, o Tição corre pra dentro e fica a salvo), CAM 04 (o 13º, encarar demais), CAM 02 Garagem (a noite antes, a planta de 1979, sem entregar o nome). Pistas do mesmo lugar: no fim de toda fita aparece a mesma sala (tv_estatica, a MESMA imagem da sua sala no começo), cada vez mais perto da poltrona; a mesma respiração no áudio; a mesma letra nas etiquetas; um REC refletido na portaria e um vulto com algo no lugar do rosto na garagem. A fita sem etiqueta filma a rua do brechó, a sua casa e a sua poltrona; no reflexo da TV apagada aparece quem gravava (o homem da filmadora no lugar do rosto). No Fim ele vira a câmera pra você; o 1º quadro do vídeo é esse mesmo plano (o final volta pro começo). Gancho de comentário: 'que horas são aí?'. Segredos preservados: vó, irmã da Bia e nome da Moradora.",
+  "notas_motor": {
+    "moldura": "fita = cenário dentro da TV de tubo 4:3 no centro, com REC, contador (data_fita/hora_fita do capítulo), tracking e chiado; nas laterais o quarto escuro de quem assiste com o cenário desfocado. quarto = a sala de quem assiste, sem REC (tela cheia ou com a TV desligada nos lados). Vale o 'moldura' do capítulo quando a cena não diz.",
+    "vcr": "insere/ejeta/pause/rebobina = a mão tirando ou pondo a fita no videocassete, com o som do mecanismo; o 'insere' do fim de um capítulo puxa o cartão do título do próximo.",
+    "fora_da_fita": "true = a imagem aparece em tela cheia, sem REC nem contador: é o que a câmera NÃO pegou (cânone: o Cliente das 3h17 nunca aparece na câmera).",
+    "cenario_reserva": "usar enquanto a imagem nova não chegar.",
+    "texto ??:??": "no fim de cada fita, o contador da sala misteriosa aparece embaralhado.",
+    "inscricao": "botão genérico SE INSCREVE pulsando, como no longo."
+  },
+  "imagens_novas": [
+    {
+      "nome": "caixa_fitas",
+      "uso": "Abertura e Fim: a caixa de fitas do porão do brechó (close).",
+      "reserva": "porao (com foco)",
+      "prompt": "A damp, slightly torn cardboard box on a dusty concrete basement floor, seen from slightly above, holding five old VHS cassette tapes standing on their sides, four with blank paper labels and one with no label at all, a single bare light bulb hanging on a wire above as the warm light source, dust floating in the light, wooden stairs fading into the dark behind. 2D cartoon illustration, clean dark outlines, flat colors with soft shading, night time, dark navy and blue palette with one warm light source, eerie and quiet mood, eye-level camera, empty scene with NO people, NO animals, NO text, NO letters or numbers on the labels, vertical 9:16"
+    },
+    {
+      "nome": "esp_gravador",
+      "uso": "CENA ESPECIAL, Fita 5 (susto): o reflexo na tela apagada da TV mostra quem gravava, atrás da poltrona.",
+      "anima": "a figura inclina a cabeça-filmadora devagar; a luzinha REC pisca; a silhueta na poltrona fica imóvel",
+      "reserva": "tv_estatica2",
+      "prompt": "SPECIAL SCENE. Close-up of a turned-off CRT television in a dark living room; its curved black glass screen works like a mirror and reflects the room behind the viewer: an old armchair with the dark silhouette of the top of a seated person's head over the backrest (no face visible), and standing right behind the armchair a very tall, thin dark figure whose face is completely replaced by an old VHS shoulder camcorder held where its head should be, long pale fingers on the camcorder, a tiny red REC light as the only warm light. Unsettling and quiet, no gore, no blood. 2D cartoon illustration, clean dark outlines, flat colors with soft shading, night time, dark navy and blue palette with one warm light source, eerie and quiet mood, eye-level camera, NO text, NO letters, vertical 9:16"
+    },
+    {
+      "nome": "esp_gravador_lente",
+      "uso": "CENA ESPECIAL, abertura (1º quadro, gancho) e Fim: ele vira a câmera para quem assiste. Também serve de thumb.",
+      "anima": "a lente gira o foco devagar; a luz REC pisca; a cabeça-filmadora inclina de lado e estala",
+      "reserva": "tv_estatica2",
+      "prompt": "SPECIAL SCENE. In a dark living room lit only by the cold blue glow of a CRT television, a very tall, thin dark figure faces the viewer directly; instead of a face it has an old VHS shoulder camcorder, the big round lens pointing straight at the viewer and filling the center of the image, long thin pale fingers holding the camcorder, a small red REC light glowing as the only warm light, an empty armchair blurred in the foreground. Unsettling but no gore, no blood. 2D cartoon illustration, clean dark outlines, flat colors with soft shading, night time, dark navy and blue palette with one warm light source, eerie and quiet mood, eye-level camera, NO text, NO letters, NO logos, vertical 9:16"
+    }
+  ],
+  "duracao_estimada_s": 591,
+  "palavras": 1301,
+  "capitulos": [
+    {
+      "titulo": "A caixa",
+      "moldura": "quarto",
+      "cenas": [
+        {
+          "narracao": "Essa fita não tinha etiqueta.",
+          "cenario": "esp_gravador_lente",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "FITA ? | 00:00:00",
+          "som": {
+            "busca": "vhs tape static",
+            "palavra": "fita"
+          },
+          "moldura": "fita",
+          "cenario_reserva": "tv_estatica2",
+          "thumb": true
+        },
+        {
+          "narracao": "No fim dela, ele vira a câmera.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "moldura": "fita",
+          "corte_preto": true
+        },
+        {
+          "narracao": "Pra você.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.62,
+            1.6
+          ],
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "você"
+          },
+          "pausa_extra": 0.6
+        },
+        {
+          "narracao": "Você vai querer pausar. Não pausa.",
+          "cenario": "corredor",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando"
+        },
+        {
+          "narracao": "Mas vamos do começo.",
+          "cenario": "ponto_onibus",
+          "personagem": null,
+          "camera": "pan_direita",
+          "som": {
+            "busca": "light rain on street",
+            "palavra": "começo"
+          }
+        },
+        {
+          "narracao": "Um brechó fechando as portas de vez.",
+          "cenario": "ponto_onibus",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.7,
+            0.45,
+            1.7
+          ]
+        },
+        {
+          "narracao": "Liquidação de tudo. Ninguém comprando nada.",
+          "cenario": "rua",
+          "personagem": null,
+          "camera": "zoom_out",
+          "efeito": "chuva"
+        },
+        {
+          "narracao": "No porão, uma lâmpada pendurada.",
+          "cenario": "porao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "light bulb swinging creak",
+            "palavra": "lâmpada"
+          }
+        },
+        {
+          "narracao": "Roupa velha, disco riscado, cheiro de mofo.",
+          "cenario": "porao",
+          "personagem": null,
+          "camera": "pan_esquerda",
+          "foco": [
+            0.3,
+            0.6,
+            1.7
+          ]
+        },
+        {
+          "narracao": "Num canto, uma caixa de papelão úmida.",
+          "cenario": "caixa_fitas",
+          "personagem": null,
+          "camera": "zoom_in",
+          "cenario_reserva": "porao"
+        },
+        {
+          "narracao": "Na tampa, a caneta: MADRUGADA.",
+          "cenario": "caixa_fitas",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "MADRUGADA",
+          "foco": [
+            0.5,
+            0.3,
+            2.0
+          ],
+          "cenario_reserva": "porao"
+        },
+        {
+          "narracao": "Cinco fitas. Quatro com etiqueta. Uma sem.",
+          "cenario": "porao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.55,
+            0.7,
+            2.0
+          ]
+        },
+        {
+          "narracao": "Letra caprichada. A mesma em todas.",
+          "cenario": "porao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.45,
+            0.62,
+            2.4
+          ]
+        },
+        {
+          "narracao": "O dono nem quis cobrar.",
+          "cenario": "escada_cima",
+          "personagem": null,
+          "camera": "zoom_out"
+        },
+        {
+          "narracao": "Parecia aliviado de ver a caixa sair.",
+          "cenario": "caixa_fitas",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.58,
+            1.6
+          ],
+          "cenario_reserva": "porao"
+        },
+        {
+          "narracao": "Só pediu: assiste na ordem.",
+          "cenario": "escada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "ASSISTE NA ORDEM"
+        },
+        {
+          "narracao": "E, já na escada: não assiste sozinho.",
+          "cenario": "escada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "NÃO ASSISTE SOZINHO",
+          "foco": [
+            0.5,
+            0.3,
+            1.8
+          ],
+          "pausa_extra": 0.4
+        },
+        {
+          "narracao": "Você riu. E levou pra casa.",
+          "cenario": "casa_fora",
+          "personagem": null,
+          "camera": "zoom_out",
+          "efeito": "chuva"
+        },
+        {
+          "narracao": "Chovia fino. A rua vazia.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "chuva",
+          "som": {
+            "busca": "light rain on window",
+            "palavra": "Chovia"
+          }
+        },
+        {
+          "narracao": "Na sala, a TV de tubo velha.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "pan_esquerda"
+        },
+        {
+          "narracao": "O videocassete ainda puxava fita.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.8,
+            1.8
+          ],
+          "som": {
+            "busca": "vcr tape insert mechanism",
+            "palavra": "videocassete"
+          }
+        },
+        {
+          "narracao": "Você estava sozinho. Claro que estava.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando"
+        },
+        {
+          "narracao": "Apagou a luz. Pegou a primeira fita.",
+          "cenario": "caixa_fitas",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.45,
+            0.58,
+            2.2
+          ],
+          "cenario_reserva": "porao"
+        },
+        {
+          "narracao": "Fita um. Etiqueta: FARMÁCIA, três e dezessete.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "FARMÁCIA 03:17",
+          "som": {
+            "busca": "vcr tape insert mechanism",
+            "palavra": "Fita"
+          },
+          "vcr": "insere"
+        }
+      ]
+    },
+    {
+      "titulo": "Fita 1: Farmácia 03:17",
+      "moldura": "fita",
+      "fita": {
+        "etiqueta": "FARMÁCIA 03:17",
+        "data_fita": "NOV 03 2003",
+        "hora_fita": [
+          1,
+          59,
+          40
+        ]
+      },
+      "cenas": [
+        {
+          "narracao": "Câmera do caixa. Novembro, dois mil e três.",
+          "cenario": "farmacia_cftv",
+          "personagem": null,
+          "camera": "parada",
+          "efeito": "luz_piscando",
+          "texto_tela": "CAM 01 | CAIXA",
+          "som": {
+            "busca": "fluorescent light buzz",
+            "palavra": "Câmera"
+          }
+        },
+        {
+          "narracao": "Farmácia vinte e quatro horas, beira de estrada.",
+          "cenario": "farmacia_fora",
+          "personagem": null,
+          "camera": "pan_direita"
+        },
+        {
+          "narracao": "No caixa, uma moça. Crachá: Bia.",
+          "cenario": "farmacia_balcao",
+          "personagem": null,
+          "camera": "zoom_in"
+        },
+        {
+          "narracao": "Caderno de anatomia. Fone num ouvido só.",
+          "cenario": "farmacia_balcao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.45,
+            0.62,
+            2.0
+          ]
+        },
+        {
+          "narracao": "Paga a faculdade no turno da noite.",
+          "cenario": "farmacia_balcao2",
+          "personagem": null,
+          "camera": "pan_esquerda"
+        },
+        {
+          "narracao": "Duas da manhã. O telefone toca.",
+          "cenario": "telefone_casa",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "02:00",
+          "som": {
+            "busca": "old telephone ringing",
+            "palavra": "telefone"
+          }
+        },
+        {
+          "narracao": "Ela atende rindo. Boa noite, maninha.",
+          "cenario": "farmacia_balcao_luz",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.45,
+            0.55,
+            1.7
+          ]
+        },
+        {
+          "narracao": "A Bia diz boa noite pra todo mundo.",
+          "cenario": "farmacia_cftv",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "CAM 01 | 02:01"
+        },
+        {
+          "narracao": "As prateleiras quietas. A câmera do teto.",
+          "cenario": "farmacia_corredor",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando"
+        },
+        {
+          "narracao": "Três e dezesseis. Nenhum carro lá fora.",
+          "cenario": "farmacia_balcao_escuro",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "03:16"
+        },
+        {
+          "narracao": "Nenhum farol. Nenhum passo.",
+          "cenario": "farmacia_fora2",
+          "personagem": null,
+          "camera": "zoom_out",
+          "efeito": "luz_piscando"
+        },
+        {
+          "narracao": "Três e dezessete... a campainha da porta.",
+          "cenario": "farmacia_cftv2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "CAM 01 | 03:17",
+          "som": {
+            "busca": "shop door bell chime",
+            "palavra": "campainha"
+          }
+        },
+        {
+          "narracao": "Toca duas vezes.",
+          "cenario": "farmacia_cftv2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.35,
+            1.8
+          ],
+          "som": {
+            "busca": "shop door bell chime",
+            "palavra": "duas"
+          }
+        },
+        {
+          "narracao": "Mas a porta de vidro nem mexeu.",
+          "cenario": "farmacia_balcao_luz",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.4,
+            2.0
+          ]
+        },
+        {
+          "narracao": "A Bia levanta os olhos. E sorri.",
+          "cenario": "farmacia_balcao2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.55,
+            1.6
+          ]
+        },
+        {
+          "narracao": "Na câmera... ela sorri pro nada.",
+          "cenario": "farmacia_cftv",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "CAM 01 | CAIXA"
+        },
+        {
+          "narracao": "Mesmo assim, registra uma venda.",
+          "cenario": "farmacia_balcao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.3,
+            0.6,
+            2.2
+          ],
+          "som": {
+            "busca": "cash register beep",
+            "palavra": "venda"
+          }
+        },
+        {
+          "narracao": "Balas de hortelã. Um rolo de esparadrapo.",
+          "cenario": "farmacia_corredor2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.35,
+            0.5,
+            1.9
+          ]
+        },
+        {
+          "narracao": "Quem compra isso às três da manhã?",
+          "cenario": "farmacia_corredor",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.45,
+            2.0
+          ]
+        },
+        {
+          "narracao": "Ela embala tudo. Conta o troco certinho.",
+          "cenario": "farmacia_balcao_luz",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "coins on counter",
+            "palavra": "troco"
+          }
+        },
+        {
+          "narracao": "Na fita, estende o troco... pra ninguém.",
+          "cenario": "farmacia_cftv",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.6,
+            1.9
+          ]
+        },
+        {
+          "narracao": "E, educada como sempre, ela diz:",
+          "cenario": "farmacia_balcao2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.45,
+            2.0
+          ]
+        },
+        {
+          "narracao": "Boa noite.",
+          "cenario": "farmacia_cftv2",
+          "personagem": null,
+          "camera": "parada",
+          "efeito": "tv_chiando",
+          "pausa_extra": 0.6
+        },
+        {
+          "narracao": "A câmera não pega ele. Nunca pegou.",
+          "cenario": "farmacia_balcao_escuro",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando"
+        },
+        {
+          "narracao": "Mas você sabe o que ela via.",
+          "cenario": "esp_cliente_balcao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor",
+          "som": {
+            "busca": "horror stinger hit",
+            "palavra": "via"
+          },
+          "fora_da_fita": true,
+          "pausa_extra": 0.5
+        },
+        {
+          "narracao": "Um sorriso largo demais. Esperando.",
+          "cenario": "esp_cliente_balcao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.35,
+            1.8
+          ],
+          "fora_da_fita": true
+        },
+        {
+          "narracao": "Boa noite, pra ele, é convite.",
+          "cenario": "farmacia_fora",
+          "personagem": null,
+          "camera": "zoom_out",
+          "efeito": "luz_piscando"
+        },
+        {
+          "narracao": "Três e dezoito. A Bia olha pra lente.",
+          "cenario": "farmacia_cftv",
+          "personagem": null,
+          "camera": "parada",
+          "efeito": "tv_chiando",
+          "texto_tela": "CAM 01 | 03:18"
+        },
+        {
+          "narracao": "Direto pra câmera. Como quem pede ajuda.",
+          "cenario": "farmacia_cftv2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.5,
+            2.2
+          ]
+        },
+        {
+          "narracao": "Como se soubesse quem ia assistir.",
+          "cenario": "farmacia_balcao_escuro",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.5,
+            1.7
+          ]
+        },
+        {
+          "narracao": "Até as seis, ela não sai do caixa.",
+          "cenario": "farmacia_fora2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "06:00"
+        },
+        {
+          "narracao": "A imagem chia... e troca.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "som": {
+            "busca": "vhs tape static",
+            "palavra": "chia"
+          }
+        },
+        {
+          "narracao": "Uma sala escura. Uma poltrona. Uma TV.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "??:??",
+          "foco": [
+            0.5,
+            0.6,
+            1.25
+          ]
+        },
+        {
+          "narracao": "Dois segundos. E a fita acaba.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "vcr tape eject mechanism",
+            "palavra": "acaba"
+          },
+          "moldura": "quarto",
+          "vcr": "ejeta"
+        },
+        {
+          "narracao": "Você volta. Assiste o balcão de novo.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "vcr rewind",
+            "palavra": "volta"
+          },
+          "moldura": "quarto",
+          "vcr": "rebobina"
+        },
+        {
+          "narracao": "Na câmera, o balcão continua vazio.",
+          "cenario": "farmacia_cftv",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "CAM 01 | 03:17",
+          "foco": [
+            0.5,
+            0.55,
+            1.6
+          ]
+        },
+        {
+          "narracao": "No fundo do áudio... uma respiração.",
+          "cenario": "corredor",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "respiração"
+          },
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Perto do microfone. De quem gravava.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "chuva",
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Você ri de nervoso. Pega a próxima.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.55,
+            1.5
+          ],
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Fita dois. TERREIRO, duas e cinquenta e um.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "TERREIRO 02:51",
+          "som": {
+            "busca": "vcr tape insert mechanism",
+            "palavra": "Fita"
+          },
+          "moldura": "quarto",
+          "vcr": "insere"
+        }
+      ]
+    },
+    {
+      "titulo": "Fita 2: Terreiro 02:51",
+      "moldura": "fita",
+      "fita": {
+        "etiqueta": "TERREIRO 02:51",
+        "data_fita": "JAN 14 2026",
+        "hora_fita": [
+          2,
+          29,
+          30
+        ]
+      },
+      "cenas": [
+        {
+          "narracao": "Um cachorro latindo pro telhado.",
+          "cenario": "terreiro_noite",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "FITA 2 | SÍTIO",
+          "som": {
+            "busca": "dog barking at night",
+            "palavra": "latindo"
+          },
+          "cachorro": {
+            "acao": "levantando_cabeca",
+            "posicao": "centro",
+            "tamanho": "medio"
+          }
+        },
+        {
+          "narracao": "A data: janeiro deste ano.",
+          "cenario": "porteira_estrada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "JAN 14 2026"
+        },
+        {
+          "narracao": "Quem ainda grava em fita?",
+          "cenario": "porteira_estrada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.7,
+            0.45,
+            1.8
+          ]
+        },
+        {
+          "narracao": "E deixa a câmera ligada de madrugada?",
+          "cenario": "mato_trilha",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando"
+        },
+        {
+          "narracao": "Um sítio. Lua cheia. Uma janela acesa.",
+          "cenario": "terreiro_noite",
+          "personagem": null,
+          "camera": "pan_direita",
+          "foco": [
+            0.7,
+            0.5,
+            1.7
+          ]
+        },
+        {
+          "narracao": "Lá dentro, o fogão a lenha estalando.",
+          "cenario": "cozinha_fogao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "wood fire crackling",
+            "palavra": "fogão"
+          }
+        },
+        {
+          "narracao": "Panela de feijão. Doce de leite.",
+          "cenario": "cozinha_fogao2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.68,
+            1.8
+          ]
+        },
+        {
+          "narracao": "A vó: não deita de barriga cheia.",
+          "cenario": "cozinha_fogao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "NUNCA DEITE | DE BARRIGA CHEIA",
+          "foco": [
+            0.35,
+            0.55,
+            1.6
+          ]
+        },
+        {
+          "narracao": "Um menino ri. Isso é lenda, vó.",
+          "cenario": "cozinha_fogao2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando"
+        },
+        {
+          "narracao": "Ele deita. De barriga cheia.",
+          "cenario": "quarto_roca",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.3,
+            0.63,
+            2.0
+          ]
+        },
+        {
+          "narracao": "No travesseiro, uma tesoura aberta.",
+          "cenario": "quarto_roca",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.32,
+            0.55,
+            2.4
+          ]
+        },
+        {
+          "narracao": "Ele nem repara. Já está dormindo.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_out"
+        },
+        {
+          "narracao": "Duas e meia. A casa apaga.",
+          "cenario": "terreiro_noite",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "02:30"
+        },
+        {
+          "narracao": "Duas e cinquenta. O cachorro ainda late.",
+          "cenario": "terreiro_noite",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "02:50",
+          "foco": [
+            0.5,
+            0.6,
+            1.4
+          ],
+          "som": {
+            "busca": "dog barking at night",
+            "palavra": "late"
+          },
+          "cachorro": {
+            "acao": "levantando_cabeca",
+            "posicao": "esquerda",
+            "tamanho": "medio"
+          }
+        },
+        {
+          "narracao": "Duas e cinquenta e um...",
+          "cenario": "porteira_estrada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "02:51",
+          "foco": [
+            0.5,
+            0.35,
+            1.6
+          ],
+          "pausa_extra": 0.6
+        },
+        {
+          "narracao": "Silêncio. Até os grilos param.",
+          "cenario": "mato_trilha",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "crickets suddenly stop",
+            "palavra": "Silêncio"
+          }
+        },
+        {
+          "narracao": "O cachorro corre pra dentro de casa.",
+          "cenario": "terreiro_noite",
+          "personagem": null,
+          "camera": "pan_esquerda",
+          "som": {
+            "busca": "dog whimper",
+            "palavra": "corre"
+          },
+          "cachorro": {
+            "acao": "correndo",
+            "posicao": "esquerda",
+            "tamanho": "medio"
+          }
+        },
+        {
+          "narracao": "Debaixo da mesa. Quieto. A salvo.",
+          "cenario": "cozinha_fogao2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "cachorro": {
+            "acao": "deitado",
+            "posicao": "centro",
+            "tamanho": "medio"
+          }
+        },
+        {
+          "narracao": "Bicho sabe a hora de sair.",
+          "cenario": "cozinha_fogao",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.6,
+            0.4,
+            1.6
+          ]
+        },
+        {
+          "narracao": "Uma telha estala. Em cima do quarto.",
+          "cenario": "quarto_roca",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "foco": [
+            0.5,
+            0.12,
+            1.8
+          ],
+          "som": {
+            "busca": "roof tiles creaking footsteps",
+            "palavra": "telha"
+          }
+        },
+        {
+          "narracao": "Outra. Mais perto da janela acesa.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "roof tiles creaking footsteps",
+            "palavra": "Outra"
+          }
+        },
+        {
+          "narracao": "E uma risada fina, lá de cima.",
+          "cenario": "quarto_roca",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.7,
+            0.35,
+            1.9
+          ],
+          "som": {
+            "busca": "thin creepy woman giggle",
+            "palavra": "risada"
+          }
+        },
+        {
+          "narracao": "Ela estava agachada no telhado.",
+          "cenario": "esp_pisadeira",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor",
+          "som": {
+            "busca": "horror stinger hit",
+            "palavra": "agachada"
+          },
+          "pausa_extra": 0.5
+        },
+        {
+          "narracao": "Dedos compridos nas telhas. Olhando a janela.",
+          "cenario": "esp_pisadeira",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.6,
+            1.8
+          ]
+        },
+        {
+          "narracao": "Lá dentro, o menino dorme. Não ouve nada.",
+          "cenario": "quarto_roca",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.3,
+            0.6,
+            1.6
+          ]
+        },
+        {
+          "narracao": "A câmera treme. Como na mão de alguém.",
+          "cenario": "terreiro_noite",
+          "personagem": null,
+          "camera": "pan_direita",
+          "efeito": "tremor"
+        },
+        {
+          "narracao": "Alguém no escuro do terreiro. Filmando.",
+          "cenario": "mato_trilha",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.5,
+            1.8
+          ],
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "Filmando"
+          }
+        },
+        {
+          "narracao": "Sem lanterna. Sem fazer barulho.",
+          "cenario": "porteira_estrada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.3,
+            0.5,
+            1.9
+          ]
+        },
+        {
+          "narracao": "Quem filmava não tinha medo dela.",
+          "cenario": "mato_trilha",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.6,
+            0.4,
+            2.2
+          ],
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "medo"
+          }
+        },
+        {
+          "narracao": "Chiado. E a mesma sala escura.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "som": {
+            "busca": "vhs tape static",
+            "palavra": "Chiado"
+          }
+        },
+        {
+          "narracao": "A poltrona. Um pouco mais perto.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "??:??",
+          "foco": [
+            0.5,
+            0.62,
+            1.7
+          ]
+        },
+        {
+          "narracao": "Você ejeta. A mesma letra na etiqueta.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "vcr tape eject mechanism",
+            "palavra": "ejeta"
+          },
+          "moldura": "quarto",
+          "vcr": "ejeta"
+        },
+        {
+          "narracao": "Nenhum nome. Nenhum endereço. Só a hora.",
+          "cenario": "caixa_fitas",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.58,
+            2.3
+          ],
+          "moldura": "quarto",
+          "cenario_reserva": "porao"
+        },
+        {
+          "narracao": "Outra cidade. Outro ano. A mesma sala.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Parecida com a sua? Toda sala é parecida.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "pan_esquerda",
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Lá fora, a chuva engrossa.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "relampago",
+          "som": {
+            "busca": "thunder distant",
+            "palavra": "chuva"
+          },
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Fita três. CAM QUATRO, três e treze.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "CAM 04 03:13",
+          "som": {
+            "busca": "vcr tape insert mechanism",
+            "palavra": "Fita"
+          },
+          "moldura": "quarto",
+          "vcr": "insere"
+        }
+      ]
+    },
+    {
+      "titulo": "Fita 3: CAM 04 03:13",
+      "moldura": "fita",
+      "fita": {
+        "etiqueta": "CAM 04 03:13",
+        "data_fita": "NOV 20 1998",
+        "hora_fita": [
+          3,
+          9,
+          40
+        ]
+      },
+      "cenas": [
+        {
+          "narracao": "Agora, câmera de prédio. Noventa e oito.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "CAM 01 | PORTARIA",
+          "som": {
+            "busca": "old crt monitor hum",
+            "palavra": "câmera"
+          }
+        },
+        {
+          "narracao": "Um prédio antigo, no centro da cidade.",
+          "cenario": "rua",
+          "personagem": null,
+          "camera": "pan_direita"
+        },
+        {
+          "narracao": "Um porteiro de cabelo branco. Palavras-cruzadas.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.55,
+            0.68,
+            1.8
+          ]
+        },
+        {
+          "narracao": "Garrafa de café. Rádio baixinho.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.4,
+            0.7,
+            2.2
+          ],
+          "som": {
+            "busca": "old radio static music",
+            "palavra": "Rádio"
+          }
+        },
+        {
+          "narracao": "Seu Joaquim conhece cada morador pelo passo.",
+          "cenario": "escada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "slow footsteps",
+            "palavra": "passo"
+          }
+        },
+        {
+          "narracao": "Trinta anos de madrugada nessa cadeira.",
+          "cenario": "escada_cima",
+          "personagem": null,
+          "camera": "zoom_out"
+        },
+        {
+          "narracao": "O prédio tem doze andares.",
+          "cenario": "elevador_dentro",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "1 A 12",
+          "foco": [
+            0.25,
+            0.45,
+            2.2
+          ]
+        },
+        {
+          "narracao": "Três e treze. O elevador apita.",
+          "cenario": "elevador_porta",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "03:13",
+          "som": {
+            "busca": "elevator ding",
+            "palavra": "apita"
+          }
+        },
+        {
+          "narracao": "O painel acende... o treze.",
+          "cenario": "elevador_dentro",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "13",
+          "foco": [
+            0.25,
+            0.4,
+            2.6
+          ],
+          "pausa_extra": 0.4
+        },
+        {
+          "narracao": "Ele esfrega os olhos. Puxa a câmera quatro.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "foco": [
+            0.3,
+            0.3,
+            1.9
+          ]
+        },
+        {
+          "narracao": "Um corredor que não devia existir.",
+          "cenario": "corredor_camera4",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "CAM 04 | 13º ANDAR"
+        },
+        {
+          "narracao": "Portas, tapete, um plafon piscando... e alguém.",
+          "cenario": "corredor_camera4",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.45,
+            2.2
+          ]
+        },
+        {
+          "narracao": "Uma mulher de camisola. Cabelo no rosto.",
+          "cenario": "esp_moradora",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "CAM 04",
+          "som": {
+            "busca": "horror stinger hit",
+            "palavra": "mulher"
+          },
+          "pausa_extra": 0.5
+        },
+        {
+          "narracao": "Ele não consegue tirar os olhos.",
+          "cenario": "esp_moradora",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "foco": [
+            0.5,
+            0.3,
+            1.9
+          ]
+        },
+        {
+          "narracao": "Encarou demais. Ela sumiu da quatro.",
+          "cenario": "corredor_camera4",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "som": {
+            "busca": "vhs tape static",
+            "palavra": "sumiu"
+          }
+        },
+        {
+          "narracao": "Câmera dois. Elevador. Espelho embaçado.",
+          "cenario": "elevador_dentro",
+          "personagem": null,
+          "camera": "zoom_out",
+          "texto_tela": "CAM 02 | ELEVADOR"
+        },
+        {
+          "narracao": "Câmera três. Garagem. Nada.",
+          "cenario": "garagem_predio",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "CAM 03 | GARAGEM"
+        },
+        {
+          "narracao": "Câmera um. A portaria. A cadeira dele.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "CAM 01 | PORTARIA",
+          "foco": [
+            0.6,
+            0.62,
+            1.8
+          ]
+        },
+        {
+          "narracao": "E atrás da cadeira... uma camisola.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor",
+          "foco": [
+            0.62,
+            0.5,
+            2.3
+          ],
+          "som": {
+            "busca": "glass tap",
+            "palavra": "camisola"
+          }
+        },
+        {
+          "narracao": "Ele vira. Ninguém.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "pausa_extra": 0.4
+        },
+        {
+          "narracao": "Ela só existe na tela.",
+          "cenario": "corredor_camera4",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "narracao": "Aí o interfone toca. Treze zero um.",
+          "cenario": "elevador_porta",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "INTERFONE | 1301",
+          "som": {
+            "busca": "old intercom buzz",
+            "palavra": "interfone"
+          }
+        },
+        {
+          "narracao": "Uma voz baixinha, de senhora:",
+          "cenario": "corredor_camera4",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "foco": [
+            0.3,
+            0.42,
+            2.2
+          ]
+        },
+        {
+          "narracao": "O senhor lembra de mim?",
+          "cenario": "elevador_dentro",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.7,
+            0.4,
+            2.0
+          ],
+          "pausa_extra": 0.5
+        },
+        {
+          "narracao": "Ele não lembrava.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.6,
+            1.5
+          ]
+        },
+        {
+          "narracao": "No vidro do monitor, uma luzinha vermelha.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.2,
+            0.28,
+            2.4
+          ]
+        },
+        {
+          "narracao": "De REC. Alguém filmava o porteiro.",
+          "cenario": "elevador_porta",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.1,
+            2.2
+          ],
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "filmava"
+          }
+        },
+        {
+          "narracao": "Mas na portaria só tinha ele.",
+          "cenario": "garagem_predio2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "CAM 01 | PORTARIA"
+        },
+        {
+          "narracao": "Ele, e quem segurava a filmadora.",
+          "cenario": "escada_cima",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.6,
+            1.8
+          ],
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "filmadora"
+          }
+        },
+        {
+          "narracao": "Chiado. A sala de novo.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "som": {
+            "busca": "vhs tape static",
+            "palavra": "Chiado"
+          }
+        },
+        {
+          "narracao": "A poltrona, mais perto. A TV ligada.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "??:??",
+          "foco": [
+            0.5,
+            0.62,
+            2.1
+          ]
+        },
+        {
+          "narracao": "Anos diferentes. Lugares diferentes. A mesma sala.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "vcr tape eject mechanism",
+            "palavra": "Anos"
+          },
+          "moldura": "quarto",
+          "vcr": "ejeta"
+        },
+        {
+          "narracao": "E a respiração. Sempre a mesma.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "respiração"
+          },
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Você aumenta o volume pra ter certeza.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.45,
+            2.0
+          ],
+          "som": {
+            "busca": "tv volume beep",
+            "palavra": "volume"
+          },
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "É gente. Respirando pelo nariz. Devagar.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "gente"
+          },
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Você olha pra sua janela. Só chuva.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "chuva",
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Fita quatro. CAM DOIS, GARAGEM.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "CAM 02 GARAGEM",
+          "som": {
+            "busca": "vcr tape insert mechanism",
+            "palavra": "Fita"
+          },
+          "moldura": "quarto",
+          "vcr": "insere"
+        }
+      ]
+    },
+    {
+      "titulo": "Fita 4: CAM 02 Garagem",
+      "moldura": "fita",
+      "fita": {
+        "etiqueta": "CAM 02 GARAGEM",
+        "data_fita": "NOV 19 1998",
+        "hora_fita": [
+          3,
+          12,
+          30
+        ]
+      },
+      "cenas": [
+        {
+          "narracao": "Mesmo prédio. Uma noite antes.",
+          "cenario": "garagem_predio2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "CAM 02 | GARAGEM | 19 NOV"
+        },
+        {
+          "narracao": "Três e treze. Carros cobertos de lona.",
+          "cenario": "garagem_predio",
+          "personagem": null,
+          "camera": "pan_direita",
+          "texto_tela": "03:13"
+        },
+        {
+          "narracao": "Ninguém na tela. Mas tem passos.",
+          "cenario": "garagem_predio2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.22,
+            0.6,
+            1.8
+          ],
+          "som": {
+            "busca": "slow footsteps",
+            "palavra": "passos"
+          }
+        },
+        {
+          "narracao": "Lentos. Descalços. Indo pro elevador.",
+          "cenario": "elevador_porta",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "CAM 09 | SUBSOLO"
+        },
+        {
+          "narracao": "A porta abre. Ninguém entra.",
+          "cenario": "elevador_porta",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.55,
+            1.9
+          ],
+          "som": {
+            "busca": "elevator door opening",
+            "palavra": "abre"
+          }
+        },
+        {
+          "narracao": "Mas o elevador afunda um pouco. Peso.",
+          "cenario": "elevador_dentro",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor"
+        },
+        {
+          "narracao": "E sobe. Sozinho.",
+          "cenario": "elevador_dentro",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.25,
+            0.42,
+            2.4
+          ],
+          "som": {
+            "busca": "elevator motor hum",
+            "palavra": "sobe"
+          }
+        },
+        {
+          "narracao": "Na portaria, Seu Joaquim cochila.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.6,
+            0.62,
+            1.8
+          ]
+        },
+        {
+          "narracao": "Ninguém ouve. Ninguém vê subir.",
+          "cenario": "escada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.3,
+            1.7
+          ]
+        },
+        {
+          "narracao": "Dez. Onze. Doze.",
+          "cenario": "elevador_porta",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "ANDAR 12",
+          "foco": [
+            0.5,
+            0.1,
+            2.2
+          ]
+        },
+        {
+          "narracao": "Treze.",
+          "cenario": "corredor_camera4",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "CAM 04 | 13º ANDAR",
+          "som": {
+            "busca": "elevator ding",
+            "palavra": "Treze"
+          },
+          "pausa_extra": 0.6
+        },
+        {
+          "narracao": "E lá em cima, ela já esperava.",
+          "cenario": "esp_moradora",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor",
+          "som": {
+            "busca": "horror stinger hit",
+            "palavra": "esperava"
+          },
+          "pausa_extra": 0.5
+        },
+        {
+          "narracao": "Descalça. Quieta. Olhando pra câmera.",
+          "cenario": "esp_moradora",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "foco": [
+            0.5,
+            0.75,
+            1.8
+          ]
+        },
+        {
+          "narracao": "Como quem pede pra ser vista.",
+          "cenario": "corredor_camera4",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.45,
+            2.4
+          ]
+        },
+        {
+          "narracao": "Aí a câmera dois volta pra garagem.",
+          "cenario": "garagem_predio2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "CAM 02 | GARAGEM"
+        },
+        {
+          "narracao": "Entre dois carros, um vulto alto.",
+          "cenario": "garagem_predio",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.7,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "narracao": "Com alguma coisa no lugar do rosto.",
+          "cenario": "garagem_predio",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor",
+          "foco": [
+            0.7,
+            0.42,
+            2.6
+          ],
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "rosto"
+          }
+        },
+        {
+          "narracao": "Um piscar. E ele não está mais lá.",
+          "cenario": "garagem_predio2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "foco": [
+            0.6,
+            0.5,
+            1.6
+          ]
+        },
+        {
+          "narracao": "Na capa dessa fita, um papel dobrado.",
+          "cenario": "planta_andar",
+          "personagem": null,
+          "camera": "zoom_out",
+          "som": {
+            "busca": "paper unfolding",
+            "palavra": "papel"
+          },
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Uma planta do prédio. De setenta e nove.",
+          "cenario": "planta_andar",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "PLANTA 1979",
+          "foco": [
+            0.5,
+            0.4,
+            1.6
+          ],
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Doze andares na fachada. Treze no papel.",
+          "cenario": "rua",
+          "personagem": null,
+          "camera": "pan_esquerda",
+          "texto_tela": "12 | 13",
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Quem morava no treze? A planta não diz.",
+          "cenario": "corredor_camera4",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.3,
+            0.4,
+            2.2
+          ]
+        },
+        {
+          "narracao": "A fita chia. A sala de novo.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "som": {
+            "busca": "vhs tape static",
+            "palavra": "chia"
+          }
+        },
+        {
+          "narracao": "Bem perto, agora. Na TV daquela sala...",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "??:??",
+          "foco": [
+            0.5,
+            0.45,
+            2.4
+          ]
+        },
+        {
+          "narracao": "...está passando esta mesma fita.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando"
+        },
+        {
+          "narracao": "Você aperta o pause.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "vcr button click",
+            "palavra": "pause"
+          },
+          "moldura": "quarto",
+          "vcr": "pause"
+        },
+        {
+          "narracao": "Mas a respiração... não para.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "respiração"
+          },
+          "moldura": "quarto",
+          "pausa_extra": 0.5
+        },
+        {
+          "narracao": "Ela não vem da TV.",
+          "cenario": "porta_entrada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.47,
+            0.49,
+            1.8
+          ],
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Vem daqui. Da sala.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor",
+          "foco": [
+            0.5,
+            0.62,
+            1.5
+          ],
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Você olha pro corredor. Escuro. Vazio.",
+          "cenario": "corredor",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Devia ter parado aí.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.55,
+            1.6
+          ],
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Mas sobrou a fita sem etiqueta.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "vcr tape insert mechanism",
+            "palavra": "fita"
+          },
+          "moldura": "quarto",
+          "vcr": "insere"
+        }
+      ]
+    },
+    {
+      "titulo": "Fita 5: sem etiqueta",
+      "moldura": "fita",
+      "fita": {
+        "etiqueta": "",
+        "data_fita": "",
+        "hora_fita": [
+          0,
+          0,
+          0
+        ]
+      },
+      "cenas": [
+        {
+          "narracao": "Sem data. O contador começa no zero.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "parada",
+          "efeito": "tv_chiando",
+          "texto_tela": "SEM DATA | 00:00:00",
+          "som": {
+            "busca": "vhs tape static",
+            "palavra": "zero"
+          }
+        },
+        {
+          "narracao": "Uma rua de lojas fechadas. De noite.",
+          "cenario": "ponto_onibus",
+          "personagem": null,
+          "camera": "pan_direita",
+          "efeito": "chuva"
+        },
+        {
+          "narracao": "Na esquina, um brechó. Fechado.",
+          "cenario": "ponto_onibus",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.7,
+            0.45,
+            1.8
+          ]
+        },
+        {
+          "narracao": "Você conhece essa rua. E esse brechó.",
+          "cenario": "rua",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "chuva",
+          "pausa_extra": 0.3
+        },
+        {
+          "narracao": "A câmera anda até uma casa.",
+          "cenario": "casa_fora",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "slow footsteps",
+            "palavra": "anda"
+          }
+        },
+        {
+          "narracao": "Uma janela. A luz azul de uma TV.",
+          "cenario": "casa_fora",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.6,
+            0.4,
+            2.2
+          ]
+        },
+        {
+          "narracao": "Você conhece essa casa.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "chuva",
+          "pausa_extra": 0.3
+        },
+        {
+          "narracao": "A câmera já está do lado de dentro.",
+          "cenario": "porta_entrada",
+          "personagem": null,
+          "camera": "zoom_out"
+        },
+        {
+          "narracao": "Sem abrir a porta.",
+          "cenario": "porta_entrada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.47,
+            0.49,
+            2.4
+          ]
+        },
+        {
+          "narracao": "Um corredor. Passos devagar. Respirando.",
+          "cenario": "corredor",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "Respirando"
+          }
+        },
+        {
+          "narracao": "Você conhece esse corredor.",
+          "cenario": "corredor",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.45,
+            2.0
+          ],
+          "pausa_extra": 0.3
+        },
+        {
+          "narracao": "Uma sala. Uma poltrona. Uma TV de tubo.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "pan_esquerda"
+        },
+        {
+          "narracao": "Alguém sentado. Assistindo uma fita. Sozinho.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.62,
+            2.4
+          ]
+        },
+        {
+          "narracao": "Não percebe a câmera chegando.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "chegando"
+          }
+        },
+        {
+          "narracao": "Um passo. Outro. Atrás da poltrona.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.62,
+            3.0
+          ]
+        },
+        {
+          "narracao": "Aí a TV da fita apaga.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "crt tv power off",
+            "palavra": "apaga"
+          }
+        },
+        {
+          "narracao": "E a tela preta vira espelho.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.45,
+            2.0
+          ],
+          "pausa_extra": 0.4
+        },
+        {
+          "narracao": "No reflexo: a poltrona. E atrás dela...",
+          "cenario": "esp_gravador",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor",
+          "som": {
+            "busca": "horror stinger hit",
+            "palavra": "atrás"
+          },
+          "cenario_reserva": "tv_estatica2",
+          "pausa_extra": 0.5
+        },
+        {
+          "narracao": "Ele. Alto. A filmadora no lugar do rosto.",
+          "cenario": "esp_gravador",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.62,
+            0.35,
+            2.0
+          ],
+          "cenario_reserva": "tv_estatica2"
+        },
+        {
+          "narracao": "Ele estava na farmácia. Do lado de fora.",
+          "cenario": "farmacia_fora",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "03:17"
+        },
+        {
+          "narracao": "Gravando a Bia, sozinha no caixa.",
+          "cenario": "farmacia_cftv",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "CAM 01"
+        },
+        {
+          "narracao": "No terreiro, filmando o menino sozinho.",
+          "cenario": "terreiro_noite",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "02:51"
+        },
+        {
+          "narracao": "Na portaria, atrás do porteiro sozinho.",
+          "cenario": "portaria",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "texto_tela": "03:13"
+        },
+        {
+          "narracao": "Ele grava quem fica sozinho de madrugada.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "sozinho"
+          },
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Não precisa de convite. Nem de porta.",
+          "cenario": "porta_entrada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.47,
+            0.49,
+            2.0
+          ],
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Só precisa que você assista até o fim.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "E agora, quem está na poltrona...",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.62,
+            2.6
+          ],
+          "pausa_extra": 0.4
+        },
+        {
+          "narracao": "...é você.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor",
+          "texto_tela": "VOCÊ",
+          "som": {
+            "busca": "horror stinger hit",
+            "palavra": "você"
+          },
+          "pausa_extra": 0.8,
+          "corte_preto": true
+        }
+      ]
+    },
+    {
+      "titulo": "Fim",
+      "moldura": "fita",
+      "cenas": [
+        {
+          "narracao": "E ele vira a câmera.",
+          "cenario": "esp_gravador_lente",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tremor",
+          "som": {
+            "busca": "camcorder zoom motor",
+            "palavra": "vira"
+          },
+          "cenario_reserva": "tv_estatica2"
+        },
+        {
+          "narracao": "Pra fora da fita. Pra você.",
+          "cenario": "esp_gravador_lente",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "foco": [
+            0.5,
+            0.45,
+            2.4
+          ],
+          "cenario_reserva": "tv_estatica2",
+          "pausa_extra": 0.6
+        },
+        {
+          "narracao": "Uma luz vermelha acende. REC.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "texto_tela": "● REC",
+          "som": {
+            "busca": "camcorder beep",
+            "palavra": "REC"
+          }
+        },
+        {
+          "narracao": "O contador marca a hora de agora.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "AGORA",
+          "foco": [
+            0.5,
+            0.45,
+            2.0
+          ]
+        },
+        {
+          "narracao": "Atrás da sua poltrona, o corredor pisca.",
+          "cenario": "corredor",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "fluorescent light buzz",
+            "palavra": "pisca"
+          },
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Você não olha pra trás.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.55,
+            1.5
+          ],
+          "moldura": "quarto",
+          "pausa_extra": 0.5
+        },
+        {
+          "narracao": "Mas a respiração, agora, está aqui.",
+          "cenario": "porta_entrada",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "som": {
+            "busca": "slow breathing close to microphone",
+            "palavra": "aqui"
+          },
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "A fita acaba. A tela fica azul.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "vcr tape eject mechanism",
+            "palavra": "acaba"
+          },
+          "moldura": "quarto",
+          "vcr": "ejeta"
+        },
+        {
+          "narracao": "Na caixa, agora, tem seis fitas.",
+          "cenario": "caixa_fitas",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "luz_piscando",
+          "moldura": "quarto",
+          "cenario_reserva": "porao"
+        },
+        {
+          "narracao": "A nova tem etiqueta: a hora de agora.",
+          "cenario": "caixa_fitas",
+          "personagem": null,
+          "camera": "zoom_in",
+          "texto_tela": "??:??",
+          "foco": [
+            0.5,
+            0.58,
+            2.1
+          ],
+          "moldura": "quarto",
+          "cenario_reserva": "porao"
+        },
+        {
+          "narracao": "Que horas são aí?",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.62,
+            2.0
+          ],
+          "moldura": "quarto",
+          "pausa_extra": 0.5
+        },
+        {
+          "narracao": "Comenta a hora que você assistiu.",
+          "cenario": "janela",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "chuva",
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "E volta no fim de cada fita.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "som": {
+            "busca": "vcr rewind",
+            "palavra": "volta"
+          },
+          "moldura": "quarto",
+          "vcr": "rebobina"
+        },
+        {
+          "narracao": "Repara na poltrona. Cada vez mais perto.",
+          "cenario": "tv_estatica",
+          "personagem": null,
+          "camera": "zoom_in",
+          "foco": [
+            0.5,
+            0.62,
+            1.4
+          ],
+          "moldura": "quarto"
+        },
+        {
+          "narracao": "Se inscreve. E não assiste sozinho.",
+          "cenario": "sala",
+          "personagem": null,
+          "camera": "zoom_in",
+          "moldura": "quarto",
+          "inscricao": true
+        },
+        {
+          "narracao": "Ele só grava quem está sozinho.",
+          "cenario": "tv_estatica2",
+          "personagem": null,
+          "camera": "zoom_in",
+          "efeito": "tv_chiando",
+          "som": {
+            "busca": "vhs tape static",
+            "palavra": "sozinho"
+          },
+          "moldura": "fita",
+          "corte_preto": true
+        }
+      ]
+    }
+  ]
+}
