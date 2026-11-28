@@ -582,3 +582,6 @@
 - **Mesa do Gerente:** sem mudança. O "Aguardando" já tinha só os nº 25 a 29, e o Histórico não ganhou linha nova.
 - **Aviso no Telegram:** não mandado (nada novo; o aviso das 07h25 já pediu /aprovar 26 e 25).
 - **Ferramenta:** clone novo em /home/claude/terror-bot-git; gh CLI funcionou. Sem subagentes; papéis em sequência.
+
+## 28/11 (11h55): conferência do agendamento da manhã (Publicador)
+- O cron das 11h31 do fila.yml não tinha rodado às 11h41 (atraso do GitHub, como ontem à tarde). Disparei `acao=agendar turno=manha` (run 46155962454): a Fita do Terreiro 02:51 (nº 19) subiu como CTP1GMtRfJk, agendada para 11h52 (+10 min), saiu pública e a thumb foi reaplicada. Fila: resta o nº 23 Turno para as 18h47. Se o cron atrasado rodar depois, a trava do `fila.py` barra a 2ª isca.
