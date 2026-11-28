@@ -1,5 +1,5 @@
 {
- "proximo": 28,
+ "proximo": 29,
  "itens": [
   {
    "id": 1,
@@ -431,6 +431,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-28 10:29",
+   "decidido": ""
+  },
+  {
+   "id": 28,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "Férias na Roça, Ep. 1: A Tesoura Aberta",
+   "arquivo": "roteiros/roca_01.json",
+   "run_id": "",
+   "resumo": "História para Seg 30/11 18h47: Férias na Roça Ep. 1, A Tesoura Aberta. Continua da Fita do Terreiro (hoje 11h47): o Davi acorda paralisado, a Pisadeira desce pelas telhas (esp_pisadeira), a tesoura aberta que ele não pôs ali, e a vó na porteira às 3h conversando com o mato, que assobia de volta. VHS, 17 cenas, 95 palavras (~58 s). Voto A conta pra vó / B segue ela. Só arte que já existe.",
+   "titulo_youtube": "Ele riu da regra da vó... e acordou sem conseguir se mexer 📼 Férias na Roça Ep. 1 #shorts",
+   "legenda": "Férias na Roça, Ep. 1: A Tesoura Aberta (história de ficção, inspirada no folclore brasileiro). Continua da Fita do Terreiro: o Davi deitou de barriga cheia, acordou sem conseguir se mexer e achou no travesseiro uma tesoura aberta que ele não pôs ali. Às 3h, a vó estava na porteira, conversando com o mato... e o mato assobiou de volta. O Davi conta pra vó (A) ou segue ela hoje à noite (B)? Comenta A ou B 👇",
+   "tipo_video": "historia",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-28 10:30",
    "decidido": ""
   }
  ]
