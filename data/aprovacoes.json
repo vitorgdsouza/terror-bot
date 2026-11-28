@@ -1,5 +1,5 @@
 {
- "proximo": 29,
+ "proximo": 30,
  "itens": [
   {
    "id": 1,
@@ -447,6 +447,22 @@
    "status": "pendente",
    "motivo": "",
    "criado": "2026-11-28 10:30",
+   "decidido": ""
+  },
+  {
+   "id": 29,
+   "tipo": "roteiro",
+   "agente": "Roteirista",
+   "titulo": "As Fitas da Madrugada",
+   "arquivo": "roteiros/longo_terror_01_fitas.json",
+   "run_id": "",
+   "resumo": "Vídeo longo 16:9 (~9:50, 1.301 palavras, 7 capítulos): 5 fitas VHS de um brechó, cada uma recontada com narração e cenas novas (Farmácia, Terreiro, CAM 04, Garagem) e uma fita sem etiqueta inédita.\nPista em toda fita: a mesma sala, cada vez mais perto da poltrona; no fim quem gravava vira a câmera pra você. 3 imagens novas (caixa_fitas, esp_gravador, esp_gravador_lente) com reserva.",
+   "titulo_youtube": "5 fitas VHS achadas num brechó... a última grava quem assiste",
+   "legenda": "Você acha uma caixa com 5 fitas VHS no porão de um brechó. O dono só pede duas coisas: assiste na ordem e não assiste sozinho. Uma farmácia às 3h17, um sítio às 2h51, um prédio que tem um andar a mais... e uma fita sem etiqueta. História de ficção.\n\n0:00 A caixa\n1:04 Fita 1: Farmácia 03:17\n2:59 Fita 2: Terreiro 02:51\n4:43 Fita 3: CAM 04 03:13\n6:23 Fita 4: CAM 02 Garagem\n7:46 Fita 5: sem etiqueta\n9:04 Fim\n\nRepara no fim de cada fita. Que horas são aí agora? Comenta 👇",
+   "tipo_video": "longo",
+   "status": "pendente",
+   "motivo": "",
+   "criado": "2026-11-28 10:43",
    "decidido": ""
   }
  ]
