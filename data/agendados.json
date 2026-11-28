@@ -2154,5 +2154,140 @@
    "thumb_arte": "mar_sobe"
   },
   "thumb_reaplicada": true
+ },
+ {
+  "id": "CTP1GMtRfJk",
+  "publicar_em": "2026-11-28T14:52:00Z",
+  "canal": "terror",
+  "roteiro": {
+   "titulo": "Fita do Terreiro 02:51",
+   "tipo": "isca",
+   "serie": "Férias na Roça",
+   "estilo": "vhs",
+   "pixel": 6,
+   "data_fita": "JAN 14 2026",
+   "hora_fita": [
+    2,
+    50,
+    44
+   ],
+   "protagonista": null,
+   "clima": "suspense",
+   "ritmo": 1.05,
+   "selo": "FITA",
+   "pergunta_thumb": "Você dormiria de barriga cheia?",
+   "trilha": "dark ambient drone hum night crickets",
+   "trilha_volume": 0.45,
+   "final": true,
+   "titulo_youtube": "2h51: o cachorro parou de latir pro telhado... e fugiu pra dentro 📼 #shorts",
+   "legenda_post": "Fita encontrada no sítio da Dona Cida. Toda noite, 2h51, o Tição latia pro telhado. Na noite em que o Davi riu da regra da avó, o cachorro parou de latir e fugiu pra dentro (história de ficção). Você dormiria de barriga cheia? 👇",
+   "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#terror",
+    "#pisadeira"
+   ],
+   "resumo": "Isca VHS que estreia as Férias na Roça e a Pisadeira. Fita do sítio da Dona Cida: o Tição late pro telhado às 2h51; a regra da avó é nunca deitar de barriga cheia; o Davi ri e deita. O latido para, o cachorro foge pra dentro (fica bem) e as telhas estalam em cima da cama dele. Susto esp_pisadeira na janela acesa. Detalhe para rever: a tesoura aberta já está na cama do Davi (cena 3). Puxa o Protocolo Pisadeira das 18h47.",
+   "cenas": [
+    {
+     "narracao": "O Tição late pro telhado.",
+     "cenario": "terreiro_noite",
+     "personagem": null,
+     "cachorro": {
+      "acao": "levantando_cabeca",
+      "posicao": "centro",
+      "tamanho": "medio"
+     },
+     "camera": "zoom_in",
+     "texto_tela": "FITA 03 | SÍTIO",
+     "som": {
+      "busca": "dog barking at night",
+      "palavra": "late"
+     }
+    },
+    {
+     "narracao": "Regra da vó: nunca deite de barriga cheia.",
+     "cenario": "cozinha_fogao",
+     "personagem": null,
+     "camera": "zoom_in",
+     "texto_tela": "NUNCA DEITE | DE BARRIGA CHEIA",
+     "som": {
+      "busca": "wood fire crackling",
+      "palavra": "Regra"
+     }
+    },
+    {
+     "narracao": "O Davi riu e deitou.",
+     "cenario": "quarto_roca",
+     "personagem": null,
+     "camera": "zoom_in",
+     "foco": [
+      0.3,
+      0.63,
+      2.0
+     ]
+    },
+    {
+     "narracao": "Silêncio. Fugiu pra dentro.",
+     "cenario": "terreiro_noite",
+     "personagem": null,
+     "cachorro": {
+      "acao": "correndo",
+      "posicao": "esquerda",
+      "tamanho": "medio"
+     },
+     "camera": "pan_esquerda",
+     "efeito": "luz_piscando",
+     "texto_tela": "02:51",
+     "som": {
+      "busca": "dog whimper",
+      "palavra": "Fugiu"
+     }
+    },
+    {
+     "narracao": "Telhas estalando em cima dele.",
+     "cenario": "quarto_roca",
+     "personagem": null,
+     "camera": "zoom_in",
+     "foco": [
+      0.5,
+      0.12,
+      1.8
+     ],
+     "efeito": "tv_chiando",
+     "som": {
+      "busca": "roof tiles creaking footsteps",
+      "palavra": "Telhas"
+     }
+    },
+    {
+     "narracao": "Ela escolheu a janela acesa.",
+     "cenario": "esp_pisadeira",
+     "personagem": null,
+     "camera": "zoom_in",
+     "efeito": "tremor",
+     "thumb": true,
+     "pausa_extra": 0.8,
+     "som": {
+      "busca": "horror stinger hit",
+      "palavra": "Ela"
+     }
+    },
+    {
+     "narracao": "Você dormiria de barriga cheia?",
+     "cenario": "tv_estatica2",
+     "personagem": null,
+     "camera": "zoom_in",
+     "efeito": "tv_chiando",
+     "corte_preto": true,
+     "som": {
+      "busca": "vhs tape static",
+      "palavra": "barriga"
+     }
+    }
+   ]
+  },
+  "thumb_reaplicada": true
  }
 ]
