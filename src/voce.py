@@ -1386,7 +1386,8 @@ def _ave(d, x, y, s, cor, t):
 
 
 def _rotulo_caixa(d, y, txt, p):
-    """Rótulo com caixa escura atrás (para ler em céu claro)."""
+    """Rótulo com caixa escura atrás (para ler em céu claro). Nunca sobe até o selo "E SE..." do canto."""
+    y = max(y, H * 0.125)
     fonte = _fit(d, txt, 64)
     b = d.textbbox((0, 0), txt, font=fonte)
     w_, h_ = b[2] - b[0], b[3] - b[1]
