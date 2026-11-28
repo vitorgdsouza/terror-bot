@@ -57,7 +57,7 @@ def _ceu(W: int, H: int) -> Image.Image:
     return img
 
 
-ARTE_HORIZONTAL = {"lua_some", "sem_traje", "buraco_negro", "fermi", "bussola", "sinal", "megatsunami"}                               # artes que têm composição própria em 16:9
+ARTE_HORIZONTAL = {"lua_some", "sem_traje", "buraco_negro", "fermi", "bussola", "sinal", "megatsunami", "raio"}                               # artes que têm composição própria em 16:9
 
 
 def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
@@ -189,6 +189,8 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
         _bussola_thumb(img, W, H)
     elif tipo == "sinal":
         _sinal_thumb(img, W, H)
+    elif tipo == "raio":
+        _raio_thumb(img, W, H)
     elif tipo == "raspando":
         img = _raspando(img, W, H)
         d = ImageDraw.Draw(img)
@@ -1072,3 +1074,53 @@ def _mar_sobe(W, H):
     fs = ImageFont.truetype(str(FONTE), 44)
     d.text((x + 34, nivel + 160), "20 ANDARES", font=fs, fill=(255, 255, 255), stroke_width=4, stroke_fill=(0, 0, 0))
     return img
+
+
+def _raio_thumb(img, W, H):
+    """Megaflash: a Terra realista embaixo, nuvens de tempestade e um raio horizontal atravessando a tela inteira,
+    com a régua vermelha "829 KM" e você pequeno olhando para cima."""
+    import math
+    from .voce import _raio_pts, _pessoa
+    deitado = W > H
+    R = int(W * 1.1) if deitado else int(W * 0.95)
+    ex, ey = (int(W * 0.62), int(H + R * 0.78)) if deitado else (W // 2, int(H * 0.8 + R * 0.86))
+    t = terra(R, seed=73)
+    img.alpha_composite(t, (ex - t.width // 2, ey - t.height // 2))
+    y_raio = int(H * 0.6) if deitado else int(H * 0.5)
+    nuv = Image.new("RGBA", img.size, (0, 0, 0, 0))              # nuvens de tempestade acesas pelo clarão
+    dn = ImageDraw.Draw(nuv)
+    import random
+    for k in range(40):
+        rnd = random.Random(k + 3)
+        x = rnd.random() * W * 1.2 - W * 0.1
+        y = y_raio + (rnd.random() - 0.5) * H * (0.22 if deitado else 0.14)
+        rr = (90 + rnd.random() * 110) * (0.7 if deitado else 1)
+        c = 70 + int(70 * rnd.random())
+        dn.ellipse((x - rr, y - rr * 0.55, x + rr, y + rr * 0.55), fill=(c, c + 8, c + 40, 220))
+    img.alpha_composite(nuv.filter(ImageFilter.GaussianBlur(6)))
+    x0 = int(W * 0.42) if deitado else -40
+    pts = _raio_pts(x0, y_raio + 20, W + 40, y_raio - 30, 17, n=44, amp=34 if deitado else 50)
+    gl = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    dg = ImageDraw.Draw(gl)
+    dg.line(pts, fill=(150, 200, 255, 200), width=60, joint="curve")
+    img.alpha_composite(gl.filter(ImageFilter.GaussianBlur(26)))
+    d = ImageDraw.Draw(img, "RGBA")
+    d.line(pts, fill=(190, 225, 255, 255), width=22, joint="curve")
+    d.line(pts, fill=(255, 255, 255, 255), width=10, joint="curve")
+    for k in range(3, len(pts) - 2, 5):                           # galhos
+        x, y = pts[k]
+        g = _raio_pts(x, y, x + (k % 3 - 1) * 70, y + 90 + (k % 4) * 20, k, n=5, amp=14)
+        d.line(g, fill=(230, 240, 255, 230), width=5)
+    yr = y_raio + (int(H * 0.12) if deitado else int(H * 0.11))  # régua vermelha da distância
+    xa, xb = (x0 + 20, W - 40) if deitado else (60, W - 60)
+    d.line((xa, yr, xb, yr), fill=(230, 30, 40), width=14)
+    for x in (xa, xb):
+        d.line((x, yr - 40, x, yr + 40), fill=(230, 30, 40), width=14)
+    fr = ImageFont.truetype(str(FONTE), int(H * 0.12) if deitado else int(W * 0.16))
+    txt = "829 KM"
+    tw = fr.getlength(txt)
+    d.text(((xa + xb) / 2 - tw / 2, yr + 30), txt, font=fr, fill=(255, 255, 255), stroke_width=8, stroke_fill=(230, 30, 40))
+    if not deitado:                                               # você pequeno no canto, olhando o raio
+        px = int(W * 0.88)
+        chao = int(ey - math.sqrt(max(0, R * R - (px - ex) ** 2))) + 14
+        _pessoa(d, px, chao, 150, (245, 245, 250), 0.0, "parado", fundo=(10, 16, 40))

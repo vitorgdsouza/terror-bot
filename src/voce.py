@@ -43,6 +43,7 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   fermi        Paradoxo de Fermi; a galáxia ("conta", "planetas", "busca", "onda"); modos "almoco", "tempo", "primeiros", "filtro" (+ "frente"), "floresta" (+ "grita"), "votar"
   tsunami      megatsunami da baía de Lituya; de lado ("treme", "queda", "sobe" + "de"/"ate" em metros, "marca", "predio", "barcos"); modos "mapa" ("onda", "barcos") e "barco" ("por_cima", "surfa")
   magnetico    inversão do campo magnético; a Terra com as linhas ("vira", "invertido", "bagunca", "fraco", "vento", "satelites"); modos "bussola" ("aponta": norte | sul | gira | vira), "tempo" ("marca"), "aurora" ("longe"), "animais" ("confuso"), "forca" ("de"/"ate" em %)
+  raio         o megaflash (raio mais longo); o céu com o raio cruzando ("cresce"); modos "mapa" ("de_nome", "ate_nome", "km"), "carro", "aviao", "satelite" ("acha"), "tempo" ("ate" segundos), "abrigo" ("distancia")
   sinal        o sinal "Wow!"; radiotelescópio ("onda"); modos "radio" ("chega"), "grafico" ("pico"), "tempo" ("ate" segundos), "papel" ("circula"), "procura", "nuvem" ("clarao"), "votar"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
@@ -3721,3 +3722,179 @@ def _sinal(img, cena, t, dur, n, p):
 
 
 QUADROS.update({"sinal": _sinal})
+
+
+# ---------------------------------------------------------------- megaflash (o raio mais longo já medido)
+def _raio_pts(x0, y0, x1, y1, seed, n=40, amp=60):
+    """Caminho em zigue-zague de um raio de (x0, y0) até (x1, y1)."""
+    rnd = random.Random(seed)
+    pts = []
+    for k in range(n + 1):
+        u = k / n
+        dx, dy = x1 - x0, y1 - y0
+        L = math.hypot(dx, dy) or 1
+        nx, ny = -dy / L, dx / L
+        desvio = 0 if k in (0, n) else (rnd.random() - 0.5) * 2 * amp
+        pts.append((x0 + dx * u + nx * desvio, y0 + dy * u + ny * desvio))
+    return pts
+
+
+def _raio_desenha(d, pts, prog, t, seed=0, larg=10, galhos=True):
+    """Desenha o raio até a fração "prog" do caminho, com brilho, núcleo branco e galhinhos."""
+    m = max(2, int(len(pts) * min(1.0, max(0.0, prog))))
+    trecho = pts[:m]
+    pisca = 0.75 + 0.25 * abs(math.sin(t * 23 + seed))
+    d.line(trecho, fill=(140, 190, 255, int(70 * pisca)), width=larg * 5, joint="curve")
+    d.line(trecho, fill=(170, 215, 255, int(150 * pisca)), width=larg * 2, joint="curve")
+    d.line(trecho, fill=(250, 252, 255, 255), width=larg, joint="curve")
+    if galhos:
+        rnd = random.Random(seed + 7)
+        for k in range(2, m - 1, 4):
+            x, y = trecho[k]
+            a = rnd.random() * 2 * math.pi
+            comp = 40 + rnd.random() * 90
+            g = _raio_pts(x, y, x + math.cos(a) * comp, y + math.sin(a) * comp * 0.7, seed + k, n=4, amp=14)
+            d.line(g, fill=(220, 235, 255, int(200 * pisca)), width=max(2, larg // 3))
+    return trecho[-1]
+
+
+def _nuvens_tempestade(d, y0, y1, t, clarao=0.0):
+    """Faixa de nuvens de tempestade no alto, que acende com o clarão."""
+    for k in range(34):
+        rnd = random.Random(k + 40)
+        x = (rnd.random() * 1.3 - 0.15) * W + math.sin(t * 0.3 + k) * 10
+        y = y0 + rnd.random() * (y1 - y0)
+        rr = 110 + rnd.random() * 120
+        base = 40 + int(30 * rnd.random())
+        c = int(base + 120 * clarao)
+        d.ellipse((x - rr, y - rr * 0.55, x + rr, y + rr * 0.55), fill=(c, c + 6, c + 26, 235))
+
+
+def _raio(img, cena, t, dur, n, p):
+    """O megaflash, o raio mais longo já medido. Sem modo: você no chão, de noite, e o raio atravessando as nuvens
+    de um lado a outro sem acabar ("cresce": ele vai se espichando; sem isso já aparece inteiro). Modos: "mapa" (dois
+    pontos com nomes, "de_nome" e "ate_nome", e o raio indo de um ao outro; "km": rótulo da distância no meio),
+    "carro" (estrada à noite, o carro andando embaixo do raio), "aviao" (o avião voando ao lado do raio), "satelite"
+    (o satélite lá em cima, a Terra embaixo com clarões; "acha": o raio comprido aceso e marcado), "tempo" (cronômetro
+    até "ate" segundos com o céu piscando) e "abrigo" (você correndo para casa, o raio ao longe e a régua "10 KM").
+    "rotulo" em todos."""
+    d = ImageDraw.Draw(img, "RGBA")
+    modo = cena.get("modo", "")
+    f_ = _suave(t / max(0.1, dur * 0.85))
+    prog = f_ if cena.get("cresce") else 1.0
+    pisca = 1.0 if (t * 2.3) % 1 < 0.12 else 0.0
+    if modo == "mapa":
+        d.rectangle((0, 0, W, H), fill=(10, 22, 40))
+        rnd = random.Random(4)
+        terra_pts = [(W * 0.06, H * 0.2), (W * 0.5, H * 0.14), (W * 0.94, H * 0.22), (W * 0.97, H * 0.5),
+                     (W * 0.9, H * 0.66), (W * 0.45, H * 0.7), (W * 0.08, H * 0.62), (W * 0.03, H * 0.4)]
+        d.polygon(terra_pts, fill=(34, 60, 52), outline=(70, 110, 96))
+        for k in range(18):                               # células de tempestade
+            x, y = W * (0.15 + rnd.random() * 0.7), H * (0.22 + rnd.random() * 0.4)
+            rr = 50 + rnd.random() * 70
+            d.ellipse((x - rr, y - rr * 0.7, x + rr, y + rr * 0.7), fill=(200, 210, 230, 40))
+        ax, ay, bx, by = W * 0.2, H * 0.6, W * 0.8, H * 0.26
+        pts = _raio_pts(ax, ay, bx, by, 11, n=36, amp=40)
+        _raio_desenha(d, pts, prog, t, 3, larg=9)
+        for (x, y, nome) in ((ax, ay, cena.get("de_nome", "")), (bx, by, cena.get("ate_nome", ""))):
+            d.ellipse((x - 22, y - 22, x + 22, y + 22), fill=p["acento"], outline=(255, 255, 255), width=5)
+            if nome:
+                fonte = _f(50)
+                tw = d.textlength(nome, font=fonte)
+                tx = min(max(80, x - tw / 2), W - 80 - tw)
+                ty = y + 40 if y > H * 0.4 else y - 100
+                d.rounded_rectangle((tx - 16, ty - 6, tx + tw + 16, ty + 66), radius=16, fill=(8, 18, 46, 220))
+                d.text((tx, ty), nome, font=fonte, fill=p["fig"])
+        if cena.get("km") and prog > 0.95:
+            _centro_texto(d, W * 0.62, H * 0.47, str(cena["km"]), _f(90), p["acento"])
+    elif modo == "satelite":
+        _estrelas(d, t, 90)
+        _globo(d, W / 2, H * 1.05, W * 0.95, t, gira=0.2)
+        sx, sy = W * 0.5, H * 0.16
+        d.rectangle((sx - 40, sy - 50, sx + 40, sy + 50), fill=(220, 200, 120))
+        for s_ in (-1, 1):
+            d.rectangle((min(sx + s_ * 50, sx + s_ * 230), sy - 26, max(sx + s_ * 50, sx + s_ * 230), sy + 26), fill=(40, 80, 170), outline=(150, 190, 255), width=4)
+            for k in range(1, 4):
+                xx = sx + s_ * (50 + k * 45)
+                d.line((xx, sy - 26, xx, sy + 26), fill=(150, 190, 255), width=2)
+        d.polygon([(sx - 30, sy + 50), (sx + 30, sy + 50), (W * 0.95, H * 0.62), (W * 0.05, H * 0.62)], fill=(86, 214, 255, 30))
+        rnd = random.Random(8)
+        for k in range(10):                               # clarões espalhados nas nuvens
+            x, y = W * (0.1 + rnd.random() * 0.8), H * (0.6 + rnd.random() * 0.1)
+            if (t * 1.7 + k * 0.37) % 1 < 0.2:
+                d.ellipse((x - 40, y - 18, x + 40, y + 18), fill=(230, 240, 255, 200))
+        if cena.get("acha"):
+            pts = _raio_pts(W * 0.12, H * 0.66, W * 0.88, H * 0.6, 21, n=34, amp=18)
+            _raio_desenha(d, pts, f_ * 1.3, t, 5, larg=7)
+            if f_ > 0.7:
+                d.rounded_rectangle((W * 0.08, H * 0.56, W * 0.92, H * 0.7), radius=20, outline=p["acento"], width=7)
+    elif modo == "tempo":
+        horiz = H * 0.7
+        _ceu_noite(d, t, horiz)
+        _nuvens_tempestade(d, H * 0.08, H * 0.2, t, pisca)
+        d.rectangle((0, horiz, W, H), fill=(14, 22, 20))
+        ate = float(cena.get("ate", 17))
+        cx, cy, r = W / 2, H * 0.45, 260
+        v = ate * f_
+        d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(8, 18, 46, 220), outline=(40, 70, 120), width=36)
+        d.arc((cx - r, cy - r, cx + r, cy + r), -90, -90 + 360 * f_, fill=p["acento"], width=36)
+        _centro_texto(d, cx, cy - 10, f"{int(v)}", _f(190), p["fig"])
+        _centro_texto(d, cx, cy + 120, "SEGUNDOS", _f(46), p["acento"])
+        pts = _raio_pts(-40, H * 0.17, W + 40, H * 0.13, 31, n=30, amp=30)
+        _raio_desenha(d, pts, 1.0, t, 9, larg=8)
+    elif modo == "abrigo":
+        horiz = H * 0.66
+        _ceu_noite(d, t, horiz)
+        _nuvens_tempestade(d, H * 0.08, H * 0.24, t, pisca)
+        d.rectangle((0, horiz, W, H), fill=(18, 30, 24))
+        bx = W * 0.86                                    # o raio ao longe, descendo
+        pts = _raio_pts(bx, H * 0.2, bx - 30, horiz, 41, n=14, amp=40)
+        _raio_desenha(d, pts, 1.0, t, 11, larg=8)
+        hx = W * 0.2                                      # a casa
+        d.rectangle((hx - 120, horiz - 200, hx + 120, horiz + 10), fill=(200, 170, 120))
+        d.polygon([(hx - 150, horiz - 200), (hx + 150, horiz - 200), (hx, horiz - 330)], fill=(170, 60, 50))
+        d.rectangle((hx - 40, horiz - 120, hx + 40, horiz + 10), fill=(255, 220, 130))
+        px = W * 0.62 - (W * 0.3) * f_
+        _pessoa(d, px, horiz + 20, 200, p["fig"], t, "andando", fundo=p["fundo"])
+        y = horiz + 70                                    # régua da distância (acima da legenda)
+        d.line((hx + 140, y, bx, y), fill=p["acento"], width=6)
+        for x in (hx + 140, bx):
+            d.line((x, y - 22, x, y + 22), fill=p["acento"], width=6)
+        _centro_texto(d, (hx + 140 + bx) / 2, y - 60, str(cena.get("distancia", "10 KM")), _f(64), p["acento"])
+    else:                                                 # sem modo, "carro" e "aviao": o céu com o raio comprido
+        horiz = H * 0.68
+        _ceu_noite(d, t, horiz)
+        if pisca:
+            d.rectangle((0, 0, W, horiz), fill=(160, 180, 230, 50))
+        _nuvens_tempestade(d, H * 0.1, H * 0.3, t, 0.35 * pisca + 0.15)
+        pts = _raio_pts(-60, H * 0.22, W + 60, H * 0.16, 17 + (n // 10000) % 5, n=42, amp=46)
+        _raio_desenha(d, pts, prog, t, 1, larg=11)
+        d.rectangle((0, horiz, W, H), fill=(14, 22, 20))
+        if modo == "carro":
+            d.polygon([(W * 0.46, horiz), (W * 0.54, horiz), (W * 1.1, H), (-W * 0.1, H)], fill=(44, 48, 58))
+            for k in range(6):
+                fase = (t * 0.8 + k / 6) % 1
+                y = horiz + (H - horiz) * fase ** 1.6
+                d.rectangle((W / 2 - 4 - 10 * fase, y, W / 2 + 4 + 10 * fase, y + 10 + 40 * fase), fill=(240, 220, 120))
+            _carro(d, W * 0.5, H * 0.725, 260, p["acento2"], freio=True)
+        elif modo == "aviao":
+            ax = W * (0.15 + 0.7 * f_)
+            ay = H * 0.4
+            d.ellipse((ax - 130, ay - 22, ax + 130, ay + 22), fill=(235, 238, 245))
+            d.polygon([(ax - 10, ay), (ax + 40, ay), (ax - 40, ay + 110), (ax - 80, ay + 110)], fill=(200, 205, 215))
+            d.polygon([(ax - 110, ay - 10), (ax - 80, ay - 10), (ax - 120, ay - 80), (ax - 140, ay - 80)], fill=(200, 205, 215))
+            d.ellipse((ax + 90, ay - 12, ax + 118, ay + 4), fill=(40, 70, 120))
+            for k in range(5):
+                d.line((ax - 130 - k * 60, ay + 4, ax - 160 - k * 60, ay + 4), fill=(200, 210, 230, 160 - k * 30), width=4)
+        else:
+            for k, x in enumerate((W * 0.12, W * 0.3, W * 0.78)):   # casinhas
+                d.rectangle((x - 60, horiz - 90, x + 60, horiz + 4), fill=(30, 40, 46))
+                d.polygon([(x - 76, horiz - 90), (x + 76, horiz - 90), (x, horiz - 160)], fill=(30, 40, 46))
+                if (k + int(t)) % 3:
+                    d.rectangle((x - 20, horiz - 60, x + 20, horiz - 20), fill=(255, 210, 120))
+            _pessoa(d, W * 0.55, horiz + 60, 250, p["fig"], t, fundo=p["fundo"])
+    if cena.get("rotulo"):
+        _rotulo_caixa(d, H * 0.1 if modo not in ("", "carro", "aviao") else H * 0.4, str(cena["rotulo"]).upper(), p)
+
+
+QUADROS.update({"raio": _raio})

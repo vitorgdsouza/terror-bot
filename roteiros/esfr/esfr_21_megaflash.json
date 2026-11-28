@@ -1,0 +1,109 @@
+{
+  "formato": "voce",
+  "paleta": "ciencia",
+  "parte": "E SE...",
+  "tipo": "historia",
+  "clima": "curioso",
+  "voz": "Puck",
+  "canal": "esfr",
+  "trilha": "propria",
+  "trilha_volume": 0.3,
+  "titulo": "E se você visse um raio que não acaba nunca?",
+  "titulo_youtube": "O RAIO mais longo do mundo cruzou 829 km ⚡ #shorts",
+  "legenda_post": "Em outubro de 2017, um único raio saiu do leste do Texas e foi até perto de Kansas City, nos Estados Unidos: 829 km, a distância entre Paris e Veneza. Ninguém percebeu na hora: o recorde só foi achado anos depois, revendo os dados de um satélite. Qual foi o raio mais impressionante que você já viu? 👇\n\nFontes: Organização Meteorológica Mundial, OMM (\"WMO certifies megaflash lightning record in USA\", jul/2025); EarthSky (\"Megaflash lightning record\", ago/2025).\n#ciencia #raio #tempestade #recorde #curiosidades #ese",
+  "thumb_arte": "raio",
+  "thumb_texto": "E SE UM RAIO|NÃO ACABASSE?",
+  "cenas": [
+    {
+      "narracao": "E se você visse um raio que não acaba nunca?",
+      "quadro": "raio",
+      "cresce": true,
+      "thumb": true
+    },
+    {
+      "narracao": "Isso aconteceu numa tempestade nos Estados Unidos.",
+      "quadro": "raio",
+      "cresce": true,
+      "modo": "carro"
+    },
+    {
+      "narracao": "O raio saiu do leste do Texas...",
+      "quadro": "raio",
+      "modo": "mapa",
+      "de_nome": "LESTE DO TEXAS",
+      "cresce": true
+    },
+    {
+      "narracao": "e só parou perto de Kansas City.",
+      "quadro": "raio",
+      "modo": "mapa",
+      "de_nome": "LESTE DO TEXAS",
+      "ate_nome": "KANSAS CITY"
+    },
+    {
+      "narracao": "Foram oitocentos e vinte e nove quilômetros num raio só.",
+      "quadro": "numero",
+      "de": 0,
+      "ate": 829,
+      "unidade": "km",
+      "rotulo": "um raio só"
+    },
+    {
+      "narracao": "É como ir de Paris até Veneza.",
+      "quadro": "raio",
+      "modo": "mapa",
+      "de_nome": "PARIS",
+      "ate_nome": "VENEZA",
+      "cresce": true
+    },
+    {
+      "narracao": "De carro, você levaria umas oito a nove horas.",
+      "quadro": "raio",
+      "modo": "carro",
+      "rotulo": "8 a 9 horas"
+    },
+    {
+      "narracao": "E ninguém percebeu o recorde na hora.",
+      "quadro": "raio",
+      "modo": "satelite"
+    },
+    {
+      "narracao": "Ele só foi achado depois, num satélite.",
+      "quadro": "raio",
+      "modo": "satelite",
+      "acha": true
+    },
+    {
+      "narracao": "O recorde anterior era de setecentos e sessenta e oito quilômetros.",
+      "quadro": "comparar",
+      "itens": [
+        [
+          "Recorde de 2020",
+          768
+        ],
+        [
+          "Raio de 2017",
+          829
+        ]
+      ],
+      "unidade": "km"
+    },
+    {
+      "narracao": "E tem raio que brilhou por mais de dezessete segundos.",
+      "quadro": "raio",
+      "modo": "tempo",
+      "ate": 17
+    },
+    {
+      "narracao": "Raio a até dez quilômetros? Procure abrigo.",
+      "quadro": "raio",
+      "modo": "abrigo",
+      "distancia": "10 KM"
+    },
+    {
+      "narracao": "Qual foi o raio mais incrível que você já viu? Comenta.",
+      "quadro": "raio",
+      "cresce": true
+    }
+  ]
+}
