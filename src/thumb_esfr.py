@@ -57,7 +57,7 @@ def _ceu(W: int, H: int) -> Image.Image:
     return img
 
 
-ARTE_HORIZONTAL = {"lua_some", "sem_traje", "buraco_negro", "fermi", "bussola", "sinal", "megatsunami", "raio"}                               # artes que têm composição própria em 16:9
+ARTE_HORIZONTAL = {"lua_some", "sem_traje", "buraco_negro", "fermi", "bussola", "sinal", "megatsunami", "raio", "tunguska"}                               # artes que têm composição própria em 16:9
 
 
 def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
@@ -191,6 +191,8 @@ def arte(r: dict, W: int = 1080, H: int = 1920) -> Image.Image:
         _sinal_thumb(img, W, H)
     elif tipo == "raio":
         _raio_thumb(img, W, H)
+    elif tipo == "tunguska":
+        _tunguska_thumb(img, W, H)
     elif tipo == "raspando":
         img = _raspando(img, W, H)
         d = ImageDraw.Draw(img)
@@ -1124,3 +1126,46 @@ def _raio_thumb(img, W, H):
         px = int(W * 0.88)
         chao = int(ey - math.sqrt(max(0, R * R - (px - ex) ** 2))) + 14
         _pessoa(d, px, chao, 150, (245, 245, 250), 0.0, "parado", fundo=(10, 16, 40))
+
+
+def _tunguska_thumb(img, W, H):
+    """Tunguska: a Terra realista embaixo, uma bola de fogo explodindo no ar logo acima dela, a onda de choque e a seta
+    vermelha apontando que embaixo não ficou cratera."""
+    import math
+    deitado = W > H
+    R = int(W * 1.1) if deitado else int(W * 0.95)
+    ex, ey = (int(W * 0.66), int(H + R * 0.72)) if deitado else (W // 2, int(H * 0.8 + R * 0.86))
+    t = terra(R, seed=88)
+    img.alpha_composite(t, (ex - t.width // 2, ey - t.height // 2))
+    topo = ey - R
+    bx = int(W * 0.8) if deitado else W // 2
+    by = topo - (int(H * 0.2) if deitado else int(H * 0.13))
+    for k, (rr, a) in enumerate(((int(H * 0.42) if deitado else 520, 70), (int(H * 0.3) if deitado else 380, 110), (int(H * 0.2) if deitado else 250, 170))):
+        g = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        ImageDraw.Draw(g).ellipse((bx - rr, by - rr, bx + rr, by + rr), fill=(255, 150 + k * 40, 40 + k * 50, a))
+        img.alpha_composite(g.filter(ImageFilter.GaussianBlur(40)))
+    rc = int(H * 0.09) if deitado else 120
+    cauda = Image.new("RGBA", img.size, (0, 0, 0, 0))            # rastro de fogo de quem chegou do alto à direita
+    dc = ImageDraw.Draw(cauda)
+    for k in range(30):
+        u = k / 29
+        x, y = bx + u * W * 0.45, by - u * H * (0.5 if deitado else 0.3)
+        rr = rc * (0.9 - 0.7 * u)
+        dc.ellipse((x - rr, y - rr, x + rr, y + rr), fill=(255, int(120 + 60 * u), 30, int(200 * (1 - u))))
+    img.alpha_composite(cauda.filter(ImageFilter.GaussianBlur(14)))
+    d = ImageDraw.Draw(img, "RGBA")
+    for k, (q, cor) in enumerate(((1.25, (255, 90, 20)), (1.0, (255, 150, 40)), (0.72, (255, 210, 90)), (0.42, (255, 250, 220)))):
+        d.ellipse((bx - rc * q, by - rc * q, bx + rc * q, by + rc * q), fill=cor)
+    for k in range(3):                                            # onda de choque descendo até o chão
+        rr = rc * (2.2 + k * 0.9)
+        d.arc((bx - rr, by - rr * 0.8, bx + rr, by + rr * 0.8), 20, 160, fill=(255, 230, 170, 200 - k * 50), width=10)
+    for k in range(9):                                            # raios de luz
+        a = math.radians(200 + k * 17)
+        d.line((bx + math.cos(a) * rc * 1.3, by + math.sin(a) * rc * 1.3, bx + math.cos(a) * rc * 2.2, by + math.sin(a) * rc * 2.2), fill=(255, 245, 200), width=8)
+    from .voce import _pessoa
+    if deitado:
+        return
+    px = int(W * 0.18)
+    chao = int(ey - math.sqrt(max(0, R * R - (px - ex) ** 2))) + 14
+    _pessoa(d, px, chao, int(H * 0.14) if deitado else 160, (245, 245, 250), 0.0, "parado", fundo=(10, 16, 40))
+    _seta(d, int(W * 0.12), int(H * 0.5), bx - rc - 40, by - 10, larg=30)

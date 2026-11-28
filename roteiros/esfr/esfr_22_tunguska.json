@@ -1,0 +1,98 @@
+{
+  "formato": "voce",
+  "paleta": "ciencia",
+  "parte": "E SE...",
+  "tipo": "historia",
+  "clima": "curioso",
+  "voz": "Puck",
+  "canal": "esfr",
+  "trilha": "propria",
+  "trilha_volume": 0.3,
+  "titulo": "E se o céu explodisse em cima de você?",
+  "titulo_youtube": "O CÉU EXPLODIU sobre a Sibéria e não deixou cratera 💥 #shorts",
+  "legenda_post": "Numa manhã de 30 de junho de 1908, perto do rio Podkamennaya Tunguska, na Sibéria, uma bola de fogo explodiu no ar, a uns 5 a 10 km de altura. O clarão foi visto a uns 800 km, um vento quente derrubou gente e sacudiu casas, e cerca de 2.000 km² de floresta foram ao chão. A primeira expedição só chegou em 1927, e não achou cratera. Asteroide ou cometa? Vota aí: 1 ou 2? 👇\n\nFontes: Encyclopaedia Britannica (\"Tunguska event\" e \"What Is Known (and Not Known) About the Tunguska Event\"); Astronomy.com (\"June 30, 1908: The Tunguska impact\").\n#ciencia #espaco #tunguska #asteroide #curiosidades #ese",
+  "thumb_arte": "tunguska",
+  "thumb_texto": "O CÉU EXPLODIU|E NÃO FICOU CRATERA",
+  "cenas": [
+    {
+      "narracao": "E se o céu explodisse em cima de você?",
+      "quadro": "tunguska",
+      "explode": true,
+      "thumb": true
+    },
+    {
+      "narracao": "Isso aconteceu numa manhã de 1908, na Sibéria.",
+      "quadro": "numero",
+      "de": 1900,
+      "ate": 1908,
+      "ano": true,
+      "rotulo": "Sibéria"
+    },
+    {
+      "narracao": "Uma bola de fogo riscou o céu...",
+      "quadro": "tunguska",
+      "bola": true
+    },
+    {
+      "narracao": "e explodiu antes de tocar o chão.",
+      "quadro": "tunguska",
+      "explode": true,
+      "susto": true
+    },
+    {
+      "narracao": "O clarão foi visto a uns oitocentos quilômetros.",
+      "quadro": "numero",
+      "de": 0,
+      "ate": 800,
+      "antes": "UNS",
+      "unidade": "km",
+      "rotulo": "de distância"
+    },
+    {
+      "narracao": "Um vento quente derrubou gente e sacudiu casas.",
+      "quadro": "tunguska",
+      "vento": true,
+      "susto": true
+    },
+    {
+      "narracao": "E a floresta caiu, toda deitada pra fora.",
+      "quadro": "tunguska",
+      "modo": "cima",
+      "cai": true
+    },
+    {
+      "narracao": "Uns dois mil quilômetros quadrados de árvores no chão.",
+      "quadro": "numero",
+      "de": 0,
+      "ate": 2000,
+      "antes": "UNS",
+      "unidade": "km²",
+      "rotulo": "de floresta no chão"
+    },
+    {
+      "narracao": "Os cientistas só chegaram uns vinte anos depois...",
+      "quadro": "tunguska",
+      "modo": "expedicao"
+    },
+    {
+      "narracao": "e não acharam cratera nenhuma.",
+      "quadro": "tunguska",
+      "modo": "centro"
+    },
+    {
+      "narracao": "A explosão foi no ar, a uns cinco a dez quilômetros de altura.",
+      "quadro": "tunguska",
+      "modo": "altura"
+    },
+    {
+      "narracao": "Depois, o céu da Europa ficou claro de noite por um tempo.",
+      "quadro": "tunguska",
+      "modo": "noite"
+    },
+    {
+      "narracao": "Asteroide ou cometa? Ninguém tem certeza. Vota aí: um ou dois?",
+      "quadro": "tunguska",
+      "modo": "votar"
+    }
+  ]
+}

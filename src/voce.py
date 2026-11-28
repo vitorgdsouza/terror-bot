@@ -44,6 +44,7 @@ Ciência (paleta "ciencia", canal E Se Fosse Real?):
   tsunami      megatsunami da baía de Lituya; de lado ("treme", "queda", "sobe" + "de"/"ate" em metros, "marca", "predio", "barcos"); modos "mapa" ("onda", "barcos") e "barco" ("por_cima", "surfa")
   magnetico    inversão do campo magnético; a Terra com as linhas ("vira", "invertido", "bagunca", "fraco", "vento", "satelites"); modos "bussola" ("aponta": norte | sul | gira | vira), "tempo" ("marca"), "aurora" ("longe"), "animais" ("confuso"), "forca" ("de"/"ate" em %)
   raio         o megaflash (raio mais longo); o céu com o raio cruzando ("cresce"); modos "mapa" ("de_nome", "ate_nome", "km"), "carro", "aviao", "satelite" ("acha"), "tempo" ("ate" segundos), "abrigo" ("distancia")
+  tunguska     a explosão de 1908 na Sibéria; a floresta com você ("bola", "explode", "vento"); modos "cima" ("cai", "caido"), "expedicao", "centro", "altura" ("medida"), "noite", "votar"
   sinal        o sinal "Wow!"; radiotelescópio ("onda"); modos "radio" ("chega"), "grafico" ("pico"), "tempo" ("ate" segundos), "papel" ("circula"), "procura", "nuvem" ("clarao"), "votar"
 Em qualquer cena: "foco": [x, y, zoom] (close fixo), "seguir": true (close acompanhando quem cai, no terra_corte), "alerta": true (borda vermelha piscando), "susto": true (tremor), "texto_topo": "aviso no alto".
 """
@@ -3898,3 +3899,174 @@ def _raio(img, cena, t, dur, n, p):
 
 
 QUADROS.update({"raio": _raio})
+
+
+# ---------------------------------------------------------------- Tunguska (a explosão no céu da Sibéria, 1908)
+def _floresta_fileira(d, chao, alt, t, caida=0.0, n=9, seed=0, cor=(28, 92, 60)):
+    for k in range(n):
+        rnd = random.Random(seed + k)
+        x = W * (k + 0.5) / n + (rnd.random() - 0.5) * 50
+        _arvore(d, x, chao + rnd.random() * 30, alt * (0.8 + rnd.random() * 0.4), cor, caida)
+
+
+def _tunguska(img, cena, t, dur, n, p):
+    """A explosão de Tunguska. Sem modo: a floresta de manhã com você ("bola": a bola de fogo riscando o céu;
+    "explode": o clarão no ar; "vento": árvores e você caindo, a cabana tremendo). Modos: "cima" (a floresta vista
+    de cima; "cai": as árvores tombando para fora do centro, em círculo), "expedicao" (gente andando entre os troncos
+    caídos), "centro" (o pântano no meio, sem cratera, com "?"), "altura" (de lado, a explosão no ar e a régua
+    "5 A 10 KM"), "noite" (cidade antiga de noite com o céu claro) e "votar" (cartões ASTEROIDE x COMETA). "rotulo"."""
+    d = ImageDraw.Draw(img, "RGBA")
+    modo = cena.get("modo", "")
+    f_ = _suave(t / max(0.1, dur * 0.85))
+    if modo == "cima":
+        d.rectangle((0, 0, W, H), fill=(36, 70, 44))
+        cx, cy = W / 2, H * 0.42
+        cai = f_ if cena.get("cai") else (1.0 if cena.get("caido") else 0.0)
+        for k in range(260):
+            rnd = random.Random(k + 900)
+            a = rnd.random() * 2 * math.pi
+            r = 60 + rnd.random() ** 0.7 * 620
+            x, y = cx + math.cos(a) * r, cy + math.sin(a) * r * 0.9
+            atraso = r / 680 * 0.5
+            c = _suave((cai - atraso) / 0.5) if cai else 0.0
+            if c <= 0:
+                d.ellipse((x - 22, y - 22, x + 22, y + 22), fill=(24, 96, 54))
+                d.ellipse((x - 12, y - 14, x + 8, y + 4), fill=(46, 130, 74))
+            else:
+                L = 70 * c
+                d.line((x, y, x + math.cos(a) * L, y + math.sin(a) * L * 0.9), fill=(120, 84, 52), width=8)
+                d.ellipse((x - 6, y - 6, x + 6, y + 6), fill=(90, 60, 38))
+        if cai:
+            rr = 80 + 600 * cai
+            d.ellipse((cx - rr, cy - rr * 0.9, cx + rr, cy + rr * 0.9), outline=(255, 210, 120, int(200 * (1 - cai))), width=14)
+        d.ellipse((cx - 30, cy - 30, cx + 30, cy + 30), fill=p["acento"])
+    elif modo == "expedicao":
+        horiz = H * 0.5
+        d.rectangle((0, 0, W, horiz), fill=(150, 170, 190))
+        d.rectangle((0, horiz, W, H), fill=(70, 80, 50))
+        for k in range(16):                                 # troncos caídos
+            rnd = random.Random(k + 50)
+            x, y = rnd.random() * W, horiz + 20 + rnd.random() * (H * 0.2)
+            L = 160 + rnd.random() * 160
+            d.line((x, y, x + L, y - 10 + rnd.random() * 20), fill=(110, 80, 52), width=14)
+        for k in range(3):
+            x = W * (0.2 + k * 0.18) + (t * 40) % 60
+            _pessoa(d, x, H * 0.68, 220 - k * 20, (60, 50, 40) if k else p["fig"], t, "andando", fundo=(70, 80, 50))
+            d.line((x + 40, H * 0.68 - 150, x + 60, H * 0.68), fill=(120, 90, 50), width=6)   # cajado
+    elif modo == "centro":
+        horiz = H * 0.45
+        d.rectangle((0, 0, W, horiz), fill=(150, 170, 190))
+        d.rectangle((0, horiz, W, H), fill=(60, 74, 46))
+        d.ellipse((W * 0.12, H * 0.5, W * 0.88, H * 0.66), fill=(54, 70, 60))   # o pântano
+        for k in range(18):
+            rnd = random.Random(k)
+            x, y = W * (0.15 + rnd.random() * 0.7), H * (0.52 + rnd.random() * 0.12)
+            d.line((x, y, x, y - 40), fill=(140, 150, 80), width=4)
+        for k in range(7):                                   # troncos em pé, sem galhos
+            x = W * (0.08 + k * 0.14)
+            d.rectangle((x - 9, horiz - 220 + (k % 3) * 40, x + 9, horiz + 30), fill=(90, 66, 44))
+        s = 1 + 0.08 * math.sin(t * 4)
+        _centro_texto(d, W / 2, H * 0.3, "?", _f(int(220 * s)), p["acento"])
+        _centro_texto(d, W / 2, H * 0.68, "SEM CRATERA", _f(64), p["fig"])
+    elif modo == "altura":
+        d.rectangle((0, 0, W, H), fill=(110, 140, 180))
+        chao = H * 0.7
+        d.rectangle((0, chao, W, H), fill=(40, 70, 44))
+        _floresta_fileira(d, chao, 60, t, caida=0.0, n=14, seed=5)
+        ex, ey = W * 0.45, H * 0.2
+        rr = 60 + 140 * f_
+        d.ellipse((ex - rr * 1.8, ey - rr * 1.8, ex + rr * 1.8, ey + rr * 1.8), fill=(255, 220, 140, 70))
+        d.ellipse((ex - rr, ey - rr, ex + rr, ey + rr), fill=(255, 236, 190))
+        rx = W * 0.85
+        d.line((rx, ey, rx, chao), fill=p["acento"], width=8)
+        for y in (ey, chao):
+            d.line((rx - 30, y, rx + 30, y), fill=p["acento"], width=8)
+        txt = str(cena.get("medida", "5 A 10 KM"))
+        b = d.textbbox((0, 0), txt, font=_f(56))
+        d.rounded_rectangle((rx - 40 - (b[2] - b[0]) - 20, (ey + chao) / 2 - 50, rx - 20, (ey + chao) / 2 + 50), radius=18, fill=(8, 18, 46, 220))
+        d.text((rx - 40 - (b[2] - b[0]), (ey + chao) / 2 - 36), txt, font=_f(56), fill=p["acento"])
+    elif modo == "noite":
+        horiz = H * 0.62
+        for y in range(0, int(horiz), 8):                    # céu claro demais para a noite
+            u = y / horiz
+            d.rectangle((0, y, W, y + 8), fill=(int(70 + 60 * u), int(90 + 70 * u), int(140 + 50 * u)))
+        for k in range(5):                                   # nuvens brilhantes bem altas
+            y = H * (0.12 + k * 0.08)
+            off = math.sin(t * 0.6 + k) * 40
+            d.line([(x, y + math.sin(x / 90 + k) * 18) for x in range(-20, W + 40, 40)], fill=(200, 230, 255, 120), width=10)
+        d.rectangle((0, horiz, W, H), fill=(26, 30, 40))
+        for k in range(8):                                   # casas antigas com telhado pontudo
+            x = W * (0.06 + k * 0.125)
+            hh = 160 + (k % 3) * 60
+            d.rectangle((x - 50, horiz - hh, x + 50, horiz), fill=(30, 34, 46))
+            d.polygon([(x - 60, horiz - hh), (x + 60, horiz - hh), (x, horiz - hh - 70)], fill=(30, 34, 46))
+            d.rectangle((x - 16, horiz - hh + 40, x + 16, horiz - hh + 80), fill=(255, 210, 120))
+        _pessoa(d, W * 0.55, horiz + 150, 260, p["fig"], t, fundo=p["fundo"])
+        d.ellipse((W * 0.8 - 40, H * 0.1 - 40, W * 0.8 + 40, H * 0.1 + 40), fill=(250, 250, 235))   # a Lua
+    elif modo == "votar":
+        _estrelas(d, t, 60)
+        for k, (txt, cor) in enumerate((("ASTEROIDE", (255, 196, 36)), ("COMETA", (86, 214, 255)))):
+            cx = W * (0.28 + 0.44 * k)
+            cy = H * 0.45 + math.sin(t * 3 + k * 1.5) * 14
+            d.rounded_rectangle((cx - 210, cy - 260, cx + 210, cy + 260), radius=36, fill=(14, 30, 70), outline=cor, width=10)
+            _centro_texto(d, cx, cy - 150, str(k + 1), _f(150), cor)
+            fonte = _f(56)
+            while d.textlength(txt, font=fonte) > 380:
+                fonte = _f(fonte.size - 4)
+            _centro_texto(d, cx, cy + 170, txt, fonte, p["fig"])
+            if k == 0:
+                d.ellipse((cx - 50, cy - 10, cx + 60, cy + 70), fill=(128, 116, 104))
+                d.ellipse((cx - 20, cy + 10, cx + 5, cy + 30), fill=(90, 80, 72))
+            else:
+                d.polygon([(cx + 40, cy + 10), (cx - 120, cy - 40), (cx - 120, cy + 80)], fill=(140, 220, 255, 120))
+                d.ellipse((cx + 10, cy - 10, cx + 70, cy + 50), fill=(230, 245, 255))
+    else:                                                    # a floresta de manhã, com você
+        horiz = H * 0.62
+        explode = cena.get("explode")
+        for y in range(0, int(horiz), 8):
+            u = y / horiz
+            d.rectangle((0, y, W, y + 8), fill=(int(90 + 80 * u), int(130 + 60 * u), int(190 + 30 * u)))
+        if cena.get("bola"):                                 # risco de fogo cruzando o céu
+            x = W * (1.1 - 1.0 * f_)
+            y = H * (0.05 + 0.18 * f_)
+            for k in range(14):
+                u = k / 14
+                xx, yy = x + u * 420, y - u * 160
+                rr = 46 * (1 - u) + 6
+                d.ellipse((xx - rr, yy - rr, xx + rr, yy + rr), fill=(255, int(220 - 120 * u), 80, int(230 * (1 - u))))
+            d.ellipse((x - 40, y - 40, x + 40, y + 40), fill=(255, 250, 220))
+        if explode:
+            ex, ey = W * 0.4, H * 0.22
+            rr = 80 + 520 * f_
+            for k in range(8):                               # bola de luz com brilho em camadas
+                q = 1.8 - k * 0.2
+                cor = (255, int(150 + k * 13), int(60 + k * 22), int(40 + k * 22))
+                d.ellipse((ex - rr * q, ey - rr * q, ex + rr * q, ey + rr * q), fill=cor)
+            d.ellipse((ex - rr * 0.3, ey - rr * 0.3, ex + rr * 0.3, ey + rr * 0.3), fill=(255, 255, 240))
+        d.rectangle((0, horiz, W, H), fill=(40, 70, 44))
+        vento = cena.get("vento")
+        caida = f_ if vento else 0.0
+        _floresta_fileira(d, horiz - 10, 150, t, caida=caida * 0.9, n=8, seed=2, cor=(22, 76, 48))
+        hx = W * 0.2                                         # a cabana
+        sx = math.sin(t * 40) * 8 if vento else 0
+        d.rectangle((hx - 110 + sx, horiz - 150, hx + 110 + sx, horiz + 40), fill=(120, 84, 52))
+        d.polygon([(hx - 140 + sx, horiz - 150), (hx + 140 + sx, horiz - 150), (hx + sx, horiz - 260)], fill=(90, 60, 38))
+        d.rectangle((hx - 30 + sx, horiz - 60, hx + 30 + sx, horiz + 40), fill=(50, 34, 22))
+        px = W * 0.62 + (W * 0.12 * f_ if vento else 0)
+        if vento and f_ > 0.5:                               # você caiu no chão
+            d.rounded_rectangle((px - 130, horiz + 70, px + 110, horiz + 120), radius=24, fill=p["fig"])
+            d.ellipse((px + 100, horiz + 60, px + 160, horiz + 120), fill=p["fig"])
+        else:
+            _pessoa(d, px, horiz + 120, 260, p["fig"], t, "tremendo" if (vento or explode) else "parado", fundo=p["fundo"])
+        if vento:
+            for k in range(10):
+                fase = (t * 1.4 + k / 10) % 1
+                y = H * (0.3 + 0.04 * k)
+                d.line((W * fase - 200, y, W * fase, y), fill=(255, 220, 160, int(180 * (1 - fase))), width=6)
+        if explode and f_ < 0.6:
+            d.rectangle((0, 0, W, H), fill=(255, 250, 230, int(160 * (1 - f_ / 0.6))))
+    if cena.get("rotulo"):
+        _rotulo_caixa(d, H * 0.1 if modo in ("cima", "votar", "noite") else H * 0.36, str(cena["rotulo"]).upper(), p)
+
+
+QUADROS.update({"tunguska": _tunguska})
