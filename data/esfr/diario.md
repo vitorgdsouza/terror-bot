@@ -346,3 +346,4 @@
 
 - Sáb 28/11 (dia do vídeo longo): faixa das 12h17 SUSPENSA. A rodada das 12h03 não agenda Short hoje; o próximo sai às 16h17.
 - 28/11 10h15: Vênus (10, run 45396326379) posto no INÍCIO da fila para a faixa das 16h17. Fila com 6.
+- 28/11 13h03: **thumb do longo (7DfyxhtBuw0) refeita e trocada no YouTube** (run 46163046532, THUMB 200). O Vitor achou a antiga desajustada (1 h no ar, 0 views): Júpiter cortado embaixo, Saturno e Urano encavalados, Vênus gigante sem motivo. Nova (`src/longo.py` `thumb`): os 8 planetas em grade 4x2 à direita, sem encostar, o astronauta com medo e a seta vermelha à esquerda, e a pergunta em 2 linhas. Conferir views/CTR amanhã.
