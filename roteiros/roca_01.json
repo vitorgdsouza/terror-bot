@@ -1,0 +1,226 @@
+{
+  "titulo": "Férias na Roça, Ep. 1: A Tesoura Aberta",
+  "tipo": "historia",
+  "serie": "Férias na Roça",
+  "parte": 1,
+  "final": false,
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "JAN 14 2026",
+  "hora_fita": [
+    2,
+    52,
+    10
+  ],
+  "protagonista": null,
+  "clima": "suspense",
+  "ritmo": 1.08,
+  "selo": "EP. 1",
+  "pergunta_thumb": "Conta ou segue?",
+  "trilha": "dark ambient drone hum night crickets",
+  "trilha_volume": 0.45,
+  "titulo_youtube": "Ele riu da regra da vó... e acordou sem conseguir se mexer 📼 Férias na Roça Ep. 1 #shorts",
+  "legenda_post": "Férias na Roça, Ep. 1: A Tesoura Aberta (história de ficção, inspirada no folclore brasileiro). Continua da Fita do Terreiro: o Davi deitou de barriga cheia, acordou sem conseguir se mexer e achou no travesseiro uma tesoura aberta que ele não pôs ali. Às 3h, a vó estava na porteira, conversando com o mato... e o mato assobiou de volta. O Davi conta pra vó (A) ou segue ela hoje à noite (B)? Comenta A ou B 👇",
+  "hashtags": [
+    "#analoghorror",
+    "#vhs",
+    "#foundfootage",
+    "#terror",
+    "#pisadeira"
+  ],
+  "resumo": "Começa onde a Fita do Terreiro parou (as telhas em cima da cama do Davi, a Pisadeira escolhendo a janela acesa). O Davi acorda paralisado; um peso no peito, a risada fina, o susto esp_pisadeira descendo pelas telhas. A tesoura aberta (detalhe escondido da Fita do Terreiro) protege: ele não a pôs ali. A vó, 'que esquece tudo', está na porteira às 3h04 conversando com o escuro; o peso some e o mato assobia de volta (planta o Assobiador e o segredo do trato da vó, sem revelar). De manhã, ela não lembra. Voto: contar pra vó ou segui-la. Sem violência: o Davi é criança, o medo vem do suspense; o Tição fica bem.",
+  "opcao_a": "Contar pra vó o que viu na porteira.",
+  "opcao_b": "Seguir a vó na noite seguinte, sem ela saber.",
+  "cenas": [
+    {
+      "narracao": "As telhas pararam em cima dele.",
+      "cenario": "quarto_roca",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.12,
+        1.8
+      ],
+      "efeito": "tremor",
+      "texto_tela": "FITA 04 | SÍTIO | 02:52",
+      "som": {
+        "busca": "roof tiles creaking footsteps",
+        "palavra": "telhas"
+      }
+    },
+    {
+      "narracao": "O Davi acordou... sem conseguir se mexer.",
+      "cenario": "quarto_roca",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.3,
+        0.63,
+        2.0
+      ],
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "Lá fora, o Tição nem latia.",
+      "cenario": "terreiro_noite",
+      "personagem": null,
+      "camera": "parada",
+      "som": {
+        "busca": "night crickets silence",
+        "palavra": "Tição"
+      }
+    },
+    {
+      "narracao": "Um peso no peito dele...",
+      "cenario": "tv_estatica2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tv_chiando",
+      "texto_tela": "02:53",
+      "som": {
+        "busca": "vhs tape static",
+        "palavra": "peso"
+      }
+    },
+    {
+      "narracao": "Uma risada fina. Na janela.",
+      "cenario": "janela",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "som": {
+        "busca": "creepy woman giggle",
+        "palavra": "risada"
+      }
+    },
+    {
+      "narracao": "Dedos compridos nas telhas... descendo.",
+      "cenario": "esp_pisadeira",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "thumb": true,
+      "pausa_extra": 0.8,
+      "som": {
+        "busca": "horror stinger hit",
+        "palavra": "Dedos"
+      }
+    },
+    {
+      "narracao": "No travesseiro, uma tesoura aberta.",
+      "cenario": "quarto_roca",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.22,
+        0.58,
+        2.4
+      ],
+      "som": {
+        "busca": "scissors open",
+        "palavra": "tesoura"
+      }
+    },
+    {
+      "narracao": "Ele não tinha posto ali.",
+      "cenario": "cozinha_fogao",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "Foi a vó? Que esquece tudo?",
+      "cenario": "cozinha_fogao2",
+      "personagem": null,
+      "camera": "pan_esquerda",
+      "som": {
+        "busca": "wood fire crackling",
+        "palavra": "vó"
+      }
+    },
+    {
+      "narracao": "Mas a vó estava lá fora.",
+      "cenario": "porteira_estrada",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "PORTEIRA | 03:04",
+      "som": {
+        "busca": "wooden gate creak",
+        "palavra": "fora"
+      }
+    },
+    {
+      "narracao": "Na porteira. Conversando com o escuro.",
+      "cenario": "mato_trilha",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "luz_piscando"
+    },
+    {
+      "narracao": "O peso saiu do peito dele.",
+      "cenario": "terreiro_noite",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.5,
+        1.8
+      ]
+    },
+    {
+      "narracao": "E o mato... assobiou de volta.",
+      "cenario": "porteira_estrada",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [
+        0.5,
+        0.45,
+        2.0
+      ],
+      "efeito": "tremor",
+      "som": {
+        "busca": "eerie whistle in the woods",
+        "palavra": "assobiou"
+      }
+    },
+    {
+      "narracao": "De manhã, a vó não lembrava.",
+      "cenario": "cozinha_fogao3",
+      "personagem": null,
+      "camera": "zoom_out",
+      "texto_tela": "06:12"
+    },
+    {
+      "narracao": "Davi conta pra vó...",
+      "cenario": "tv_estatica2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "A | CONTA PRA VÓ",
+      "efeito": "tv_chiando"
+    },
+    {
+      "narracao": "ou segue ela hoje à noite?",
+      "cenario": "mato_trilha",
+      "personagem": null,
+      "camera": "zoom_in",
+      "texto_tela": "B | SEGUE A VÓ",
+      "som": {
+        "busca": "eerie whistle in the woods",
+        "palavra": "segue"
+      }
+    },
+    {
+      "narracao": "Comenta A ou B.",
+      "cenario": "terreiro_noite",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "corte_preto": true,
+      "som": {
+        "busca": "vhs tape static",
+        "palavra": "Comenta"
+      }
+    }
+  ]
+}

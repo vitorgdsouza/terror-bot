@@ -1,0 +1,78 @@
+{
+  "titulo": "Fita do Canil 01:40",
+  "tipo": "isca",
+  "serie": "As Fitas do Rufus",
+  "estilo": "vhs",
+  "pixel": 6,
+  "data_fita": "FEV 26 1998",
+  "hora_fita": [1, 40, 2],
+  "protagonista": null,
+  "clima": "suspense",
+  "ritmo": 1.05,
+  "selo": "FITA 00",
+  "pergunta_thumb": "Quantas patas?",
+  "trilha": "dark ambient drone hum",
+  "trilha_volume": 0.45,
+  "final": true,
+  "titulo_youtube": "1h40: unhas no corredor... mas o cachorro estava do lado dela 📼 #shorts",
+  "legenda_post": "Fita de treino da Sargento Lena, fevereiro de 1998, a noite antes da primeira fita do Rufus (história de ficção). Unhas no corredor, no ritmo errado... e o Rufus rosnando do lado da cama. Quantas patas você ouviu? 👇",
+  "hashtags": ["#analoghorror", "#vhs", "#foundfootage", "#terror", "#cachorro"],
+  "resumo": "Isca VHS prequel das Fitas do Rufus (a Fita 01 fez 1.094 views; bicho de estimação é o tema mais forte). 1º quadro já com algo errado: um cão no fim do corredor. A Lena acha que é o Rufus e chama; algo vem devagar. Virada: o Rufus de verdade está no pé da cama, rosnando. Susto esp_pele_corredor: aquilo anda em duas patas. Pergunta para rever: quantas patas você ouviu. O Rufus fica bem.",
+  "cenas": [
+    {
+      "narracao": "Unhas no corredor, uma e quarenta.",
+      "cenario": "corredor",
+      "personagem": null,
+      "cachorro": {"acao": "parado", "posicao": "centro", "tamanho": "longe", "falso": true},
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "texto_tela": "FITA DE TREINO | 01:40",
+      "som": {"busca": "dog claws on wooden floor", "palavra": "Unhas"}
+    },
+    {
+      "narracao": "A Lena achou que era o Rufus.",
+      "cenario": "quarto",
+      "personagem": null,
+      "camera": "zoom_in",
+      "foco": [0.5, 0.45, 1.6]
+    },
+    {
+      "narracao": "Chamou: Rufus, vem... E veio.",
+      "cenario": "corredor",
+      "personagem": null,
+      "cachorro": {"acao": "andando", "posicao": "centro", "tamanho": "medio", "falso": true},
+      "camera": "zoom_in",
+      "efeito": "luz_piscando",
+      "som": {"busca": "slow footsteps wooden floor", "palavra": "veio"}
+    },
+    {
+      "narracao": "Mas o Rufus estava aqui. Rosnando.",
+      "cenario": "quarto",
+      "personagem": null,
+      "cachorro": {"acao": "levantando_cabeca", "posicao": "direita", "tamanho": "medio"},
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "texto_tela": "QUARTO | 01:41",
+      "som": {"busca": "dog growling low", "palavra": "Rosnando"}
+    },
+    {
+      "narracao": "Aquilo andava em duas patas.",
+      "cenario": "esp_pele_corredor",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tremor",
+      "thumb": true,
+      "pausa_extra": 0.8,
+      "som": {"busca": "horror stinger hit", "palavra": "duas"}
+    },
+    {
+      "narracao": "Quantas patas você ouviu?",
+      "cenario": "tv_estatica2",
+      "personagem": null,
+      "camera": "zoom_in",
+      "efeito": "tv_chiando",
+      "corte_preto": true,
+      "som": {"busca": "vhs tape static", "palavra": "patas"}
+    }
+  ]
+}
