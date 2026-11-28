@@ -3856,7 +3856,7 @@ def _raio(img, cena, t, dur, n, p):
         d.rectangle((hx - 120, horiz - 200, hx + 120, horiz + 10), fill=(200, 170, 120))
         d.polygon([(hx - 150, horiz - 200), (hx + 150, horiz - 200), (hx, horiz - 330)], fill=(170, 60, 50))
         d.rectangle((hx - 40, horiz - 120, hx + 40, horiz + 10), fill=(255, 220, 130))
-        px = W * 0.62 - (W * 0.3) * f_
+        px = W * 0.46 - (W * 0.16) * f_                  # não passa por cima da régua
         _pessoa(d, px, horiz + 20, 200, p["fig"], t, "andando", fundo=p["fundo"])
         y = horiz + 70                                    # régua da distância (acima da legenda)
         d.line((hx + 140, y, bx, y), fill=p["acento"], width=6)
