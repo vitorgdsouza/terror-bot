@@ -555,3 +555,21 @@
 
 ## 27/11 (18h55): conferência do agendamento da tarde (Publicador)
 - O cron das 18h31 do fila.yml não tinha rodado às 18h41 (atraso do GitHub). Disparei `acao=agendar turno=tarde` (run 46071943734): a Câmera 4 Ep. 1 (nº 21) subiu como xo2vmMFveMg, agendada para 18h52 (faixa já perto, +10 min), saiu pública e a thumb foi reaplicada. Se o cron atrasado rodar depois, a trava do `fila.py` barra o 2º principal do dia.
+
+## 28/11 (07h25): rodada da manhã da equipe
+- **Decisões do Vitor desde a última rodada (27/11 18h55):** nenhuma. Os roteiros nº 25 e 26 seguem pendentes; nada com status "refazer". A Câmera 4 Ep. 1 (nº 21) saiu em 27/11 às 18h52 (xo2vmMFveMg). Histórico da Mesa sem linha nova.
+- **Analista** (papel feito por mim; relatório novo, run 46135071248): pauta em `data/pauta/2026-11-28.md`. Canal com 16.978 views (+1.964), 56 inscritos (+4) e 25 vídeos. Iscas VHS/CFTV e protocolos passam de mil: Fita 03 com 1.103 em ~1 dia, Pisadeira com 1.096, Assobiador com 1.184 (49,4% assistido, 8 inscritos), Geada com 1.407 (8 inscritos). **As histórias ficam para trás:** Câmera 4 Ep. 1 com 210 em ~15 h e Grupo pt. 2 com 101. A Dashcam é a isca mais fraca (580 views, 0 inscrito), então a Corrida Noturna descansa.
+- **Mapa:** Sáb 28 nº 19 Terreiro + nº 23 Turno (os dois **aprovados na fila**) | Dom 29 nº 26 Fita 00 + nº 25 Protocolo 13º (roteiros, esperam o Vitor) | Seg 30 nº 27 + nº 28 (roteiros novos). Fila aprovada: 2 de 6.
+- **Alternância:** hoje saem 2 histórias seguidas (Câmera 4 → Turno), porque o Turno é o único principal aprovado. Não mexi na fila. O protocolo nº 25 fica para domingo.
+- **Roteirista:** 2 roteiros, só para as faixas de segunda, que estavam sem candidato. Antes, carreguei a skill video-making e fiz quadros de prova.
+  - **nº 27 Fita do Canil 01:40** (`roteiros/iscas/isca_15_canil.json`): prequel do Rufus, 33 palavras e 6 cenas, com o falso Rufus no 1º quadro. O Rufus de verdade ficou cortado no "perto", então troquei para "medio" no pé da cama.
+  - **nº 28 Férias na Roça Ep. 1: A Tesoura Aberta** (`roteiros/roca_01.json`): VHS, 17 cenas e 95 palavras (~58 s). Continua do Terreiro. A narração da tesoura foi ajustada para "No travesseiro", porque a arte mostra a tesoura em cima do travesseiro.
+  - Os dois usam só arte que já existe.
+- **Vídeo longo:** o Roteirista (subagente) escreveu "As Fitas da Madrugada" (`roteiros/longo_terror_01_fitas.json`): 1.301 palavras, ~9:50, 7 capítulos, 214 cenas. Proposto como **nº 29**. Tem campos novos para o motor de segunda (`notas_motor`).
+  - O `tv_estatica`/`tv_estatica2` se repetem de propósito: é a pista da sala.
+- **Diretor de Arte:** os Shorts não precisam de imagem nova. O longo pede 3: `caixa_fitas`, `esp_gravador` e `esp_gravador_lente`. Conferi que nenhuma está no catálogo e mandei os prompts ao Vitor (run 46136627995), cada uma com cenário reserva.
+- **Render:** não renderizei.
+- **Mesa do Gerente:** no "Aguardando", o nº 25 passou para Dom 29/11 18h47 e o nº 26 ganhou prazo (hoje). Entraram o nº 27 (Seg 11h47), o nº 28 (Seg 18h47) e o nº 29 (longo, sex 4/12 20h).
+- **Aviso no Telegram:** mandado (run 46136618354). Domingo está sem vídeo aprovado, com /aprovar 26 e 25 hoje, depois 27, 28 e 29.
+- **Aprendizado (Analista):** a história precisa abrir como isca (carimbo, algo errado à vista, frase de 5 a 6 palavras) e ficar perto de 50 s.
+- **Ferramenta:** clone novo em /home/claude/terror-bot-git. O gh CLI funcionou apesar de `gh auth status` dizer token inválido. O longo foi feito pelo subagente roteirista; os outros papéis, em sequência.
