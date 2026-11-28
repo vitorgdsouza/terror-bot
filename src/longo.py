@@ -728,36 +728,71 @@ def main():
 
 
 def thumb(r: dict, destino: Path) -> Path:
-    """Thumb 16:9 (1280x720) do vídeo longo: o você em Vênus pegando fogo, os planetas em fila e a pergunta."""
+    """Thumb 16:9 (1280x720) do vídeo longo, no padrão do canal: pergunta em 2 linhas (branco e amarelo) à esquerda,
+    os 8 planetas em grade 4x2 à direita (cada um na sua casa, sem encostar um no outro), o astronauta com medo
+    embaixo à esquerda e a seta vermelha apontando para ele."""
+    import math
     from .planetas import planeta
-    img = _fundo_espaco(0.0).copy()
+    from .voce import _astro_mini
+    img = _fundo_espaco(0.0).copy().convert("RGBA")
+    # ---- grade de planetas: 4 colunas x 2 linhas, na metade direita
+    x0, x1, y0, y1 = W * 0.5, W * 0.995, H * 0.04, H * 0.96
+    cw, ch = (x1 - x0) / 4, (y1 - y0) / 2
+    rel = {"mercurio": 0.74, "venus": 0.88, "terra": 0.9, "marte": 0.8, "jupiter": 1.0, "saturno": 1.0, "urano": 0.95, "netuno": 0.93}
+    brilho = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    bd = ImageDraw.Draw(brilho)
+    sprites = []
+    for i, n in enumerate(ORDEM):
+        cx, cy = x0 + cw * (i % 4 + 0.5), y0 + ch * (i // 4 + 0.5)
+        sp = planeta(n, 100, 1.0 + i)
+        sp = sp.crop(sp.getchannel("A").point(lambda a: 255 if a > 8 else 0).getbbox())   # sem a sobra transparente
+        esc = min(cw * 0.98 / sp.width, ch * 0.95 / sp.height)        # cabe inteiro na casa
+        R = 100 * min(esc * rel[n], esc)
+        sp = planeta(n, max(20, R), 1.0 + i)
+        sp = sp.crop(sp.getchannel("A").point(lambda a: 255 if a > 8 else 0).getbbox())
+        e2 = min(1.0, cw * 0.98 / sp.width, ch * 0.95 / sp.height)
+        if e2 < 1.0:
+            sp = sp.resize((int(sp.width * e2), int(sp.height * e2)), Image.LANCZOS)
+        rr = min(sp.width, sp.height) * 0.5
+        quente = (255, 120, 40, 70) if n == "venus" else (120, 190, 255, 40)
+        bd.ellipse((cx - rr * 1.15, cy - rr * 1.15, cx + rr * 1.15, cy + rr * 1.15), fill=quente)
+        sprites.append((sp, cx, cy))
+    img.alpha_composite(brilho.filter(ImageFilter.GaussianBlur(28)))
+    for sp, cx, cy in sprites:
+        img.alpha_composite(sp, (int(cx - sp.width / 2), int(cy - sp.height / 2)))
     d = ImageDraw.Draw(img, "RGBA")
-    tam = {"mercurio": 48, "venus": 72, "terra": 74, "marte": 58, "jupiter": 150, "saturno": 120, "urano": 92, "netuno": 90}
-    xs = np.linspace(170, W - 170, len(ORDEM))
-    for i, n in enumerate(ORDEM):                         # fila de planetas embaixo
-        _colar(img, planeta(n, tam[n] * 0.95, 1.0 + i), xs[i], H * 0.86)
-    d = ImageDraw.Draw(img, "RGBA")
-    ven = planeta("venus", 300, 2.0)
-    _colar(img, ven, W * 0.8, H * 0.37)
-    d = ImageDraw.Draw(img, "RGBA")
-    for k in range(10, 0, -1):                            # brilho de calor em volta de Vênus
-        rr = 300 + k * 14
-        d.ellipse((W * 0.8 - rr, H * 0.37 - rr, W * 0.8 + rr, H * 0.37 + rr), outline=(255, 120, 30, 10), width=14)
-    astronauta(d, W * 0.56, H * 0.66, 330, 0.0, 0.5, "acenando")
-    linhas = [(l.strip().upper(), AMARELO if k == 1 else BRANCO)
-              for k, l in enumerate(str(r.get("thumb_texto", "DÁ PRA|SOBREVIVER?")).split("|"))]
-    y = 120
-    for txt, cor in linhas:
-        px = 150
-        while d.textlength(txt, font=_f(px)) > W * 0.55 and px > 60:
-            px -= 6
-        for dx, dy in ((5, 6), (0, 0)):
-            d.text((80 + dx, y + dy), txt, font=_f(px), fill=(0, 0, 0, 200) if dx else cor)
-        y += px * 1.08
-    d.rounded_rectangle((80, y + 20, 80 + d.textlength("E SE FOSSE REAL?", font=_f(40)) + 50, y + 92), radius=34, fill=(8, 14, 40))
-    d.text((105, y + 30), "E SE FOSSE REAL?", font=_f(40), fill=CIANO)
+    # ---- texto: 2 linhas, mesmo tamanho de letra para as duas, sem passar da metade esquerda
+    linhas = [l.strip().upper() for l in str(r.get("thumb_texto", "DÁ PRA|SOBREVIVER?")).split("|")]
+    px = 170
+    while max(d.textlength(t, font=_f(px)) for t in linhas) > W * 0.46 and px > 60:
+        px -= 4
+    y = H * 0.07
+    for k, txt in enumerate(linhas):
+        cor = AMARELO if k == 1 else BRANCO
+        for dx, dy in ((6, 7), (0, 0)):
+            d.text((60 + dx, y + dy), txt, font=_f(px), fill=(0, 0, 0, 210) if dx else cor)
+        y += px * 1.12
+    sel = "E SE FOSSE REAL?"
+    d.rounded_rectangle((60, y + 14, 60 + d.textlength(sel, font=_f(38)) + 48, y + 80), radius=32, fill=(8, 14, 40))
+    d.text((84, y + 22), sel, font=_f(38), fill=CIANO)
+    # ---- o "você": astronauta com medo, flutuando embaixo à esquerda, e a seta vermelha nele
+    ang, tam = math.radians(-75), H * 0.24
+    px_, py_ = W * 0.3, H * 0.97
+    _astro_mini(img, px_, py_, ang, tam, 1.0, t=0.9, medo=True)
+    d = ImageDraw.Draw(img)
+    bx, by = px_ - tam * 0.55, py_ - tam * 0.95
+    ax, ay = bx - tam * 1.25, by + tam * 0.35
+    ux, uy = bx - ax, by - ay
+    nn = math.hypot(ux, uy)
+    ux, uy = ux / nn, uy / nn
+    lw = tam * 0.14
+    for cor, extra in (((255, 255, 255), lw * 0.45), ((228, 30, 44), 0)):
+        d.line((ax, ay, bx - ux * tam * 0.35, by - uy * tam * 0.35), fill=cor, width=int(lw + extra * 2))
+        cab = tam * 0.42 + extra * 1.6
+        d.polygon([(bx + ux * extra, by + uy * extra), (bx - ux * cab - uy * cab * 0.75, by - uy * cab + ux * cab * 0.75),
+                   (bx - ux * cab + uy * cab * 0.75, by - uy * cab - ux * cab * 0.75)], fill=cor)
     destino.parent.mkdir(parents=True, exist_ok=True)
-    img.resize((1280, 720), Image.LANCZOS).save(destino, quality=92)
+    img.convert("RGB").resize((1280, 720), Image.LANCZOS).save(destino, quality=92)
     return destino
 
 
